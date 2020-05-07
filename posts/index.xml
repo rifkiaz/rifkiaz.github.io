@@ -5,7 +5,7 @@
     <link>https://blog.rifkiaz.web.id/posts/</link>
     <description>Recent content in Posts on Coretan dan Catetan Oprek</description>
     <generator>Hugo -- gohugo.io</generator>
-    <copyright>Copyright &amp;copy; 2020 - Rifki Affandi</copyright>
+    <language>en</language>
     <lastBuildDate>Fri, 08 May 2020 04:48:14 +0700</lastBuildDate>
     
 	<atom:link href="https://blog.rifkiaz.web.id/posts/index.xml" rel="self" type="application/rss+xml" />
@@ -18,7 +18,8 @@
       
       <guid>https://blog.rifkiaz.web.id/posts/install-google-cursors-on-opensuse-tumbleweed/</guid>
       <description>Install Dependencies Before install Google Cursor, please install dependencies
-sudo zypper in xcursorgen inkscape gnome-themes Build Google Cursor git clone https://github.com/KaizIqbal/Google_Cursor.git cd Google_Cursor chmod +x build.sh ./build.sh chmod +x ./Installer_Google.sh Install as Root User sudo .</description>
+sudo zypper in xcursorgen inkscape gnome-themes Build Google Cursor git clone https://github.com/KaizIqbal/Google_Cursor.git cd Google_Cursor chmod +x build.sh ./build.sh chmod +x ./Installer_Google.sh Install as Root User sudo ./Installer_Google.sh Install as Local User ./Installer_Google.sh Enjoy!
+Source : Google Cursor</description>
     </item>
     
     <item>
@@ -27,7 +28,7 @@ sudo zypper in xcursorgen inkscape gnome-themes Build Google Cursor git clone ht
       <pubDate>Fri, 03 Apr 2020 18:42:42 +0700</pubDate>
       
       <guid>https://blog.rifkiaz.web.id/posts/contoh-konten/</guid>
-      <description>What is Lorem Ipsum? Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&amp;rsquo;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</description>
+      <description>What is Lorem Ipsum? Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&amp;rsquo;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum</description>
     </item>
     
   </channel>
