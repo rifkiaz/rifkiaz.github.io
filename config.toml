@@ -1,5 +1,5 @@
 baseurl = "https://blog.rifkiaz.web.id/"
-title = "Kiera"
+title = "Coretan dan Catetan Oprek terkait FLOSS"
 copyright = "Copyright &copy; 2020 - Rifki Affandi"
 canonifyurls = true
 theme = "hugo-kiera"
@@ -14,13 +14,13 @@ pygmentsCodeFences = true
 
 # Note: to disable a social network icon delete or comment out the corresponding line
 [author]
-    name = "Example"
-    github = "funkydan2"
+    name = "Rifki Affandi"
+    github = "rifkiaz"
     #gitlab = "username"
     #linkedin = "username"
     #facebook = "username"
-    twitter = "ds_says"
-    #instagram = "username"
+    twitter = "rifkiiaz"
+    instagram = "rifkiaz"
     #stackoverflow = "username"
     #youtube = "user/username" # or channel/channelname
 
