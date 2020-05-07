@@ -1,3 +1,9 @@
 [submodule "themes/hugo-kiera"]
 	path = themes/hugo-kiera
 	url = https://github.com/funkydan2/hugo-kiera.git
+[submodule "themes/themes/fuji"]
+	path = themes/themes/fuji
+	url = https://github.com/amzrk2/hugo-theme-fuji.git
+[submodule "themes/hugo-theme-fuji"]
+	path = themes/hugo-theme-fuji
+	url = https://github.com/amzrk2/hugo-theme-fuji.git

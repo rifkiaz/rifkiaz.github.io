@@ -2,7 +2,7 @@ baseurl = "https://blog.rifkiaz.web.id/"
 title = "Coretan dan Catetan Oprek"
 copyright = "Copyright &copy; 2020 - Rifki Affandi"
 canonifyurls = true
-theme = "hugo-kiera"
+theme = "hugo-theme-fuji"
 
 paginate = 3
 
@@ -10,7 +10,7 @@ summaryLength = 30
 enableEmoji = true
 pygmentsCodeFences = true
 
-#disqusShortname = "myShortName"
+disqusShortname = "rifkiaz"
 
 # Note: to disable a social network icon delete or comment out the corresponding line
 [author]
@@ -48,3 +48,24 @@ pygmentsCodeFences = true
 #    name = "Categories"
 #    url = "/categories"
 #    weight = 1
+
+  # Show scroll to top button
+  scrollTop = true
+
+  # License
+  license = "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License (CC BY-NC-SA 4.0)"
+  licenseLink = "http://creativecommons.org/licenses/by-nc-sa/4.0/"
+
+  [[menu.link]]
+    name = "GitHub"
+    url = "https://github.com/rifkiaz"
+    weight = 1
+  [[menu.link]]
+    name = "Twitter"
+    url = "https://twitter.com/rifkiiaz"
+    weight = 2
+  [[menu.link]]
+    name = "Instagram"
+    url = "https://instagram.com/rifkiaz"
+    weight = 3
+
