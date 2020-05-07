@@ -1,53 +1,42 @@
-baseurl = "https://blog.rifkiaz.web.id/"
+baseURL = "https://blog.rifkiaz.web.id"
 title = "Coretan dan Catetan Oprek"
-copyright = "Copyright &copy; 2020 - Rifki Affandi"
-canonifyurls = true
 theme = "hugo-theme-fuji"
-
-paginate = 3
-
-summaryLength = 30
+hasCJKLanguage = true
 enableEmoji = true
-pygmentsCodeFences = true
+enableRobotsTXT = true
+disableKinds = ["taxonomyTerm"]
 
-disqusShortname = "rifkiaz"
+## Change this two to switch between different language
+## Now support: en, zh-hans, zh-hant, ja, nl
+defaultContentLanguage = "en"
+languageCode = "en"
 
-# Note: to disable a social network icon delete or comment out the corresponding line
-[author]
-    name = "Rifki Affandi"
-    github = "rifkiaz"
-    #gitlab = "username"
-    #linkedin = "username"
-    #facebook = "username"
-    twitter = "rifkiiaz"
-    instagram = "rifkiaz"
-    #stackoverflow = "username"
-    #youtube = "user/username" # or channel/channelname
+summaryLength = 100 # Custom cummary length, add <!--more--> in post file to custom split point
+paginate = 10
+
+# googleAnalytics = "UA-000000000-0" # Set your Google Analytics UA here, or comment out to disable
+
+[permalinks]
+  post = "/:filename/" # Custom post links, e.g. "/:year/:month/:title/"
 
 [params]
-    tagline = "Hanya catatan biasa terkait tutorial FLOSS"
-    description = "Kiera: A Hugo theme for creative and technical writing."
-    #images = [""] #This is used for opengraph/twitter cards.
-    customCSS = []  #Optional Customised CSS
-    #favicon = ""
-    #utterancesRepo = "username/repository"
-    #utterancesIssueTerm = "pathname"
-    #homepageLength = 10
-    #commentAutoload = true  #This mean reader don't need click, disqus comment autoload
+  author = "Rifki Affandi" # You can also set author in post front matter individually
+  subTitle = "Sebuah catatan dan operekan kecil terkait FLOSS"
 
-# uncomment to enable the Tags link on the main toolbar
-#  [[menu.main]]
-#    identifier = "tags"
-#    name = "Tags"
-#    url = "/tags"
-#    weight = 1
+  # Word counter and read time indicator in post metadata
+  showWordCounter = true
+  # showReadTime = true
 
-# uncomment to enable the Categories link on the main toolbar
-#  [[menu.main]]
-#    identifier = "categories"
-#    name = "Categories"
-#    url = "/categories"
-#    weight = 1
+  # Open Graph & Twitter Card variables
+  # You can also set description and images in post front matter individually
+  description = "A minimal hugo theme powered by Primer CSS."
+  images = ["img/og.png"] # This will use the image called og.png in static/img folder
+
+  # Posts shown in homepage
+  mainSections = ["posts"]
+
+  # Bangumi image chart id
+  # bgmImageChart = "000000"
 
   # Show scroll to top button
   scrollTop = true
@@ -55,6 +44,58 @@ disqusShortname = "rifkiaz"
   # License
   license = "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License (CC BY-NC-SA 4.0)"
   licenseLink = "http://creativecommons.org/licenses/by-nc-sa/4.0/"
+
+  # Comments
+  # utterances, see: https://utteranc.es/
+  # utterancesRepo = "[ENTER REPO HERE]"
+  # utterancesIssueTerm = "pathname"
+  # utterancesTheme = "github-light"
+
+  # Disqus, see: https://disqus.com/admin/install/platforms/universalcode/
+  # disqusComment = false
+  # disqusShortname = "[ENTER YOUR DISQUS SHORTNAME HERE]"
+
+  # custom lazyload placeholder
+  # 16:9
+  lazyPlaceholder = "/lazyload/dsrca_loading_480x270.svg"
+  # 32:9
+  lazyPlaceholderRow = "/lazyload/dsrca_loading_960x270.svg"
+  # 8:9
+  lazyPlaceholderCol = "/lazyload/dsrca_loading_480x540.svg"
+
+  # enable this to fetch css & js from jsDelivr CDN
+  useCDN = true
+
+  # site global fixed mode aplayer 
+  # playerName = "..." # Audio title or name
+  # playerArtist = "..." # Audio artist
+  # playerURL = "..." # Audio URL, support aac, mp3, wav and ogg
+  # playerCover = "..." # Audio cover
+
+[markup]
+  [markup.highlight]
+    style = "monokailight"
+
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 3
+
+[taxonomies]
+  tag = "tags"
+
+[menu]
+  [[menu.nav]]
+    name = "Home"
+    url = "/"
+    weight = 1
+  [[menu.nav]]
+    name = "Archives"
+    url = "/archives/"
+    weight = 2
+  [[menu.nav]]
+    name = "About"
+    url = "/about/"
+    weight = 3
 
   [[menu.link]]
     name = "GitHub"
@@ -68,4 +109,3 @@ disqusShortname = "rifkiaz"
     name = "Instagram"
     url = "https://instagram.com/rifkiaz"
     weight = 3
-
