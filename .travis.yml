@@ -3,7 +3,7 @@ install:
   - sudo dpkg -i /tmp/hugo.deb
 
 script:
-  - hugo
+  - hugo server -D
 
 # Deploy to GitHub pages
 deploy:
