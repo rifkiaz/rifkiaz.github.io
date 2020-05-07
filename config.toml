@@ -1,5 +1,5 @@
 baseURL = "https://blog.rifkiaz.web.id"
-title = "Coretan dan Catetan Oprek"
+title = "Coretan dan Catatan Oprek"
 theme = "hugo-theme-fuji"
 hasCJKLanguage = true
 enableEmoji = true
