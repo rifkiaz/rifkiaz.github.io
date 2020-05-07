@@ -4,7 +4,7 @@ date: 2020-04-03T18:42:42+07:00
 image: assets/konferensi.jpg
 author: LibreOffice ID
 kategori: [kegiatan]
-tags: [LibreOffice, kopdar, daring, jitsi]
+tags: [Lorem]
 description: "Acara Penerjemahan Daring Komunitas LibreOffice Indonesia"
 ---
 
