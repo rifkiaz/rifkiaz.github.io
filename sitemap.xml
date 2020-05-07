@@ -3,15 +3,47 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://blog.rifkiaz.web.id/categories/</loc>
+    <loc>https://blog.rifkiaz.web.id/</loc>
+    <lastmod>2020-04-03T18:42:42+07:00</lastmod>
   </url>
   
   <url>
-    <loc>https://blog.rifkiaz.web.id/</loc>
+    <loc>https://blog.rifkiaz.web.id/tags/daring/</loc>
+    <lastmod>2020-04-03T18:42:42+07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.rifkiaz.web.id/tags/jitsi/</loc>
+    <lastmod>2020-04-03T18:42:42+07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.rifkiaz.web.id/tags/kopdar/</loc>
+    <lastmod>2020-04-03T18:42:42+07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.rifkiaz.web.id/tags/libreoffice/</loc>
+    <lastmod>2020-04-03T18:42:42+07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.rifkiaz.web.id/posts/</loc>
+    <lastmod>2020-04-03T18:42:42+07:00</lastmod>
   </url>
   
   <url>
     <loc>https://blog.rifkiaz.web.id/tags/</loc>
+    <lastmod>2020-04-03T18:42:42+07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.rifkiaz.web.id/posts/contoh-konten/</loc>
+    <lastmod>2020-04-03T18:42:42+07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.rifkiaz.web.id/categories/</loc>
   </url>
   
 </urlset>
