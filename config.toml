@@ -1,91 +1,50 @@
-baseURL = "https://blog.rifkiaz.web.id"
-languageCode = "en-us"
-title = "Coretan dan Catetan Oprek"
-theme = "ezhil"
+baseurl = "https://blog.rifkiaz.web.id/"
+title = "Kiera"
+copyright = "Copyright &copy; 2020 - Rifki Affandi"
+canonifyurls = true
+theme = "hugo-kiera"
 
-copyright = "© Copyright notice"
+paginate = 3
 
-# Enable syntax highlighting.
-pygmentsstyle = "solarized-dark"
-pygmentscodefences = true
-pygmentscodefencesguesssyntax = true
+summaryLength = 30
+enableEmoji = true
+pygmentsCodeFences = true
 
-# Your Google analytics code.
-googleAnalytics = "UA-123-45"
-# Your Disqus sortname.
-disqusShortname = "localhost"
+#disqusShortname = "myShortName"
 
-# Number of posts to show in recent posts list (Optional). Defaults to 10.
-paginate = 10
-
-# Number of characters to show in summary.
-summaryLength = 20
+# Note: to disable a social network icon delete or comment out the corresponding line
+[author]
+    name = "Example"
+    github = "funkydan2"
+    #gitlab = "username"
+    #linkedin = "username"
+    #facebook = "username"
+    twitter = "ds_says"
+    #instagram = "username"
+    #stackoverflow = "username"
+    #youtube = "user/username" # or channel/channelname
 
 [params]
-    # Blog subtitle which appears below blog title. Supports markdown.
-    subtitle = "Mengandung tutorial sederhana terkait Open Source"
+    tagline = "A Hugo theme for creative and technical writing"
+    description = "Kiera: A Hugo theme for creative and technical writing."
+    #images = [""] #This is used for opengraph/twitter cards.
+    customCSS = []  #Optional Customised CSS
+    #favicon = ""
+    #utterancesRepo = "username/repository"
+    #utterancesIssueTerm = "pathname"
+    #homepageLength = 10
+    #commentAutoload = true  #This mean reader don't need click, disqus comment autoload
 
-    # Content types which are included in home page recent posts list.
-    mainSections = ["posts"]
+# uncomment to enable the Tags link on the main toolbar
+#  [[menu.main]]
+#    identifier = "tags"
+#    name = "Tags"
+#    url = "/tags"
+#    weight = 1
 
-    # Content types which are excludes Disqus comments.
-    disableDisqusTypes = ["page"]
-
-    # If social media links are enabled then enable this to fetch icons from CDN instead of hosted on your site.
-    featherIconsCDN = true
-
-    # Specify favicon (icons/i.png maps to static/icons/i.png). No favicon if not defined.
-    favicon = "icons/myicon.png"
-
-    # Switch to dark mode or auto detect mode from OS (Optional).
-    # "dark" will set mode to dark and "auto" will switch to dark mode if OS is in dark mode.
-    mode = "dark" # "dark" or "auto"
-
-    # Custom CSS added to default styles. Files added to `static` folder is copied as it is to
-    # root by Hugo. For example if you have custom CSS file under `static/css/custom.css` then
-    # you can specify custom css path as `css/custom.css`.
-    customCSS = "css/custom.css"
-    # Custom CSS added to dark mode style.
-    customDarkCSS = "css/custom-dark.css"
-
-    # Custom list of Javascript files to load. Just like custom CSS you can place js files under
-    # `static/js` folder and specify path here as `js/script-name.js`. You can also specify full url,
-    # for example you may want to include external JS library.
-    customJS = ["js/abc.js", "js/xyz.js", "https://code.jquery.com/jquery-3.4.1.js"]
-
-# Main menu which appears below site header.
-[[menu.main]]
-name = "Home"
-url = "/"
-weight = 1
-
-[[menu.main]]
-name = "All posts"
-url = "/posts"
-weight = 2
-
-[[menu.main]]
-name = "About"
-url = "/about"
-weight = 3
-
-[[menu.main]]
-name = "Tags"
-url = "/tags"
-weight = 4
-
-# Social media links which shows up on site header.
-# Uses feather icons for icons. You can [search icon names from here](https://feathericons.com/).
-[[params.social]]
-name = "Github"
-icon = "github"
-url = "https://github.com/rifkiaz"
-
-[[params.social]]
-name = "Twitter"
-icon = "twitter"
-url = "https://twitter.com/rifkiiaz"
-
-# Enable tags.
-[taxonomies]
-   tag = "tags"
+# uncomment to enable the Categories link on the main toolbar
+#  [[menu.main]]
+#    identifier = "categories"
+#    name = "Categories"
+#    url = "/categories"
+#    weight = 1
