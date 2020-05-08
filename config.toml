@@ -79,8 +79,9 @@ googleAnalytics = "UA-165935137-1" # Set your Google Analytics UA here, or comme
   [markup.tableOfContents]
     startLevel = 2
     endLevel = 3
-
+    
 [taxonomies]
+  category = "Kategori"
   tag = "tags"
 
 [menu]
