@@ -6,10 +6,19 @@
     <description>Recent content in kegiatan on Coretan dan Catatan Oprek</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 03 Apr 2020 18:42:42 +0700</lastBuildDate>
+    <lastBuildDate>Fri, 08 May 2020 17:42:14 +0700</lastBuildDate>
     
 	<atom:link href="https://blog.rifkiaz.web.id/kategori/kegiatan/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>About</title>
+      <link>https://blog.rifkiaz.web.id/about/</link>
+      <pubDate>Fri, 08 May 2020 17:42:14 +0700</pubDate>
+      
+      <guid>https://blog.rifkiaz.web.id/about/</guid>
+      <description>This is a About page </description>
+    </item>
     
     <item>
       <title>Lorem Ipsum</title>
