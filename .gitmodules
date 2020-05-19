@@ -7,3 +7,6 @@
 [submodule "themes/hugo-theme-fuji"]
 	path = themes/hugo-theme-fuji
 	url = https://github.com/amzrk2/hugo-theme-fuji.git
+[submodule "themes/zzo"]
+	path = themes/zzo
+	url = https://github.com/zzossig/hugo-theme-zzo.git

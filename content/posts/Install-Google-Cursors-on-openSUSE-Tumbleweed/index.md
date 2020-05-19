@@ -7,7 +7,7 @@ tags = ['Google Cursor', 'openSUSE', 'Tumbleweed']
 ### Install Dependencies
 Before install Google Cursor, please install dependencies
 ```
-sudo zypper in xcursorgen inkscape gnome-themes
+sudo zypper in xcursorgen inkscape gnome-themes appmenu-gtk2-module appmenu-gtk3-module
 ```
 ### Build Google Cursor
 ```
