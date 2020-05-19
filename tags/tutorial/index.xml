@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tumbleweed on Coretan dan Catatan Oprek</title>
-    <link>https://blog.rifkiaz.web.id/tags/tumbleweed/</link>
-    <description>Recent content in Tumbleweed on Coretan dan Catatan Oprek</description>
+    <title>tutorial on Coretan dan Catatan Oprek</title>
+    <link>https://blog.rifkiaz.web.id/tags/tutorial/</link>
+    <description>Recent content in tutorial on Coretan dan Catatan Oprek</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Tue, 19 May 2020 08:52:01 +0700</lastBuildDate>
     
-	<atom:link href="https://blog.rifkiaz.web.id/tags/tumbleweed/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://blog.rifkiaz.web.id/tags/tutorial/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -22,17 +22,6 @@
 Hugo Static Site Generator v0.71.0-06150C87 linux/amd64 BuildDate: 2020-05-18T16:08:02Z Selesai ~
 Nantikan untuk update selanjutnya perihal konfigurasi Hugo dan command - command sederhana untuk membuat post dan menerapkan tema ya ~
 Salam~.</description>
-    </item>
-    
-    <item>
-      <title>How To Install Google Cursor on openSUSE Tumbelweed</title>
-      <link>https://blog.rifkiaz.web.id/posts/install-google-cursors-on-opensuse-tumbleweed/</link>
-      <pubDate>Fri, 08 May 2020 04:48:14 +0700</pubDate>
-      
-      <guid>https://blog.rifkiaz.web.id/posts/install-google-cursors-on-opensuse-tumbleweed/</guid>
-      <description>Install Dependencies Before install Google Cursor, please install dependencies
-sudo zypper in xcursorgen inkscape gnome-themes Build Google Cursor git clone https://github.com/KaizIqbal/Google_Cursor.git cd Google_Cursor chmod +x build.sh ./build.sh chmod +x ./Installer_Google.sh Install as Root User sudo ./Installer_Google.sh Install as Local User ./Installer_Google.sh Enjoy!
-Source : Google Cursor</description>
     </item>
     
   </channel>

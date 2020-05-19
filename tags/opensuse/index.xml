@@ -6,10 +6,23 @@
     <description>Recent content in openSUSE on Coretan dan Catatan Oprek</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 08 May 2020 04:48:14 +0700</lastBuildDate>
+    <lastBuildDate>Tue, 19 May 2020 08:52:01 +0700</lastBuildDate>
     
 	<atom:link href="https://blog.rifkiaz.web.id/tags/opensuse/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Install Hugo di OpenSUSE Tumbleweed</title>
+      <link>https://blog.rifkiaz.web.id/posts/install-hugo-di-opensuse-tumbleweed/</link>
+      <pubDate>Tue, 19 May 2020 08:52:01 +0700</pubDate>
+      
+      <guid>https://blog.rifkiaz.web.id/posts/install-hugo-di-opensuse-tumbleweed/</guid>
+      <description>Install dependensi Sebelum menginstall Hugo pada openSUSE Tumbeleweed yang harus dilakukan adalah menginstall beberapa dependensi diantaranya adalah:
+ Go Git Hugo  sudo zypper in go git wget -c https://github.com/gohugoio/hugo/releases/download/v0.71.0/hugo_0.71.0_Linux-64bit.tar.gz tar -xvf hugo_0.71.0_Linux-64bit.tar.gz sudo mv hugo /usr/local/bin Cek Versi Hugo hugo version Jika sudah berhasil terinstall akan menampilkan output seperti berikut :
+Hugo Static Site Generator v0.71.0-06150C87 linux/amd64 BuildDate: 2020-05-18T16:08:02Z Selesai ~
+Nantikan untuk update selanjutnya perihal konfigurasi Hugo dan command - command sederhana untuk membuat post dan menerapkan tema ya ~
+Salam~.</description>
+    </item>
     
     <item>
       <title>How To Install Google Cursor on openSUSE Tumbelweed</title>
