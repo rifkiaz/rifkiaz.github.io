@@ -1,5 +1,5 @@
 ---
-title: "Install Hugo di OpenSUSE Tumbleweed"
+title: "Install Hugo di openSUSE Tumbleweed"
 date: 2020-05-19T08:52:01+07:00
 image: assets/thumb.jpg
 author: Rifki Affandi
@@ -8,7 +8,7 @@ tags: [openSUSE, hugo, tutorial, tumbleweed]
 description: 
 ---
 ### Pengenalan
-[Hugo](https://gohugo.io) merupakan sebuah generator web statis seperti [Hexo](https://hexo.io/), [Hugo](https://gohugo.io) ditulis menggunakan bahasa [Golang](https://golang.org/) sehingga load page lebih cepat dibanding dengan [Hexo](https://hexo.io)
+[Hugo](https://gohugo.io) merupakan sebuah generator web statis seperti [Hexo](https://hexo.io/), [Hugo](https://gohugo.io) ditulis menggunakan bahasa [Golang](https://golang.org/) sehingga load page lebih cepat dibanding dengan [Hexo](https://hexo.io). Oh ya kebetulan website ini menggunakan Hugo loh.
 ### Install dependensi
 Sebelum menginstall Hugo pada openSUSE Tumbeleweed yang harus dilakukan adalah menginstall beberapa dependensi diantaranya adalah: 
 - Go
