@@ -8,7 +8,7 @@ tags: [openSUSE, hugo, tutorial, tumbleweed]
 description: 
 ---
 ### Pengenalan
-[Hugo](https://gohugo.io) merupakan sebuah generator web statis seperti [hexo](https://hexo.io/), [Hugo](https://gohugo.io) ditulis menggunakan bahasa [Golang](https://golang.org/) sehingga load page lebih cepat dibanding dengan [Hexo](https://hexo.io)
+[Hugo](https://gohugo.io) merupakan sebuah generator web statis seperti [Hexo](https://hexo.io/), [Hugo](https://gohugo.io) ditulis menggunakan bahasa [Golang](https://golang.org/) sehingga load page lebih cepat dibanding dengan [Hexo](https://hexo.io)
 ### Install dependensi
 Sebelum menginstall Hugo pada openSUSE Tumbeleweed yang harus dilakukan adalah menginstall beberapa dependensi diantaranya adalah: 
 - Go
