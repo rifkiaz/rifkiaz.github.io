@@ -12,6 +12,16 @@
     
     
     <item>
+      <title>Membuat Blog Sederhana Dengan Hugo</title>
+      <link>https://blog.rifkiaz.web.id/posts/membuat-blog-sederhana-dengan-hugo/</link>
+      <pubDate>Wed, 27 May 2020 19:40:22 +0700</pubDate>
+      
+      <guid>https://blog.rifkiaz.web.id/posts/membuat-blog-sederhana-dengan-hugo/</guid>
+      <description>Kenapa Hugo? Pertanyaan ini pasti muncul ketika melihat tulisan ini, kenapa mesti Hugo? apa hebatnya? kn ada wordpress dan blogger dan lain - lain, okelah jika dibandingkan dengan CMS tersebut web statis seperti Hugo ini tidak kalah powerful, tapi saya punya beberapa kendala ketika menggunakan wordpress, antara lain :
+ Size storage di hosting saya sangat kecil (maklum belom jadi sultan), sehingga ketika mau upload gambar mesti mikir - mikir dulu beberapa parameter seperti size dan lain - lain. Kalau tidak ada Internet mau kustomisasi blog susah, ya walaupun kadang tinggal install LAMPP atau XAMPP si, tapi menurut saya hal tersebut mulai agak ribet.</description>
+    </item>
+    
+    <item>
       <title>Install Hugo di openSUSE Tumbleweed</title>
       <link>https://blog.rifkiaz.web.id/posts/install-hugo-di-opensuse-tumbleweed/</link>
       <pubDate>Tue, 19 May 2020 08:52:01 +0700</pubDate>
