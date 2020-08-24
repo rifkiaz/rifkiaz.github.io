@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta name="generator" content="Hugo 0.70.0" />
+
+
+<link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/amzrk2/poal-jsdelivr@1.2.0/favicons/favicon.ico" />
+
+
+
+<title>Setting Konfigurasi HAProxy Di OPNsense - Coretan dan Catatan Oprek</title>
+
+<meta name="author" content="Rifki Affandi" />
+<meta name="description" content="OPNsense adalah proyek firewall berbasis open source berbasis FreeBSD OPNsense.
+ Berikut adalah tutorial untuk mengkonfigurasi HAProxy di OPNsense.
+1. Konfigurasi Firewall untuk HAProxy  Buat 2 IP Forward pada konfigurasi firewall  Firewall &gt; NAT &gt; Port Forward &gt; &#43; New Rule    Interface : LAN TCP/IP Ver : IPv4 Protocol : TCP Source : any Destination port range : From - HTTP , to - HTTP Redirect target IP : #IPADDRESSOPNSENSE Redirect target port : HTTP SAVE Interface : LAN TCP/IP Ver : IPv4 Protocol : TCP Source : any Destination port range : From - HTTPS , to - HTTPS Redirect target IP : #IPADDRESSOPNSENSE Redirect target port : HTTP SAVE Buat Rule Floating  Firewall &gt; Rules Floating &gt; &#43; New Rule    Action : Pass Interface : LAN Direction : in TCP/IP ver : IPv4 Protocol : TCP Source : any Destination : Lan Address Destination port range : From - HTTP , to - HTTP Action : Pass Interface : LAN Direction : in TCP/IP ver : IPv4 Protocol : TCP Source : any Destination : Lan Address Destination port range : From - HTTPS , to - HTTPS 2." />
+
+<meta name="keywords" content="tutorial, linux" />
+
+<meta property="og:title" content="Setting Konfigurasi HAProxy Di OPNsense" />
+<meta property="og:description" content="OPNsense adalah proyek firewall berbasis open source berbasis FreeBSD OPNsense.
+ Berikut adalah tutorial untuk mengkonfigurasi HAProxy di OPNsense.
+1. Konfigurasi Firewall untuk HAProxy  Buat 2 IP Forward pada konfigurasi firewall  Firewall &gt; NAT &gt; Port Forward &gt; &#43; New Rule    Interface : LAN TCP/IP Ver : IPv4 Protocol : TCP Source : any Destination port range : From - HTTP , to - HTTP Redirect target IP : #IPADDRESSOPNSENSE Redirect target port : HTTP SAVE Interface : LAN TCP/IP Ver : IPv4 Protocol : TCP Source : any Destination port range : From - HTTPS , to - HTTPS Redirect target IP : #IPADDRESSOPNSENSE Redirect target port : HTTP SAVE Buat Rule Floating  Firewall &gt; Rules Floating &gt; &#43; New Rule    Action : Pass Interface : LAN Direction : in TCP/IP ver : IPv4 Protocol : TCP Source : any Destination : Lan Address Destination port range : From - HTTP , to - HTTP Action : Pass Interface : LAN Direction : in TCP/IP ver : IPv4 Protocol : TCP Source : any Destination : Lan Address Destination port range : From - HTTPS , to - HTTPS 2." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.rifkiaz.web.id/posts/setting-konfigurasi-haproxy-di-opnsense/" />
+<meta property="og:image" content="https://blog.rifkiaz.web.id/img/og.png"/>
+<meta property="article:published_time" content="2020-08-24T13:55:51+07:00" />
+<meta property="article:modified_time" content="2020-08-24T13:55:51+07:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://blog.rifkiaz.web.id/img/og.png"/>
+
+<meta name="twitter:title" content="Setting Konfigurasi HAProxy Di OPNsense"/>
+<meta name="twitter:description" content="OPNsense adalah proyek firewall berbasis open source berbasis FreeBSD OPNsense.
+ Berikut adalah tutorial untuk mengkonfigurasi HAProxy di OPNsense.
+1. Konfigurasi Firewall untuk HAProxy  Buat 2 IP Forward pada konfigurasi firewall  Firewall &gt; NAT &gt; Port Forward &gt; &#43; New Rule    Interface : LAN TCP/IP Ver : IPv4 Protocol : TCP Source : any Destination port range : From - HTTP , to - HTTP Redirect target IP : #IPADDRESSOPNSENSE Redirect target port : HTTP SAVE Interface : LAN TCP/IP Ver : IPv4 Protocol : TCP Source : any Destination port range : From - HTTPS , to - HTTPS Redirect target IP : #IPADDRESSOPNSENSE Redirect target port : HTTP SAVE Buat Rule Floating  Firewall &gt; Rules Floating &gt; &#43; New Rule    Action : Pass Interface : LAN Direction : in TCP/IP ver : IPv4 Protocol : TCP Source : any Destination : Lan Address Destination port range : From - HTTP , to - HTTP Action : Pass Interface : LAN Direction : in TCP/IP ver : IPv4 Protocol : TCP Source : any Destination : Lan Address Destination port range : From - HTTPS , to - HTTPS 2."/>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-165935137-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+<link rel="stylesheet" href="https://blog.rifkiaz.web.id/css/main.min.css" />
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.0/dist/jquery.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/lazysizes@5.2.0/lazysizes.min.js" integrity="sha256-h2tMEmhemR2IN4wbbdNjj9LaDIjzwk2hralQwfJmBOE=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css" integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous" />
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.5/dist/medium-zoom.min.js" integrity="sha256-Jd9xef1tT52aCb+cAqhElj/9D3c99lQvEjyKOuPn3S4=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+<body class="d-flex flex-column h-100">
+    <header>
+    <div class="container-lg clearfix">
+        <div class="col-12 link-primary">
+            <a class="main-title" href="https://blog.rifkiaz.web.id">Coretan dan Catatan Oprek</a>
+            
+            <span class="sub-title">Sebuah catatan dan operekan kecil terkait FLOSS</span>
+            
+        </div>
+    </div>
+</header>
+
+    <main>
+        <div class="container-lg clearfix">
+            
+            <div class="col-md-9 col-12 float-left" id="content">
+                
+<article>
+    
+    <h4 class="post-title">
+        <a href="https://blog.rifkiaz.web.id/posts/setting-konfigurasi-haproxy-di-opnsense/">Setting Konfigurasi HAProxy Di OPNsense</a>
+    </h4>
+    <div class="post-meta link-alter">
+        <time><i class="fas fa-calendar-day"></i>&nbsp;2020-08-24</time><span><i class="fas fa-file-alt"></i>&nbsp;392 words</span><span><i class="fas fa-tag"></i>&nbsp;<a href="/tags/tutorial/">tutorial</a> <a href="/tags/linux/">linux</a> </span>
+    </div>
+    
+    
+    <div class="post-content markdown-body">
+        <p>OPNsense adalah proyek firewall berbasis open source berbasis FreeBSD <a href="https://opnsense.org/" target="_blank">OPNsense</a>.</p>
+<p><p>
+    <img class="img-zoomable" src="assets/dashboard.png" alt="OPNsense dashboard" />
+</p></p>
+<p>Berikut adalah tutorial untuk mengkonfigurasi HAProxy di OPNsense.</p>
+<h3 id="1-konfigurasi-firewall-untuk-haproxy">1. Konfigurasi Firewall untuk HAProxy</h3>
+<ol>
+<li>Buat 2 IP Forward pada konfigurasi firewall
+<ul>
+<li>Firewall &gt; NAT &gt; Port Forward &gt; + New Rule</li>
+</ul>
+</li>
+</ol>
+<pre><code>Interface : LAN
+TCP/IP Ver : IPv4
+Protocol : TCP
+Source : any
+Destination port range : From - HTTP , to - HTTP 
+Redirect target IP : #IPADDRESSOPNSENSE
+Redirect target port : HTTP
+SAVE
+
+Interface : LAN
+TCP/IP Ver : IPv4
+Protocol : TCP
+Source : any
+Destination port range : From - HTTPS , to - HTTPS
+Redirect target IP : #IPADDRESSOPNSENSE
+Redirect target port : HTTP
+SAVE
+
+</code></pre><ol start="2">
+<li>Buat Rule Floating
+<ul>
+<li>Firewall &gt; Rules Floating &gt; + New Rule</li>
+</ul>
+</li>
+</ol>
+<pre><code>Action : Pass
+Interface : LAN
+Direction : in 
+TCP/IP ver : IPv4
+Protocol : TCP 
+Source : any 
+Destination : Lan Address
+Destination port range : From - HTTP , to - HTTP 
+
+Action : Pass
+Interface : LAN
+Direction : in 
+TCP/IP ver : IPv4
+Protocol : TCP 
+Source : any 
+Destination : Lan Address
+Destination port range : From - HTTPS , to - HTTPS
+</code></pre><h3 id="2-konfigurasi-haproxy">2. Konfigurasi HAProxy</h3>
+<ul>
+<li>Service &gt; HAProxy &gt; Setting</li>
+</ul>
+<h4 id="tambahkan-server">Tambahkan Server</h4>
+<pre><code>Real Servers &gt; Real Servers &gt; + add
+Name : test-http
+FQDN or IP  : #IPPUBLICSERVER
+Port : 80
+SAVE
+</code></pre><h4 id="tambahkan-backend-pool">Tambahkan Backend Pool</h4>
+<pre><code>Virtual Services &gt; Backend Pool &gt; + add
+Name : test_http
+Mode : Layer 7 
+Servers : test-http
+SAVE
+</code></pre><h4 id="tambahkan-conditions">Tambahkan Conditions</h4>
+<pre><code>Rules and Check &gt; Conditions &gt; + add
+Name: test-http
+Condition type : Host Matches
+Host String : test-http
+</code></pre><h4 id="tambahkan-rules-untuk-frontend-443">Tambahkan Rules untuk frontend 443</h4>
+<pre><code>Rules and Check &gt; Rules &gt; + add
+Name : pass_https_test_http
+Select Condition : test-http
+Execute function : Use specified Backend Pool
+Use backend pool : test_http
+</code></pre><h4 id="tambahkan-rules-untuk-frontend-80-untuk-redirect-traffic-ke-https">Tambahkan Rules untuk frontend 80 (untuk redirect traffic ke https)</h4>
+<pre><code>Rules and Check &gt; Rules &gt; + add 
+Name : redirect_to_https_http_test_nicolas_my_id
+Select Condition : test-http_nicolas_my_id
+Execute function : http-request redirect
+HTTP Redirect  : scheme https
+</code></pre><h4 id="tambahkan-frontend-untuk-port-80">Tambahkan frontend untuk port 80</h4>
+<pre><code>Virtual Services &gt; Public Services &gt; + add
+Name : FrontEndHTTP
+Listent address : 0.0.0.0:80
+Select Rules : redirect_to_https_http
+</code></pre><h4 id="tambahkan-frontend-untuk-port-443">Tambahkan frontend untuk port 443</h4>
+<pre><code>Virtual Services &gt; Public Services &gt; + add
+Name : FrontEndHTTPS
+Listent address : 0.0.0.0:443
+Enable SSL offloading : (✓)
+Certificates : test-http # Pastikan sertifikat sudah di-import ke OPNsense
+Select Rules : pass_https_test_http
+</code></pre>
+    </div>
+</article>
+
+
+<div class="license markdown-body">
+    <blockquote>
+        <p>Unless otherwise noted, the content of this site is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License (CC BY-NC-SA 4.0)</a>.</p>
+    </blockquote>
+</div>
+
+
+
+
+            </div>
+            
+            <div class="col-md-3 col-12 float-left" id="sidebar">
+                
+
+<div class="widget-toc link-alter">
+    <h5>TOC</h5>
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#1-konfigurasi-firewall-untuk-haproxy">1. Konfigurasi Firewall untuk HAProxy</a></li>
+        <li><a href="#2-konfigurasi-haproxy">2. Konfigurasi HAProxy</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+</div>
+
+
+<div class="widget-pages link-alter">
+    <h5>Pages</h5>
+    <ul>
+        
+        
+        <li>
+            <a href="/">Home</a>
+        </li>
+        
+        <li>
+            <a href="/archives/">Archives</a>
+        </li>
+        
+        <li>
+            <a href="/about/">About</a>
+        </li>
+        
+        <li>
+            <a href="/index.xml" target="_blank">RSS</a>
+        </li>
+    </ul>
+</div>
+
+<div class="widget-tags link-alter">
+    <h5>Tags</h5>
+    <div>
+        
+        <span>
+            <a href="https://blog.rifkiaz.web.id/tags/blog/">blog</a>
+        </span>
+        
+        <span>
+            <a href="https://blog.rifkiaz.web.id/tags/google-cursor/">Google Cursor</a>
+        </span>
+        
+        <span>
+            <a href="https://blog.rifkiaz.web.id/tags/hugo/">hugo</a>
+        </span>
+        
+        <span>
+            <a href="https://blog.rifkiaz.web.id/tags/linux/">linux</a>
+        </span>
+        
+        <span>
+            <a href="https://blog.rifkiaz.web.id/tags/lorem/">Lorem</a>
+        </span>
+        
+        <span>
+            <a href="https://blog.rifkiaz.web.id/tags/opensuse/">openSUSE</a>
+        </span>
+        
+        <span>
+            <a href="https://blog.rifkiaz.web.id/tags/tumbleweed/">Tumbleweed</a>
+        </span>
+        
+        <span>
+            <a href="https://blog.rifkiaz.web.id/tags/tutorial/">tutorial</a>
+        </span>
+        
+    </div>
+</div>
+
+<div class="widget-links link-alter">
+    <h5>Links</h5>
+    <ul>
+        
+        <li>
+            <a href="https://github.com/rifkiaz" target="_blank"><span>GitHub</span></a>
+        </li>
+        
+        <li>
+            <a href="https://twitter.com/rifkiiaz" target="_blank"><span>Twitter</span></a>
+        </li>
+        
+        <li>
+            <a href="https://instagram.com/rifkiaz" target="_blank"><span>Instagram</span></a>
+        </li>
+        
+    </ul>
+</div>
+
+
+            </div>
+            
+            
+            
+            <div id="scroll-top">
+                <i class="fas fa-chevron-up"></i>
+            </div>
+            
+        </div>
+    </main>
+
+    <footer>
+    <div class="container-lg text-center">
+        <p>&copy; 2020 <a href="https://blog.rifkiaz.web.id">Rifki Affandi</a> | Powered by <a href="https://github.com/amzrk2/hugo-theme-fuji/" target="_blank">Fuji</a> & <a href="https://gohugo.io/" target="_blank">Hugo</a> </p>
+    </div>
+</footer>
+    
+<script>
+    $(function () {
+        mediumZoom('.img-zoomable', {
+            margin: 32
+        });
+    });
+</script>
+
+
+
+
+
+
+<script>
+    $('.widget-toc a').click(function () {
+        $('html, body').animate({
+            scrollTop: $($(this).attr('href')).offset().top
+        });
+    });
+</script>
+
+
+
+<script>
+    $('#scroll-top').click(function () {
+        $('html, body').animate({
+            scrollTop: 0
+        });
+    });
+</script>
+
+
+
+
+
+
+</body>
+
+</html>
