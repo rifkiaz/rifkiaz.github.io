@@ -4,7 +4,7 @@ date: 2020-08-24T13:55:51+07:00
 image: assets/thumb.jpg
 author: Rifki Affandi
 kategori: [tutorial]
-tags: [tutorial, linux,]
+tags: [tutorial, linux, OPNsense, Firewall, HAProxy]
 description: 
 ---
 OPNsense adalah proyek firewall berbasis open source berbasis FreeBSD [OPNsense](https://opnsense.org/).
