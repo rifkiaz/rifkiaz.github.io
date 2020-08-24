@@ -21,7 +21,7 @@
  Berikut adalah tutorial untuk mengkonfigurasi HAProxy di OPNsense.
 1. Konfigurasi Firewall untuk HAProxy  Buat 2 IP Forward pada konfigurasi firewall  Firewall &gt; NAT &gt; Port Forward &gt; &#43; New Rule    Interface : LAN TCP/IP Ver : IPv4 Protocol : TCP Source : any Destination port range : From - HTTP , to - HTTP Redirect target IP : #IPADDRESSOPNSENSE Redirect target port : HTTP SAVE Interface : LAN TCP/IP Ver : IPv4 Protocol : TCP Source : any Destination port range : From - HTTPS , to - HTTPS Redirect target IP : #IPADDRESSOPNSENSE Redirect target port : HTTP SAVE Buat Rule Floating  Firewall &gt; Rules Floating &gt; &#43; New Rule    Action : Pass Interface : LAN Direction : in TCP/IP ver : IPv4 Protocol : TCP Source : any Destination : Lan Address Destination port range : From - HTTP , to - HTTP Action : Pass Interface : LAN Direction : in TCP/IP ver : IPv4 Protocol : TCP Source : any Destination : Lan Address Destination port range : From - HTTPS , to - HTTPS 2." />
 
-<meta name="keywords" content="tutorial, linux" />
+<meta name="keywords" content="tutorial, linux, OPNsense, Firewall, HAProxy" />
 
 <meta property="og:title" content="Setting Konfigurasi HAProxy Di OPNsense" />
 <meta property="og:description" content="OPNsense adalah proyek firewall berbasis open source berbasis FreeBSD OPNsense.
@@ -95,7 +95,7 @@ if (!doNotTrack) {
         <a href="https://blog.rifkiaz.web.id/posts/setting-konfigurasi-haproxy-di-opnsense/">Setting Konfigurasi HAProxy Di OPNsense</a>
     </h4>
     <div class="post-meta link-alter">
-        <time><i class="fas fa-calendar-day"></i>&nbsp;2020-08-24</time><span><i class="fas fa-file-alt"></i>&nbsp;392 words</span><span><i class="fas fa-tag"></i>&nbsp;<a href="/tags/tutorial/">tutorial</a> <a href="/tags/linux/">linux</a> </span>
+        <time><i class="fas fa-calendar-day"></i>&nbsp;2020-08-24</time><span><i class="fas fa-file-alt"></i>&nbsp;392 words</span><span><i class="fas fa-tag"></i>&nbsp;<a href="/tags/tutorial/">tutorial</a> <a href="/tags/linux/">linux</a> <a href="/tags/opnsense/">OPNsense</a> <a href="/tags/firewall/">Firewall</a> <a href="/tags/haproxy/">HAProxy</a> </span>
     </div>
     
     
@@ -266,7 +266,15 @@ Select Rules : pass_https_test_http
         </span>
         
         <span>
+            <a href="https://blog.rifkiaz.web.id/tags/firewall/">Firewall</a>
+        </span>
+        
+        <span>
             <a href="https://blog.rifkiaz.web.id/tags/google-cursor/">Google Cursor</a>
+        </span>
+        
+        <span>
+            <a href="https://blog.rifkiaz.web.id/tags/haproxy/">HAProxy</a>
         </span>
         
         <span>
@@ -283,6 +291,10 @@ Select Rules : pass_https_test_http
         
         <span>
             <a href="https://blog.rifkiaz.web.id/tags/opensuse/">openSUSE</a>
+        </span>
+        
+        <span>
+            <a href="https://blog.rifkiaz.web.id/tags/opnsense/">OPNsense</a>
         </span>
         
         <span>

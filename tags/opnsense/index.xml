@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>OPNsense on Coretan dan Catatan Oprek</title>
+    <link>https://blog.rifkiaz.web.id/tags/opnsense/</link>
+    <description>Recent content in OPNsense on Coretan dan Catatan Oprek</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 24 Aug 2020 13:55:51 +0700</lastBuildDate>
+    
+	<atom:link href="https://blog.rifkiaz.web.id/tags/opnsense/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Setting Konfigurasi HAProxy Di OPNsense</title>
+      <link>https://blog.rifkiaz.web.id/posts/setting-konfigurasi-haproxy-di-opnsense/</link>
+      <pubDate>Mon, 24 Aug 2020 13:55:51 +0700</pubDate>
+      
+      <guid>https://blog.rifkiaz.web.id/posts/setting-konfigurasi-haproxy-di-opnsense/</guid>
+      <description>OPNsense adalah proyek firewall berbasis open source berbasis FreeBSD OPNsense.
+ Berikut adalah tutorial untuk mengkonfigurasi HAProxy di OPNsense.
+1. Konfigurasi Firewall untuk HAProxy  Buat 2 IP Forward pada konfigurasi firewall  Firewall &amp;gt; NAT &amp;gt; Port Forward &amp;gt; + New Rule    Interface : LAN TCP/IP Ver : IPv4 Protocol : TCP Source : any Destination port range : From - HTTP , to - HTTP Redirect target IP : #IPADDRESSOPNSENSE Redirect target port : HTTP SAVE Interface : LAN TCP/IP Ver : IPv4 Protocol : TCP Source : any Destination port range : From - HTTPS , to - HTTPS Redirect target IP : #IPADDRESSOPNSENSE Redirect target port : HTTP SAVE Buat Rule Floating  Firewall &amp;gt; Rules Floating &amp;gt; + New Rule    Action : Pass Interface : LAN Direction : in TCP/IP ver : IPv4 Protocol : TCP Source : any Destination : Lan Address Destination port range : From - HTTP , to - HTTP Action : Pass Interface : LAN Direction : in TCP/IP ver : IPv4 Protocol : TCP Source : any Destination : Lan Address Destination port range : From - HTTPS , to - HTTPS 2.</description>
+    </item>
+    
+  </channel>
+</rss>
