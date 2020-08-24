@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://blog.rifkiaz.web.id/</loc>
+    <lastmod>2020-08-24T13:55:51+07:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://blog.rifkiaz.web.id/tags/linux/</loc>
     <lastmod>2020-08-24T13:55:51+07:00</lastmod>
   </url>
@@ -59,11 +64,6 @@
   
   <url>
     <loc>https://blog.rifkiaz.web.id/about/</loc>
-    <lastmod>2020-05-08T17:42:14+07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.rifkiaz.web.id/</loc>
     <lastmod>2020-05-08T17:42:14+07:00</lastmod>
   </url>
   
