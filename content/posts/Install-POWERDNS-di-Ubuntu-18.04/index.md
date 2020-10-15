@@ -220,3 +220,7 @@ description:
     ```
     sudo systemctl restart pdns
     ```
+### Untuk tampilan GUI (POWERDNS Admin) di postingan selanjutnya ya!
+
+Salam Kebebasan!!
+Bye~
