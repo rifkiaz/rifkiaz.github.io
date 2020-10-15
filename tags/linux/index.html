@@ -24,7 +24,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://blog.rifkiaz.web.id/tags/linux/" />
 <meta property="og:image" content="https://blog.rifkiaz.web.id/img/og.png"/>
-<meta property="og:updated_time" content="2020-08-24T13:55:51+07:00" />
+<meta property="og:updated_time" content="2020-09-14T11:29:13+07:00" />
 
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://blog.rifkiaz.web.id/img/og.png"/>
@@ -86,6 +86,19 @@ if (!doNotTrack) {
 </div>
 
 
+
+<div class="post">
+    <h2 class="post-title">
+        <a href="https://blog.rifkiaz.web.id/posts/install-powerdns-di-ubuntu-18.04/">Install POWERDNS di Ubuntu 18.04</a>
+    </h2>
+    <div class="post-meta link-alter">
+        <time><i class="fas fa-calendar-day"></i>&nbsp;2020-09-14</time><span><i class="fas fa-file-alt"></i>&nbsp;603 words</span><span><i class="fas fa-tag"></i>&nbsp;<a href="/tags/linux/">linux</a> <a href="/tags/powerdns/">powerdns</a> <a href="/tags/ubuntu/">ubuntu</a> <a href="/tags/dns/">dns</a> <a href="/tags/server/">server</a> </span>
+    </div>
+    <div class="post-summary markdown-body">
+        POWERDNS adalah DNS Server berbasis MySQL, yang ditulis dalam C ++ dan berlisensi Under GPL. PowerDNS dapat dikelola melalui web base interface (PowerAdmin). Pada tutorial kali ini akan membahas bagaimana menginstall dan mengkonfigurasi POWERDNS pada Ubuntu 18.04.
+Persiapan  Ubuntu 18.04 Domain  Tahap Instalasi  Update repositori pada Ubuntu 18.04 sudo apt update  Install MariaDB sudo apt install mariadb-server mariadb-client -y mysql_secure_installation  Edit konfigurasi pada MariaDB vim /etc/mysql/mariadb.conf/50-server.cnf ........ bind = 0.0.0.0 ----&gt; ganti dengan ip lokal ........  Restart MariaDB sudo systemctl restart mariadb  Buat database pada database sudo mysql -u root -p CREATE DATABASE powerdns CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci; GRANT ALL ON powerdns.
+    </div>
+</div>
 
 <div class="post">
     <h2 class="post-title">
@@ -161,6 +174,10 @@ if (!doNotTrack) {
         </span>
         
         <span>
+            <a href="https://blog.rifkiaz.web.id/tags/dns/">dns</a>
+        </span>
+        
+        <span>
             <a href="https://blog.rifkiaz.web.id/tags/firewall/">Firewall</a>
         </span>
         
@@ -193,11 +210,23 @@ if (!doNotTrack) {
         </span>
         
         <span>
+            <a href="https://blog.rifkiaz.web.id/tags/powerdns/">powerdns</a>
+        </span>
+        
+        <span>
+            <a href="https://blog.rifkiaz.web.id/tags/server/">server</a>
+        </span>
+        
+        <span>
             <a href="https://blog.rifkiaz.web.id/tags/tumbleweed/">Tumbleweed</a>
         </span>
         
         <span>
             <a href="https://blog.rifkiaz.web.id/tags/tutorial/">tutorial</a>
+        </span>
+        
+        <span>
+            <a href="https://blog.rifkiaz.web.id/tags/ubuntu/">ubuntu</a>
         </span>
         
     </div>

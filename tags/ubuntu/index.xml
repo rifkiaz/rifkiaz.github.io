@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ubuntu on Coretan dan Catatan Oprek</title>
+    <link>https://blog.rifkiaz.web.id/tags/ubuntu/</link>
+    <description>Recent content in ubuntu on Coretan dan Catatan Oprek</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 14 Sep 2020 11:29:13 +0700</lastBuildDate>
+    
+	<atom:link href="https://blog.rifkiaz.web.id/tags/ubuntu/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Install POWERDNS di Ubuntu 18.04</title>
+      <link>https://blog.rifkiaz.web.id/posts/install-powerdns-di-ubuntu-18.04/</link>
+      <pubDate>Mon, 14 Sep 2020 11:29:13 +0700</pubDate>
+      
+      <guid>https://blog.rifkiaz.web.id/posts/install-powerdns-di-ubuntu-18.04/</guid>
+      <description>POWERDNS adalah DNS Server berbasis MySQL, yang ditulis dalam C ++ dan berlisensi Under GPL. PowerDNS dapat dikelola melalui web base interface (PowerAdmin). Pada tutorial kali ini akan membahas bagaimana menginstall dan mengkonfigurasi POWERDNS pada Ubuntu 18.04.
+Persiapan  Ubuntu 18.04 Domain  Tahap Instalasi  Update repositori pada Ubuntu 18.04 sudo apt update  Install MariaDB sudo apt install mariadb-server mariadb-client -y mysql_secure_installation  Edit konfigurasi pada MariaDB vim /etc/mysql/mariadb.conf/50-server.cnf ........ bind = 0.0.0.0 ----&amp;gt; ganti dengan ip lokal ........  Restart MariaDB sudo systemctl restart mariadb  Buat database pada database sudo mysql -u root -p CREATE DATABASE powerdns CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci; GRANT ALL ON powerdns.</description>
+    </item>
+    
+  </channel>
+</rss>

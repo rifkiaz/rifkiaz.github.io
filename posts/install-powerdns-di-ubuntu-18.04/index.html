@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta name="generator" content="Hugo 0.74.3" />
+
+
+<link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/amzrk2/poal-jsdelivr@1.2.0/favicons/favicon.ico" />
+
+
+
+<title>Install POWERDNS di Ubuntu 18.04 - Coretan dan Catatan Oprek</title>
+
+<meta name="author" content="Rifki Affandi" />
+<meta name="description" content="POWERDNS adalah DNS Server berbasis MySQL, yang ditulis dalam C &#43;&#43; dan berlisensi Under GPL. PowerDNS dapat dikelola melalui web base interface (PowerAdmin). Pada tutorial kali ini akan membahas bagaimana menginstall dan mengkonfigurasi POWERDNS pada Ubuntu 18.04.
+Persiapan  Ubuntu 18.04 Domain  Tahap Instalasi  Update repositori pada Ubuntu 18.04 sudo apt update  Install MariaDB sudo apt install mariadb-server mariadb-client -y mysql_secure_installation  Edit konfigurasi pada MariaDB vim /etc/mysql/mariadb.conf/50-server.cnf ........ bind = 0.0.0.0 ----&gt; ganti dengan ip lokal ........  Restart MariaDB sudo systemctl restart mariadb  Buat database pada database sudo mysql -u root -p CREATE DATABASE powerdns CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci; GRANT ALL ON powerdns." />
+
+<meta name="keywords" content="linux, powerdns, ubuntu, dns, server" />
+
+<meta property="og:title" content="Install POWERDNS di Ubuntu 18.04" />
+<meta property="og:description" content="POWERDNS adalah DNS Server berbasis MySQL, yang ditulis dalam C &#43;&#43; dan berlisensi Under GPL. PowerDNS dapat dikelola melalui web base interface (PowerAdmin). Pada tutorial kali ini akan membahas bagaimana menginstall dan mengkonfigurasi POWERDNS pada Ubuntu 18.04.
+Persiapan  Ubuntu 18.04 Domain  Tahap Instalasi  Update repositori pada Ubuntu 18.04 sudo apt update  Install MariaDB sudo apt install mariadb-server mariadb-client -y mysql_secure_installation  Edit konfigurasi pada MariaDB vim /etc/mysql/mariadb.conf/50-server.cnf ........ bind = 0.0.0.0 ----&gt; ganti dengan ip lokal ........  Restart MariaDB sudo systemctl restart mariadb  Buat database pada database sudo mysql -u root -p CREATE DATABASE powerdns CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci; GRANT ALL ON powerdns." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.rifkiaz.web.id/posts/install-powerdns-di-ubuntu-18.04/" />
+<meta property="og:image" content="https://blog.rifkiaz.web.id/img/og.png"/>
+<meta property="article:published_time" content="2020-09-14T11:29:13+07:00" />
+<meta property="article:modified_time" content="2020-09-14T11:29:13+07:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://blog.rifkiaz.web.id/img/og.png"/>
+
+<meta name="twitter:title" content="Install POWERDNS di Ubuntu 18.04"/>
+<meta name="twitter:description" content="POWERDNS adalah DNS Server berbasis MySQL, yang ditulis dalam C &#43;&#43; dan berlisensi Under GPL. PowerDNS dapat dikelola melalui web base interface (PowerAdmin). Pada tutorial kali ini akan membahas bagaimana menginstall dan mengkonfigurasi POWERDNS pada Ubuntu 18.04.
+Persiapan  Ubuntu 18.04 Domain  Tahap Instalasi  Update repositori pada Ubuntu 18.04 sudo apt update  Install MariaDB sudo apt install mariadb-server mariadb-client -y mysql_secure_installation  Edit konfigurasi pada MariaDB vim /etc/mysql/mariadb.conf/50-server.cnf ........ bind = 0.0.0.0 ----&gt; ganti dengan ip lokal ........  Restart MariaDB sudo systemctl restart mariadb  Buat database pada database sudo mysql -u root -p CREATE DATABASE powerdns CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci; GRANT ALL ON powerdns."/>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-165935137-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+<link rel="stylesheet" href="https://blog.rifkiaz.web.id/css/main.min.css" />
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.0/dist/jquery.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/lazysizes@5.2.0/lazysizes.min.js" integrity="sha256-h2tMEmhemR2IN4wbbdNjj9LaDIjzwk2hralQwfJmBOE=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css" integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous" />
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.5/dist/medium-zoom.min.js" integrity="sha256-Jd9xef1tT52aCb+cAqhElj/9D3c99lQvEjyKOuPn3S4=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+<body class="d-flex flex-column h-100">
+    <header>
+    <div class="container-lg clearfix">
+        <div class="col-12 link-primary">
+            <a class="main-title" href="https://blog.rifkiaz.web.id">Coretan dan Catatan Oprek</a>
+            
+            <span class="sub-title">Sebuah catatan dan operekan kecil terkait FLOSS</span>
+            
+        </div>
+    </div>
+</header>
+
+    <main>
+        <div class="container-lg clearfix">
+            
+            <div class="col-md-9 col-12 float-left" id="content">
+                
+<article>
+    
+    <h4 class="post-title">
+        <a href="https://blog.rifkiaz.web.id/posts/install-powerdns-di-ubuntu-18.04/">Install POWERDNS di Ubuntu 18.04</a>
+    </h4>
+    <div class="post-meta link-alter">
+        <time><i class="fas fa-calendar-day"></i>&nbsp;2020-09-14</time><span><i class="fas fa-file-alt"></i>&nbsp;603 words</span><span><i class="fas fa-tag"></i>&nbsp;<a href="/tags/linux/">linux</a> <a href="/tags/powerdns/">powerdns</a> <a href="/tags/ubuntu/">ubuntu</a> <a href="/tags/dns/">dns</a> <a href="/tags/server/">server</a> </span>
+    </div>
+    
+    
+    <div class="post-content markdown-body">
+        <p><a href="https://www.powerdns.com/" target="_blank">POWERDNS</a> adalah DNS Server berbasis MySQL, yang ditulis dalam C ++ dan berlisensi Under GPL. PowerDNS dapat dikelola melalui web base interface (PowerAdmin). Pada tutorial kali ini akan membahas bagaimana menginstall dan mengkonfigurasi <a href="https://www.powerdns.com" target="_blank">POWERDNS</a> pada <a href="http://kambing.ui.ac.id/iso/ubuntu/releases/bionic/" target="_blank">Ubuntu 18.04</a>.</p>
+<h3 id="persiapan">Persiapan</h3>
+<ol>
+<li><a href="http://kambing.ui.ac.id/iso/ubuntu/releases/bionic/" target="_blank">Ubuntu 18.04</a></li>
+<li>Domain</li>
+</ol>
+<h3 id="tahap-instalasi">Tahap Instalasi</h3>
+<ul>
+<li>Update repositori pada Ubuntu 18.04
+<pre><code>sudo apt update 
+</code></pre></li>
+<li>Install MariaDB
+<pre><code>sudo apt install mariadb-server mariadb-client -y
+</code></pre><pre><code>mysql_secure_installation
+</code></pre></li>
+<li>Edit konfigurasi pada MariaDB
+<pre><code>vim /etc/mysql/mariadb.conf/50-server.cnf
+</code></pre><pre><code>........
+bind = 0.0.0.0 ----&gt; ganti dengan ip lokal
+........
+</code></pre></li>
+<li>Restart MariaDB
+<pre><code>sudo systemctl restart mariadb
+</code></pre></li>
+<li>Buat database pada database
+<pre><code>sudo mysql -u root -p 
+</code></pre><pre><code>CREATE DATABASE powerdns CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;
+</code></pre><pre><code>GRANT ALL ON powerdns.* TO 'powerdns'@'localhost' IDENTIFIED BY 'YOURPASSWORD';
+</code></pre><pre><code>GRANT ALL ON powerdns.* TO 'powerdns'@'%' IDENTIFIED BY 'YOURPASSWORD';
+</code></pre><pre><code>FLUSH PRIVILEGES;
+</code></pre><pre><code>USE powerdns; 
+</code></pre><pre><code>CREATE TABLE domains (
+id                    INT AUTO_INCREMENT,
+name                  VARCHAR(255) NOT NULL,
+master                VARCHAR(128) DEFAULT NULL,
+last_check            INT DEFAULT NULL,
+type                  VARCHAR(6) NOT NULL,
+notified_serial       INT DEFAULT NULL,
+account               VARCHAR(40) CHARACTER SET 'utf8' DEFAULT NULL,
+PRIMARY KEY (id)
+) Engine=InnoDB CHARACTER SET 'latin1';
+
+CREATE UNIQUE INDEX name_index ON domains(name);
+
+
+CREATE TABLE records (
+id                    BIGINT AUTO_INCREMENT,
+domain_id             INT DEFAULT NULL,
+name                  VARCHAR(255) DEFAULT NULL,
+type                  VARCHAR(10) DEFAULT NULL,
+content               VARCHAR(64000) DEFAULT NULL,
+ttl                   INT DEFAULT NULL,
+prio                  INT DEFAULT NULL,
+change_date           INT DEFAULT NULL,
+disabled              TINYINT(1) DEFAULT 0,
+ordername             VARCHAR(255) BINARY DEFAULT NULL,
+auth                  TINYINT(1) DEFAULT 1,
+PRIMARY KEY (id)
+) Engine=InnoDB CHARACTER SET 'latin1';
+
+CREATE INDEX nametype_index ON records(name,type);
+CREATE INDEX domain_id ON records(domain_id);
+CREATE INDEX ordername ON records (ordername);
+
+
+CREATE TABLE supermasters (
+ip                    VARCHAR(64) NOT NULL,
+nameserver            VARCHAR(255) NOT NULL,
+account               VARCHAR(40) CHARACTER SET 'utf8' NOT NULL,
+PRIMARY KEY (ip, nameserver)
+) Engine=InnoDB CHARACTER SET 'latin1';
+
+
+CREATE TABLE comments (
+id                    INT AUTO_INCREMENT,
+domain_id             INT NOT NULL,
+name                  VARCHAR(255) NOT NULL,
+type                  VARCHAR(10) NOT NULL,
+modified_at           INT NOT NULL,
+account               VARCHAR(40) CHARACTER SET 'utf8' DEFAULT NULL,
+comment               TEXT CHARACTER SET 'utf8' NOT NULL,
+PRIMARY KEY (id)
+) Engine=InnoDB CHARACTER SET 'latin1';
+
+CREATE INDEX comments_name_type_idx ON comments (name, type);
+CREATE INDEX comments_order_idx ON comments (domain_id, modified_at);
+
+
+CREATE TABLE domainmetadata (
+id                    INT AUTO_INCREMENT,
+domain_id             INT NOT NULL,
+kind                  VARCHAR(32),
+content               TEXT,
+PRIMARY KEY (id)
+) Engine=InnoDB CHARACTER SET 'latin1';
+
+CREATE INDEX domainmetadata_idx ON domainmetadata (domain_id, kind);
+
+
+CREATE TABLE cryptokeys (
+id                    INT AUTO_INCREMENT,
+domain_id             INT NOT NULL,
+flags                 INT NOT NULL,
+active                BOOL,
+content               TEXT,
+PRIMARY KEY(id)
+) Engine=InnoDB CHARACTER SET 'latin1';
+
+CREATE INDEX domainidindex ON cryptokeys(domain_id);
+
+
+CREATE TABLE tsigkeys (
+id                    INT AUTO_INCREMENT,
+name                  VARCHAR(255),
+algorithm             VARCHAR(50),
+secret                VARCHAR(255),
+PRIMARY KEY (id)
+) Engine=InnoDB CHARACTER SET 'latin1';
+
+CREATE UNIQUE INDEX namealgoindex ON tsigkeys(name, algorithm);
+</code></pre></li>
+<li>Disable systemd-resolved
+<pre><code>sudo su
+systemctl disable systemd-resolved
+systemctl stop systemd-resolved
+ls -lh /etc/resolv.conf 
+rm /etc/resolv.conf
+echo &quot;nameserver 8.8.8.8&quot; &gt; /etc/resolv.conf
+</code></pre></li>
+<li>Install POWERDNS (versi 4.1.13)
+<pre><code>sudo su
+</code></pre></li>
+<li>edit repositori
+<pre><code>vi /etc/apt/sources.list.d/pdns.list
+</code></pre><pre><code>.............
+deb [arch=amd64] http://repo.powerdns.com/ubuntu bionic-auth-41 main
+.............
+</code></pre><pre><code>vi /etc/apt/preferences.d/pdns
+</code></pre><pre><code>...
+Package: pdns-*
+Pin: origin repo.powerdns.com
+Pin-Priority: 600
+...
+</code></pre></li>
+<li>Install powerdns beserta dependensi yang dibutuhkan
+<pre><code>curl https://repo.powerdns.com/FD380FBB-pub.asc | sudo apt-key add - 
+curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+echo &quot;deb https://dl.yarnpkg.com/debian/ stable main&quot; | sudo tee /etc/apt/sources.list.d/yarn.list
+sudo apt-get update
+sudo apt-get install pdns-server pdns-backend-mysql virtualenv python3-pip yarn -y
+apt-get install -y libmysqlclient-dev python3-mysqldb python-mysqldb libsasl2-dev libffi-dev libldap2-dev libssl-dev libxml2-dev libxslt1-dev libxmlsec1-dev pkg-config
+</code></pre></li>
+<li>Setelah berhasil terinstall konfigurasi powerdns agar terhubung dengan backend mysql
+<pre><code>sudo vi /etc/powerdns/pdns.d/pdns.local.gmysql.conf
+## Masukkan skrip berikut tanpa tanda #
+......
+launch=gmysql
+gmysql-host=#IPHOSTMYSQL
+gmysql-user=#USER
+gmysql-dbname=#YOURDB
+gmysql-password=#YOURPASSWORD
+gmysql-dnssec=yes
+</code></pre></li>
+<li>Konfigurasi pdns.conf agar bisa dimonitoring
+<pre><code>echo 'api=yes' &gt;&gt; /etc/powerdns/pdns.conf
+echo 'api-key=YOURIPKEY' &gt;&gt; /etc/powerdns/pdns.conf
+echo 'webserver=yes' &gt;&gt; /etc/powerdns/pdns.conf
+echo 'webserver-address=0.0.0.0' &gt;&gt; /etc/powerdns/pdns.conf
+echo 'webserver-allow-from=0.0.0.0/0,::/0' &gt;&gt; /etc/powerdns/pdns.conf
+echo 'webserver-port=8081' &gt;&gt; /etc/powerdns/pdns.conf
+echo 'version-string=anonymous' &gt;&gt; /etc/powerdns/pdns.conf
+echo 'webserver-password=YOURPASSWORD' &gt;&gt; /etc/powerdns/pdns.conf
+</code></pre></li>
+<li>Tes koneksi ke database
+<pre><code>/usr/sbin/pdns_server --daemon=no --guardian=no --loglevel=9
+</code></pre></li>
+<li>Jika berhasil restart pdns service
+<pre><code>sudo systemctl restart pdns
+</code></pre></li>
+</ul>
+
+    </div>
+</article>
+
+
+<div class="license markdown-body">
+    <blockquote>
+        <p>Unless otherwise noted, the content of this site is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License (CC BY-NC-SA 4.0)</a>.</p>
+    </blockquote>
+</div>
+
+
+
+
+            </div>
+            
+            <div class="col-md-3 col-12 float-left" id="sidebar">
+                
+
+<div class="widget-toc link-alter">
+    <h5>TOC</h5>
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#persiapan">Persiapan</a></li>
+        <li><a href="#tahap-instalasi">Tahap Instalasi</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+</div>
+
+
+<div class="widget-pages link-alter">
+    <h5>Pages</h5>
+    <ul>
+        
+        
+        <li>
+            <a href="/">Home</a>
+        </li>
+        
+        <li>
+            <a href="/archives/">Archives</a>
+        </li>
+        
+        <li>
+            <a href="/about/">About</a>
+        </li>
+        
+        <li>
+            <a href="/index.xml" target="_blank">RSS</a>
+        </li>
+    </ul>
+</div>
+
+<div class="widget-tags link-alter">
+    <h5>Tags</h5>
+    <div>
+        
+        <span>
+            <a href="https://blog.rifkiaz.web.id/tags/blog/">blog</a>
+        </span>
+        
+        <span>
+            <a href="https://blog.rifkiaz.web.id/tags/dns/">dns</a>
+        </span>
+        
+        <span>
+            <a href="https://blog.rifkiaz.web.id/tags/firewall/">Firewall</a>
+        </span>
+        
+        <span>
+            <a href="https://blog.rifkiaz.web.id/tags/google-cursor/">Google Cursor</a>
+        </span>
+        
+        <span>
+            <a href="https://blog.rifkiaz.web.id/tags/haproxy/">HAProxy</a>
+        </span>
+        
+        <span>
+            <a href="https://blog.rifkiaz.web.id/tags/hugo/">hugo</a>
+        </span>
+        
+        <span>
+            <a href="https://blog.rifkiaz.web.id/tags/linux/">linux</a>
+        </span>
+        
+        <span>
+            <a href="https://blog.rifkiaz.web.id/tags/lorem/">Lorem</a>
+        </span>
+        
+        <span>
+            <a href="https://blog.rifkiaz.web.id/tags/opensuse/">openSUSE</a>
+        </span>
+        
+        <span>
+            <a href="https://blog.rifkiaz.web.id/tags/opnsense/">OPNsense</a>
+        </span>
+        
+        <span>
+            <a href="https://blog.rifkiaz.web.id/tags/powerdns/">powerdns</a>
+        </span>
+        
+        <span>
+            <a href="https://blog.rifkiaz.web.id/tags/server/">server</a>
+        </span>
+        
+        <span>
+            <a href="https://blog.rifkiaz.web.id/tags/tumbleweed/">Tumbleweed</a>
+        </span>
+        
+        <span>
+            <a href="https://blog.rifkiaz.web.id/tags/tutorial/">tutorial</a>
+        </span>
+        
+        <span>
+            <a href="https://blog.rifkiaz.web.id/tags/ubuntu/">ubuntu</a>
+        </span>
+        
+    </div>
+</div>
+
+<div class="widget-links link-alter">
+    <h5>Links</h5>
+    <ul>
+        
+        <li>
+            <a href="https://github.com/rifkiaz" target="_blank"><span>GitHub</span></a>
+        </li>
+        
+        <li>
+            <a href="https://twitter.com/rifkiiaz" target="_blank"><span>Twitter</span></a>
+        </li>
+        
+        <li>
+            <a href="https://instagram.com/rifkiaz" target="_blank"><span>Instagram</span></a>
+        </li>
+        
+    </ul>
+</div>
+
+
+            </div>
+            
+            
+            
+            <div id="scroll-top">
+                <i class="fas fa-chevron-up"></i>
+            </div>
+            
+        </div>
+    </main>
+
+    <footer>
+    <div class="container-lg text-center">
+        <p>&copy; 2020 <a href="https://blog.rifkiaz.web.id">Rifki Affandi</a> | Powered by <a href="https://github.com/amzrk2/hugo-theme-fuji/" target="_blank">Fuji</a> & <a href="https://gohugo.io/" target="_blank">Hugo</a> </p>
+    </div>
+</footer>
+    
+<script>
+    $(function () {
+        mediumZoom('.img-zoomable', {
+            margin: 32
+        });
+    });
+</script>
+
+
+
+
+
+
+<script>
+    $('.widget-toc a').click(function () {
+        $('html, body').animate({
+            scrollTop: $($(this).attr('href')).offset().top
+        });
+    });
+</script>
+
+
+
+<script>
+    $('#scroll-top').click(function () {
+        $('html, body').animate({
+            scrollTop: 0
+        });
+    });
+</script>
+
+
+
+
+
+
+</body>
+
+</html>
