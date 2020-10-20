@@ -3,8 +3,38 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://blog.rifkiaz.web.id/tags/bot/</loc>
+    <lastmod>2020-10-20T18:28:12+07:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://blog.rifkiaz.web.id/</loc>
-    <lastmod>2020-09-14T11:29:13+07:00</lastmod>
+    <lastmod>2020-10-20T18:28:12+07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.rifkiaz.web.id/tags/docker/</loc>
+    <lastmod>2020-10-20T18:28:12+07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.rifkiaz.web.id/posts/buatdockeralert/</loc>
+    <lastmod>2020-10-20T18:28:12+07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.rifkiaz.web.id/posts/</loc>
+    <lastmod>2020-10-20T18:28:12+07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.rifkiaz.web.id/tags/telegram/</loc>
+    <lastmod>2020-10-20T18:28:12+07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.rifkiaz.web.id/kategori/tutorial/</loc>
+    <lastmod>2020-10-20T18:28:12+07:00</lastmod>
   </url>
   
   <url>
@@ -23,22 +53,12 @@
   </url>
   
   <url>
-    <loc>https://blog.rifkiaz.web.id/posts/</loc>
-    <lastmod>2020-09-14T11:29:13+07:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://blog.rifkiaz.web.id/tags/powerdns/</loc>
     <lastmod>2020-09-14T11:29:13+07:00</lastmod>
   </url>
   
   <url>
     <loc>https://blog.rifkiaz.web.id/tags/server/</loc>
-    <lastmod>2020-09-14T11:29:13+07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.rifkiaz.web.id/kategori/tutorial/</loc>
     <lastmod>2020-09-14T11:29:13+07:00</lastmod>
   </url>
   

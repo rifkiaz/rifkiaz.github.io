@@ -24,7 +24,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://blog.rifkiaz.web.id/posts/" />
 <meta property="og:image" content="https://blog.rifkiaz.web.id/img/og.png"/>
-<meta property="og:updated_time" content="2020-09-14T11:29:13+07:00" />
+<meta property="og:updated_time" content="2020-10-20T18:28:12+07:00" />
 
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://blog.rifkiaz.web.id/img/og.png"/>
@@ -82,6 +82,18 @@ if (!doNotTrack) {
                 
 
 
+
+<div class="post">
+    <h2 class="post-title">
+        <a href="https://blog.rifkiaz.web.id/posts/buatdockeralert/">Membuat Docker Alert</a>
+    </h2>
+    <div class="post-meta link-alter">
+        <time><i class="fas fa-calendar-day"></i>&nbsp;2020-10-20</time><span><i class="fas fa-file-alt"></i>&nbsp;262 words</span><span><i class="fas fa-tag"></i>&nbsp;<a href="/tags/docker/">docker</a> <a href="/tags/telegram/">telegram</a> <a href="/tags/bot/">bot</a> </span>
+    </div>
+    <div class="post-summary markdown-body">
+        Pendahuluan Container, ya sebuah istilah yang sedang populer pada era saat ini. dan saya pun memakainya baik untuk development aplikasi ataupun production. Namun beberapa hari belakangan ini tim saya mengalami kendala yakni sekitar 1-2 hari semua container yang berada di VM production berhenti secara tiba. Setelah diteliti hal ini disebabkan oleh docker daemon yang restart tanpa disuruh (asli bikin kesel). Dan kesalahan dari tim DevOps ialah tidak menambahkan parameter restart: always ketika production, jadilah ketika daemon docker restart dan container tidak me-restart otomatis. Yang lebih gak enak lagi ialah para client yang lebih dulu tau ketimbang tim DevOps. Karena itu pada tulisan kali ini saya akan membagi sedikit tips yang dibantu oleh Kang Mustapha untuk monitoring container docker dan mengirimkan alert ke Telegram apabila ada container yang mati (exited).
+    </div>
+</div>
 
 <div class="post">
     <h2 class="post-title">
@@ -217,7 +229,15 @@ Source : Google Cursor
         </span>
         
         <span>
+            <a href="https://blog.rifkiaz.web.id/tags/bot/">bot</a>
+        </span>
+        
+        <span>
             <a href="https://blog.rifkiaz.web.id/tags/dns/">dns</a>
+        </span>
+        
+        <span>
+            <a href="https://blog.rifkiaz.web.id/tags/docker/">docker</a>
         </span>
         
         <span>
@@ -258,6 +278,10 @@ Source : Google Cursor
         
         <span>
             <a href="https://blog.rifkiaz.web.id/tags/server/">server</a>
+        </span>
+        
+        <span>
+            <a href="https://blog.rifkiaz.web.id/tags/telegram/">telegram</a>
         </span>
         
         <span>

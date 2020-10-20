@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>docker on Coretan dan Catatan Oprek</title>
+    <link>https://blog.rifkiaz.web.id/tags/docker/</link>
+    <description>Recent content in docker on Coretan dan Catatan Oprek</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 20 Oct 2020 18:28:12 +0700</lastBuildDate>
+    
+	<atom:link href="https://blog.rifkiaz.web.id/tags/docker/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Membuat Docker Alert</title>
+      <link>https://blog.rifkiaz.web.id/posts/buatdockeralert/</link>
+      <pubDate>Tue, 20 Oct 2020 18:28:12 +0700</pubDate>
+      
+      <guid>https://blog.rifkiaz.web.id/posts/buatdockeralert/</guid>
+      <description>Pendahuluan Container, ya sebuah istilah yang sedang populer pada era saat ini. dan saya pun memakainya baik untuk development aplikasi ataupun production. Namun beberapa hari belakangan ini tim saya mengalami kendala yakni sekitar 1-2 hari semua container yang berada di VM production berhenti secara tiba. Setelah diteliti hal ini disebabkan oleh docker daemon yang restart tanpa disuruh (asli bikin kesel). Dan kesalahan dari tim DevOps ialah tidak menambahkan parameter restart: always ketika production, jadilah ketika daemon docker restart dan container tidak me-restart otomatis. Yang lebih gak enak lagi ialah para client yang lebih dulu tau ketimbang tim DevOps. Karena itu pada tulisan kali ini saya akan membagi sedikit tips yang dibantu oleh Kang Mustapha untuk monitoring container docker dan mengirimkan alert ke Telegram apabila ada container yang mati (exited).</description>
+    </item>
+    
+  </channel>
+</rss>
