@@ -6,11 +6,7 @@
     <description>Recent content in server on Coretan dan Catatan Oprek</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 14 Sep 2020 11:29:13 +0700</lastBuildDate>
-    
-	<atom:link href="https://blog.rifkiaz.web.id/tags/server/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Mon, 14 Sep 2020 11:29:13 +0700</lastBuildDate><atom:link href="https://blog.rifkiaz.web.id/tags/server/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Install POWERDNS di Ubuntu 18.04</title>
       <link>https://blog.rifkiaz.web.id/posts/install-powerdns-di-ubuntu-18.04/</link>

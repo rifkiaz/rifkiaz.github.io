@@ -6,11 +6,7 @@
     <description>Recent content in telegram on Coretan dan Catatan Oprek</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 20 Oct 2020 18:28:12 +0700</lastBuildDate>
-    
-	<atom:link href="https://blog.rifkiaz.web.id/tags/telegram/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Tue, 20 Oct 2020 18:28:12 +0700</lastBuildDate><atom:link href="https://blog.rifkiaz.web.id/tags/telegram/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Membuat Docker Alert</title>
       <link>https://blog.rifkiaz.web.id/posts/buatdockeralert/</link>
