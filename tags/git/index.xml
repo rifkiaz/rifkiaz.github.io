@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>git on Coretan dan Catatan Oprek</title>
+    <link>https://blog.rifkiaz.web.id/tags/git/</link>
+    <description>Recent content in git on Coretan dan Catatan Oprek</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 30 Mar 2021 14:44:46 +0700</lastBuildDate><atom:link href="https://blog.rifkiaz.web.id/tags/git/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Disable SSH Ask Pass di openSUSE</title>
+      <link>https://blog.rifkiaz.web.id/posts/disablesshaskpask/</link>
+      <pubDate>Tue, 30 Mar 2021 14:44:46 +0700</pubDate>
+      
+      <guid>https://blog.rifkiaz.web.id/posts/disablesshaskpask/</guid>
+      <description>Ketika selesai menginstall git di openSUSE, ketika akan melakukan push ataupun pull pada repository yang membutuhkan autentikasi, akan muncul pop up untuk mengisi kolom nama dan password, Hal tersebut bagi saya kurang nyaman, maka bisa dinonaktifkan dengan cara berikut :
+git config --global core.askpass &#39;&#39; Sekian~.</description>
+    </item>
+    
+  </channel>
+</rss>

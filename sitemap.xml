@@ -1,155 +1,107 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  
-  <url>
-    <loc>https://blog.rifkiaz.web.id/tags/bot/</loc>
-    <lastmod>2020-10-20T18:28:12+07:00</lastmod>
-  </url>
-  
   <url>
     <loc>https://blog.rifkiaz.web.id/</loc>
+    <lastmod>2021-03-30T14:44:46+07:00</lastmod>
+  </url><url>
+    <loc>https://blog.rifkiaz.web.id/posts/disablesshaskpask/</loc>
+    <lastmod>2021-03-30T14:44:46+07:00</lastmod>
+  </url><url>
+    <loc>https://blog.rifkiaz.web.id/tags/git/</loc>
+    <lastmod>2021-03-30T14:44:46+07:00</lastmod>
+  </url><url>
+    <loc>https://blog.rifkiaz.web.id/tags/opensuse/</loc>
+    <lastmod>2021-03-30T14:44:46+07:00</lastmod>
+  </url><url>
+    <loc>https://blog.rifkiaz.web.id/kategori/panduan/</loc>
+    <lastmod>2021-03-30T14:44:46+07:00</lastmod>
+  </url><url>
+    <loc>https://blog.rifkiaz.web.id/posts/</loc>
+    <lastmod>2021-03-30T14:44:46+07:00</lastmod>
+  </url><url>
+    <loc>https://blog.rifkiaz.web.id/tags/ssh/</loc>
+    <lastmod>2021-03-30T14:44:46+07:00</lastmod>
+  </url><url>
+    <loc>https://blog.rifkiaz.web.id/tags/tumbleweed/</loc>
+    <lastmod>2021-03-30T14:44:46+07:00</lastmod>
+  </url><url>
+    <loc>https://blog.rifkiaz.web.id/tags/bot/</loc>
     <lastmod>2020-10-20T18:28:12+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.rifkiaz.web.id/tags/docker/</loc>
     <lastmod>2020-10-20T18:28:12+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.rifkiaz.web.id/posts/buatdockeralert/</loc>
     <lastmod>2020-10-20T18:28:12+07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.rifkiaz.web.id/posts/</loc>
-    <lastmod>2020-10-20T18:28:12+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.rifkiaz.web.id/tags/telegram/</loc>
     <lastmod>2020-10-20T18:28:12+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.rifkiaz.web.id/kategori/tutorial/</loc>
     <lastmod>2020-10-20T18:28:12+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.rifkiaz.web.id/tags/dns/</loc>
     <lastmod>2020-09-14T11:29:13+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.rifkiaz.web.id/posts/install-powerdns-di-ubuntu-18.04/</loc>
     <lastmod>2020-09-14T11:29:13+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.rifkiaz.web.id/tags/linux/</loc>
     <lastmod>2020-09-14T11:29:13+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.rifkiaz.web.id/tags/powerdns/</loc>
     <lastmod>2020-09-14T11:29:13+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.rifkiaz.web.id/tags/server/</loc>
     <lastmod>2020-09-14T11:29:13+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.rifkiaz.web.id/tags/ubuntu/</loc>
     <lastmod>2020-09-14T11:29:13+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.rifkiaz.web.id/tags/firewall/</loc>
     <lastmod>2020-08-24T13:55:51+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.rifkiaz.web.id/tags/haproxy/</loc>
     <lastmod>2020-08-24T13:55:51+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.rifkiaz.web.id/tags/opnsense/</loc>
     <lastmod>2020-08-24T13:55:51+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.rifkiaz.web.id/posts/setting-konfigurasi-haproxy-di-opnsense/</loc>
     <lastmod>2020-08-24T13:55:51+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.rifkiaz.web.id/tags/tutorial/</loc>
     <lastmod>2020-08-24T13:55:51+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.rifkiaz.web.id/tags/blog/</loc>
     <lastmod>2020-05-27T19:40:22+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.rifkiaz.web.id/tags/hugo/</loc>
     <lastmod>2020-05-27T19:40:22+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.rifkiaz.web.id/posts/membuat-blog-sederhana-dengan-hugo/</loc>
     <lastmod>2020-05-27T19:40:22+07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.rifkiaz.web.id/tags/opensuse/</loc>
-    <lastmod>2020-05-27T19:40:22+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.rifkiaz.web.id/posts/install-hugo-di-opensuse-tumbleweed/</loc>
     <lastmod>2020-05-19T08:52:01+07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.rifkiaz.web.id/tags/tumbleweed/</loc>
-    <lastmod>2020-05-19T08:52:01+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.rifkiaz.web.id/about/</loc>
     <lastmod>2020-05-08T17:42:14+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.rifkiaz.web.id/kategori/kegiatan/</loc>
     <lastmod>2020-05-08T17:42:14+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.rifkiaz.web.id/tags/google-cursor/</loc>
     <lastmod>2020-05-08T04:48:14+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.rifkiaz.web.id/posts/install-google-cursors-on-opensuse-tumbleweed/</loc>
     <lastmod>2020-05-08T04:48:14+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.rifkiaz.web.id/tags/lorem/</loc>
     <lastmod>2020-04-03T18:42:42+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.rifkiaz.web.id/posts/contoh-konten/</loc>
     <lastmod>2020-04-03T18:42:42+07:00</lastmod>
   </url>
-  
 </urlset>

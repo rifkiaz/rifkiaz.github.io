@@ -7,7 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta http-equiv="Cache-Control" content="no-transform" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
-<meta name="generator" content="Hugo 0.80.0" />
+<meta name="generator" content="Hugo 0.82.0" />
 
 
 <link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/amzrk2/poal-jsdelivr@1.2.0/favicons/favicon.ico" />
@@ -24,10 +24,10 @@
 <meta property="og:title" content="Membuat Docker Alert" />
 <meta property="og:description" content="Pendahuluan Container, ya sebuah istilah yang sedang populer pada era saat ini. dan saya pun memakainya baik untuk development aplikasi ataupun production. Namun beberapa hari belakangan ini tim saya mengalami kendala yakni sekitar 1-2 hari semua container yang berada di VM production berhenti secara tiba. Setelah diteliti hal ini disebabkan oleh docker daemon yang restart tanpa disuruh (asli bikin kesel). Dan kesalahan dari tim DevOps ialah tidak menambahkan parameter restart: always ketika production, jadilah ketika daemon docker restart dan container tidak me-restart otomatis. Yang lebih gak enak lagi ialah para client yang lebih dulu tau ketimbang tim DevOps. Karena itu pada tulisan kali ini saya akan membagi sedikit tips yang dibantu oleh Kang Mustapha untuk monitoring container docker dan mengirimkan alert ke Telegram apabila ada container yang mati (exited)." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://blog.rifkiaz.web.id/posts/buatdockeralert/" />
-<meta property="og:image" content="https://blog.rifkiaz.web.id/img/og.png"/>
-<meta property="article:published_time" content="2020-10-20T18:28:12+07:00" />
-<meta property="article:modified_time" content="2020-10-20T18:28:12+07:00" />
+<meta property="og:url" content="https://blog.rifkiaz.web.id/posts/buatdockeralert/" /><meta property="og:image" content="https://blog.rifkiaz.web.id/img/og.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-10-20T18:28:12&#43;07:00" />
+<meta property="article:modified_time" content="2020-10-20T18:28:12&#43;07:00" />
+
 
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://blog.rifkiaz.web.id/img/og.png"/>
@@ -222,6 +222,10 @@ exit 0
         </span>
         
         <span>
+            <a href="https://blog.rifkiaz.web.id/tags/git/">git</a>
+        </span>
+        
+        <span>
             <a href="https://blog.rifkiaz.web.id/tags/google-cursor/">Google Cursor</a>
         </span>
         
@@ -255,6 +259,10 @@ exit 0
         
         <span>
             <a href="https://blog.rifkiaz.web.id/tags/server/">server</a>
+        </span>
+        
+        <span>
+            <a href="https://blog.rifkiaz.web.id/tags/ssh/">SSH</a>
         </span>
         
         <span>
