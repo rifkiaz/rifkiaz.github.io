@@ -1,1 +1,1 @@
-# Repo blog.rifkiaz.web.id by rifkiaz.github.io [![Netlify Status](https://api.netlify.com/api/v1/badges/d049147b-c011-48c4-bb1e-8ed63e17273a/deploy-status)](https://app.netlify.com/sites/zealous-jepsen-f77fbf/deploys)
+# Repo blog.rifkiaz.web.id by Netlify [![Netlify Status](https://api.netlify.com/api/v1/badges/d049147b-c011-48c4-bb1e-8ed63e17273a/deploy-status)](https://app.netlify.com/sites/zealous-jepsen-f77fbf/deploys)
