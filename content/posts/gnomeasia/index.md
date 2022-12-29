@@ -54,4 +54,8 @@ On day 3, I not join 1 day tour, because I have a plan on Malaysia :D.
 
 
 
-THANKS, And See you guys.
+Thanks to:
+![GNOME](https://d33wubrfki0l68.cloudfront.net/45c9d7efc3f657db3866f5590fa9baf023e13eea/8d771/gnome-asia-summit-2019/gnome.png "GNOME Logo")
+
+Our photos can be access via Google Photo Groups:
+https://photos.app.goo.gl/bXjSkXQhTuhtTZhKA
