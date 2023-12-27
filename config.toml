@@ -1,6 +1,6 @@
 baseURL = "https://blog.rifkiaz.web.id"
 title = "Coretan dan Catatan Oprek"
-theme = "hugo-theme-fuji"
+theme = "fuji"
 hasCJKLanguage = true
 enableEmoji = true
 enableRobotsTXT = true
@@ -15,7 +15,7 @@ summaryLength = 100 # Custom cummary length, add <!--more--> in post file to cus
 paginate = 10
 
 #Copyright 
-copyrightStartYear = "2022"
+copyrightStartYear = "2023"
 
 googleAnalytics = "UA-165935137-1" # Set your Google Analytics UA here, or comment out to disable
 
@@ -55,8 +55,8 @@ googleAnalytics = "UA-165935137-1" # Set your Google Analytics UA here, or comme
   # utterancesTheme = "github-light"
 
   # Disqus, see: https://disqus.com/admin/install/platforms/universalcode/
-  # disqusComment = false
-  # disqusShortname = "[ENTER YOUR DISQUS SHORTNAME HERE]"
+  disqusComment = true
+  disqusShortname = "Para Petualang"
 
   # custom lazyload placeholder
   # 16:9
