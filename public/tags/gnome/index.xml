@@ -1,7 +1,19 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>GNOME on Coretan dan Catatan Oprek</title><link>http://localhost:1313/tags/gnome/</link><description>Recent content in GNOME on Coretan dan Catatan Oprek</description><generator>Hugo</generator><language>id</language><lastBuildDate>Fri, 30 Dec 2022 00:29:23 +0700</lastBuildDate><atom:link href="http://localhost:1313/tags/gnome/index.xml" rel="self" type="application/rss+xml"/><item><title>My Journey with GNOME Asia Summit 2022 Malaysia</title><link>http://localhost:1313/posts/gnomeasia/</link><pubDate>Thu, 15 Dec 2022 14:44:46 +0700</pubDate><guid>http://localhost:1313/posts/gnomeasia/</guid><description>&lt;h1 id="day-0"&gt;Day 0&lt;a class="anchor" href="#day-0"&gt;#&lt;/a&gt;&lt;/h1&gt;
-&lt;p&gt;My day 0 is a travel to Malaysia, and this is first time for me. because I will try solo traveling to another country, and for trial I try going to Malaysia.
-My flight with Air Asia depart from Bandara International Soekarno Hatta to Kuala Lumpur.
-&lt;img src="assets/day0-1.jpg" alt="on cabin Air Asia" title="In Cabin Air Asia"/&gt;
-After landing on Kuala Lumpur International Airport at 2 AM.
-&lt;img src="assets/breakfast_my.jpg" alt="Breakfast at KL" title="Breakfast afer arrived at KL"/&gt;
-I ordered Grab Car from Airport to My &lt;a href="https://goo.gl/maps/R6gA3KfagmZ5G64o7"&gt;Hotel&lt;/a&gt;. After arrived at &lt;a href="https://goo.gl/maps/R6gA3KfagmZ5G64o7"&gt;hotel&lt;/a&gt; I am taking a rest for the summit.&lt;/p&gt;</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>GNOME on Coretan dan Catatan Oprek</title>
+    <link>https://rifkiaz.github.io/tags/gnome/</link>
+    <description>Recent content in GNOME on Coretan dan Catatan Oprek</description>
+    <generator>Hugo</generator>
+    <language>id</language>
+    <lastBuildDate>Fri, 30 Dec 2022 00:29:23 +0700</lastBuildDate>
+    <atom:link href="https://rifkiaz.github.io/tags/gnome/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>My Journey with GNOME Asia Summit 2022 Malaysia</title>
+      <link>https://rifkiaz.github.io/posts/gnomeasia/</link>
+      <pubDate>Thu, 15 Dec 2022 14:44:46 +0700</pubDate>
+      <guid>https://rifkiaz.github.io/posts/gnomeasia/</guid>
+      <description>&lt;h1 id=&#34;day-0&#34;&gt;Day 0&lt;a class=&#34;anchor&#34; href=&#34;#day-0&#34;&gt;#&lt;/a&gt;&lt;/h1&gt;&#xA;&lt;p&gt;My day 0 is a travel to Malaysia, and this is first time for me. because I will try solo traveling to another country, and for trial I try going to Malaysia.&#xA;My flight with Air Asia depart from Bandara International Soekarno Hatta to Kuala Lumpur.&#xA;&lt;img src=&#34;assets/day0-1.jpg&#34; alt=&#34;on cabin Air Asia&#34; title=&#34;In Cabin Air Asia&#34;/&gt;&#xA;After landing on Kuala Lumpur International Airport at 2 AM.&#xA;&lt;img src=&#34;assets/breakfast_my.jpg&#34; alt=&#34;Breakfast at KL&#34; title=&#34;Breakfast afer arrived at KL&#34;/&gt;&#xA;I ordered Grab Car from Airport to My &lt;a href=&#34;https://goo.gl/maps/R6gA3KfagmZ5G64o7&#34;&gt;Hotel&lt;/a&gt;. After arrived at &lt;a href=&#34;https://goo.gl/maps/R6gA3KfagmZ5G64o7&#34;&gt;hotel&lt;/a&gt; I am taking a rest for the summit.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

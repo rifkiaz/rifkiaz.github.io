@@ -1,23 +1,26 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Hugo on Coretan dan Catatan Oprek</title><link>http://localhost:1313/tags/hugo/</link><description>Recent content in Hugo on Coretan dan Catatan Oprek</description><generator>Hugo</generator><language>id</language><lastBuildDate>Tue, 16 Jun 2020 11:07:35 +0700</lastBuildDate><atom:link href="http://localhost:1313/tags/hugo/index.xml" rel="self" type="application/rss+xml"/><item><title>Membuat Blog Sederhana Dengan Hugo</title><link>http://localhost:1313/posts/membuat-blog-sederhana-dengan-hugo/</link><pubDate>Wed, 27 May 2020 19:40:22 +0700</pubDate><guid>http://localhost:1313/posts/membuat-blog-sederhana-dengan-hugo/</guid><description>&lt;h2 id="kenapa-hugo"&gt;Kenapa Hugo?&lt;a class="anchor" href="#kenapa-hugo"&gt;#&lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;Pertanyaan ini pasti muncul ketika melihat tulisan ini, kenapa mesti Hugo? apa hebatnya? kn ada wordpress dan blogger dan lain - lain, okelah jika dibandingkan dengan CMS tersebut web statis seperti Hugo ini tidak kalah powerful, tapi saya punya beberapa kendala ketika menggunakan wordpress, antara lain :&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Size storage di hosting saya sangat kecil (maklum belom jadi sultan), sehingga ketika mau upload gambar mesti mikir - mikir dulu beberapa parameter seperti size dan lain - lain.&lt;/li&gt;
-&lt;li&gt;Kalau tidak ada Internet mau kustomisasi blog susah, ya walaupun kadang tinggal install LAMPP atau XAMPP si, tapi menurut saya hal tersebut mulai agak ribet.&lt;/li&gt;
-&lt;li&gt;Hugo ini praktis, dulu pernah coba Jekyll tapi ya rada nganu, panjang kalo diceritain. Hugo ini enak, deploy cepet, gampang dipelajarin pula, walau belum bisa bahasa GO pun.&lt;/li&gt;
-&lt;li&gt;Jika dikolaborasikan dengan GitHub Pages Hugo ini menyenangkan, build otomatis pake travis CI atau tools lain. pokoknya tinggal add -&amp;gt; commit -&amp;gt; push -&amp;gt; ngopi -&amp;gt; finish.&lt;/li&gt;
-&lt;li&gt;Menulis konten di Hugo menggunakan MD (Markdown) yang mana format MD ini gampang banget dipelajarin, dokumentasi lengkap, dan tutorial banyak pula.&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;Oke lanjut tutorial buat web dengan Hugo.&lt;/p&gt;</description></item><item><title>Install Hugo di openSUSE Tumbleweed</title><link>http://localhost:1313/posts/install-hugo-di-opensuse-tumbleweed/</link><pubDate>Tue, 19 May 2020 08:52:01 +0700</pubDate><guid>http://localhost:1313/posts/install-hugo-di-opensuse-tumbleweed/</guid><description>&lt;h3 id="pengenalan"&gt;Pengenalan&lt;a class="anchor" href="#pengenalan"&gt;#&lt;/a&gt;&lt;/h3&gt;
-&lt;p&gt;&lt;a href="https://gohugo.io"&gt;Hugo&lt;/a&gt; merupakan sebuah generator web statis seperti &lt;a href="https://hexo.io/"&gt;Hexo&lt;/a&gt;, &lt;a href="https://gohugo.io"&gt;Hugo&lt;/a&gt; ditulis menggunakan bahasa &lt;a href="https://golang.org/"&gt;Golang&lt;/a&gt; sehingga load page lebih cepat dibanding dengan &lt;a href="https://hexo.io"&gt;Hexo&lt;/a&gt;. Oh ya kebetulan website ini menggunakan Hugo loh.&lt;/p&gt;
-&lt;h3 id="install-dependensi"&gt;Install dependensi&lt;a class="anchor" href="#install-dependensi"&gt;#&lt;/a&gt;&lt;/h3&gt;
-&lt;p&gt;Sebelum menginstall Hugo pada openSUSE Tumbeleweed yang harus dilakukan adalah menginstall beberapa dependensi diantaranya adalah:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Go&lt;/li&gt;
-&lt;li&gt;Git&lt;/li&gt;
-&lt;li&gt;Hugo&lt;br/&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;pre tabindex="0"&gt;&lt;code&gt;sudo zypper in go git
-wget -c https://github.com/gohugoio/hugo/releases/download/v0.71.0/hugo_0.71.0_Linux-64bit.tar.gz 
-tar -xvf hugo_0.71.0_Linux-64bit.tar.gz 
-sudo mv hugo /usr/local/bin&lt;/code&gt;&lt;/pre&gt;&lt;h5 id="cek-versi-hugo"&gt;Cek Versi Hugo&lt;a class="anchor" href="#cek-versi-hugo"&gt;#&lt;/a&gt;&lt;/h5&gt;
-&lt;pre tabindex="0"&gt;&lt;code&gt;hugo version&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Jika sudah berhasil terinstall akan menampilkan output seperti berikut :&lt;/p&gt;</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Hugo on Coretan dan Catatan Oprek</title>
+    <link>https://rifkiaz.github.io/tags/hugo/</link>
+    <description>Recent content in Hugo on Coretan dan Catatan Oprek</description>
+    <generator>Hugo</generator>
+    <language>id</language>
+    <lastBuildDate>Tue, 16 Jun 2020 11:07:35 +0700</lastBuildDate>
+    <atom:link href="https://rifkiaz.github.io/tags/hugo/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Membuat Blog Sederhana Dengan Hugo</title>
+      <link>https://rifkiaz.github.io/posts/membuat-blog-sederhana-dengan-hugo/</link>
+      <pubDate>Wed, 27 May 2020 19:40:22 +0700</pubDate>
+      <guid>https://rifkiaz.github.io/posts/membuat-blog-sederhana-dengan-hugo/</guid>
+      <description>&lt;h2 id=&#34;kenapa-hugo&#34;&gt;Kenapa Hugo?&lt;a class=&#34;anchor&#34; href=&#34;#kenapa-hugo&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;Pertanyaan ini pasti muncul ketika melihat tulisan ini, kenapa mesti Hugo? apa hebatnya? kn ada wordpress dan blogger dan lain - lain, okelah jika dibandingkan dengan CMS tersebut web statis seperti Hugo ini tidak kalah powerful, tapi saya punya beberapa kendala ketika menggunakan wordpress, antara lain :&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;Size storage di hosting saya sangat kecil (maklum belom jadi sultan), sehingga ketika mau upload gambar mesti mikir - mikir dulu beberapa parameter seperti size dan lain - lain.&lt;/li&gt;&#xA;&lt;li&gt;Kalau tidak ada Internet mau kustomisasi blog susah, ya walaupun kadang tinggal install LAMPP atau XAMPP si, tapi menurut saya hal tersebut mulai agak ribet.&lt;/li&gt;&#xA;&lt;li&gt;Hugo ini praktis, dulu pernah coba Jekyll tapi ya rada nganu, panjang kalo diceritain. Hugo ini enak, deploy cepet, gampang dipelajarin pula, walau belum bisa bahasa GO pun.&lt;/li&gt;&#xA;&lt;li&gt;Jika dikolaborasikan dengan GitHub Pages Hugo ini menyenangkan, build otomatis pake travis CI atau tools lain. pokoknya tinggal add -&amp;gt; commit -&amp;gt; push -&amp;gt; ngopi -&amp;gt; finish.&lt;/li&gt;&#xA;&lt;li&gt;Menulis konten di Hugo menggunakan MD (Markdown) yang mana format MD ini gampang banget dipelajarin, dokumentasi lengkap, dan tutorial banyak pula.&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;p&gt;Oke lanjut tutorial buat web dengan Hugo.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Install Hugo di openSUSE Tumbleweed</title>
+      <link>https://rifkiaz.github.io/posts/install-hugo-di-opensuse-tumbleweed/</link>
+      <pubDate>Tue, 19 May 2020 08:52:01 +0700</pubDate>
+      <guid>https://rifkiaz.github.io/posts/install-hugo-di-opensuse-tumbleweed/</guid>
+      <description>&lt;h3 id=&#34;pengenalan&#34;&gt;Pengenalan&lt;a class=&#34;anchor&#34; href=&#34;#pengenalan&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://gohugo.io&#34;&gt;Hugo&lt;/a&gt; merupakan sebuah generator web statis seperti &lt;a href=&#34;https://hexo.io/&#34;&gt;Hexo&lt;/a&gt;, &lt;a href=&#34;https://gohugo.io&#34;&gt;Hugo&lt;/a&gt; ditulis menggunakan bahasa &lt;a href=&#34;https://golang.org/&#34;&gt;Golang&lt;/a&gt; sehingga load page lebih cepat dibanding dengan &lt;a href=&#34;https://hexo.io&#34;&gt;Hexo&lt;/a&gt;. Oh ya kebetulan website ini menggunakan Hugo loh.&lt;/p&gt;&#xA;&lt;h3 id=&#34;install-dependensi&#34;&gt;Install dependensi&lt;a class=&#34;anchor&#34; href=&#34;#install-dependensi&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;&#xA;&lt;p&gt;Sebelum menginstall Hugo pada openSUSE Tumbeleweed yang harus dilakukan adalah menginstall beberapa dependensi diantaranya adalah:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Go&lt;/li&gt;&#xA;&lt;li&gt;Git&lt;/li&gt;&#xA;&lt;li&gt;Hugo&lt;br/&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;sudo zypper in go git&#xA;wget -c https://github.com/gohugoio/hugo/releases/download/v0.71.0/hugo_0.71.0_Linux-64bit.tar.gz &#xA;tar -xvf hugo_0.71.0_Linux-64bit.tar.gz &#xA;sudo mv hugo /usr/local/bin&lt;/code&gt;&lt;/pre&gt;&lt;h5 id=&#34;cek-versi-hugo&#34;&gt;Cek Versi Hugo&lt;a class=&#34;anchor&#34; href=&#34;#cek-versi-hugo&#34;&gt;#&lt;/a&gt;&lt;/h5&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;hugo version&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Jika sudah berhasil terinstall akan menampilkan output seperti berikut :&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

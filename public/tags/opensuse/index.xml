@@ -1,40 +1,47 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>OpenSUSE on Coretan dan Catatan Oprek</title><link>http://localhost:1313/tags/opensuse/</link><description>Recent content in OpenSUSE on Coretan dan Catatan Oprek</description><generator>Hugo</generator><language>id</language><lastBuildDate>Fri, 30 Dec 2022 00:29:23 +0700</lastBuildDate><atom:link href="http://localhost:1313/tags/opensuse/index.xml" rel="self" type="application/rss+xml"/><item><title>My Journey with GNOME Asia Summit 2022 Malaysia</title><link>http://localhost:1313/posts/gnomeasia/</link><pubDate>Thu, 15 Dec 2022 14:44:46 +0700</pubDate><guid>http://localhost:1313/posts/gnomeasia/</guid><description>&lt;h1 id="day-0"&gt;Day 0&lt;a class="anchor" href="#day-0"&gt;#&lt;/a&gt;&lt;/h1&gt;
-&lt;p&gt;My day 0 is a travel to Malaysia, and this is first time for me. because I will try solo traveling to another country, and for trial I try going to Malaysia.
-My flight with Air Asia depart from Bandara International Soekarno Hatta to Kuala Lumpur.
-&lt;img src="assets/day0-1.jpg" alt="on cabin Air Asia" title="In Cabin Air Asia"/&gt;
-After landing on Kuala Lumpur International Airport at 2 AM.
-&lt;img src="assets/breakfast_my.jpg" alt="Breakfast at KL" title="Breakfast afer arrived at KL"/&gt;
-I ordered Grab Car from Airport to My &lt;a href="https://goo.gl/maps/R6gA3KfagmZ5G64o7"&gt;Hotel&lt;/a&gt;. After arrived at &lt;a href="https://goo.gl/maps/R6gA3KfagmZ5G64o7"&gt;hotel&lt;/a&gt; I am taking a rest for the summit.&lt;/p&gt;</description></item><item><title>Disable SSH Ask Pass di openSUSE</title><link>http://localhost:1313/posts/disablesshaskpask/</link><pubDate>Tue, 30 Mar 2021 14:44:46 +0700</pubDate><guid>http://localhost:1313/posts/disablesshaskpask/</guid><description>&lt;p&gt;Ketika selesai menginstall git di openSUSE, ketika akan melakukan push ataupun pull pada repository yang membutuhkan autentikasi, akan muncul pop up untuk mengisi kolom nama dan password, Hal tersebut bagi saya kurang nyaman, maka bisa dinonaktifkan dengan cara berikut :&lt;/p&gt;
-&lt;pre tabindex="0"&gt;&lt;code&gt;git config --global core.askpass &amp;#39;&amp;#39; &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Sekian~.&lt;/p&gt;</description></item><item><title>Membuat Blog Sederhana Dengan Hugo</title><link>http://localhost:1313/posts/membuat-blog-sederhana-dengan-hugo/</link><pubDate>Wed, 27 May 2020 19:40:22 +0700</pubDate><guid>http://localhost:1313/posts/membuat-blog-sederhana-dengan-hugo/</guid><description>&lt;h2 id="kenapa-hugo"&gt;Kenapa Hugo?&lt;a class="anchor" href="#kenapa-hugo"&gt;#&lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;Pertanyaan ini pasti muncul ketika melihat tulisan ini, kenapa mesti Hugo? apa hebatnya? kn ada wordpress dan blogger dan lain - lain, okelah jika dibandingkan dengan CMS tersebut web statis seperti Hugo ini tidak kalah powerful, tapi saya punya beberapa kendala ketika menggunakan wordpress, antara lain :&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Size storage di hosting saya sangat kecil (maklum belom jadi sultan), sehingga ketika mau upload gambar mesti mikir - mikir dulu beberapa parameter seperti size dan lain - lain.&lt;/li&gt;
-&lt;li&gt;Kalau tidak ada Internet mau kustomisasi blog susah, ya walaupun kadang tinggal install LAMPP atau XAMPP si, tapi menurut saya hal tersebut mulai agak ribet.&lt;/li&gt;
-&lt;li&gt;Hugo ini praktis, dulu pernah coba Jekyll tapi ya rada nganu, panjang kalo diceritain. Hugo ini enak, deploy cepet, gampang dipelajarin pula, walau belum bisa bahasa GO pun.&lt;/li&gt;
-&lt;li&gt;Jika dikolaborasikan dengan GitHub Pages Hugo ini menyenangkan, build otomatis pake travis CI atau tools lain. pokoknya tinggal add -&amp;gt; commit -&amp;gt; push -&amp;gt; ngopi -&amp;gt; finish.&lt;/li&gt;
-&lt;li&gt;Menulis konten di Hugo menggunakan MD (Markdown) yang mana format MD ini gampang banget dipelajarin, dokumentasi lengkap, dan tutorial banyak pula.&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;Oke lanjut tutorial buat web dengan Hugo.&lt;/p&gt;</description></item><item><title>Install Hugo di openSUSE Tumbleweed</title><link>http://localhost:1313/posts/install-hugo-di-opensuse-tumbleweed/</link><pubDate>Tue, 19 May 2020 08:52:01 +0700</pubDate><guid>http://localhost:1313/posts/install-hugo-di-opensuse-tumbleweed/</guid><description>&lt;h3 id="pengenalan"&gt;Pengenalan&lt;a class="anchor" href="#pengenalan"&gt;#&lt;/a&gt;&lt;/h3&gt;
-&lt;p&gt;&lt;a href="https://gohugo.io"&gt;Hugo&lt;/a&gt; merupakan sebuah generator web statis seperti &lt;a href="https://hexo.io/"&gt;Hexo&lt;/a&gt;, &lt;a href="https://gohugo.io"&gt;Hugo&lt;/a&gt; ditulis menggunakan bahasa &lt;a href="https://golang.org/"&gt;Golang&lt;/a&gt; sehingga load page lebih cepat dibanding dengan &lt;a href="https://hexo.io"&gt;Hexo&lt;/a&gt;. Oh ya kebetulan website ini menggunakan Hugo loh.&lt;/p&gt;
-&lt;h3 id="install-dependensi"&gt;Install dependensi&lt;a class="anchor" href="#install-dependensi"&gt;#&lt;/a&gt;&lt;/h3&gt;
-&lt;p&gt;Sebelum menginstall Hugo pada openSUSE Tumbeleweed yang harus dilakukan adalah menginstall beberapa dependensi diantaranya adalah:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Go&lt;/li&gt;
-&lt;li&gt;Git&lt;/li&gt;
-&lt;li&gt;Hugo&lt;br/&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;pre tabindex="0"&gt;&lt;code&gt;sudo zypper in go git
-wget -c https://github.com/gohugoio/hugo/releases/download/v0.71.0/hugo_0.71.0_Linux-64bit.tar.gz 
-tar -xvf hugo_0.71.0_Linux-64bit.tar.gz 
-sudo mv hugo /usr/local/bin&lt;/code&gt;&lt;/pre&gt;&lt;h5 id="cek-versi-hugo"&gt;Cek Versi Hugo&lt;a class="anchor" href="#cek-versi-hugo"&gt;#&lt;/a&gt;&lt;/h5&gt;
-&lt;pre tabindex="0"&gt;&lt;code&gt;hugo version&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Jika sudah berhasil terinstall akan menampilkan output seperti berikut :&lt;/p&gt;</description></item><item><title>How To Install Google Cursor on openSUSE Tumbelweed</title><link>http://localhost:1313/posts/install-google-cursors-on-opensuse-tumbleweed/</link><pubDate>Fri, 08 May 2020 04:48:14 +0700</pubDate><guid>http://localhost:1313/posts/install-google-cursors-on-opensuse-tumbleweed/</guid><description>&lt;h3 id="install-dependencies"&gt;Install Dependencies&lt;a class="anchor" href="#install-dependencies"&gt;#&lt;/a&gt;&lt;/h3&gt;
-&lt;p&gt;Before install Google Cursor, please install dependencies&lt;/p&gt;
-&lt;pre tabindex="0"&gt;&lt;code&gt;sudo zypper in xcursorgen inkscape gnome-themes appmenu-gtk2-module appmenu-gtk3-module&lt;/code&gt;&lt;/pre&gt;&lt;h3 id="build-google-cursor"&gt;Build Google Cursor&lt;a class="anchor" href="#build-google-cursor"&gt;#&lt;/a&gt;&lt;/h3&gt;
-&lt;pre tabindex="0"&gt;&lt;code&gt;git clone https://github.com/KaizIqbal/Google_Cursor.git
-cd Google_Cursor
-chmod +x build.sh
-./build.sh
-chmod +x ./Installer_Google.sh&lt;/code&gt;&lt;/pre&gt;&lt;h3 id="install-as-root-user"&gt;Install as Root User&lt;a class="anchor" href="#install-as-root-user"&gt;#&lt;/a&gt;&lt;/h3&gt;
-&lt;pre tabindex="0"&gt;&lt;code&gt;sudo ./Installer_Google.sh&lt;/code&gt;&lt;/pre&gt;&lt;h3 id="install-as-local-user"&gt;Install as Local User&lt;a class="anchor" href="#install-as-local-user"&gt;#&lt;/a&gt;&lt;/h3&gt;
-&lt;pre tabindex="0"&gt;&lt;code&gt;./Installer_Google.sh&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Enjoy!&lt;/p&gt;
-&lt;p&gt;Source : &lt;a href="https://github.com/KaizIqbal/Google_Cursor"&gt;Google Cursor&lt;/a&gt;&lt;/p&gt;</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>OpenSUSE on Coretan dan Catatan Oprek</title>
+    <link>https://rifkiaz.github.io/tags/opensuse/</link>
+    <description>Recent content in OpenSUSE on Coretan dan Catatan Oprek</description>
+    <generator>Hugo</generator>
+    <language>id</language>
+    <lastBuildDate>Fri, 30 Dec 2022 00:29:23 +0700</lastBuildDate>
+    <atom:link href="https://rifkiaz.github.io/tags/opensuse/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>My Journey with GNOME Asia Summit 2022 Malaysia</title>
+      <link>https://rifkiaz.github.io/posts/gnomeasia/</link>
+      <pubDate>Thu, 15 Dec 2022 14:44:46 +0700</pubDate>
+      <guid>https://rifkiaz.github.io/posts/gnomeasia/</guid>
+      <description>&lt;h1 id=&#34;day-0&#34;&gt;Day 0&lt;a class=&#34;anchor&#34; href=&#34;#day-0&#34;&gt;#&lt;/a&gt;&lt;/h1&gt;&#xA;&lt;p&gt;My day 0 is a travel to Malaysia, and this is first time for me. because I will try solo traveling to another country, and for trial I try going to Malaysia.&#xA;My flight with Air Asia depart from Bandara International Soekarno Hatta to Kuala Lumpur.&#xA;&lt;img src=&#34;assets/day0-1.jpg&#34; alt=&#34;on cabin Air Asia&#34; title=&#34;In Cabin Air Asia&#34;/&gt;&#xA;After landing on Kuala Lumpur International Airport at 2 AM.&#xA;&lt;img src=&#34;assets/breakfast_my.jpg&#34; alt=&#34;Breakfast at KL&#34; title=&#34;Breakfast afer arrived at KL&#34;/&gt;&#xA;I ordered Grab Car from Airport to My &lt;a href=&#34;https://goo.gl/maps/R6gA3KfagmZ5G64o7&#34;&gt;Hotel&lt;/a&gt;. After arrived at &lt;a href=&#34;https://goo.gl/maps/R6gA3KfagmZ5G64o7&#34;&gt;hotel&lt;/a&gt; I am taking a rest for the summit.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Disable SSH Ask Pass di openSUSE</title>
+      <link>https://rifkiaz.github.io/posts/disablesshaskpask/</link>
+      <pubDate>Tue, 30 Mar 2021 14:44:46 +0700</pubDate>
+      <guid>https://rifkiaz.github.io/posts/disablesshaskpask/</guid>
+      <description>&lt;p&gt;Ketika selesai menginstall git di openSUSE, ketika akan melakukan push ataupun pull pada repository yang membutuhkan autentikasi, akan muncul pop up untuk mengisi kolom nama dan password, Hal tersebut bagi saya kurang nyaman, maka bisa dinonaktifkan dengan cara berikut :&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;git config --global core.askpass &amp;#39;&amp;#39; &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Sekian~.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Membuat Blog Sederhana Dengan Hugo</title>
+      <link>https://rifkiaz.github.io/posts/membuat-blog-sederhana-dengan-hugo/</link>
+      <pubDate>Wed, 27 May 2020 19:40:22 +0700</pubDate>
+      <guid>https://rifkiaz.github.io/posts/membuat-blog-sederhana-dengan-hugo/</guid>
+      <description>&lt;h2 id=&#34;kenapa-hugo&#34;&gt;Kenapa Hugo?&lt;a class=&#34;anchor&#34; href=&#34;#kenapa-hugo&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;Pertanyaan ini pasti muncul ketika melihat tulisan ini, kenapa mesti Hugo? apa hebatnya? kn ada wordpress dan blogger dan lain - lain, okelah jika dibandingkan dengan CMS tersebut web statis seperti Hugo ini tidak kalah powerful, tapi saya punya beberapa kendala ketika menggunakan wordpress, antara lain :&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;Size storage di hosting saya sangat kecil (maklum belom jadi sultan), sehingga ketika mau upload gambar mesti mikir - mikir dulu beberapa parameter seperti size dan lain - lain.&lt;/li&gt;&#xA;&lt;li&gt;Kalau tidak ada Internet mau kustomisasi blog susah, ya walaupun kadang tinggal install LAMPP atau XAMPP si, tapi menurut saya hal tersebut mulai agak ribet.&lt;/li&gt;&#xA;&lt;li&gt;Hugo ini praktis, dulu pernah coba Jekyll tapi ya rada nganu, panjang kalo diceritain. Hugo ini enak, deploy cepet, gampang dipelajarin pula, walau belum bisa bahasa GO pun.&lt;/li&gt;&#xA;&lt;li&gt;Jika dikolaborasikan dengan GitHub Pages Hugo ini menyenangkan, build otomatis pake travis CI atau tools lain. pokoknya tinggal add -&amp;gt; commit -&amp;gt; push -&amp;gt; ngopi -&amp;gt; finish.&lt;/li&gt;&#xA;&lt;li&gt;Menulis konten di Hugo menggunakan MD (Markdown) yang mana format MD ini gampang banget dipelajarin, dokumentasi lengkap, dan tutorial banyak pula.&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;p&gt;Oke lanjut tutorial buat web dengan Hugo.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Install Hugo di openSUSE Tumbleweed</title>
+      <link>https://rifkiaz.github.io/posts/install-hugo-di-opensuse-tumbleweed/</link>
+      <pubDate>Tue, 19 May 2020 08:52:01 +0700</pubDate>
+      <guid>https://rifkiaz.github.io/posts/install-hugo-di-opensuse-tumbleweed/</guid>
+      <description>&lt;h3 id=&#34;pengenalan&#34;&gt;Pengenalan&lt;a class=&#34;anchor&#34; href=&#34;#pengenalan&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://gohugo.io&#34;&gt;Hugo&lt;/a&gt; merupakan sebuah generator web statis seperti &lt;a href=&#34;https://hexo.io/&#34;&gt;Hexo&lt;/a&gt;, &lt;a href=&#34;https://gohugo.io&#34;&gt;Hugo&lt;/a&gt; ditulis menggunakan bahasa &lt;a href=&#34;https://golang.org/&#34;&gt;Golang&lt;/a&gt; sehingga load page lebih cepat dibanding dengan &lt;a href=&#34;https://hexo.io&#34;&gt;Hexo&lt;/a&gt;. Oh ya kebetulan website ini menggunakan Hugo loh.&lt;/p&gt;&#xA;&lt;h3 id=&#34;install-dependensi&#34;&gt;Install dependensi&lt;a class=&#34;anchor&#34; href=&#34;#install-dependensi&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;&#xA;&lt;p&gt;Sebelum menginstall Hugo pada openSUSE Tumbeleweed yang harus dilakukan adalah menginstall beberapa dependensi diantaranya adalah:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Go&lt;/li&gt;&#xA;&lt;li&gt;Git&lt;/li&gt;&#xA;&lt;li&gt;Hugo&lt;br/&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;sudo zypper in go git&#xA;wget -c https://github.com/gohugoio/hugo/releases/download/v0.71.0/hugo_0.71.0_Linux-64bit.tar.gz &#xA;tar -xvf hugo_0.71.0_Linux-64bit.tar.gz &#xA;sudo mv hugo /usr/local/bin&lt;/code&gt;&lt;/pre&gt;&lt;h5 id=&#34;cek-versi-hugo&#34;&gt;Cek Versi Hugo&lt;a class=&#34;anchor&#34; href=&#34;#cek-versi-hugo&#34;&gt;#&lt;/a&gt;&lt;/h5&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;hugo version&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Jika sudah berhasil terinstall akan menampilkan output seperti berikut :&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>How To Install Google Cursor on openSUSE Tumbelweed</title>
+      <link>https://rifkiaz.github.io/posts/install-google-cursors-on-opensuse-tumbleweed/</link>
+      <pubDate>Fri, 08 May 2020 04:48:14 +0700</pubDate>
+      <guid>https://rifkiaz.github.io/posts/install-google-cursors-on-opensuse-tumbleweed/</guid>
+      <description>&lt;h3 id=&#34;install-dependencies&#34;&gt;Install Dependencies&lt;a class=&#34;anchor&#34; href=&#34;#install-dependencies&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;&#xA;&lt;p&gt;Before install Google Cursor, please install dependencies&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;sudo zypper in xcursorgen inkscape gnome-themes appmenu-gtk2-module appmenu-gtk3-module&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;build-google-cursor&#34;&gt;Build Google Cursor&lt;a class=&#34;anchor&#34; href=&#34;#build-google-cursor&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;git clone https://github.com/KaizIqbal/Google_Cursor.git&#xA;cd Google_Cursor&#xA;chmod +x build.sh&#xA;./build.sh&#xA;chmod +x ./Installer_Google.sh&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;install-as-root-user&#34;&gt;Install as Root User&lt;a class=&#34;anchor&#34; href=&#34;#install-as-root-user&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;sudo ./Installer_Google.sh&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;install-as-local-user&#34;&gt;Install as Local User&lt;a class=&#34;anchor&#34; href=&#34;#install-as-local-user&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;./Installer_Google.sh&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Enjoy!&lt;/p&gt;&#xA;&lt;p&gt;Source : &lt;a href=&#34;https://github.com/KaizIqbal/Google_Cursor&#34;&gt;Google Cursor&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

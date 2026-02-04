@@ -1,288 +1,74 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Coretan dan Catatan Oprek</title><link>http://localhost:1313/posts/</link><description>Recent content in Posts on Coretan dan Catatan Oprek</description><generator>Hugo</generator><language>id</language><lastBuildDate>Fri, 30 Dec 2022 00:29:23 +0700</lastBuildDate><atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>My Journey with GNOME Asia Summit 2022 Malaysia</title><link>http://localhost:1313/posts/gnomeasia/</link><pubDate>Thu, 15 Dec 2022 14:44:46 +0700</pubDate><guid>http://localhost:1313/posts/gnomeasia/</guid><description>&lt;h1 id="day-0"&gt;Day 0&lt;a class="anchor" href="#day-0"&gt;#&lt;/a&gt;&lt;/h1&gt;
-&lt;p&gt;My day 0 is a travel to Malaysia, and this is first time for me. because I will try solo traveling to another country, and for trial I try going to Malaysia.
-My flight with Air Asia depart from Bandara International Soekarno Hatta to Kuala Lumpur.
-&lt;img src="assets/day0-1.jpg" alt="on cabin Air Asia" title="In Cabin Air Asia"/&gt;
-After landing on Kuala Lumpur International Airport at 2 AM.
-&lt;img src="assets/breakfast_my.jpg" alt="Breakfast at KL" title="Breakfast afer arrived at KL"/&gt;
-I ordered Grab Car from Airport to My &lt;a href="https://goo.gl/maps/R6gA3KfagmZ5G64o7"&gt;Hotel&lt;/a&gt;. After arrived at &lt;a href="https://goo.gl/maps/R6gA3KfagmZ5G64o7"&gt;hotel&lt;/a&gt; I am taking a rest for the summit.&lt;/p&gt;</description></item><item><title>Disable SSH Ask Pass di openSUSE</title><link>http://localhost:1313/posts/disablesshaskpask/</link><pubDate>Tue, 30 Mar 2021 14:44:46 +0700</pubDate><guid>http://localhost:1313/posts/disablesshaskpask/</guid><description>&lt;p&gt;Ketika selesai menginstall git di openSUSE, ketika akan melakukan push ataupun pull pada repository yang membutuhkan autentikasi, akan muncul pop up untuk mengisi kolom nama dan password, Hal tersebut bagi saya kurang nyaman, maka bisa dinonaktifkan dengan cara berikut :&lt;/p&gt;
-&lt;pre tabindex="0"&gt;&lt;code&gt;git config --global core.askpass &amp;#39;&amp;#39; &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Sekian~.&lt;/p&gt;</description></item><item><title>Membuat Docker Alert</title><link>http://localhost:1313/posts/buatdockeralert/</link><pubDate>Tue, 20 Oct 2020 18:28:12 +0700</pubDate><guid>http://localhost:1313/posts/buatdockeralert/</guid><description>&lt;h3 id="pendahuluan"&gt;Pendahuluan&lt;a class="anchor" href="#pendahuluan"&gt;#&lt;/a&gt;&lt;/h3&gt;
-&lt;p&gt;Container, ya sebuah istilah yang sedang populer pada era saat ini. dan saya pun memakainya baik untuk development aplikasi ataupun production. Namun beberapa hari belakangan ini tim saya mengalami kendala yakni sekitar 1-2 hari semua container yang berada di VM production berhenti secara tiba. Setelah diteliti hal ini disebabkan oleh docker daemon yang restart tanpa disuruh (asli bikin kesel). Dan kesalahan dari tim DevOps ialah tidak menambahkan parameter restart: always ketika production, jadilah ketika daemon docker restart dan container tidak me-restart otomatis. Yang lebih gak enak lagi ialah para client yang lebih dulu tau ketimbang tim DevOps. Karena itu pada tulisan kali ini saya akan membagi sedikit tips yang dibantu oleh Kang &lt;a href="https://instagram.com/topahadzi"&gt;Mustapha&lt;/a&gt; untuk monitoring container docker dan mengirimkan alert ke Telegram apabila ada container yang mati (exited).&lt;/p&gt;</description></item><item><title>Install POWERDNS di Ubuntu 18.04</title><link>http://localhost:1313/posts/install-powerdns-di-ubuntu-18.04/</link><pubDate>Mon, 14 Sep 2020 11:29:13 +0700</pubDate><guid>http://localhost:1313/posts/install-powerdns-di-ubuntu-18.04/</guid><description>&lt;p&gt;&lt;a href="https://www.powerdns.com/"&gt;POWERDNS&lt;/a&gt; adalah DNS Server berbasis MySQL, yang ditulis dalam C ++ dan berlisensi Under GPL. PowerDNS dapat dikelola melalui web base interface (PowerAdmin). Pada tutorial kali ini akan membahas bagaimana menginstall dan mengkonfigurasi &lt;a href="https://www.powerdns.com"&gt;POWERDNS&lt;/a&gt; pada &lt;a href="http://kambing.ui.ac.id/iso/ubuntu/releases/bionic/"&gt;Ubuntu 18.04&lt;/a&gt;.&lt;/p&gt;
-&lt;h3 id="persiapan"&gt;Persiapan&lt;a class="anchor" href="#persiapan"&gt;#&lt;/a&gt;&lt;/h3&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;a href="http://kambing.ui.ac.id/iso/ubuntu/releases/bionic/"&gt;Ubuntu 18.04&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Domain&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h3 id="tahap-instalasi"&gt;Tahap Instalasi&lt;a class="anchor" href="#tahap-instalasi"&gt;#&lt;/a&gt;&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Update repositori pada Ubuntu 18.04
-&lt;pre tabindex="0"&gt;&lt;code&gt;sudo apt update &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;li&gt;Install MariaDB
-&lt;pre tabindex="0"&gt;&lt;code&gt;sudo apt install mariadb-server mariadb-client -y&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex="0"&gt;&lt;code&gt;mysql_secure_installation&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;li&gt;Edit konfigurasi pada MariaDB
-&lt;pre tabindex="0"&gt;&lt;code&gt;vim /etc/mysql/mariadb.conf/50-server.cnf&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex="0"&gt;&lt;code&gt;........
-bind = 0.0.0.0 ----&amp;gt; ganti dengan ip lokal
-........&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;li&gt;Restart MariaDB
-&lt;pre tabindex="0"&gt;&lt;code&gt;sudo systemctl restart mariadb&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;li&gt;Buat database pada database
-&lt;pre tabindex="0"&gt;&lt;code&gt;sudo mysql -u root -p &lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex="0"&gt;&lt;code&gt;CREATE DATABASE powerdns CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex="0"&gt;&lt;code&gt;GRANT ALL ON powerdns.* TO &amp;#39;powerdns&amp;#39;@&amp;#39;localhost&amp;#39; IDENTIFIED BY &amp;#39;YOURPASSWORD&amp;#39;;&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex="0"&gt;&lt;code&gt;GRANT ALL ON powerdns.* TO &amp;#39;powerdns&amp;#39;@&amp;#39;%&amp;#39; IDENTIFIED BY &amp;#39;YOURPASSWORD&amp;#39;;&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex="0"&gt;&lt;code&gt;FLUSH PRIVILEGES;&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex="0"&gt;&lt;code&gt;USE powerdns; &lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex="0"&gt;&lt;code&gt;CREATE TABLE domains (
-id INT AUTO_INCREMENT,
-name VARCHAR(255) NOT NULL,
-master VARCHAR(128) DEFAULT NULL,
-last_check INT DEFAULT NULL,
-type VARCHAR(6) NOT NULL,
-notified_serial INT DEFAULT NULL,
-account VARCHAR(40) CHARACTER SET &amp;#39;utf8&amp;#39; DEFAULT NULL,
-PRIMARY KEY (id)
-) Engine=InnoDB CHARACTER SET &amp;#39;latin1&amp;#39;;
-
-CREATE UNIQUE INDEX name_index ON domains(name);
-
-
-CREATE TABLE records (
-id BIGINT AUTO_INCREMENT,
-domain_id INT DEFAULT NULL,
-name VARCHAR(255) DEFAULT NULL,
-type VARCHAR(10) DEFAULT NULL,
-content VARCHAR(64000) DEFAULT NULL,
-ttl INT DEFAULT NULL,
-prio INT DEFAULT NULL,
-change_date INT DEFAULT NULL,
-disabled TINYINT(1) DEFAULT 0,
-ordername VARCHAR(255) BINARY DEFAULT NULL,
-auth TINYINT(1) DEFAULT 1,
-PRIMARY KEY (id)
-) Engine=InnoDB CHARACTER SET &amp;#39;latin1&amp;#39;;
-
-CREATE INDEX nametype_index ON records(name,type);
-CREATE INDEX domain_id ON records(domain_id);
-CREATE INDEX ordername ON records (ordername);
-
-
-CREATE TABLE supermasters (
-ip VARCHAR(64) NOT NULL,
-nameserver VARCHAR(255) NOT NULL,
-account VARCHAR(40) CHARACTER SET &amp;#39;utf8&amp;#39; NOT NULL,
-PRIMARY KEY (ip, nameserver)
-) Engine=InnoDB CHARACTER SET &amp;#39;latin1&amp;#39;;
-
-
-CREATE TABLE comments (
-id INT AUTO_INCREMENT,
-domain_id INT NOT NULL,
-name VARCHAR(255) NOT NULL,
-type VARCHAR(10) NOT NULL,
-modified_at INT NOT NULL,
-account VARCHAR(40) CHARACTER SET &amp;#39;utf8&amp;#39; DEFAULT NULL,
-comment TEXT CHARACTER SET &amp;#39;utf8&amp;#39; NOT NULL,
-PRIMARY KEY (id)
-) Engine=InnoDB CHARACTER SET &amp;#39;latin1&amp;#39;;
-
-CREATE INDEX comments_name_type_idx ON comments (name, type);
-CREATE INDEX comments_order_idx ON comments (domain_id, modified_at);
-
-
-CREATE TABLE domainmetadata (
-id INT AUTO_INCREMENT,
-domain_id INT NOT NULL,
-kind VARCHAR(32),
-content TEXT,
-PRIMARY KEY (id)
-) Engine=InnoDB CHARACTER SET &amp;#39;latin1&amp;#39;;
-
-CREATE INDEX domainmetadata_idx ON domainmetadata (domain_id, kind);
-
-
-CREATE TABLE cryptokeys (
-id INT AUTO_INCREMENT,
-domain_id INT NOT NULL,
-flags INT NOT NULL,
-active BOOL,
-content TEXT,
-PRIMARY KEY(id)
-) Engine=InnoDB CHARACTER SET &amp;#39;latin1&amp;#39;;
-
-CREATE INDEX domainidindex ON cryptokeys(domain_id);
-
-
-CREATE TABLE tsigkeys (
-id INT AUTO_INCREMENT,
-name VARCHAR(255),
-algorithm VARCHAR(50),
-secret VARCHAR(255),
-PRIMARY KEY (id)
-) Engine=InnoDB CHARACTER SET &amp;#39;latin1&amp;#39;;
-
-CREATE UNIQUE INDEX namealgoindex ON tsigkeys(name, algorithm);&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;li&gt;Disable systemd-resolved
-&lt;pre tabindex="0"&gt;&lt;code&gt;sudo su
-systemctl disable systemd-resolved
-systemctl stop systemd-resolved
-ls -lh /etc/resolv.conf 
-rm /etc/resolv.conf
-echo &amp;#34;nameserver 8.8.8.8&amp;#34; &amp;gt; /etc/resolv.conf&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;li&gt;Install POWERDNS (versi 4.1.13)
-&lt;pre tabindex="0"&gt;&lt;code&gt;sudo su&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;li&gt;edit repositori
-&lt;pre tabindex="0"&gt;&lt;code&gt;vi /etc/apt/sources.list.d/pdns.list&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex="0"&gt;&lt;code&gt;.............
-deb [arch=amd64] http://repo.powerdns.com/ubuntu bionic-auth-41 main
-.............&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex="0"&gt;&lt;code&gt;vi /etc/apt/preferences.d/pdns&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex="0"&gt;&lt;code&gt;...
-Package: pdns-*
-Pin: origin repo.powerdns.com
-Pin-Priority: 600
-...&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;li&gt;Install powerdns beserta dependensi yang dibutuhkan
-&lt;pre tabindex="0"&gt;&lt;code&gt;curl https://repo.powerdns.com/FD380FBB-pub.asc | sudo apt-key add - 
-curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-echo &amp;#34;deb https://dl.yarnpkg.com/debian/ stable main&amp;#34; | sudo tee /etc/apt/sources.list.d/yarn.list
-sudo apt-get update
-sudo apt-get install pdns-server pdns-backend-mysql virtualenv python3-pip yarn -y
-apt-get install -y libmysqlclient-dev python3-mysqldb python-mysqldb libsasl2-dev libffi-dev libldap2-dev libssl-dev libxml2-dev libxslt1-dev libxmlsec1-dev pkg-config&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;li&gt;Setelah berhasil terinstall konfigurasi powerdns agar terhubung dengan backend mysql
-&lt;pre tabindex="0"&gt;&lt;code&gt;sudo vi /etc/powerdns/pdns.d/pdns.local.gmysql.conf
-## Masukkan skrip berikut tanpa tanda #
-......
-launch=gmysql
-gmysql-host=#IPHOSTMYSQL
-gmysql-user=#USER
-gmysql-dbname=#YOURDB
-gmysql-password=#YOURPASSWORD
-gmysql-dnssec=yes&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;li&gt;Konfigurasi pdns.conf agar bisa dimonitoring
-&lt;pre tabindex="0"&gt;&lt;code&gt;echo &amp;#39;api=yes&amp;#39; &amp;gt;&amp;gt; /etc/powerdns/pdns.conf
-echo &amp;#39;api-key=YOURIPKEY&amp;#39; &amp;gt;&amp;gt; /etc/powerdns/pdns.conf
-echo &amp;#39;webserver=yes&amp;#39; &amp;gt;&amp;gt; /etc/powerdns/pdns.conf
-echo &amp;#39;webserver-address=0.0.0.0&amp;#39; &amp;gt;&amp;gt; /etc/powerdns/pdns.conf
-echo &amp;#39;webserver-allow-from=0.0.0.0/0,::/0&amp;#39; &amp;gt;&amp;gt; /etc/powerdns/pdns.conf
-echo &amp;#39;webserver-port=8081&amp;#39; &amp;gt;&amp;gt; /etc/powerdns/pdns.conf
-echo &amp;#39;version-string=anonymous&amp;#39; &amp;gt;&amp;gt; /etc/powerdns/pdns.conf
-echo &amp;#39;webserver-password=YOURPASSWORD&amp;#39; &amp;gt;&amp;gt; /etc/powerdns/pdns.conf&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;li&gt;Tes koneksi ke database
-&lt;pre tabindex="0"&gt;&lt;code&gt;/usr/sbin/pdns_server --daemon=no --guardian=no --loglevel=9&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;li&gt;Jika berhasil restart pdns service
-&lt;pre tabindex="0"&gt;&lt;code&gt;sudo systemctl restart pdns&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id="untuk-tampilan-gui-powerdns-admin-di-postingan-selanjutnya-ya"&gt;Untuk tampilan GUI (POWERDNS Admin) di postingan selanjutnya ya!&lt;a class="anchor" href="#untuk-tampilan-gui-powerdns-admin-di-postingan-selanjutnya-ya"&gt;#&lt;/a&gt;&lt;/h3&gt;
-&lt;p&gt;Salam Kebebasan!!
-Bye~&lt;/p&gt;</description></item><item><title>Setting Konfigurasi HAProxy Di OPNsense</title><link>http://localhost:1313/posts/setting-konfigurasi-haproxy-di-opnsense/</link><pubDate>Mon, 24 Aug 2020 13:55:51 +0700</pubDate><guid>http://localhost:1313/posts/setting-konfigurasi-haproxy-di-opnsense/</guid><description>&lt;p&gt;OPNsense adalah proyek firewall berbasis open source berbasis FreeBSD &lt;a href="https://opnsense.org/"&gt;OPNsense&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;img src="assets/dashboard.png" alt="OPNsense dashboard" /&gt;&lt;/p&gt;
-&lt;p&gt;Berikut adalah tutorial untuk mengkonfigurasi HAProxy di OPNsense.&lt;/p&gt;
-&lt;h3 id="1-konfigurasi-firewall-untuk-haproxy"&gt;1. Konfigurasi Firewall untuk HAProxy&lt;a class="anchor" href="#1-konfigurasi-firewall-untuk-haproxy"&gt;#&lt;/a&gt;&lt;/h3&gt;
-&lt;ol&gt;
-&lt;li&gt;Buat 2 IP Forward pada konfigurasi firewall
-&lt;ul&gt;
-&lt;li&gt;Firewall &amp;gt; NAT &amp;gt; Port Forward &amp;gt; + New Rule&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;pre tabindex="0"&gt;&lt;code&gt;Interface : LAN
-TCP/IP Ver : IPv4
-Protocol : TCP
-Source : any
-Destination port range : From - HTTP , to - HTTP 
-Redirect target IP : #IPADDRESSOPNSENSE
-Redirect target port : HTTP
-SAVE
-
-Interface : LAN
-TCP/IP Ver : IPv4
-Protocol : TCP
-Source : any
-Destination port range : From - HTTPS , to - HTTPS
-Redirect target IP : #IPADDRESSOPNSENSE
-Redirect target port : HTTP
-SAVE&lt;/code&gt;&lt;/pre&gt;&lt;ol start="2"&gt;
-&lt;li&gt;Buat Rule Floating
-&lt;ul&gt;
-&lt;li&gt;Firewall &amp;gt; Rules Floating &amp;gt; + New Rule&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;pre tabindex="0"&gt;&lt;code&gt;Action : Pass
-Interface : LAN
-Direction : in 
-TCP/IP ver : IPv4
-Protocol : TCP 
-Source : any 
-Destination : Lan Address
-Destination port range : From - HTTP , to - HTTP 
-
-Action : Pass
-Interface : LAN
-Direction : in 
-TCP/IP ver : IPv4
-Protocol : TCP 
-Source : any 
-Destination : Lan Address
-Destination port range : From - HTTPS , to - HTTPS&lt;/code&gt;&lt;/pre&gt;&lt;h3 id="2-konfigurasi-haproxy"&gt;2. Konfigurasi HAProxy&lt;a class="anchor" href="#2-konfigurasi-haproxy"&gt;#&lt;/a&gt;&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Service &amp;gt; HAProxy &amp;gt; Setting&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h4 id="tambahkan-server"&gt;Tambahkan Server&lt;a class="anchor" href="#tambahkan-server"&gt;#&lt;/a&gt;&lt;/h4&gt;
-&lt;pre tabindex="0"&gt;&lt;code&gt;Real Servers &amp;gt; Real Servers &amp;gt; + add
-Name : test-http
-FQDN or IP : #IPPUBLICSERVER
-Port : 80
-SAVE&lt;/code&gt;&lt;/pre&gt;&lt;h4 id="tambahkan-backend-pool"&gt;Tambahkan Backend Pool&lt;a class="anchor" href="#tambahkan-backend-pool"&gt;#&lt;/a&gt;&lt;/h4&gt;
-&lt;pre tabindex="0"&gt;&lt;code&gt;Virtual Services &amp;gt; Backend Pool &amp;gt; + add
-Name : test_http
-Mode : Layer 7 
-Servers : test-http
-SAVE&lt;/code&gt;&lt;/pre&gt;&lt;h4 id="tambahkan-conditions"&gt;Tambahkan Conditions&lt;a class="anchor" href="#tambahkan-conditions"&gt;#&lt;/a&gt;&lt;/h4&gt;
-&lt;pre tabindex="0"&gt;&lt;code&gt;Rules and Check &amp;gt; Conditions &amp;gt; + add
-Name: test-http
-Condition type : Host Matches
-Host String : test-http&lt;/code&gt;&lt;/pre&gt;&lt;h4 id="tambahkan-rules-untuk-frontend-443"&gt;Tambahkan Rules untuk frontend 443&lt;a class="anchor" href="#tambahkan-rules-untuk-frontend-443"&gt;#&lt;/a&gt;&lt;/h4&gt;
-&lt;pre tabindex="0"&gt;&lt;code&gt;Rules and Check &amp;gt; Rules &amp;gt; + add
-Name : pass_https_test_http
-Select Condition : test-http
-Execute function : Use specified Backend Pool
-Use backend pool : test_http&lt;/code&gt;&lt;/pre&gt;&lt;h4 id="tambahkan-rules-untuk-frontend-80-untuk-redirect-traffic-ke-https"&gt;Tambahkan Rules untuk frontend 80 (untuk redirect traffic ke https)&lt;a class="anchor" href="#tambahkan-rules-untuk-frontend-80-untuk-redirect-traffic-ke-https"&gt;#&lt;/a&gt;&lt;/h4&gt;
-&lt;pre tabindex="0"&gt;&lt;code&gt;Rules and Check &amp;gt; Rules &amp;gt; + add 
-Name : redirect_to_https_http_test_nicolas_my_id
-Select Condition : test-http_nicolas_my_id
-Execute function : http-request redirect
-HTTP Redirect : scheme https&lt;/code&gt;&lt;/pre&gt;&lt;h4 id="tambahkan-frontend-untuk-port-80"&gt;Tambahkan frontend untuk port 80&lt;a class="anchor" href="#tambahkan-frontend-untuk-port-80"&gt;#&lt;/a&gt;&lt;/h4&gt;
-&lt;pre tabindex="0"&gt;&lt;code&gt;Virtual Services &amp;gt; Public Services &amp;gt; + add
-Name : FrontEndHTTP
-Listent address : 0.0.0.0:80
-Select Rules : redirect_to_https_http&lt;/code&gt;&lt;/pre&gt;&lt;h4 id="tambahkan-frontend-untuk-port-443"&gt;Tambahkan frontend untuk port 443&lt;a class="anchor" href="#tambahkan-frontend-untuk-port-443"&gt;#&lt;/a&gt;&lt;/h4&gt;
-&lt;pre tabindex="0"&gt;&lt;code&gt;Virtual Services &amp;gt; Public Services &amp;gt; + add
-Name : FrontEndHTTPS
-Listent address : 0.0.0.0:443
-Enable SSL offloading : (✓)
-Certificates : test-http # Pastikan sertifikat sudah di-import ke OPNsense
-Select Rules : pass_https_test_http&lt;/code&gt;&lt;/pre&gt;</description></item><item><title>Membuat Blog Sederhana Dengan Hugo</title><link>http://localhost:1313/posts/membuat-blog-sederhana-dengan-hugo/</link><pubDate>Wed, 27 May 2020 19:40:22 +0700</pubDate><guid>http://localhost:1313/posts/membuat-blog-sederhana-dengan-hugo/</guid><description>&lt;h2 id="kenapa-hugo"&gt;Kenapa Hugo?&lt;a class="anchor" href="#kenapa-hugo"&gt;#&lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;Pertanyaan ini pasti muncul ketika melihat tulisan ini, kenapa mesti Hugo? apa hebatnya? kn ada wordpress dan blogger dan lain - lain, okelah jika dibandingkan dengan CMS tersebut web statis seperti Hugo ini tidak kalah powerful, tapi saya punya beberapa kendala ketika menggunakan wordpress, antara lain :&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Size storage di hosting saya sangat kecil (maklum belom jadi sultan), sehingga ketika mau upload gambar mesti mikir - mikir dulu beberapa parameter seperti size dan lain - lain.&lt;/li&gt;
-&lt;li&gt;Kalau tidak ada Internet mau kustomisasi blog susah, ya walaupun kadang tinggal install LAMPP atau XAMPP si, tapi menurut saya hal tersebut mulai agak ribet.&lt;/li&gt;
-&lt;li&gt;Hugo ini praktis, dulu pernah coba Jekyll tapi ya rada nganu, panjang kalo diceritain. Hugo ini enak, deploy cepet, gampang dipelajarin pula, walau belum bisa bahasa GO pun.&lt;/li&gt;
-&lt;li&gt;Jika dikolaborasikan dengan GitHub Pages Hugo ini menyenangkan, build otomatis pake travis CI atau tools lain. pokoknya tinggal add -&amp;gt; commit -&amp;gt; push -&amp;gt; ngopi -&amp;gt; finish.&lt;/li&gt;
-&lt;li&gt;Menulis konten di Hugo menggunakan MD (Markdown) yang mana format MD ini gampang banget dipelajarin, dokumentasi lengkap, dan tutorial banyak pula.&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;Oke lanjut tutorial buat web dengan Hugo.&lt;/p&gt;</description></item><item><title>Install Hugo di openSUSE Tumbleweed</title><link>http://localhost:1313/posts/install-hugo-di-opensuse-tumbleweed/</link><pubDate>Tue, 19 May 2020 08:52:01 +0700</pubDate><guid>http://localhost:1313/posts/install-hugo-di-opensuse-tumbleweed/</guid><description>&lt;h3 id="pengenalan"&gt;Pengenalan&lt;a class="anchor" href="#pengenalan"&gt;#&lt;/a&gt;&lt;/h3&gt;
-&lt;p&gt;&lt;a href="https://gohugo.io"&gt;Hugo&lt;/a&gt; merupakan sebuah generator web statis seperti &lt;a href="https://hexo.io/"&gt;Hexo&lt;/a&gt;, &lt;a href="https://gohugo.io"&gt;Hugo&lt;/a&gt; ditulis menggunakan bahasa &lt;a href="https://golang.org/"&gt;Golang&lt;/a&gt; sehingga load page lebih cepat dibanding dengan &lt;a href="https://hexo.io"&gt;Hexo&lt;/a&gt;. Oh ya kebetulan website ini menggunakan Hugo loh.&lt;/p&gt;
-&lt;h3 id="install-dependensi"&gt;Install dependensi&lt;a class="anchor" href="#install-dependensi"&gt;#&lt;/a&gt;&lt;/h3&gt;
-&lt;p&gt;Sebelum menginstall Hugo pada openSUSE Tumbeleweed yang harus dilakukan adalah menginstall beberapa dependensi diantaranya adalah:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Go&lt;/li&gt;
-&lt;li&gt;Git&lt;/li&gt;
-&lt;li&gt;Hugo&lt;br/&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;pre tabindex="0"&gt;&lt;code&gt;sudo zypper in go git
-wget -c https://github.com/gohugoio/hugo/releases/download/v0.71.0/hugo_0.71.0_Linux-64bit.tar.gz 
-tar -xvf hugo_0.71.0_Linux-64bit.tar.gz 
-sudo mv hugo /usr/local/bin&lt;/code&gt;&lt;/pre&gt;&lt;h5 id="cek-versi-hugo"&gt;Cek Versi Hugo&lt;a class="anchor" href="#cek-versi-hugo"&gt;#&lt;/a&gt;&lt;/h5&gt;
-&lt;pre tabindex="0"&gt;&lt;code&gt;hugo version&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Jika sudah berhasil terinstall akan menampilkan output seperti berikut :&lt;/p&gt;</description></item><item><title>How To Install Google Cursor on openSUSE Tumbelweed</title><link>http://localhost:1313/posts/install-google-cursors-on-opensuse-tumbleweed/</link><pubDate>Fri, 08 May 2020 04:48:14 +0700</pubDate><guid>http://localhost:1313/posts/install-google-cursors-on-opensuse-tumbleweed/</guid><description>&lt;h3 id="install-dependencies"&gt;Install Dependencies&lt;a class="anchor" href="#install-dependencies"&gt;#&lt;/a&gt;&lt;/h3&gt;
-&lt;p&gt;Before install Google Cursor, please install dependencies&lt;/p&gt;
-&lt;pre tabindex="0"&gt;&lt;code&gt;sudo zypper in xcursorgen inkscape gnome-themes appmenu-gtk2-module appmenu-gtk3-module&lt;/code&gt;&lt;/pre&gt;&lt;h3 id="build-google-cursor"&gt;Build Google Cursor&lt;a class="anchor" href="#build-google-cursor"&gt;#&lt;/a&gt;&lt;/h3&gt;
-&lt;pre tabindex="0"&gt;&lt;code&gt;git clone https://github.com/KaizIqbal/Google_Cursor.git
-cd Google_Cursor
-chmod +x build.sh
-./build.sh
-chmod +x ./Installer_Google.sh&lt;/code&gt;&lt;/pre&gt;&lt;h3 id="install-as-root-user"&gt;Install as Root User&lt;a class="anchor" href="#install-as-root-user"&gt;#&lt;/a&gt;&lt;/h3&gt;
-&lt;pre tabindex="0"&gt;&lt;code&gt;sudo ./Installer_Google.sh&lt;/code&gt;&lt;/pre&gt;&lt;h3 id="install-as-local-user"&gt;Install as Local User&lt;a class="anchor" href="#install-as-local-user"&gt;#&lt;/a&gt;&lt;/h3&gt;
-&lt;pre tabindex="0"&gt;&lt;code&gt;./Installer_Google.sh&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Enjoy!&lt;/p&gt;
-&lt;p&gt;Source : &lt;a href="https://github.com/KaizIqbal/Google_Cursor"&gt;Google Cursor&lt;/a&gt;&lt;/p&gt;</description></item><item><title>Lorem Ipsum</title><link>http://localhost:1313/posts/contoh-konten/</link><pubDate>Fri, 03 Apr 2020 18:42:42 +0700</pubDate><guid>http://localhost:1313/posts/contoh-konten/</guid><description>&lt;h3 id="what-is-lorem-ipsum"&gt;What is Lorem Ipsum?&lt;a class="anchor" href="#what-is-lorem-ipsum"&gt;#&lt;/a&gt;&lt;/h3&gt;
-&lt;p&gt;Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&amp;rsquo;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum&lt;/p&gt;</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Coretan dan Catatan Oprek</title>
+    <link>https://rifkiaz.github.io/posts/</link>
+    <description>Recent content in Posts on Coretan dan Catatan Oprek</description>
+    <generator>Hugo</generator>
+    <language>id</language>
+    <atom:link href="https://rifkiaz.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>My Journey with GNOME Asia Summit 2022 Malaysia</title>
+      <link>https://rifkiaz.github.io/posts/gnomeasia/</link>
+      <pubDate>Thu, 15 Dec 2022 14:44:46 +0700</pubDate>
+      <guid>https://rifkiaz.github.io/posts/gnomeasia/</guid>
+      <description>&lt;h1 id=&#34;day-0&#34;&gt;Day 0&lt;a class=&#34;anchor&#34; href=&#34;#day-0&#34;&gt;#&lt;/a&gt;&lt;/h1&gt;&#xA;&lt;p&gt;My day 0 is a travel to Malaysia, and this is first time for me. because I will try solo traveling to another country, and for trial I try going to Malaysia.&#xA;My flight with Air Asia depart from Bandara International Soekarno Hatta to Kuala Lumpur.&#xA;&lt;img src=&#34;assets/day0-1.jpg&#34; alt=&#34;on cabin Air Asia&#34; title=&#34;In Cabin Air Asia&#34;/&gt;&#xA;After landing on Kuala Lumpur International Airport at 2 AM.&#xA;&lt;img src=&#34;assets/breakfast_my.jpg&#34; alt=&#34;Breakfast at KL&#34; title=&#34;Breakfast afer arrived at KL&#34;/&gt;&#xA;I ordered Grab Car from Airport to My &lt;a href=&#34;https://goo.gl/maps/R6gA3KfagmZ5G64o7&#34;&gt;Hotel&lt;/a&gt;. After arrived at &lt;a href=&#34;https://goo.gl/maps/R6gA3KfagmZ5G64o7&#34;&gt;hotel&lt;/a&gt; I am taking a rest for the summit.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Disable SSH Ask Pass di openSUSE</title>
+      <link>https://rifkiaz.github.io/posts/disablesshaskpask/</link>
+      <pubDate>Tue, 30 Mar 2021 14:44:46 +0700</pubDate>
+      <guid>https://rifkiaz.github.io/posts/disablesshaskpask/</guid>
+      <description>&lt;p&gt;Ketika selesai menginstall git di openSUSE, ketika akan melakukan push ataupun pull pada repository yang membutuhkan autentikasi, akan muncul pop up untuk mengisi kolom nama dan password, Hal tersebut bagi saya kurang nyaman, maka bisa dinonaktifkan dengan cara berikut :&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;git config --global core.askpass &amp;#39;&amp;#39; &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Sekian~.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Membuat Docker Alert</title>
+      <link>https://rifkiaz.github.io/posts/buatdockeralert/</link>
+      <pubDate>Tue, 20 Oct 2020 18:28:12 +0700</pubDate>
+      <guid>https://rifkiaz.github.io/posts/buatdockeralert/</guid>
+      <description>&lt;h3 id=&#34;pendahuluan&#34;&gt;Pendahuluan&lt;a class=&#34;anchor&#34; href=&#34;#pendahuluan&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;&#xA;&lt;p&gt;Container, ya sebuah istilah yang sedang populer pada era saat ini. dan saya pun memakainya baik untuk development aplikasi ataupun production. Namun beberapa hari belakangan ini tim saya mengalami kendala yakni sekitar 1-2 hari semua container yang berada di VM production berhenti secara tiba. Setelah diteliti hal ini disebabkan oleh docker daemon yang restart tanpa disuruh (asli bikin kesel). Dan kesalahan dari tim DevOps ialah tidak menambahkan parameter restart: always ketika production, jadilah ketika daemon docker restart dan container tidak me-restart otomatis. Yang lebih gak enak lagi ialah para client yang lebih dulu tau ketimbang tim DevOps. Karena itu pada tulisan kali ini saya akan membagi sedikit tips yang dibantu oleh Kang &lt;a href=&#34;https://instagram.com/topahadzi&#34;&gt;Mustapha&lt;/a&gt; untuk monitoring container docker dan mengirimkan alert ke Telegram apabila ada container yang mati (exited).&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Install POWERDNS di Ubuntu 18.04</title>
+      <link>https://rifkiaz.github.io/posts/install-powerdns-di-ubuntu-18.04/</link>
+      <pubDate>Mon, 14 Sep 2020 11:29:13 +0700</pubDate>
+      <guid>https://rifkiaz.github.io/posts/install-powerdns-di-ubuntu-18.04/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://www.powerdns.com/&#34;&gt;POWERDNS&lt;/a&gt; adalah DNS Server berbasis MySQL, yang ditulis dalam C ++ dan berlisensi Under GPL. PowerDNS dapat dikelola melalui web base interface (PowerAdmin). Pada tutorial kali ini akan membahas bagaimana menginstall dan mengkonfigurasi &lt;a href=&#34;https://www.powerdns.com&#34;&gt;POWERDNS&lt;/a&gt; pada &lt;a href=&#34;http://kambing.ui.ac.id/iso/ubuntu/releases/bionic/&#34;&gt;Ubuntu 18.04&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;h3 id=&#34;persiapan&#34;&gt;Persiapan&lt;a class=&#34;anchor&#34; href=&#34;#persiapan&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;&lt;a href=&#34;http://kambing.ui.ac.id/iso/ubuntu/releases/bionic/&#34;&gt;Ubuntu 18.04&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;Domain&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;h3 id=&#34;tahap-instalasi&#34;&gt;Tahap Instalasi&lt;a class=&#34;anchor&#34; href=&#34;#tahap-instalasi&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Update repositori pada Ubuntu 18.04&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;sudo apt update &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;&#xA;&lt;li&gt;Install MariaDB&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;sudo apt install mariadb-server mariadb-client -y&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;mysql_secure_installation&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;&#xA;&lt;li&gt;Edit konfigurasi pada MariaDB&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;vim /etc/mysql/mariadb.conf/50-server.cnf&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;........&#xA;bind = 0.0.0.0 ----&amp;gt; ganti dengan ip lokal&#xA;........&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;&#xA;&lt;li&gt;Restart MariaDB&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;sudo systemctl restart mariadb&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;&#xA;&lt;li&gt;Buat database pada database&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;sudo mysql -u root -p &lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;CREATE DATABASE powerdns CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;GRANT ALL ON powerdns.* TO &amp;#39;powerdns&amp;#39;@&amp;#39;localhost&amp;#39; IDENTIFIED BY &amp;#39;YOURPASSWORD&amp;#39;;&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;GRANT ALL ON powerdns.* TO &amp;#39;powerdns&amp;#39;@&amp;#39;%&amp;#39; IDENTIFIED BY &amp;#39;YOURPASSWORD&amp;#39;;&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;FLUSH PRIVILEGES;&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;USE powerdns; &lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;CREATE TABLE domains (&#xA;id                    INT AUTO_INCREMENT,&#xA;name                  VARCHAR(255) NOT NULL,&#xA;master                VARCHAR(128) DEFAULT NULL,&#xA;last_check            INT DEFAULT NULL,&#xA;type                  VARCHAR(6) NOT NULL,&#xA;notified_serial       INT DEFAULT NULL,&#xA;account               VARCHAR(40) CHARACTER SET &amp;#39;utf8&amp;#39; DEFAULT NULL,&#xA;PRIMARY KEY (id)&#xA;) Engine=InnoDB CHARACTER SET &amp;#39;latin1&amp;#39;;&#xA;&#xA;CREATE UNIQUE INDEX name_index ON domains(name);&#xA;&#xA;&#xA;CREATE TABLE records (&#xA;id                    BIGINT AUTO_INCREMENT,&#xA;domain_id             INT DEFAULT NULL,&#xA;name                  VARCHAR(255) DEFAULT NULL,&#xA;type                  VARCHAR(10) DEFAULT NULL,&#xA;content               VARCHAR(64000) DEFAULT NULL,&#xA;ttl                   INT DEFAULT NULL,&#xA;prio                  INT DEFAULT NULL,&#xA;change_date           INT DEFAULT NULL,&#xA;disabled              TINYINT(1) DEFAULT 0,&#xA;ordername             VARCHAR(255) BINARY DEFAULT NULL,&#xA;auth                  TINYINT(1) DEFAULT 1,&#xA;PRIMARY KEY (id)&#xA;) Engine=InnoDB CHARACTER SET &amp;#39;latin1&amp;#39;;&#xA;&#xA;CREATE INDEX nametype_index ON records(name,type);&#xA;CREATE INDEX domain_id ON records(domain_id);&#xA;CREATE INDEX ordername ON records (ordername);&#xA;&#xA;&#xA;CREATE TABLE supermasters (&#xA;ip                    VARCHAR(64) NOT NULL,&#xA;nameserver            VARCHAR(255) NOT NULL,&#xA;account               VARCHAR(40) CHARACTER SET &amp;#39;utf8&amp;#39; NOT NULL,&#xA;PRIMARY KEY (ip, nameserver)&#xA;) Engine=InnoDB CHARACTER SET &amp;#39;latin1&amp;#39;;&#xA;&#xA;&#xA;CREATE TABLE comments (&#xA;id                    INT AUTO_INCREMENT,&#xA;domain_id             INT NOT NULL,&#xA;name                  VARCHAR(255) NOT NULL,&#xA;type                  VARCHAR(10) NOT NULL,&#xA;modified_at           INT NOT NULL,&#xA;account               VARCHAR(40) CHARACTER SET &amp;#39;utf8&amp;#39; DEFAULT NULL,&#xA;comment               TEXT CHARACTER SET &amp;#39;utf8&amp;#39; NOT NULL,&#xA;PRIMARY KEY (id)&#xA;) Engine=InnoDB CHARACTER SET &amp;#39;latin1&amp;#39;;&#xA;&#xA;CREATE INDEX comments_name_type_idx ON comments (name, type);&#xA;CREATE INDEX comments_order_idx ON comments (domain_id, modified_at);&#xA;&#xA;&#xA;CREATE TABLE domainmetadata (&#xA;id                    INT AUTO_INCREMENT,&#xA;domain_id             INT NOT NULL,&#xA;kind                  VARCHAR(32),&#xA;content               TEXT,&#xA;PRIMARY KEY (id)&#xA;) Engine=InnoDB CHARACTER SET &amp;#39;latin1&amp;#39;;&#xA;&#xA;CREATE INDEX domainmetadata_idx ON domainmetadata (domain_id, kind);&#xA;&#xA;&#xA;CREATE TABLE cryptokeys (&#xA;id                    INT AUTO_INCREMENT,&#xA;domain_id             INT NOT NULL,&#xA;flags                 INT NOT NULL,&#xA;active                BOOL,&#xA;content               TEXT,&#xA;PRIMARY KEY(id)&#xA;) Engine=InnoDB CHARACTER SET &amp;#39;latin1&amp;#39;;&#xA;&#xA;CREATE INDEX domainidindex ON cryptokeys(domain_id);&#xA;&#xA;&#xA;CREATE TABLE tsigkeys (&#xA;id                    INT AUTO_INCREMENT,&#xA;name                  VARCHAR(255),&#xA;algorithm             VARCHAR(50),&#xA;secret                VARCHAR(255),&#xA;PRIMARY KEY (id)&#xA;) Engine=InnoDB CHARACTER SET &amp;#39;latin1&amp;#39;;&#xA;&#xA;CREATE UNIQUE INDEX namealgoindex ON tsigkeys(name, algorithm);&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;&#xA;&lt;li&gt;Disable systemd-resolved&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;sudo su&#xA;systemctl disable systemd-resolved&#xA;systemctl stop systemd-resolved&#xA;ls -lh /etc/resolv.conf &#xA;rm /etc/resolv.conf&#xA;echo &amp;#34;nameserver 8.8.8.8&amp;#34; &amp;gt; /etc/resolv.conf&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;&#xA;&lt;li&gt;Install POWERDNS (versi 4.1.13)&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;sudo su&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;&#xA;&lt;li&gt;edit repositori&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;vi /etc/apt/sources.list.d/pdns.list&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;.............&#xA;deb [arch=amd64] http://repo.powerdns.com/ubuntu bionic-auth-41 main&#xA;.............&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;vi /etc/apt/preferences.d/pdns&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;...&#xA;Package: pdns-*&#xA;Pin: origin repo.powerdns.com&#xA;Pin-Priority: 600&#xA;...&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;&#xA;&lt;li&gt;Install powerdns beserta dependensi yang dibutuhkan&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;curl https://repo.powerdns.com/FD380FBB-pub.asc | sudo apt-key add - &#xA;curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -&#xA;echo &amp;#34;deb https://dl.yarnpkg.com/debian/ stable main&amp;#34; | sudo tee /etc/apt/sources.list.d/yarn.list&#xA;sudo apt-get update&#xA;sudo apt-get install pdns-server pdns-backend-mysql virtualenv python3-pip yarn -y&#xA;apt-get install -y libmysqlclient-dev python3-mysqldb python-mysqldb libsasl2-dev libffi-dev libldap2-dev libssl-dev libxml2-dev libxslt1-dev libxmlsec1-dev pkg-config&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;&#xA;&lt;li&gt;Setelah berhasil terinstall konfigurasi powerdns agar terhubung dengan backend mysql&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;sudo vi /etc/powerdns/pdns.d/pdns.local.gmysql.conf&#xA;## Masukkan skrip berikut tanpa tanda #&#xA;......&#xA;launch=gmysql&#xA;gmysql-host=#IPHOSTMYSQL&#xA;gmysql-user=#USER&#xA;gmysql-dbname=#YOURDB&#xA;gmysql-password=#YOURPASSWORD&#xA;gmysql-dnssec=yes&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;&#xA;&lt;li&gt;Konfigurasi pdns.conf agar bisa dimonitoring&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;echo &amp;#39;api=yes&amp;#39; &amp;gt;&amp;gt; /etc/powerdns/pdns.conf&#xA;echo &amp;#39;api-key=YOURIPKEY&amp;#39; &amp;gt;&amp;gt; /etc/powerdns/pdns.conf&#xA;echo &amp;#39;webserver=yes&amp;#39; &amp;gt;&amp;gt; /etc/powerdns/pdns.conf&#xA;echo &amp;#39;webserver-address=0.0.0.0&amp;#39; &amp;gt;&amp;gt; /etc/powerdns/pdns.conf&#xA;echo &amp;#39;webserver-allow-from=0.0.0.0/0,::/0&amp;#39; &amp;gt;&amp;gt; /etc/powerdns/pdns.conf&#xA;echo &amp;#39;webserver-port=8081&amp;#39; &amp;gt;&amp;gt; /etc/powerdns/pdns.conf&#xA;echo &amp;#39;version-string=anonymous&amp;#39; &amp;gt;&amp;gt; /etc/powerdns/pdns.conf&#xA;echo &amp;#39;webserver-password=YOURPASSWORD&amp;#39; &amp;gt;&amp;gt; /etc/powerdns/pdns.conf&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;&#xA;&lt;li&gt;Tes koneksi ke database&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;/usr/sbin/pdns_server --daemon=no --guardian=no --loglevel=9&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;&#xA;&lt;li&gt;Jika berhasil restart pdns service&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;sudo systemctl restart pdns&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h3 id=&#34;untuk-tampilan-gui-powerdns-admin-di-postingan-selanjutnya-ya&#34;&gt;Untuk tampilan GUI (POWERDNS Admin) di postingan selanjutnya ya!&lt;a class=&#34;anchor&#34; href=&#34;#untuk-tampilan-gui-powerdns-admin-di-postingan-selanjutnya-ya&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;&#xA;&lt;p&gt;Salam Kebebasan!!&#xA;Bye~&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Setting Konfigurasi HAProxy Di OPNsense</title>
+      <link>https://rifkiaz.github.io/posts/setting-konfigurasi-haproxy-di-opnsense/</link>
+      <pubDate>Mon, 24 Aug 2020 13:55:51 +0700</pubDate>
+      <guid>https://rifkiaz.github.io/posts/setting-konfigurasi-haproxy-di-opnsense/</guid>
+      <description>&lt;p&gt;OPNsense adalah proyek firewall berbasis open source berbasis FreeBSD &lt;a href=&#34;https://opnsense.org/&#34;&gt;OPNsense&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;p&gt;&lt;img src=&#34;assets/dashboard.png&#34; alt=&#34;OPNsense dashboard&#34; /&gt;&lt;/p&gt;&#xA;&lt;p&gt;Berikut adalah tutorial untuk mengkonfigurasi HAProxy di OPNsense.&lt;/p&gt;&#xA;&lt;h3 id=&#34;1-konfigurasi-firewall-untuk-haproxy&#34;&gt;1. Konfigurasi Firewall untuk HAProxy&lt;a class=&#34;anchor&#34; href=&#34;#1-konfigurasi-firewall-untuk-haproxy&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;Buat 2 IP Forward pada konfigurasi firewall&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Firewall &amp;gt; NAT &amp;gt; Port Forward &amp;gt; + New Rule&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Interface : LAN&#xA;TCP/IP Ver : IPv4&#xA;Protocol : TCP&#xA;Source : any&#xA;Destination port range : From - HTTP , to - HTTP &#xA;Redirect target IP : #IPADDRESSOPNSENSE&#xA;Redirect target port : HTTP&#xA;SAVE&#xA;&#xA;Interface : LAN&#xA;TCP/IP Ver : IPv4&#xA;Protocol : TCP&#xA;Source : any&#xA;Destination port range : From - HTTPS , to - HTTPS&#xA;Redirect target IP : #IPADDRESSOPNSENSE&#xA;Redirect target port : HTTP&#xA;SAVE&lt;/code&gt;&lt;/pre&gt;&lt;ol start=&#34;2&#34;&gt;&#xA;&lt;li&gt;Buat Rule Floating&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Firewall &amp;gt; Rules Floating &amp;gt; + New Rule&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Action : Pass&#xA;Interface : LAN&#xA;Direction : in &#xA;TCP/IP ver : IPv4&#xA;Protocol : TCP &#xA;Source : any &#xA;Destination : Lan Address&#xA;Destination port range : From - HTTP , to - HTTP &#xA;&#xA;Action : Pass&#xA;Interface : LAN&#xA;Direction : in &#xA;TCP/IP ver : IPv4&#xA;Protocol : TCP &#xA;Source : any &#xA;Destination : Lan Address&#xA;Destination port range : From - HTTPS , to - HTTPS&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;2-konfigurasi-haproxy&#34;&gt;2. Konfigurasi HAProxy&lt;a class=&#34;anchor&#34; href=&#34;#2-konfigurasi-haproxy&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Service &amp;gt; HAProxy &amp;gt; Setting&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h4 id=&#34;tambahkan-server&#34;&gt;Tambahkan Server&lt;a class=&#34;anchor&#34; href=&#34;#tambahkan-server&#34;&gt;#&lt;/a&gt;&lt;/h4&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Real Servers &amp;gt; Real Servers &amp;gt; + add&#xA;Name : test-http&#xA;FQDN or IP  : #IPPUBLICSERVER&#xA;Port : 80&#xA;SAVE&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;tambahkan-backend-pool&#34;&gt;Tambahkan Backend Pool&lt;a class=&#34;anchor&#34; href=&#34;#tambahkan-backend-pool&#34;&gt;#&lt;/a&gt;&lt;/h4&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Virtual Services &amp;gt; Backend Pool &amp;gt; + add&#xA;Name : test_http&#xA;Mode : Layer 7 &#xA;Servers : test-http&#xA;SAVE&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;tambahkan-conditions&#34;&gt;Tambahkan Conditions&lt;a class=&#34;anchor&#34; href=&#34;#tambahkan-conditions&#34;&gt;#&lt;/a&gt;&lt;/h4&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Rules and Check &amp;gt; Conditions &amp;gt; + add&#xA;Name: test-http&#xA;Condition type : Host Matches&#xA;Host String : test-http&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;tambahkan-rules-untuk-frontend-443&#34;&gt;Tambahkan Rules untuk frontend 443&lt;a class=&#34;anchor&#34; href=&#34;#tambahkan-rules-untuk-frontend-443&#34;&gt;#&lt;/a&gt;&lt;/h4&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Rules and Check &amp;gt; Rules &amp;gt; + add&#xA;Name : pass_https_test_http&#xA;Select Condition : test-http&#xA;Execute function : Use specified Backend Pool&#xA;Use backend pool : test_http&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;tambahkan-rules-untuk-frontend-80-untuk-redirect-traffic-ke-https&#34;&gt;Tambahkan Rules untuk frontend 80 (untuk redirect traffic ke https)&lt;a class=&#34;anchor&#34; href=&#34;#tambahkan-rules-untuk-frontend-80-untuk-redirect-traffic-ke-https&#34;&gt;#&lt;/a&gt;&lt;/h4&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Rules and Check &amp;gt; Rules &amp;gt; + add &#xA;Name : redirect_to_https_http_test_nicolas_my_id&#xA;Select Condition : test-http_nicolas_my_id&#xA;Execute function : http-request redirect&#xA;HTTP Redirect  : scheme https&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;tambahkan-frontend-untuk-port-80&#34;&gt;Tambahkan frontend untuk port 80&lt;a class=&#34;anchor&#34; href=&#34;#tambahkan-frontend-untuk-port-80&#34;&gt;#&lt;/a&gt;&lt;/h4&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Virtual Services &amp;gt; Public Services &amp;gt; + add&#xA;Name : FrontEndHTTP&#xA;Listent address : 0.0.0.0:80&#xA;Select Rules : redirect_to_https_http&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;tambahkan-frontend-untuk-port-443&#34;&gt;Tambahkan frontend untuk port 443&lt;a class=&#34;anchor&#34; href=&#34;#tambahkan-frontend-untuk-port-443&#34;&gt;#&lt;/a&gt;&lt;/h4&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Virtual Services &amp;gt; Public Services &amp;gt; + add&#xA;Name : FrontEndHTTPS&#xA;Listent address : 0.0.0.0:443&#xA;Enable SSL offloading : (✓)&#xA;Certificates : test-http # Pastikan sertifikat sudah di-import ke OPNsense&#xA;Select Rules : pass_https_test_http&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    <item>
+      <title>Membuat Blog Sederhana Dengan Hugo</title>
+      <link>https://rifkiaz.github.io/posts/membuat-blog-sederhana-dengan-hugo/</link>
+      <pubDate>Wed, 27 May 2020 19:40:22 +0700</pubDate>
+      <guid>https://rifkiaz.github.io/posts/membuat-blog-sederhana-dengan-hugo/</guid>
+      <description>&lt;h2 id=&#34;kenapa-hugo&#34;&gt;Kenapa Hugo?&lt;a class=&#34;anchor&#34; href=&#34;#kenapa-hugo&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;Pertanyaan ini pasti muncul ketika melihat tulisan ini, kenapa mesti Hugo? apa hebatnya? kn ada wordpress dan blogger dan lain - lain, okelah jika dibandingkan dengan CMS tersebut web statis seperti Hugo ini tidak kalah powerful, tapi saya punya beberapa kendala ketika menggunakan wordpress, antara lain :&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;Size storage di hosting saya sangat kecil (maklum belom jadi sultan), sehingga ketika mau upload gambar mesti mikir - mikir dulu beberapa parameter seperti size dan lain - lain.&lt;/li&gt;&#xA;&lt;li&gt;Kalau tidak ada Internet mau kustomisasi blog susah, ya walaupun kadang tinggal install LAMPP atau XAMPP si, tapi menurut saya hal tersebut mulai agak ribet.&lt;/li&gt;&#xA;&lt;li&gt;Hugo ini praktis, dulu pernah coba Jekyll tapi ya rada nganu, panjang kalo diceritain. Hugo ini enak, deploy cepet, gampang dipelajarin pula, walau belum bisa bahasa GO pun.&lt;/li&gt;&#xA;&lt;li&gt;Jika dikolaborasikan dengan GitHub Pages Hugo ini menyenangkan, build otomatis pake travis CI atau tools lain. pokoknya tinggal add -&amp;gt; commit -&amp;gt; push -&amp;gt; ngopi -&amp;gt; finish.&lt;/li&gt;&#xA;&lt;li&gt;Menulis konten di Hugo menggunakan MD (Markdown) yang mana format MD ini gampang banget dipelajarin, dokumentasi lengkap, dan tutorial banyak pula.&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;p&gt;Oke lanjut tutorial buat web dengan Hugo.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Install Hugo di openSUSE Tumbleweed</title>
+      <link>https://rifkiaz.github.io/posts/install-hugo-di-opensuse-tumbleweed/</link>
+      <pubDate>Tue, 19 May 2020 08:52:01 +0700</pubDate>
+      <guid>https://rifkiaz.github.io/posts/install-hugo-di-opensuse-tumbleweed/</guid>
+      <description>&lt;h3 id=&#34;pengenalan&#34;&gt;Pengenalan&lt;a class=&#34;anchor&#34; href=&#34;#pengenalan&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://gohugo.io&#34;&gt;Hugo&lt;/a&gt; merupakan sebuah generator web statis seperti &lt;a href=&#34;https://hexo.io/&#34;&gt;Hexo&lt;/a&gt;, &lt;a href=&#34;https://gohugo.io&#34;&gt;Hugo&lt;/a&gt; ditulis menggunakan bahasa &lt;a href=&#34;https://golang.org/&#34;&gt;Golang&lt;/a&gt; sehingga load page lebih cepat dibanding dengan &lt;a href=&#34;https://hexo.io&#34;&gt;Hexo&lt;/a&gt;. Oh ya kebetulan website ini menggunakan Hugo loh.&lt;/p&gt;&#xA;&lt;h3 id=&#34;install-dependensi&#34;&gt;Install dependensi&lt;a class=&#34;anchor&#34; href=&#34;#install-dependensi&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;&#xA;&lt;p&gt;Sebelum menginstall Hugo pada openSUSE Tumbeleweed yang harus dilakukan adalah menginstall beberapa dependensi diantaranya adalah:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Go&lt;/li&gt;&#xA;&lt;li&gt;Git&lt;/li&gt;&#xA;&lt;li&gt;Hugo&lt;br/&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;sudo zypper in go git&#xA;wget -c https://github.com/gohugoio/hugo/releases/download/v0.71.0/hugo_0.71.0_Linux-64bit.tar.gz &#xA;tar -xvf hugo_0.71.0_Linux-64bit.tar.gz &#xA;sudo mv hugo /usr/local/bin&lt;/code&gt;&lt;/pre&gt;&lt;h5 id=&#34;cek-versi-hugo&#34;&gt;Cek Versi Hugo&lt;a class=&#34;anchor&#34; href=&#34;#cek-versi-hugo&#34;&gt;#&lt;/a&gt;&lt;/h5&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;hugo version&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Jika sudah berhasil terinstall akan menampilkan output seperti berikut :&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>How To Install Google Cursor on openSUSE Tumbelweed</title>
+      <link>https://rifkiaz.github.io/posts/install-google-cursors-on-opensuse-tumbleweed/</link>
+      <pubDate>Fri, 08 May 2020 04:48:14 +0700</pubDate>
+      <guid>https://rifkiaz.github.io/posts/install-google-cursors-on-opensuse-tumbleweed/</guid>
+      <description>&lt;h3 id=&#34;install-dependencies&#34;&gt;Install Dependencies&lt;a class=&#34;anchor&#34; href=&#34;#install-dependencies&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;&#xA;&lt;p&gt;Before install Google Cursor, please install dependencies&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;sudo zypper in xcursorgen inkscape gnome-themes appmenu-gtk2-module appmenu-gtk3-module&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;build-google-cursor&#34;&gt;Build Google Cursor&lt;a class=&#34;anchor&#34; href=&#34;#build-google-cursor&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;git clone https://github.com/KaizIqbal/Google_Cursor.git&#xA;cd Google_Cursor&#xA;chmod +x build.sh&#xA;./build.sh&#xA;chmod +x ./Installer_Google.sh&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;install-as-root-user&#34;&gt;Install as Root User&lt;a class=&#34;anchor&#34; href=&#34;#install-as-root-user&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;sudo ./Installer_Google.sh&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;install-as-local-user&#34;&gt;Install as Local User&lt;a class=&#34;anchor&#34; href=&#34;#install-as-local-user&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;./Installer_Google.sh&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Enjoy!&lt;/p&gt;&#xA;&lt;p&gt;Source : &lt;a href=&#34;https://github.com/KaizIqbal/Google_Cursor&#34;&gt;Google Cursor&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Lorem Ipsum</title>
+      <link>https://rifkiaz.github.io/posts/contoh-konten/</link>
+      <pubDate>Fri, 03 Apr 2020 18:42:42 +0700</pubDate>
+      <guid>https://rifkiaz.github.io/posts/contoh-konten/</guid>
+      <description>&lt;h3 id=&#34;what-is-lorem-ipsum&#34;&gt;What is Lorem Ipsum?&lt;a class=&#34;anchor&#34; href=&#34;#what-is-lorem-ipsum&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;&#xA;&lt;p&gt;Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&amp;rsquo;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

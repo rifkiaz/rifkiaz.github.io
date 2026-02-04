@@ -21,6 +21,9 @@ defaultContentLanguage = "id"
 languageCode = "id"
 
 [params]
+  # Google Search Console verification (ganti dengan kode Anda dari Google Search Console)
+  # googleSiteVerification = "kode-verifikasi-dari-google-search-console"
+  
   # (Optional, default light) Sets color theme: light, dark or auto.
   BookTheme = 'auto'
 

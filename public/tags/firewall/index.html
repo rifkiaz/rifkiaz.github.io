@@ -1,10 +1,346 @@
-<!doctype html><html lang=id dir=ltr><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content><meta name=theme-color media="(prefers-color-scheme: light)" content="#ffffff"><meta name=theme-color media="(prefers-color-scheme: dark)" content="#343a40"><meta name=color-scheme content="light dark"><meta property="og:url" content="http://localhost:1313/tags/firewall/"><meta property="og:site_name" content="Coretan dan Catatan Oprek"><meta property="og:title" content="Firewall"><meta property="og:description" content="Sebuah catatan dan operekan kecil terkait FLOSS"><meta property="og:locale" content="id"><meta property="og:type" content="website"><meta property="og:image" content="http://localhost:1313/img/og.png"><meta itemprop=name content="Firewall"><meta itemprop=description content="Sebuah catatan dan operekan kecil terkait FLOSS"><meta itemprop=datePublished content="2020-08-24T13:55:51+07:00"><meta itemprop=dateModified content="2020-08-24T21:46:13+07:00"><meta itemprop=image content="http://localhost:1313/img/og.png"><title>Firewall | Coretan dan Catatan Oprek</title><link rel=icon href=/favicon.png><link rel=manifest href=/manifest.json><link rel=canonical href=http://localhost:1313/tags/firewall/><link rel=stylesheet href=/book.min.6970156cec683193d93c9c4edaf0d56574e4361df2e0c1be4f697ae81c3ba55f.css integrity="sha256-aXAVbOxoMZPZPJxO2vDVZXTkNh3y4MG+T2l66Bw7pV8=" crossorigin=anonymous><script defer src=/fuse.min.js></script><script defer src=/id.search.min.74929045a91d4c9d1a0cae9870affed524b347d61ea6302adbcf169a417fb853.js integrity="sha256-dJKQRakdTJ0aDK6YcK/+1SSzR9YepjAq288WmkF/uFM=" crossorigin=anonymous></script><link rel=alternate type=application/rss+xml href=http://localhost:1313/tags/firewall/index.xml title="Coretan dan Catatan Oprek"></head><body dir=ltr class="book-kind-term book-type-tags"><input type=checkbox class="hidden toggle" id=menu-control>
-<input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/><span>Coretan dan Catatan Oprek</span></a></h2><div class="book-search hidden"><input id=book-search-input type=text placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><script>document.querySelector(".book-search").classList.remove("hidden")</script><ul><li><a href=https://github.com/rifkiaz target=_blank rel=noopener>GitHub</a></li></ul><ul><li class=book-section-flat><a href=/posts/>Posts</a><ul><li><a href=/posts/gnomeasia/>My Journey with GNOME Asia Summit 2022 Malaysia</a></li><li><a href=/posts/disablesshaskpask/>Disable SSH Ask Pass di openSUSE</a></li><li><a href=/posts/buatdockeralert/>Membuat Docker Alert</a></li><li><a href=/posts/install-powerdns-di-ubuntu-18.04/>Install POWERDNS di Ubuntu 18.04</a></li><li><a href=/posts/setting-konfigurasi-haproxy-di-opnsense/>Setting Konfigurasi HAProxy Di OPNsense</a></li><li><a href=/posts/membuat-blog-sederhana-dengan-hugo/>Membuat Blog Sederhana Dengan Hugo</a></li><li><a href=/posts/install-hugo-di-opensuse-tumbleweed/>Install Hugo di openSUSE Tumbleweed</a></li><li><a href=/posts/install-google-cursors-on-opensuse-tumbleweed/>How To Install Google Cursor on openSUSE Tumbelweed</a></li><li><a href=/posts/contoh-konten/>Lorem Ipsum</a></li></ul></li><li class=book-section-flat><a href=/about/>About</a><ul></ul></li></ul><ul><li><a href=https://twitter.com/rifkiiaz target=_blank rel=noopener>Twitter</a></li><li><a href=https://instagram.com/rifkiaz target=_blank rel=noopener>Instagram</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class="book-header hidden"><div class="flex align-center justify-between"><label for=menu-control><img src=/icons/menu.svg class=book-icon alt=Menu></label><h3>Firewall</h3><label for=toc-control></label></div></header><article class="markdown book-post"><h2><a href=/posts/setting-konfigurasi-haproxy-di-opnsense/>Setting Konfigurasi HAProxy Di OPNsense</a></h2><div class="flex align-center text-small book-post-date"><img src=/icons/calendar.svg class=book-icon alt=Calendar>
-<span>Agustus 24, 2020</span></div><div class=text-small><a href=/tags/tutorial/>Tutorial</a>,
-<a href=/tags/linux/>Linux</a>,
-<a href=/tags/opnsense/>OPNsense</a>,
-<a href=/tags/firewall/>Firewall</a>,
-<a href=/tags/haproxy/>HAProxy</a></div><div class=book-post-content><p>OPNsense adalah proyek firewall berbasis open source berbasis FreeBSD <a href=https://opnsense.org/>OPNsense</a>.</p><p><img src=assets/dashboard.png alt="OPNsense dashboard"></p><p>Berikut adalah tutorial untuk mengkonfigurasi HAProxy di OPNsense.</p><h3 id=1-konfigurasi-firewall-untuk-haproxy>1. Konfigurasi Firewall untuk HAProxy<a class=anchor href=#1-konfigurasi-firewall-untuk-haproxy>#</a></h3><ol><li>Buat 2 IP Forward pada konfigurasi firewall<ul><li>Firewall > NAT > Port Forward > + New Rule</li></ul></li></ol><pre tabindex=0><code>Interface : LAN
+<!DOCTYPE html>
+<html lang="id" dir="ltr">
+<head>
+  <!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="https://rifkiaz.github.io/tags/firewall/">
+  <meta property="og:site_name" content="Coretan dan Catatan Oprek">
+  <meta property="og:title" content="Firewall">
+  <meta property="og:description" content="Sebuah catatan dan operekan kecil terkait FLOSS">
+  <meta property="og:locale" content="id">
+  <meta property="og:type" content="website">
+    <meta property="og:image" content="https://rifkiaz.github.io/img/og.png">
+
+
+  <meta itemprop="name" content="Firewall">
+  <meta itemprop="description" content="Sebuah catatan dan operekan kecil terkait FLOSS">
+  <meta itemprop="datePublished" content="2020-08-24T13:55:51+07:00">
+  <meta itemprop="dateModified" content="2020-08-24T21:46:13+07:00">
+  <meta itemprop="image" content="https://rifkiaz.github.io/img/og.png">
+
+<title>Firewall | Coretan dan Catatan Oprek</title>
+<link rel="icon" href="/favicon.png" >
+<link rel="manifest" href="/manifest.json">
+<link rel="canonical" href="https://rifkiaz.github.io/tags/firewall/">
+<link rel="stylesheet" href="/book.min.6970156cec683193d93c9c4edaf0d56574e4361df2e0c1be4f697ae81c3ba55f.css" integrity="sha256-aXAVbOxoMZPZPJxO2vDVZXTkNh3y4MG&#43;T2l66Bw7pV8=" crossorigin="anonymous">
+
+
+  <script defer src="/fuse.min.js"></script>
+  <script defer src="/id.search.min.74929045a91d4c9d1a0cae9870affed524b347d61ea6302adbcf169a417fb853.js" integrity="sha256-dJKQRakdTJ0aDK6YcK/&#43;1SSzR9YepjAq288WmkF/uFM=" crossorigin="anonymous"></script>
+
+
+<link rel="alternate" type="application/rss+xml" href="https://rifkiaz.github.io/tags/firewall/index.xml" title="Coretan dan Catatan Oprek" />
+
+  
+<meta name="google-site-verification" content="U56nvClo7tvzuy2DqvaTewMXui3fJ8HZr73GR_POzKg" />
+
+</head>
+<body dir="ltr" class="book-kind-term book-type-tags">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    
+<aside class="book-menu">
+  <div class="book-menu-content">
+    
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Coretan dan Catatan Oprek</span>
+  </a>
+</h2>
+
+
+<div class="book-search hidden">
+  <input id="book-search-input" type="text" 
+    placeholder="Search"
+    aria-label="Search"
+    maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+<script>document.querySelector(".book-search").classList.remove("hidden")</script>
+
+
+
+
+
+
+<ul><li><a href="https://github.com/rifkiaz" target="_blank" rel="noopener">GitHub</a></li></ul>
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/posts/" class="">
+      Posts</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/gnomeasia/" class="">
+      My Journey with GNOME Asia Summit 2022 Malaysia</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/disablesshaskpask/" class="">
+      Disable SSH Ask Pass di openSUSE</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/buatdockeralert/" class="">
+      Membuat Docker Alert</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/install-powerdns-di-ubuntu-18.04/" class="">
+      Install POWERDNS di Ubuntu 18.04</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/setting-konfigurasi-haproxy-di-opnsense/" class="">
+      Setting Konfigurasi HAProxy Di OPNsense</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/membuat-blog-sederhana-dengan-hugo/" class="">
+      Membuat Blog Sederhana Dengan Hugo</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/install-hugo-di-opensuse-tumbleweed/" class="">
+      Install Hugo di openSUSE Tumbleweed</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/install-google-cursors-on-opensuse-tumbleweed/" class="">
+      How To Install Google Cursor on openSUSE Tumbelweed</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/posts/contoh-konten/" class="">
+      Lorem Ipsum</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/about/" class="">
+      About</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+<ul><li><a href="https://twitter.com/rifkiiaz" target="_blank" rel="noopener">Twitter</a></li><li><a href="https://instagram.com/rifkiaz" target="_blank" rel="noopener">Instagram</a></li></ul>
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+
+  </div>
+</aside>
+ 
+
+    <div class="book-page">
+      <header class="book-header hidden">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/icons/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <h3>Firewall</h3>
+
+  <label for="toc-control">
+    
+  </label>
+</div>
+
+
+  
+ 
+      </header>
+
+      
+      
+  
+  <article class="markdown book-post">
+    <h2>
+      <a href="/posts/setting-konfigurasi-haproxy-di-opnsense/">Setting Konfigurasi HAProxy Di OPNsense</a>
+    </h2>
+    
+  <div class="flex align-center text-small book-post-date">
+    <img src="/icons/calendar.svg" class="book-icon" alt="Calendar" />
+    <span>Agustus 24, 2020</span>
+  </div>
+
+
+
+  
+
+  
+  <div class="text-small">
+    
+      <a href="/tags/tutorial/">Tutorial</a>, 
+      <a href="/tags/linux/">Linux</a>, 
+      <a href="/tags/opnsense/">OPNsense</a>, 
+      <a href="/tags/firewall/">Firewall</a>, 
+      <a href="/tags/haproxy/">HAProxy</a>
+  </div>
+  
+
+
+    <div class="book-post-content"><p>OPNsense adalah proyek firewall berbasis open source berbasis FreeBSD <a href="https://opnsense.org/">OPNsense</a>.</p>
+<p><img src="assets/dashboard.png" alt="OPNsense dashboard" /></p>
+<p>Berikut adalah tutorial untuk mengkonfigurasi HAProxy di OPNsense.</p>
+<h3 id="1-konfigurasi-firewall-untuk-haproxy">1. Konfigurasi Firewall untuk HAProxy<a class="anchor" href="#1-konfigurasi-firewall-untuk-haproxy">#</a></h3>
+<ol>
+<li>Buat 2 IP Forward pada konfigurasi firewall
+<ul>
+<li>Firewall &gt; NAT &gt; Port Forward &gt; + New Rule</li>
+</ul>
+</li>
+</ol>
+<pre tabindex="0"><code>Interface : LAN
 TCP/IP Ver : IPv4
 Protocol : TCP
 Source : any
@@ -20,7 +356,14 @@ Source : any
 Destination port range : From - HTTPS , to - HTTPS
 Redirect target IP : #IPADDRESSOPNSENSE
 Redirect target port : HTTP
-SAVE</code></pre><ol start=2><li>Buat Rule Floating<ul><li>Firewall > Rules Floating > + New Rule</li></ul></li></ol><pre tabindex=0><code>Action : Pass
+SAVE</code></pre><ol start="2">
+<li>Buat Rule Floating
+<ul>
+<li>Firewall &gt; Rules Floating &gt; + New Rule</li>
+</ul>
+</li>
+</ol>
+<pre tabindex="0"><code>Action : Pass
 Interface : LAN
 Direction : in 
 TCP/IP ver : IPv4
@@ -36,53 +379,260 @@ TCP/IP ver : IPv4
 Protocol : TCP 
 Source : any 
 Destination : Lan Address
-Destination port range : From - HTTPS , to - HTTPS</code></pre><h3 id=2-konfigurasi-haproxy>2. Konfigurasi HAProxy<a class=anchor href=#2-konfigurasi-haproxy>#</a></h3><ul><li>Service > HAProxy > Setting</li></ul><h4 id=tambahkan-server>Tambahkan Server<a class=anchor href=#tambahkan-server>#</a></h4><pre tabindex=0><code>Real Servers &gt; Real Servers &gt; + add
+Destination port range : From - HTTPS , to - HTTPS</code></pre><h3 id="2-konfigurasi-haproxy">2. Konfigurasi HAProxy<a class="anchor" href="#2-konfigurasi-haproxy">#</a></h3>
+<ul>
+<li>Service &gt; HAProxy &gt; Setting</li>
+</ul>
+<h4 id="tambahkan-server">Tambahkan Server<a class="anchor" href="#tambahkan-server">#</a></h4>
+<pre tabindex="0"><code>Real Servers &gt; Real Servers &gt; + add
 Name : test-http
 FQDN or IP  : #IPPUBLICSERVER
 Port : 80
-SAVE</code></pre><h4 id=tambahkan-backend-pool>Tambahkan Backend Pool<a class=anchor href=#tambahkan-backend-pool>#</a></h4><pre tabindex=0><code>Virtual Services &gt; Backend Pool &gt; + add
+SAVE</code></pre><h4 id="tambahkan-backend-pool">Tambahkan Backend Pool<a class="anchor" href="#tambahkan-backend-pool">#</a></h4>
+<pre tabindex="0"><code>Virtual Services &gt; Backend Pool &gt; + add
 Name : test_http
 Mode : Layer 7 
 Servers : test-http
-SAVE</code></pre><h4 id=tambahkan-conditions>Tambahkan Conditions<a class=anchor href=#tambahkan-conditions>#</a></h4><pre tabindex=0><code>Rules and Check &gt; Conditions &gt; + add
+SAVE</code></pre><h4 id="tambahkan-conditions">Tambahkan Conditions<a class="anchor" href="#tambahkan-conditions">#</a></h4>
+<pre tabindex="0"><code>Rules and Check &gt; Conditions &gt; + add
 Name: test-http
 Condition type : Host Matches
-Host String : test-http</code></pre><h4 id=tambahkan-rules-untuk-frontend-443>Tambahkan Rules untuk frontend 443<a class=anchor href=#tambahkan-rules-untuk-frontend-443>#</a></h4><pre tabindex=0><code>Rules and Check &gt; Rules &gt; + add
+Host String : test-http</code></pre><h4 id="tambahkan-rules-untuk-frontend-443">Tambahkan Rules untuk frontend 443<a class="anchor" href="#tambahkan-rules-untuk-frontend-443">#</a></h4>
+<pre tabindex="0"><code>Rules and Check &gt; Rules &gt; + add
 Name : pass_https_test_http
 Select Condition : test-http
 Execute function : Use specified Backend Pool
-Use backend pool : test_http</code></pre><h4 id=tambahkan-rules-untuk-frontend-80-untuk-redirect-traffic-ke-https>Tambahkan Rules untuk frontend 80 (untuk redirect traffic ke https)<a class=anchor href=#tambahkan-rules-untuk-frontend-80-untuk-redirect-traffic-ke-https>#</a></h4><pre tabindex=0><code>Rules and Check &gt; Rules &gt; + add 
+Use backend pool : test_http</code></pre><h4 id="tambahkan-rules-untuk-frontend-80-untuk-redirect-traffic-ke-https">Tambahkan Rules untuk frontend 80 (untuk redirect traffic ke https)<a class="anchor" href="#tambahkan-rules-untuk-frontend-80-untuk-redirect-traffic-ke-https">#</a></h4>
+<pre tabindex="0"><code>Rules and Check &gt; Rules &gt; + add 
 Name : redirect_to_https_http_test_nicolas_my_id
 Select Condition : test-http_nicolas_my_id
 Execute function : http-request redirect
-HTTP Redirect  : scheme https</code></pre><h4 id=tambahkan-frontend-untuk-port-80>Tambahkan frontend untuk port 80<a class=anchor href=#tambahkan-frontend-untuk-port-80>#</a></h4><pre tabindex=0><code>Virtual Services &gt; Public Services &gt; + add
+HTTP Redirect  : scheme https</code></pre><h4 id="tambahkan-frontend-untuk-port-80">Tambahkan frontend untuk port 80<a class="anchor" href="#tambahkan-frontend-untuk-port-80">#</a></h4>
+<pre tabindex="0"><code>Virtual Services &gt; Public Services &gt; + add
 Name : FrontEndHTTP
 Listent address : 0.0.0.0:80
-Select Rules : redirect_to_https_http</code></pre><h4 id=tambahkan-frontend-untuk-port-443>Tambahkan frontend untuk port 443<a class=anchor href=#tambahkan-frontend-untuk-port-443>#</a></h4><pre tabindex=0><code>Virtual Services &gt; Public Services &gt; + add
+Select Rules : redirect_to_https_http</code></pre><h4 id="tambahkan-frontend-untuk-port-443">Tambahkan frontend untuk port 443<a class="anchor" href="#tambahkan-frontend-untuk-port-443">#</a></h4>
+<pre tabindex="0"><code>Virtual Services &gt; Public Services &gt; + add
 Name : FrontEndHTTPS
 Listent address : 0.0.0.0:443
 Enable SSL offloading : (✓)
 Certificates : test-http # Pastikan sertifikat sudah di-import ke OPNsense
-Select Rules : pass_https_test_http</code></pre></div></article><footer class=book-footer><div class="flex flex-wrap justify-between"><div></div><div></div></div><script>(function(){document.querySelectorAll("pre:has(code)").forEach(e=>{e.addEventListener("click",e.focus),e.addEventListener("copy",function(t){if(t.preventDefault(),navigator.clipboard){const t=window.getSelection().toString()||e.textContent;navigator.clipboard.writeText(t)}})})})()</script></footer><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav><ul><li class=book-section-flat><a>Categories</a><ul></ul></li><li class=book-section-flat><a>Tags</a><ul><li class="flex align-center"><a href=/tags/asia/>Asia</a>
-<span>1</span></li><li class="flex align-center"><a href=/tags/gnome/>GNOME</a>
-<span>1</span></li><li class="flex align-center"><a href=/tags/opensuse/>OpenSUSE</a>
-<span>5</span></li><li class="flex align-center"><a href=/tags/tumbleweed/>Tumbleweed</a>
-<span>4</span></li><li class="flex align-center"><a href=/tags/git/>Git</a>
-<span>1</span></li><li class="flex align-center"><a href=/tags/ssh/>SSH</a>
-<span>1</span></li><li class="flex align-center"><a href=/tags/bot/>Bot</a>
-<span>1</span></li><li class="flex align-center"><a href=/tags/docker/>Docker</a>
-<span>1</span></li><li class="flex align-center"><a href=/tags/telegram/>Telegram</a>
-<span>1</span></li><li class="flex align-center"><a href=/tags/dns/>Dns</a>
-<span>1</span></li><li class="flex align-center"><a href=/tags/linux/>Linux</a>
-<span>3</span></li><li class="flex align-center"><a href=/tags/powerdns/>Powerdns</a>
-<span>1</span></li><li class="flex align-center"><a href=/tags/server/>Server</a>
-<span>1</span></li><li class="flex align-center"><a href=/tags/ubuntu/>Ubuntu</a>
-<span>1</span></li><li class="flex align-center"><a href=/tags/firewall/>Firewall</a>
-<span>1</span></li><li class="flex align-center"><a href=/tags/haproxy/>HAProxy</a>
-<span>1</span></li><li class="flex align-center"><a href=/tags/opnsense/>OPNsense</a>
-<span>1</span></li><li class="flex align-center"><a href=/tags/tutorial/>Tutorial</a>
-<span>3</span></li><li class="flex align-center"><a href=/tags/blog/>Blog</a>
-<span>1</span></li><li class="flex align-center"><a href=/tags/hugo/>Hugo</a>
-<span>2</span></li><li class="flex align-center"><a href=/tags/google-cursor/>Google Cursor</a>
-<span>1</span></li><li class="flex align-center"><a href=/tags/lorem/>Lorem</a>
-<span>1</span></li></ul></li></ul></nav></div></aside></main></body></html>
+Select Rules : pass_https_test_http</code></pre></div>
+  </article>
+  
+
+  
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+<div>
+
+</div>
+
+<div>
+
+</div>
+
+</div>
+
+
+
+  
+
+
+
+  
+  
+  
+
+
+ 
+        
+  
+ 
+        
+        
+  
+ 
+        
+  
+  
+    <script>(function(){document.querySelectorAll("pre:has(code)").forEach(e=>{e.addEventListener("click",e.focus),e.addEventListener("copy",function(t){if(t.preventDefault(),navigator.clipboard){const t=window.getSelection().toString()||e.textContent;navigator.clipboard.writeText(t)}})})})()</script>
+  
+
+      </footer>
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+<aside class="book-toc">
+  <div class="book-toc-content">
+    
+  <nav>
+  <ul>
+  
+    
+    <li class="book-section-flat">
+      <a>Categories</a>
+      <ul>
+      
+      </ul>
+    </li>
+    
+  
+    
+    <li class="book-section-flat">
+      <a>Tags</a>
+      <ul>
+      
+        <li class="flex align-center">
+          <a href="/tags/asia/">Asia</a>
+          <span>1</span>
+        </li>
+      
+        <li class="flex align-center">
+          <a href="/tags/gnome/">GNOME</a>
+          <span>1</span>
+        </li>
+      
+        <li class="flex align-center">
+          <a href="/tags/opensuse/">OpenSUSE</a>
+          <span>5</span>
+        </li>
+      
+        <li class="flex align-center">
+          <a href="/tags/tumbleweed/">Tumbleweed</a>
+          <span>4</span>
+        </li>
+      
+        <li class="flex align-center">
+          <a href="/tags/git/">Git</a>
+          <span>1</span>
+        </li>
+      
+        <li class="flex align-center">
+          <a href="/tags/ssh/">SSH</a>
+          <span>1</span>
+        </li>
+      
+        <li class="flex align-center">
+          <a href="/tags/bot/">Bot</a>
+          <span>1</span>
+        </li>
+      
+        <li class="flex align-center">
+          <a href="/tags/docker/">Docker</a>
+          <span>1</span>
+        </li>
+      
+        <li class="flex align-center">
+          <a href="/tags/telegram/">Telegram</a>
+          <span>1</span>
+        </li>
+      
+        <li class="flex align-center">
+          <a href="/tags/dns/">Dns</a>
+          <span>1</span>
+        </li>
+      
+        <li class="flex align-center">
+          <a href="/tags/linux/">Linux</a>
+          <span>3</span>
+        </li>
+      
+        <li class="flex align-center">
+          <a href="/tags/powerdns/">Powerdns</a>
+          <span>1</span>
+        </li>
+      
+        <li class="flex align-center">
+          <a href="/tags/server/">Server</a>
+          <span>1</span>
+        </li>
+      
+        <li class="flex align-center">
+          <a href="/tags/ubuntu/">Ubuntu</a>
+          <span>1</span>
+        </li>
+      
+        <li class="flex align-center">
+          <a href="/tags/firewall/">Firewall</a>
+          <span>1</span>
+        </li>
+      
+        <li class="flex align-center">
+          <a href="/tags/haproxy/">HAProxy</a>
+          <span>1</span>
+        </li>
+      
+        <li class="flex align-center">
+          <a href="/tags/opnsense/">OPNsense</a>
+          <span>1</span>
+        </li>
+      
+        <li class="flex align-center">
+          <a href="/tags/tutorial/">Tutorial</a>
+          <span>3</span>
+        </li>
+      
+        <li class="flex align-center">
+          <a href="/tags/blog/">Blog</a>
+          <span>1</span>
+        </li>
+      
+        <li class="flex align-center">
+          <a href="/tags/hugo/">Hugo</a>
+          <span>2</span>
+        </li>
+      
+        <li class="flex align-center">
+          <a href="/tags/google-cursor/">Google Cursor</a>
+          <span>1</span>
+        </li>
+      
+        <li class="flex align-center">
+          <a href="/tags/lorem/">Lorem</a>
+          <span>1</span>
+        </li>
+      
+      </ul>
+    </li>
+    
+  
+  </ul>
+</nav>
+
+
+  </div>
+</aside>
+ 
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
