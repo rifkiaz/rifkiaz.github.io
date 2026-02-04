@@ -7,7 +7,7 @@ theme = "hugo-book"
 googleAnalytics = "UA-165935137-1"
 
 # (Optional) If you provide a Disqus shortname, comments will be enabled on all pages.
-disqusShortname = "Para Petualang"
+disqusShortname = "blog-rifkiaz-web-id"
 
 enableEmoji = true
 enableRobotsTXT = true
