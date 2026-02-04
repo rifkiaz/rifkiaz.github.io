@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>OPNsense on Coretan dan Catatan Oprek</title><link>http://localhost:1313/tags/opnsense/</link><description>Recent content in OPNsense on Coretan dan Catatan Oprek</description><generator>Hugo</generator><language>id</language><lastBuildDate>Mon, 24 Aug 2020 21:46:13 +0700</lastBuildDate><atom:link href="http://localhost:1313/tags/opnsense/index.xml" rel="self" type="application/rss+xml"/><item><title>Setting Konfigurasi HAProxy Di OPNsense</title><link>http://localhost:1313/posts/setting-konfigurasi-haproxy-di-opnsense/</link><pubDate>Mon, 24 Aug 2020 13:55:51 +0700</pubDate><guid>http://localhost:1313/posts/setting-konfigurasi-haproxy-di-opnsense/</guid><description>&lt;p&gt;OPNsense adalah proyek firewall berbasis open source berbasis FreeBSD &lt;a href="https://opnsense.org/"&gt;OPNsense&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img src="assets/dashboard.png" alt="OPNsense dashboard" /&gt;&lt;/p&gt;
+&lt;p&gt;Berikut adalah tutorial untuk mengkonfigurasi HAProxy di OPNsense.&lt;/p&gt;
+&lt;h3 id="1-konfigurasi-firewall-untuk-haproxy"&gt;1. Konfigurasi Firewall untuk HAProxy&lt;a class="anchor" href="#1-konfigurasi-firewall-untuk-haproxy"&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;Buat 2 IP Forward pada konfigurasi firewall
+&lt;ul&gt;
+&lt;li&gt;Firewall &amp;gt; NAT &amp;gt; Port Forward &amp;gt; + New Rule&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;Interface : LAN
+TCP/IP Ver : IPv4
+Protocol : TCP
+Source : any
+Destination port range : From - HTTP , to - HTTP 
+Redirect target IP : #IPADDRESSOPNSENSE
+Redirect target port : HTTP
+SAVE
+
+Interface : LAN
+TCP/IP Ver : IPv4
+Protocol : TCP
+Source : any
+Destination port range : From - HTTPS , to - HTTPS
+Redirect target IP : #IPADDRESSOPNSENSE
+Redirect target port : HTTP
+SAVE&lt;/code&gt;&lt;/pre&gt;&lt;ol start="2"&gt;
+&lt;li&gt;Buat Rule Floating
+&lt;ul&gt;
+&lt;li&gt;Firewall &amp;gt; Rules Floating &amp;gt; + New Rule&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;Action : Pass
+Interface : LAN
+Direction : in 
+TCP/IP ver : IPv4
+Protocol : TCP 
+Source : any 
+Destination : Lan Address
+Destination port range : From - HTTP , to - HTTP 
+
+Action : Pass
+Interface : LAN
+Direction : in 
+TCP/IP ver : IPv4
+Protocol : TCP 
+Source : any 
+Destination : Lan Address
+Destination port range : From - HTTPS , to - HTTPS&lt;/code&gt;&lt;/pre&gt;&lt;h3 id="2-konfigurasi-haproxy"&gt;2. Konfigurasi HAProxy&lt;a class="anchor" href="#2-konfigurasi-haproxy"&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Service &amp;gt; HAProxy &amp;gt; Setting&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id="tambahkan-server"&gt;Tambahkan Server&lt;a class="anchor" href="#tambahkan-server"&gt;#&lt;/a&gt;&lt;/h4&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;Real Servers &amp;gt; Real Servers &amp;gt; + add
+Name : test-http
+FQDN or IP : #IPPUBLICSERVER
+Port : 80
+SAVE&lt;/code&gt;&lt;/pre&gt;&lt;h4 id="tambahkan-backend-pool"&gt;Tambahkan Backend Pool&lt;a class="anchor" href="#tambahkan-backend-pool"&gt;#&lt;/a&gt;&lt;/h4&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;Virtual Services &amp;gt; Backend Pool &amp;gt; + add
+Name : test_http
+Mode : Layer 7 
+Servers : test-http
+SAVE&lt;/code&gt;&lt;/pre&gt;&lt;h4 id="tambahkan-conditions"&gt;Tambahkan Conditions&lt;a class="anchor" href="#tambahkan-conditions"&gt;#&lt;/a&gt;&lt;/h4&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;Rules and Check &amp;gt; Conditions &amp;gt; + add
+Name: test-http
+Condition type : Host Matches
+Host String : test-http&lt;/code&gt;&lt;/pre&gt;&lt;h4 id="tambahkan-rules-untuk-frontend-443"&gt;Tambahkan Rules untuk frontend 443&lt;a class="anchor" href="#tambahkan-rules-untuk-frontend-443"&gt;#&lt;/a&gt;&lt;/h4&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;Rules and Check &amp;gt; Rules &amp;gt; + add
+Name : pass_https_test_http
+Select Condition : test-http
+Execute function : Use specified Backend Pool
+Use backend pool : test_http&lt;/code&gt;&lt;/pre&gt;&lt;h4 id="tambahkan-rules-untuk-frontend-80-untuk-redirect-traffic-ke-https"&gt;Tambahkan Rules untuk frontend 80 (untuk redirect traffic ke https)&lt;a class="anchor" href="#tambahkan-rules-untuk-frontend-80-untuk-redirect-traffic-ke-https"&gt;#&lt;/a&gt;&lt;/h4&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;Rules and Check &amp;gt; Rules &amp;gt; + add 
+Name : redirect_to_https_http_test_nicolas_my_id
+Select Condition : test-http_nicolas_my_id
+Execute function : http-request redirect
+HTTP Redirect : scheme https&lt;/code&gt;&lt;/pre&gt;&lt;h4 id="tambahkan-frontend-untuk-port-80"&gt;Tambahkan frontend untuk port 80&lt;a class="anchor" href="#tambahkan-frontend-untuk-port-80"&gt;#&lt;/a&gt;&lt;/h4&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;Virtual Services &amp;gt; Public Services &amp;gt; + add
+Name : FrontEndHTTP
+Listent address : 0.0.0.0:80
+Select Rules : redirect_to_https_http&lt;/code&gt;&lt;/pre&gt;&lt;h4 id="tambahkan-frontend-untuk-port-443"&gt;Tambahkan frontend untuk port 443&lt;a class="anchor" href="#tambahkan-frontend-untuk-port-443"&gt;#&lt;/a&gt;&lt;/h4&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;Virtual Services &amp;gt; Public Services &amp;gt; + add
+Name : FrontEndHTTPS
+Listent address : 0.0.0.0:443
+Enable SSL offloading : (✓)
+Certificates : test-http # Pastikan sertifikat sudah di-import ke OPNsense
+Select Rules : pass_https_test_http&lt;/code&gt;&lt;/pre&gt;</description></item></channel></rss>

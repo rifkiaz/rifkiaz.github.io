@@ -1,0 +1,79 @@
+# Hugo Book Theme Configuration
+baseURL = "https://rifkiaz.github.io"
+title = "Coretan dan Catatan Oprek"
+theme = "hugo-book"
+
+# (Optional) Set Google Analytics if you use it to track your website.
+googleAnalytics = "UA-165935137-1"
+
+# (Optional) If you provide a Disqus shortname, comments will be enabled on all pages.
+disqusShortname = "Para Petualang"
+
+enableEmoji = true
+enableRobotsTXT = true
+enableGitInfo = true
+
+# Book theme is intended for documentation use, therefore it doesn't render taxonomy.
+disableKinds = ['taxonomy']
+
+# Change this to switch between different language
+defaultContentLanguage = "id"
+languageCode = "id"
+
+[params]
+  # (Optional, default light) Sets color theme: light, dark or auto.
+  BookTheme = 'auto'
+
+  # (Optional, default true) Controls table of contents visibility on right side of pages.
+  BookToC = true
+
+  # (Optional, default docs) Specify section of content to render as menu
+  # Use "*" to render all sections to menu
+  BookSection = '*'
+
+  # Set the path to a logo for the book
+  # BookLogo = 'logo.png'
+
+  # (Optional, default true) Enables search function with flexsearch
+  BookSearch = true
+
+  # (Optional, default true) Enables comments template on pages
+  BookComments = true
+
+  # Author information
+  author = "Rifki Affandi"
+  description = "Sebuah catatan dan operekan kecil terkait FLOSS"
+
+  # Open Graph images
+  images = ["img/og.png"]
+
+  # License
+  license = "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License (CC BY-NC-SA 4.0)"
+  licenseLink = "http://creativecommons.org/licenses/by-nc-sa/4.0/"
+
+[markup]
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 3
+
+  [markup.goldmark.renderer]
+    unsafe = true
+
+  [markup.highlight]
+    style = "monokai"
+
+[menu]
+  [[menu.before]]
+    name = "GitHub"
+    url = "https://github.com/rifkiaz"
+    weight = 1
+
+  [[menu.after]]
+    name = "Twitter"
+    url = "https://twitter.com/rifkiiaz"
+    weight = 1
+
+  [[menu.after]]
+    name = "Instagram"
+    url = "https://instagram.com/rifkiaz"
+    weight = 2

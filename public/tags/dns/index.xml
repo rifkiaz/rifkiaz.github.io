@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Dns on Coretan dan Catatan Oprek</title><link>http://localhost:1313/tags/dns/</link><description>Recent content in Dns on Coretan dan Catatan Oprek</description><generator>Hugo</generator><language>id</language><lastBuildDate>Fri, 16 Oct 2020 00:27:45 +0700</lastBuildDate><atom:link href="http://localhost:1313/tags/dns/index.xml" rel="self" type="application/rss+xml"/><item><title>Install POWERDNS di Ubuntu 18.04</title><link>http://localhost:1313/posts/install-powerdns-di-ubuntu-18.04/</link><pubDate>Mon, 14 Sep 2020 11:29:13 +0700</pubDate><guid>http://localhost:1313/posts/install-powerdns-di-ubuntu-18.04/</guid><description>&lt;p&gt;&lt;a href="https://www.powerdns.com/"&gt;POWERDNS&lt;/a&gt; adalah DNS Server berbasis MySQL, yang ditulis dalam C ++ dan berlisensi Under GPL. PowerDNS dapat dikelola melalui web base interface (PowerAdmin). Pada tutorial kali ini akan membahas bagaimana menginstall dan mengkonfigurasi &lt;a href="https://www.powerdns.com"&gt;POWERDNS&lt;/a&gt; pada &lt;a href="http://kambing.ui.ac.id/iso/ubuntu/releases/bionic/"&gt;Ubuntu 18.04&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id="persiapan"&gt;Persiapan&lt;a class="anchor" href="#persiapan"&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href="http://kambing.ui.ac.id/iso/ubuntu/releases/bionic/"&gt;Ubuntu 18.04&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Domain&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="tahap-instalasi"&gt;Tahap Instalasi&lt;a class="anchor" href="#tahap-instalasi"&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Update repositori pada Ubuntu 18.04
+&lt;pre tabindex="0"&gt;&lt;code&gt;sudo apt update &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;Install MariaDB
+&lt;pre tabindex="0"&gt;&lt;code&gt;sudo apt install mariadb-server mariadb-client -y&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex="0"&gt;&lt;code&gt;mysql_secure_installation&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;Edit konfigurasi pada MariaDB
+&lt;pre tabindex="0"&gt;&lt;code&gt;vim /etc/mysql/mariadb.conf/50-server.cnf&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex="0"&gt;&lt;code&gt;........
+bind = 0.0.0.0 ----&amp;gt; ganti dengan ip lokal
+........&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;Restart MariaDB
+&lt;pre tabindex="0"&gt;&lt;code&gt;sudo systemctl restart mariadb&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;Buat database pada database
+&lt;pre tabindex="0"&gt;&lt;code&gt;sudo mysql -u root -p &lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex="0"&gt;&lt;code&gt;CREATE DATABASE powerdns CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex="0"&gt;&lt;code&gt;GRANT ALL ON powerdns.* TO &amp;#39;powerdns&amp;#39;@&amp;#39;localhost&amp;#39; IDENTIFIED BY &amp;#39;YOURPASSWORD&amp;#39;;&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex="0"&gt;&lt;code&gt;GRANT ALL ON powerdns.* TO &amp;#39;powerdns&amp;#39;@&amp;#39;%&amp;#39; IDENTIFIED BY &amp;#39;YOURPASSWORD&amp;#39;;&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex="0"&gt;&lt;code&gt;FLUSH PRIVILEGES;&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex="0"&gt;&lt;code&gt;USE powerdns; &lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex="0"&gt;&lt;code&gt;CREATE TABLE domains (
+id INT AUTO_INCREMENT,
+name VARCHAR(255) NOT NULL,
+master VARCHAR(128) DEFAULT NULL,
+last_check INT DEFAULT NULL,
+type VARCHAR(6) NOT NULL,
+notified_serial INT DEFAULT NULL,
+account VARCHAR(40) CHARACTER SET &amp;#39;utf8&amp;#39; DEFAULT NULL,
+PRIMARY KEY (id)
+) Engine=InnoDB CHARACTER SET &amp;#39;latin1&amp;#39;;
+
+CREATE UNIQUE INDEX name_index ON domains(name);
+
+
+CREATE TABLE records (
+id BIGINT AUTO_INCREMENT,
+domain_id INT DEFAULT NULL,
+name VARCHAR(255) DEFAULT NULL,
+type VARCHAR(10) DEFAULT NULL,
+content VARCHAR(64000) DEFAULT NULL,
+ttl INT DEFAULT NULL,
+prio INT DEFAULT NULL,
+change_date INT DEFAULT NULL,
+disabled TINYINT(1) DEFAULT 0,
+ordername VARCHAR(255) BINARY DEFAULT NULL,
+auth TINYINT(1) DEFAULT 1,
+PRIMARY KEY (id)
+) Engine=InnoDB CHARACTER SET &amp;#39;latin1&amp;#39;;
+
+CREATE INDEX nametype_index ON records(name,type);
+CREATE INDEX domain_id ON records(domain_id);
+CREATE INDEX ordername ON records (ordername);
+
+
+CREATE TABLE supermasters (
+ip VARCHAR(64) NOT NULL,
+nameserver VARCHAR(255) NOT NULL,
+account VARCHAR(40) CHARACTER SET &amp;#39;utf8&amp;#39; NOT NULL,
+PRIMARY KEY (ip, nameserver)
+) Engine=InnoDB CHARACTER SET &amp;#39;latin1&amp;#39;;
+
+
+CREATE TABLE comments (
+id INT AUTO_INCREMENT,
+domain_id INT NOT NULL,
+name VARCHAR(255) NOT NULL,
+type VARCHAR(10) NOT NULL,
+modified_at INT NOT NULL,
+account VARCHAR(40) CHARACTER SET &amp;#39;utf8&amp;#39; DEFAULT NULL,
+comment TEXT CHARACTER SET &amp;#39;utf8&amp;#39; NOT NULL,
+PRIMARY KEY (id)
+) Engine=InnoDB CHARACTER SET &amp;#39;latin1&amp;#39;;
+
+CREATE INDEX comments_name_type_idx ON comments (name, type);
+CREATE INDEX comments_order_idx ON comments (domain_id, modified_at);
+
+
+CREATE TABLE domainmetadata (
+id INT AUTO_INCREMENT,
+domain_id INT NOT NULL,
+kind VARCHAR(32),
+content TEXT,
+PRIMARY KEY (id)
+) Engine=InnoDB CHARACTER SET &amp;#39;latin1&amp;#39;;
+
+CREATE INDEX domainmetadata_idx ON domainmetadata (domain_id, kind);
+
+
+CREATE TABLE cryptokeys (
+id INT AUTO_INCREMENT,
+domain_id INT NOT NULL,
+flags INT NOT NULL,
+active BOOL,
+content TEXT,
+PRIMARY KEY(id)
+) Engine=InnoDB CHARACTER SET &amp;#39;latin1&amp;#39;;
+
+CREATE INDEX domainidindex ON cryptokeys(domain_id);
+
+
+CREATE TABLE tsigkeys (
+id INT AUTO_INCREMENT,
+name VARCHAR(255),
+algorithm VARCHAR(50),
+secret VARCHAR(255),
+PRIMARY KEY (id)
+) Engine=InnoDB CHARACTER SET &amp;#39;latin1&amp;#39;;
+
+CREATE UNIQUE INDEX namealgoindex ON tsigkeys(name, algorithm);&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;Disable systemd-resolved
+&lt;pre tabindex="0"&gt;&lt;code&gt;sudo su
+systemctl disable systemd-resolved
+systemctl stop systemd-resolved
+ls -lh /etc/resolv.conf 
+rm /etc/resolv.conf
+echo &amp;#34;nameserver 8.8.8.8&amp;#34; &amp;gt; /etc/resolv.conf&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;Install POWERDNS (versi 4.1.13)
+&lt;pre tabindex="0"&gt;&lt;code&gt;sudo su&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;edit repositori
+&lt;pre tabindex="0"&gt;&lt;code&gt;vi /etc/apt/sources.list.d/pdns.list&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex="0"&gt;&lt;code&gt;.............
+deb [arch=amd64] http://repo.powerdns.com/ubuntu bionic-auth-41 main
+.............&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex="0"&gt;&lt;code&gt;vi /etc/apt/preferences.d/pdns&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex="0"&gt;&lt;code&gt;...
+Package: pdns-*
+Pin: origin repo.powerdns.com
+Pin-Priority: 600
+...&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;Install powerdns beserta dependensi yang dibutuhkan
+&lt;pre tabindex="0"&gt;&lt;code&gt;curl https://repo.powerdns.com/FD380FBB-pub.asc | sudo apt-key add - 
+curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+echo &amp;#34;deb https://dl.yarnpkg.com/debian/ stable main&amp;#34; | sudo tee /etc/apt/sources.list.d/yarn.list
+sudo apt-get update
+sudo apt-get install pdns-server pdns-backend-mysql virtualenv python3-pip yarn -y
+apt-get install -y libmysqlclient-dev python3-mysqldb python-mysqldb libsasl2-dev libffi-dev libldap2-dev libssl-dev libxml2-dev libxslt1-dev libxmlsec1-dev pkg-config&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;Setelah berhasil terinstall konfigurasi powerdns agar terhubung dengan backend mysql
+&lt;pre tabindex="0"&gt;&lt;code&gt;sudo vi /etc/powerdns/pdns.d/pdns.local.gmysql.conf
+## Masukkan skrip berikut tanpa tanda #
+......
+launch=gmysql
+gmysql-host=#IPHOSTMYSQL
+gmysql-user=#USER
+gmysql-dbname=#YOURDB
+gmysql-password=#YOURPASSWORD
+gmysql-dnssec=yes&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;Konfigurasi pdns.conf agar bisa dimonitoring
+&lt;pre tabindex="0"&gt;&lt;code&gt;echo &amp;#39;api=yes&amp;#39; &amp;gt;&amp;gt; /etc/powerdns/pdns.conf
+echo &amp;#39;api-key=YOURIPKEY&amp;#39; &amp;gt;&amp;gt; /etc/powerdns/pdns.conf
+echo &amp;#39;webserver=yes&amp;#39; &amp;gt;&amp;gt; /etc/powerdns/pdns.conf
+echo &amp;#39;webserver-address=0.0.0.0&amp;#39; &amp;gt;&amp;gt; /etc/powerdns/pdns.conf
+echo &amp;#39;webserver-allow-from=0.0.0.0/0,::/0&amp;#39; &amp;gt;&amp;gt; /etc/powerdns/pdns.conf
+echo &amp;#39;webserver-port=8081&amp;#39; &amp;gt;&amp;gt; /etc/powerdns/pdns.conf
+echo &amp;#39;version-string=anonymous&amp;#39; &amp;gt;&amp;gt; /etc/powerdns/pdns.conf
+echo &amp;#39;webserver-password=YOURPASSWORD&amp;#39; &amp;gt;&amp;gt; /etc/powerdns/pdns.conf&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;Tes koneksi ke database
+&lt;pre tabindex="0"&gt;&lt;code&gt;/usr/sbin/pdns_server --daemon=no --guardian=no --loglevel=9&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;Jika berhasil restart pdns service
+&lt;pre tabindex="0"&gt;&lt;code&gt;sudo systemctl restart pdns&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="untuk-tampilan-gui-powerdns-admin-di-postingan-selanjutnya-ya"&gt;Untuk tampilan GUI (POWERDNS Admin) di postingan selanjutnya ya!&lt;a class="anchor" href="#untuk-tampilan-gui-powerdns-admin-di-postingan-selanjutnya-ya"&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Salam Kebebasan!!
+Bye~&lt;/p&gt;</description></item></channel></rss>
