@@ -44,8 +44,8 @@ enableGitInfo = true
   DateFormat = "2 January 2006"
 
   [params.homeInfoParams]
-    Title = "Halo, saya Rifki 👋"
-    Image = "img/rifki-avatar.webp"
+    Title = "Halo, saya Rifki Affandi 👋"
+    Typed = ["DevOps Engineer", "Infra & Automation", "Ansible Enthusiast", "openSUSE Member"]
     Content = """
 Sehari-hari saya mengurus infrastruktur dan DevOps: otomasi server pakai Ansible, database, monitoring, sampai tooling internal. Di sini saya mencatat hal-hal teknis dari kerjaan dan dari ngoprek bareng komunitas open source.
 
