@@ -1,6 +1,6 @@
 # rifkiaz.github.io
 
-Source for [rifkiaz.github.io](https://rifkiaz.github.io), a personal blog and portfolio built with [Hugo](https://gohugo.io) and the [PaperMod](https://github.com/adityatelange/hugo-PaperMod) theme.
+Source for [rifkiaz.my.id](https://rifkiaz.my.id), a personal blog and portfolio built with [Hugo](https://gohugo.io) and the [PaperMod](https://github.com/adityatelange/hugo-PaperMod) theme.
 
 ## Local development
 
