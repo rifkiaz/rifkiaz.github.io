@@ -1,18 +1,38 @@
 {{- with site.Params.homeInfoParams }}
 <article class="first-entry home-info">
-    <header class="entry-header">
-        <h1>{{ .Title | markdownify }}</h1>
-        {{- with .Typed }}
-        <p class="home-typed" aria-label="{{ delimit . ", " }}">
-            <span class="home-typed-prefix" aria-hidden="true">as</span>
-            <span class="home-typed-text" aria-hidden="true" data-words="{{ . | jsonify }}">{{ index . 0 }}</span><span class="home-typed-cursor" aria-hidden="true"></span>
-        </p>
-        {{- end }}
-    </header>
+    <div class="terminal">
+        <div class="terminal-bar" aria-hidden="true">
+            <span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span>
+            <span class="terminal-title">{{ .Prompt | default "rifki@devops: ~" }}</span>
+        </div>
+        <div class="terminal-body">
+            <p class="term-line" aria-hidden="true"><span class="term-prompt">$</span> whoami</p>
+            <h1 class="term-out term-name">{{ .Title | markdownify }}</h1>
+            {{- with .Typed }}
+            <p class="term-line" aria-hidden="true"><span class="term-prompt">$</span> echo $ROLE</p>
+            <p class="term-out home-typed" aria-label="{{ delimit . ", " }}">
+                <span class="home-typed-text" aria-hidden="true" data-words="{{ . | jsonify }}">{{ index . 0 }}</span><span class="home-typed-cursor" aria-hidden="true"></span>
+            </p>
+            {{- end }}
+            {{- with .Stack }}
+            <p class="term-line" aria-hidden="true"><span class="term-prompt">$</span> ls ~/stack</p>
+            <ul class="term-out term-ls" aria-label="Stack">
+                {{- range . }}<li>{{ . }}</li>{{ end -}}
+            </ul>
+            {{- end }}
+        </div>
+    </div>
     <div class="entry-content md-content">
         {{ $opts := dict "display" "block" }}
         {{ .Content | $.Page.RenderString $opts }}
     </div>
+    {{- with .Buttons }}
+    <nav class="home-buttons" aria-label="Pintasan">
+        {{- range . }}
+        <a href="{{ .url | absLangURL }}"><span aria-hidden="true">→</span> {{ .name }}</a>
+        {{- end }}
+    </nav>
+    {{- end }}
     <footer class="entry-footer">
         {{ partial "social_icons.html" (dict "align" site.Params.homeInfoParams.AlignSocialIconsTo) }}
     </footer>
