@@ -1,6 +1,6 @@
 ---
 title: "Template Vault untuk File .env: Kapan Pakai Tanda Kutip, Kapan Tidak"
-date: 2026-10-09T11:45:00+07:00
+date: 2026-09-12T14:22:00+07:00
 categories: [tutorial]
 tags: [vault, consul-template, docker, env, devops, secrets]
 description: "Memperbaiki template Vault (consul-template) yang menghasilkan file .env dengan value berkutip, kenapa kutipnya terbaca di Docker env-file tapi tidak di shell, dan cara menangani value multiline."

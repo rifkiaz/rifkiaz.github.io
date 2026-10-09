@@ -1,6 +1,6 @@
 ---
 title: "Membangun Automation Tools Internal untuk Pekerjaan Ops"
-date: 2026-09-15T09:00:00+07:00
+date: 2026-07-05T19:47:00+07:00
 description: "Prinsip dan kerangka praktis untuk mengubah kumpulan script operasional menjadi automation tool internal yang aman, bisa diuji, dan nyaman dipakai tim."
 categories: [proyek]
 tags: [otomasi, python, cli, devops, tooling]

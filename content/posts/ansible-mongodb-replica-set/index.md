@@ -1,6 +1,6 @@
 ---
 title: "Deploy MongoDB Replica Set dengan Ansible"
-date: 2026-09-22T09:00:00+07:00
+date: 2026-07-26T21:05:00+07:00
 description: "Membangun role Ansible untuk memasang MongoDB replica set tiga node lengkap dengan keyfile, autentikasi, dan inisialisasi yang idempoten."
 categories: [proyek]
 tags: [ansible, mongodb, replica-set, otomasi, devops]

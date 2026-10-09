@@ -1,6 +1,6 @@
 ---
 title: "Satu Pintu Alert ke Discord Pakai n8n: Sentry, Grafana, New Relic, dan Vercel"
-date: 2026-10-09T11:00:00+07:00
+date: 2026-09-27T19:54:00+07:00
 categories: [tutorial]
 tags: [n8n, discord, sentry, grafana, elasticsearch, new-relic, vercel, monitoring, alerting]
 description: "Cara mengirim alert dari Sentry, Grafana (data Elasticsearch APM), New Relic, dan status deploy Vercel ke Discord sebagai embed card yang rapi dan informatif, semuanya lewat n8n."

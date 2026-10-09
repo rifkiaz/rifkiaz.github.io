@@ -1,6 +1,6 @@
 ---
 title: "KDE Plasma ala macOS di openSUSE Tumbleweed (Sekaligus Pensiunkan GNOME)"
-date: 2026-10-09T11:40:00+07:00
+date: 2026-10-08T23:48:00+07:00
 categories: [tutorial]
 tags: [openSUSE, tumbleweed, kde, plasma, macos, whitesur, sddm, gnome, bash]
 description: "Skrip bash untuk mengubah KDE Plasma 6 di openSUSE Tumbleweed jadi mirip macOS dengan tema WhiteSur, pindah dari GDM ke SDDM, lalu menghapus GNOME dengan aman."

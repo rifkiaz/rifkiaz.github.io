@@ -1,6 +1,6 @@
 ---
 title: "Membangun Layanan Paste Internal yang Aman"
-date: 2026-09-08T09:00:00+07:00
+date: 2026-06-14T20:12:00+07:00
 description: "Kenapa tim teknis butuh pastebin internal, fitur apa yang wajib ada, dan bagaimana men-deploy-nya secara aman di belakang reverse proxy dan autentikasi."
 categories: [proyek]
 tags: [self-hosted, keamanan, docker, nginx, privatebin]
