@@ -1,31 +1,129 @@
+<link rel="preload" href="{{ "fonts/jetbrains-mono-latin.woff2" | absURL }}" as="font" type="font/woff2" crossorigin>
 <style>
-  .home-typed {
-    margin-top: 8px;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size: 1.25rem;
-    font-weight: 500;
-    color: var(--secondary);
-    min-height: 1.6em;
+  /* JetBrains Mono (SIL OFL 1.1), latin subset, variable weight */
+  @font-face {
+    font-family: "JetBrains Mono";
+    font-style: normal;
+    font-weight: 100 800;
+    font-display: swap;
+    src: url("{{ "fonts/jetbrains-mono-latin.woff2" | absURL }}") format("woff2");
   }
-  .home-typed-prefix {
-    margin-inline-end: 0.4ch;
+  /* ---------- palette ---------- */
+  :root {
+    --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --accent: #15803d;
+    --accent-2: #1d4ed8;
+    --accent-soft: rgba(21, 128, 61, 0.12);
+    --code-bg: #f1f3f5;
+    --border: #e4e7eb;
+    --radius: 10px;
   }
-  .home-typed-text {
-    color: var(--primary);
+  :root[data-theme="dark"] {
+    --theme: #0d1117;
+    --entry: #161b22;
+    --primary: #e6edf3;
+    --secondary: #8b949e;
+    --tertiary: #30363d;
+    --content: #c9d1d9;
+    --code-block-bg: #161b22;
+    --code-bg: #1f2630;
+    --border: #30363d;
+    --accent: #3fb950;
+    --accent-2: #58a6ff;
+    --accent-soft: rgba(63, 185, 80, 0.15);
   }
+  ::selection { background: var(--accent-soft); }
+
+  /* ---------- header ---------- */
+  .logo a { font-family: var(--mono); font-weight: 700; font-size: 20px; letter-spacing: -0.02em; column-gap: 0; }
+  .logo a::before { content: "❯"; color: var(--accent); margin-inline-end: 0.5ch; }
+  .logo a::after { content: "_"; color: var(--accent); animation: term-blink 1s steps(1) infinite; }
+  #menu a { font-family: var(--mono); font-size: 15px; text-transform: lowercase; }
+  #menu a::before { content: "/"; color: var(--accent); }
+  #menu .active { text-decoration-color: var(--accent); }
+  .breadcrumbs, .post-meta, .entry-footer, .footer, .paginav .title, .post-tags, .toc summary {
+    font-family: var(--mono);
+  }
+  .post-meta, .entry-footer { font-size: 13px; }
+  .footer { font-size: 12px; }
+  .footer a:hover, .post-content a:hover { color: var(--accent); }
+
+  /* ---------- list pages ---------- */
+  .page-header h1::before { content: "~/"; color: var(--accent); font-family: var(--mono); font-size: 0.75em; font-weight: 500; margin-inline-end: 0.3ch; }
+  .post-entry { border: 1px solid var(--border); transition: border-color 0.15s ease; }
+  .post-entry:hover { border-color: var(--accent); }
+  .entry-header h2 { font-size: 22px; }
+
+  /* ---------- post ---------- */
+  .post-content h2::before, .post-content h3::before {
+    color: var(--accent); font-family: var(--mono); font-weight: 500; margin-inline-end: 0.5ch;
+  }
+  .post-content h2::before { content: "##"; }
+  .post-content h3::before { content: "###"; }
+  .post-content a { box-shadow: 0 1px 0 var(--accent); }
+  .post-content pre, .post-content .highlight pre { border-radius: var(--radius); }
+  .post-content .highlight, .post-content > pre { border: 1px solid var(--border); border-radius: var(--radius); }
+  .post-content code { font-family: var(--mono); font-size: 0.86em; }
+  .post-content blockquote { border-inline-start-color: var(--accent); }
+  .post-tags a { font-size: 13px; text-transform: lowercase; }
+  .post-tags a::before { content: "#"; color: var(--accent); }
+
+  /* ---------- home terminal ---------- */
+  .home-info { min-height: auto; margin-top: 8px; }
+  .terminal {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--entry);
+    overflow: hidden;
+    box-shadow: 0 12px 32px -18px rgba(0, 0, 0, 0.35);
+  }
+  .terminal-bar {
+    display: flex; align-items: center; gap: 7px;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .terminal-bar .dot { width: 11px; height: 11px; border-radius: 50%; flex: none; }
+  .dot-red { background: #ff5f57; } .dot-yellow { background: #febc2e; } .dot-green { background: #28c840; }
+  .terminal-title {
+    flex: 1; text-align: center; margin-inline-end: 46px;
+    font-family: var(--mono); font-size: 12px; color: var(--secondary);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .terminal-body { padding: 18px 20px 20px; font-family: var(--mono); font-size: 14px; line-height: 1.6; }
+  .terminal-body p, .terminal-body ul { margin: 0; }
+  .term-line { color: var(--secondary); }
+  .term-line + .term-out { margin-bottom: 12px; }
+  .term-out:last-child { margin-bottom: 0; }
+  .term-prompt { color: var(--accent); font-weight: 700; margin-inline-end: 0.6ch; }
+  .first-entry .term-name {
+    font-family: var(--mono); font-size: 30px; line-height: 1.3; font-weight: 700;
+    color: var(--primary); letter-spacing: -0.02em;
+  }
+  .home-typed { font-size: 17px; font-weight: 500; color: var(--accent); min-height: 1.6em; }
   .home-typed-cursor {
-    display: inline-block;
-    width: 0.55ch;
-    height: 1.1em;
-    margin-inline-start: 2px;
-    vertical-align: text-bottom;
-    background: var(--primary);
-    animation: home-typed-blink 1s steps(1) infinite;
+    display: inline-block; width: 0.6ch; height: 1.15em; margin-inline-start: 2px;
+    vertical-align: text-bottom; background: var(--accent);
+    animation: term-blink 1s steps(1) infinite;
   }
-  @keyframes home-typed-blink {
-    50% { opacity: 0; }
+  .term-ls { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 2px 2.2ch; color: var(--accent-2); font-weight: 500; }
+  .home-info .entry-content { margin-top: 22px; }
+  .home-buttons { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0 6px; }
+  .home-buttons a {
+    font-family: var(--mono); font-size: 14px;
+    padding: 6px 14px; border: 1px solid var(--border); border-radius: 8px;
+    background: var(--entry); color: var(--primary);
+    transition: border-color 0.15s ease, color 0.15s ease;
   }
+  .home-buttons a span { color: var(--accent); }
+  .home-buttons a:hover { border-color: var(--accent); color: var(--accent); }
+
+  @keyframes term-blink { 50% { opacity: 0; } }
   @media (prefers-reduced-motion: reduce) {
-    .home-typed-cursor { animation: none; }
+    .logo a::after, .home-typed-cursor { animation: none; }
+  }
+  @media (max-width: 480px) {
+    .first-entry .term-name { font-size: 24px; }
+    .terminal-body { padding: 16px; font-size: 13px; }
+    .home-typed { font-size: 15px; }
   }
 </style>

@@ -43,16 +43,24 @@ enableGitInfo = true
   mainSections = ["posts"]
   DateFormat = "2 January 2006"
 
+  [params.label]
+    text = "rifkiaz"
+
   [params.homeInfoParams]
-    Title = "Halo, saya Rifki Affandi 👋"
+    Title = "Rifki Affandi"
+    Prompt = "rifki@devops: ~"
     Typed = ["DevOps Engineer", "Infra & Automation", "Ansible Enthusiast", "openSUSE Member"]
+    Stack = ["linux", "ansible", "docker", "aws", "gcp", "prometheus", "grafana", "mongodb", "vault", "n8n"]
     Content = """
 Sehari-hari saya mengurus infrastruktur dan DevOps: otomasi server pakai Ansible, database, monitoring, sampai tooling internal. Di sini saya mencatat hal-hal teknis dari kerjaan dan dari ngoprek bareng komunitas open source.
 
 Saya juga [member openSUSE](https://kudos.opensuse.org/user/Rifkiaz) dan aktif di komunitasnya.
-
-[Lihat proyek](/proyek/) · [Cheat sheet](/cheatsheet/) · [Tentang saya](/tentang/)
 """
+    Buttons = [
+      { name = "proyek", url = "/proyek/" },
+      { name = "cheatsheet", url = "/cheatsheet/" },
+      { name = "tentang", url = "/tentang/" },
+    ]
 
   [[params.socialIcons]]
     name = "github"
@@ -99,7 +107,7 @@ Saya juga [member openSUSE](https://kudos.opensuse.org/user/Rifkiaz) dan aktif d
 
   [[menu.main]]
     identifier = "cheatsheet"
-    name = "Cheat Sheet"
+    name = "Cheatsheet"
     url = "/cheatsheet/"
     weight = 25
 
