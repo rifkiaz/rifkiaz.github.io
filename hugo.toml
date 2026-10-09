@@ -27,7 +27,7 @@ enableGitInfo = true
   description = "Catatan teknis seputar DevOps, otomasi infrastruktur, observability, dan FLOSS oleh Rifki Affandi."
   author = "Rifki Affandi"
   keywords = ["DevOps", "Ansible", "MongoDB", "Prometheus", "Linux", "openSUSE", "FLOSS"]
-  images = []
+  images = ["img/rifki-gnome-asia.jpg"]
 
   defaultTheme = "auto"
   ShowReadingTime = true
@@ -45,6 +45,7 @@ enableGitInfo = true
 
   [params.homeInfoParams]
     Title = "Halo, saya Rifki 👋"
+    Image = "img/rifki.jpg"
     Content = """
 Sehari-hari saya mengurus infrastruktur dan DevOps: otomasi server pakai Ansible, database, monitoring, sampai tooling internal. Di sini saya mencatat hal-hal teknis dari kerjaan dan dari ngoprek bareng komunitas open source.
 

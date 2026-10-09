@@ -9,6 +9,8 @@ ShowBreadCrumbs: false
 comments: false
 ---
 
+![Rifki Affandi menjadi pembicara di GNOME.Asia Summit 2022](/img/rifki-gnome-asia.jpg "Saat jadi pembicara di GNOME.Asia Summit 2022")
+
 Halo, saya **Rifki Affandi**. Sehari-hari saya berkutat di dunia infrastruktur dan DevOps.
 
 Kerjaan saya kurang lebih seputar mengurus server Linux, mengotomasi provisioning pakai Ansible, menjaga database tetap jalan, dan memasang monitoring supaya masalah ketahuan sebelum pengguna sempat merasakannya. Saya juga suka bikin tooling internal kecil yang bikin kerjaan tim lebih ringan.
@@ -23,7 +25,7 @@ Kerjaan saya kurang lebih seputar mengurus server Linux, mengotomasi provisionin
 
 ## Komunitas open source
 
-Di luar kerjaan, saya aktif di komunitas FLOSS, termasuk openSUSE dan LibreOffice Indonesia, dan sempat ikut GNOME.Asia Summit 2022 di Kuala Lumpur. Banyak tulisan di blog ini lahir dari hasil ngoprek bareng komunitas.
+Di luar kerjaan, saya aktif di komunitas FLOSS, termasuk openSUSE dan LibreOffice Indonesia, dan sempat jadi pembicara di GNOME.Asia Summit 2022 di Kuala Lumpur, membawakan topik seputar mechanical keyboard. Banyak tulisan di blog ini lahir dari hasil ngoprek bareng komunitas.
 
 ## Tentang blog ini
 
