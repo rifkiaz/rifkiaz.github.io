@@ -1,15 +1,13 @@
 ---
 title: "Setting Konfigurasi HAProxy Di OPNsense"
 date: 2020-08-24T13:55:51+07:00
-image: assets/thumb.jpg
-author: Rifki Affandi
-kategori: [tutorial]
+categories: [tutorial]
 tags: [tutorial, linux, OPNsense, Firewall, HAProxy]
-description: 
+description: "Konfigurasi HAProxy sebagai reverse proxy dan load balancer di firewall OPNsense."
 ---
 OPNsense adalah proyek firewall berbasis open source berbasis FreeBSD [OPNsense](https://opnsense.org/).
 
-![OPNsense dashboard](assets/dashboard.png)
+![OPNsense dashboard](assets/dashboard.webp)
 
 Berikut adalah tutorial untuk mengkonfigurasi HAProxy di OPNsense. 
 

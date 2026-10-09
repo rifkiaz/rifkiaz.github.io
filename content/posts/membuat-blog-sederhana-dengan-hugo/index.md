@@ -1,11 +1,9 @@
 ---
 title: "Membuat Blog Sederhana Dengan Hugo"
 date: 2020-05-27T19:40:22+07:00
-image: assets/thumb.jpg
-author: Rifki Affandi
-kategori: [Tutorial]
+categories: [tutorial]
 tags: [hugo, linux, openSUSE, blog, tutorial]
-description: 
+description: "Alasan memilih Hugo dan langkah membuat blog statis sederhana dari nol."
 ---
 
 
@@ -29,14 +27,14 @@ Disini dicontohkan dengan nama blog 'exampleblog'
 hugo new site exampleblog
 ````
 Maka output yang akan dikeluarkan seperti berikut : 
-![Output hugo new site](assets/output-site.png)
+![Output hugo new site](assets/output-site.webp)
 Setelah membuat blog dengan perintah tersebut maka beberapa direktori yang dibuat seperti gambar berikut: 
-![Tree direktori hugo new site](assets/tree-new-site.png)
+![Tree direktori hugo new site](assets/tree-new-site.webp)
 Setelah berhasil membuat website "exampleblog" jalankan perintah berikut untuk melihat apakah hugo berhasil berjalan atau tidak
 ````
 hugo server -D
 ````
 Pasti akan tampil halaman kosong tanpa ada apapun, yak benar hal tersebut karena tema yang belum diterapkan pada websitenya. Pantau terus blog ini karena akan bersambung ke part 2
-![Hasil deploy web dengan Hugo](assets/web.png)
+![Hasil deploy web dengan Hugo](assets/web.webp)
 
 Terima kasih.

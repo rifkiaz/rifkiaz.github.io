@@ -1,11 +1,9 @@
 ---
 title: "Membuat Docker Alert"
 date: 2020-10-20T18:28:12+07:00
-image: assets/thumb.jpg
-author: Rifki Affandi
-kategori: [tutorial]
+categories: [tutorial]
 tags: [docker, telegram, bot]
-description: 
+description: "Membuat notifikasi status container Docker yang dikirim ke Telegram melalui bot."
 ---
 ### Pendahuluan
 Container, ya sebuah istilah yang sedang populer pada era saat ini. dan saya pun memakainya baik untuk development aplikasi ataupun production. Namun beberapa hari belakangan ini tim saya mengalami kendala yakni sekitar 1-2 hari semua container yang berada di VM production berhenti secara tiba. Setelah diteliti hal ini disebabkan oleh docker daemon yang restart tanpa disuruh (asli bikin kesel). Dan kesalahan dari tim DevOps ialah tidak menambahkan parameter restart: always ketika production, jadilah ketika daemon docker restart dan container tidak me-restart otomatis. Yang lebih gak enak lagi ialah para client yang lebih dulu tau ketimbang tim DevOps. Karena itu pada tulisan kali ini saya akan membagi sedikit tips yang dibantu oleh Kang [Mustapha](https://instagram.com/topahadzi) untuk monitoring container docker dan mengirimkan alert ke Telegram apabila ada container yang mati (exited). 
@@ -47,7 +45,7 @@ crontab -e
 */1 * * * *     /bin/sh /home/ubuntu/script-alert.sh
 ```
 Apabila ada container yang mati maka Bot akan mengirimkan alert seperti beritku 
-![Alert Docker](assets/alerdocker.png)
+![Alert Docker](assets/alerdocker.webp)
 
 Voila, docker alert berhasil dibuat. 
 

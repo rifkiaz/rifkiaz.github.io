@@ -1,11 +1,9 @@
 ---
 title: "Install Hugo di openSUSE Tumbleweed"
 date: 2020-05-19T08:52:01+07:00
-image: assets/thumb.jpg
-author: Rifki Affandi
-kategori: [Tutorial]
+categories: [tutorial]
 tags: [openSUSE, hugo, tutorial, tumbleweed]
-description: 
+description: "Langkah instalasi Hugo, static site generator berbasis Go, di openSUSE Tumbleweed."
 ---
 ### Pengenalan
 [Hugo](https://gohugo.io) merupakan sebuah generator web statis seperti [Hexo](https://hexo.io/), [Hugo](https://gohugo.io) ditulis menggunakan bahasa [Golang](https://golang.org/) sehingga load page lebih cepat dibanding dengan [Hexo](https://hexo.io). Oh ya kebetulan website ini menggunakan Hugo loh.
