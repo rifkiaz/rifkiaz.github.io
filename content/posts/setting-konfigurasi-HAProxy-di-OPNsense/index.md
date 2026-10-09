@@ -7,7 +7,7 @@ description: "Konfigurasi HAProxy sebagai reverse proxy dan load balancer di fir
 ---
 OPNsense adalah proyek firewall berbasis open source berbasis FreeBSD [OPNsense](https://opnsense.org/).
 
-![OPNsense dashboard](assets/dashboard.png)
+![OPNsense dashboard](assets/dashboard.webp)
 
 Berikut adalah tutorial untuk mengkonfigurasi HAProxy di OPNsense. 
 

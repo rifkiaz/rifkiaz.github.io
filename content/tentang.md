@@ -9,7 +9,7 @@ ShowBreadCrumbs: false
 comments: false
 ---
 
-![Rifki Affandi menjadi pembicara di GNOME.Asia Summit 2022](/img/rifki-gnome-asia.jpg "Saat jadi pembicara di GNOME.Asia Summit 2022")
+![Rifki Affandi menjadi pembicara di GNOME.Asia Summit 2022](/img/rifki-gnome-asia.webp "Saat jadi pembicara di GNOME.Asia Summit 2022")
 
 Halo, saya **Rifki Affandi**. Sehari-hari saya berkutat di dunia infrastruktur dan DevOps.
 

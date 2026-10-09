@@ -45,7 +45,7 @@ crontab -e
 */1 * * * *     /bin/sh /home/ubuntu/script-alert.sh
 ```
 Apabila ada container yang mati maka Bot akan mengirimkan alert seperti beritku 
-![Alert Docker](assets/alerdocker.png)
+![Alert Docker](assets/alerdocker.webp)
 
 Voila, docker alert berhasil dibuat. 
 
