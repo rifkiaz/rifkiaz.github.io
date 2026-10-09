@@ -45,7 +45,7 @@ enableGitInfo = true
 
   [params.homeInfoParams]
     Title = "Halo, saya Rifki 👋"
-    Image = "img/rifki.webp"
+    Image = "img/rifki-avatar.webp"
     Content = """
 Sehari-hari saya mengurus infrastruktur dan DevOps: otomasi server pakai Ansible, database, monitoring, sampai tooling internal. Di sini saya mencatat hal-hal teknis dari kerjaan dan dari ngoprek bareng komunitas open source.
 
