@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 315" width="780" height="315" role="img" font-family="-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif">
+<title>Alur resize disk EBS: snapshot, modify volume, growpart, xfs_growfs</title>
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#495057"/></marker></defs>
+<rect width="780" height="315" rx="14" fill="#FFFFFF"/>
+<text x="20" y="30" font-size="13" font-weight="600" fill="#495057">Di AWS (Console / CLI)</text>
+<rect x="20" y="42" width="170" height="64" rx="10" fill="#FFF4E6" stroke="#F08C00" stroke-width="1.5"/>
+<text x="105.0" y="70.5" text-anchor="middle" font-size="14" font-weight="600" fill="#7A4100">1. Snapshot</text>
+<text x="105.0" y="87.5" text-anchor="middle" font-size="12" font-weight="400" fill="#7A4100">jaring pengaman</text>
+<line x1="190" y1="74" x2="228" y2="74" stroke="#495057" stroke-width="1.6" marker-end="url(#a)"/>
+<rect x="230" y="42" width="170" height="64" rx="10" fill="#FFF4E6" stroke="#F08C00" stroke-width="1.5"/>
+<text x="315.0" y="70.5" text-anchor="middle" font-size="14" font-weight="600" fill="#7A4100">2. Modify volume</text>
+<text x="315.0" y="87.5" text-anchor="middle" font-size="12" font-weight="400" fill="#7A4100">80 → 120 GB (+ gp3)</text>
+<line x1="400" y1="74" x2="448" y2="74" stroke="#495057" stroke-width="1.6" marker-end="url(#a)"/>
+<text x="450" y="30" font-size="13" font-weight="600" fill="#495057">Di dalam instance (SSH / SSM)</text>
+<rect x="450" y="42" width="140" height="64" rx="10" fill="#E6FCF5" stroke="#12B886" stroke-width="1.5"/>
+<text x="520.0" y="70.5" text-anchor="middle" font-size="14" font-weight="600" fill="#0B5E45">3. growpart</text>
+<text x="520.0" y="87.5" text-anchor="middle" font-size="12" font-weight="400" fill="#0B5E45">partisi</text>
+<line x1="590" y1="74" x2="618" y2="74" stroke="#495057" stroke-width="1.6" marker-end="url(#a)"/>
+<rect x="620" y="42" width="140" height="64" rx="10" fill="#E6FCF5" stroke="#12B886" stroke-width="1.5"/>
+<text x="690.0" y="70.5" text-anchor="middle" font-size="14" font-weight="600" fill="#0B5E45">4. xfs_growfs</text>
+<text x="690.0" y="87.5" text-anchor="middle" font-size="12" font-weight="400" fill="#0B5E45">filesystem</text>
+<text x="20" y="150" font-size="13" font-weight="600" fill="#495057">Tiga lapisan yang harus diperbesar</text>
+<rect x="20" y="162" width="740" height="40" rx="10" fill="#FFF4E6" stroke="#F08C00" stroke-width="1.5"/>
+<text x="390.0" y="187.0" text-anchor="middle" font-size="14" font-weight="600" fill="#7A4100">Volume EBS (block device) · nvme0n1 · 120 GB</text>
+<rect x="20" y="208" width="560" height="40" rx="10" fill="#E7F0FF" stroke="#4C6EF5" stroke-width="1.5"/>
+<text x="300.0" y="233.0" text-anchor="middle" font-size="14" font-weight="600" fill="#1C2E7A">Partisi · nvme0n1p1 · 80 GB → growpart</text>
+<rect x="20" y="254" width="420" height="40" rx="10" fill="#E6FCF5" stroke="#12B886" stroke-width="1.5"/>
+<text x="230.0" y="279.0" text-anchor="middle" font-size="14" font-weight="600" fill="#0B5E45">Filesystem XFS · / · 80 GB → xfs_growfs</text>
+<text x="600" y="233" font-size="12" fill="#495057">ruang baru belum</text>
+<text x="600" y="249" font-size="12" fill="#495057">terpakai sampai</text>
+<text x="600" y="265" font-size="12" fill="#495057">langkah 3 &amp; 4</text>
+</svg>
