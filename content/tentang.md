@@ -2,6 +2,7 @@
 title: "Tentang Saya"
 description: "Profil singkat Rifki Affandi, engineer infrastruktur dan DevOps."
 url: "/tentang/"
+aliases: ["/about/"]
 ShowToc: false
 ShowReadingTime: false
 ShowBreadCrumbs: false
