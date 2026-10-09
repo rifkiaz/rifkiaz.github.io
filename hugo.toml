@@ -46,7 +46,7 @@ enableGitInfo = true
   [params.homeInfoParams]
     Title = "Halo, saya Rifki 👋"
     Content = """
-Saya bekerja di bidang infrastruktur dan DevOps: otomasi server dengan Ansible, database, monitoring, dan tooling internal. Di sini saya menulis catatan teknis dari pekerjaan sehari-hari dan dari kegiatan komunitas open source.
+Sehari-hari saya mengurus infrastruktur dan DevOps: otomasi server pakai Ansible, database, monitoring, sampai tooling internal. Di sini saya mencatat hal-hal teknis dari kerjaan dan dari ngoprek bareng komunitas open source.
 
 [Lihat proyek](/proyek/) · [Tentang saya](/tentang/)
 """

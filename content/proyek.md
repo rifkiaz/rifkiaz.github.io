@@ -8,7 +8,7 @@ ShowBreadCrumbs: false
 comments: false
 ---
 
-Beberapa proyek infrastruktur dan otomasi yang pernah saya kerjakan. Detail yang spesifik ke organisasi sengaja tidak disertakan; yang saya tulis adalah pendekatan dan pelajarannya.
+Ini beberapa proyek infrastruktur dan otomasi yang pernah saya kerjakan. Detail yang spesifik ke kantor sengaja nggak saya sertakan. Yang saya tulis adalah pendekatan dan pelajarannya.
 
 ## Otomasi MongoDB Replica Set dengan Ansible
 
@@ -36,4 +36,4 @@ Pastebin internal untuk tim teknis sebagai pengganti pastebin publik: enkripsi d
 
 ---
 
-Tertarik berdiskusi soal proyek serupa? Hubungi saya lewat [GitHub](https://github.com/rifkiaz) atau [X/Twitter](https://x.com/rifkiiaz).
+Mau ngobrol soal proyek serupa? Sapa saja saya lewat [GitHub](https://github.com/rifkiaz) atau [X/Twitter](https://x.com/rifkiiaz).

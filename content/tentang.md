@@ -9,9 +9,9 @@ ShowBreadCrumbs: false
 comments: false
 ---
 
-Halo, saya **Rifki Affandi**, engineer yang fokus di infrastruktur dan DevOps.
+Halo, saya **Rifki Affandi**. Sehari-hari saya berkutat di dunia infrastruktur dan DevOps.
 
-Sehari-hari saya mengelola server Linux, mengotomasi provisioning dengan Ansible, menjaga database tetap tersedia, dan membangun monitoring supaya masalah ketahuan sebelum pengguna merasakannya. Saya juga senang membuat tooling internal kecil yang menghemat waktu tim.
+Kerjaan saya kurang lebih seputar mengurus server Linux, mengotomasi provisioning pakai Ansible, menjaga database tetap jalan, dan memasang monitoring supaya masalah ketahuan sebelum pengguna sempat merasakannya. Saya juga suka bikin tooling internal kecil yang bikin kerjaan tim lebih ringan.
 
 ## Yang biasa saya kerjakan
 
@@ -23,11 +23,11 @@ Sehari-hari saya mengelola server Linux, mengotomasi provisioning dengan Ansible
 
 ## Komunitas open source
 
-Saya aktif di komunitas FLOSS, termasuk openSUSE dan LibreOffice Indonesia, dan pernah hadir di GNOME.Asia Summit 2022 di Kuala Lumpur. Banyak tulisan di blog ini lahir dari oprekan di komunitas tersebut.
+Di luar kerjaan, saya aktif di komunitas FLOSS, termasuk openSUSE dan LibreOffice Indonesia, dan sempat ikut GNOME.Asia Summit 2022 di Kuala Lumpur. Banyak tulisan di blog ini lahir dari hasil ngoprek bareng komunitas.
 
 ## Tentang blog ini
 
-Blog ini berisi catatan teknis yang saya tulis supaya bisa dipakai ulang, oleh saya sendiri dan oleh siapa pun yang mengalami masalah serupa. Contoh konfigurasi di sini sengaja dibuat generik; sesuaikan dengan lingkungan Anda sebelum dipakai di produksi.
+Blog ini isinya catatan teknis yang saya tulis supaya bisa dibaca ulang, buat saya sendiri dan buat siapa saja yang lagi ketemu masalah serupa. Contoh konfigurasinya sengaja dibuat generik, jadi sesuaikan dulu dengan lingkunganmu sebelum dipakai di produksi.
 
 ## Kontak
 
