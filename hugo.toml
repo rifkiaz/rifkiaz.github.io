@@ -49,7 +49,9 @@ enableGitInfo = true
     Content = """
 Sehari-hari saya mengurus infrastruktur dan DevOps: otomasi server pakai Ansible, database, monitoring, sampai tooling internal. Di sini saya mencatat hal-hal teknis dari kerjaan dan dari ngoprek bareng komunitas open source.
 
-[Lihat proyek](/proyek/) · [Tentang saya](/tentang/)
+Saya juga [member openSUSE](https://kudos.opensuse.org/user/Rifkiaz) dan aktif di komunitasnya.
+
+[Lihat proyek](/proyek/) · [Cheat sheet](/cheatsheet/) · [Tentang saya](/tentang/)
 """
 
   [[params.socialIcons]]
@@ -94,6 +96,12 @@ Sehari-hari saya mengurus infrastruktur dan DevOps: otomasi server pakai Ansible
     name = "Proyek"
     url = "/proyek/"
     weight = 20
+
+  [[menu.main]]
+    identifier = "cheatsheet"
+    name = "Cheat Sheet"
+    url = "/cheatsheet/"
+    weight = 25
 
   [[menu.main]]
     identifier = "archives"

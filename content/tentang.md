@@ -27,6 +27,8 @@ Kerjaan saya kurang lebih seputar mengurus server Linux, mengotomasi provisionin
 
 Di luar kerjaan, saya aktif di komunitas FLOSS, termasuk openSUSE dan LibreOffice Indonesia, dan sempat jadi pembicara di GNOME.Asia Summit 2022 di Kuala Lumpur, membawakan topik seputar mechanical keyboard. Banyak tulisan di blog ini lahir dari hasil ngoprek bareng komunitas.
 
+Saya juga terdaftar sebagai **openSUSE Member**. Profil kontribusi saya bisa kamu lihat di [openSUSE Kudos](https://kudos.opensuse.org/user/Rifkiaz). Contekan perintah openSUSE yang sering saya pakai saya kumpulkan di halaman [Cheat Sheet](/cheatsheet/).
+
 ## Tentang blog ini
 
 Blog ini isinya catatan teknis yang saya tulis supaya bisa dibaca ulang, buat saya sendiri dan buat siapa saja yang lagi ketemu masalah serupa. Contoh konfigurasinya sengaja dibuat generik, jadi sesuaikan dulu dengan lingkunganmu sebelum dipakai di produksi.
@@ -34,6 +36,7 @@ Blog ini isinya catatan teknis yang saya tulis supaya bisa dibaca ulang, buat sa
 ## Kontak
 
 - GitHub: [github.com/rifkiaz](https://github.com/rifkiaz)
+- openSUSE: [kudos.opensuse.org/user/Rifkiaz](https://kudos.opensuse.org/user/Rifkiaz)
 - X/Twitter: [@rifkiiaz](https://x.com/rifkiiaz)
 - Instagram: [@rifkiaz](https://instagram.com/rifkiaz)
 
