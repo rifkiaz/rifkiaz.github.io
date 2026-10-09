@@ -1,6 +1,6 @@
 ---
 title: "openSUSE Tumbleweed di ThinkPad X1 Nano: Benerin Scaling GDM, Mikrofon, dan Speaker"
-date: 2026-10-09T10:00:00+07:00
+date: 2026-08-26T20:31:00+07:00
 categories: [tutorial]
 tags: [openSUSE, tumbleweed, gnome, gdm, thinkpad, audio, pipewire, linux]
 description: "Catatan troubleshooting openSUSE Tumbleweed di ThinkPad X1 Nano Gen 1: layar login GDM yang tetap 150%, mikrofon hilang setelah pasang sof-firmware, dan speaker yang terasa pelan."

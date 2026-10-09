@@ -1,6 +1,6 @@
 ---
 title: "Memperbesar Disk EC2 (EBS) Tanpa Downtime"
-date: 2026-10-09T11:30:00+07:00
+date: 2026-09-06T10:17:00+07:00
 categories: [tutorial]
 tags: [aws, ec2, ebs, linux, xfs, mongodb, amazon-linux]
 description: "Langkah memperbesar volume EBS di EC2 dari 80 GB ke 120 GB tanpa reboot: snapshot, modify volume lewat console, lalu growpart dan xfs_growfs di dalam instance."

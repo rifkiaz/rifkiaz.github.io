@@ -1,6 +1,6 @@
 ---
 title: "Memasang Prometheus Exporter dengan Ansible"
-date: 2026-09-29T09:00:00+07:00
+date: 2026-08-09T16:38:00+07:00
 description: "Role Ansible yang rapi untuk memasang node_exporter sebagai service systemd, lengkap dengan verifikasi checksum, user khusus, dan target scrape Prometheus yang dibuat dari inventory."
 categories: [proyek]
 tags: [ansible, prometheus, node-exporter, monitoring, observability]

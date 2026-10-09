@@ -1,6 +1,6 @@
 ---
 title: "Mengatur CORS di Bucket Google Cloud Storage"
-date: 2026-10-09T11:35:00+07:00
+date: 2026-10-08T19:40:00+07:00
 categories: [tutorial]
 tags: [gcp, google-cloud-storage, cors, gcloud, frontend]
 description: "Cara menambahkan aturan CORS ke bucket Google Cloud Storage lewat Console atau gcloud, kesalahan trailing slash yang sering bikin gagal, dan kenapa CORS saja belum cukup kalau bucket-nya private."
