@@ -15,6 +15,8 @@ Akhirnya saya pakai satu pola untuk semuanya:
 Sumber alert → Webhook n8n → Code (format embed) → HTTP Request → Discord
 ```
 
+![Alur umum: Sentry, Grafana, New Relic, dan GitHub mengirim webhook ke n8n, lalu n8n mengirim embed card ke Discord](assets/alur-umum.svg)
+
 n8n jadi "pintu" tunggal. Semua pesan dirapikan di node Code jadi **embed card** Discord dengan format yang konsisten: apa yang terjadi, di mana, kemungkinan penyebabnya, dan link untuk investigasi. Tulisan ini merangkum setup-nya, termasuk jebakan-jebakan yang saya temui.
 
 > Semua URL, nama service, dan endpoint di tulisan ini contoh. Ganti dengan punya kamu.
@@ -165,14 +167,7 @@ Pilihan yang tersisa:
 
 Karena kami sudah punya Grafana untuk Prometheus, jalan paling ringan adalah **menambahkan Elasticsearch sebagai data source di Grafana** dan membuat alert di sana. Data nggak perlu diduplikasi, config OTel Collector nggak berubah, dan Kibana APM tetap jadi tempat investigasi.
 
-```
-Aplikasi → OTel Collector → APM Server / Elasticsearch
-                                     ▲
-                       Grafana (data source Elasticsearch)
-                                     │ alert rule
-                                     ▼
-                          Webhook → n8n → Discord
-```
+![Alur alert Elasticsearch APM: Grafana membaca Elasticsearch sebagai data source, mengirim webhook ke n8n, lalu card di Discord berisi link ke Kibana APM](assets/alur-grafana-elasticsearch.svg)
 
 Sempat juga terpikir pindah ke LGTM (Loki, Grafana, Tempo, Mimir), atau kirim paralel lewat *collector chaining*. Itu bisa dan cukup umum, tapi kalau kebutuhan APM sudah terpenuhi oleh Elastic, yang sebenarnya kurang cuma alerting. Jadi nggak perlu bangun stack baru hanya untuk itu.
 
@@ -392,6 +387,8 @@ Kalau cuma kode 400 yang mau dimatikan, ubah query jadi `... AND NOT http.respon
 
 Polanya sama: **NRQL Condition → Alert Policy → Workflow → Destination (Webhook) → n8n**. Alerting sudah termasuk di plan New Relic tanpa biaya tambahan.
 
+![Alur New Relic: NRQL Condition, Alert Policy, Workflow, Destination webhook, n8n, lalu Discord](assets/alur-new-relic.svg)
+
 ### Jebakan: `http.statusCode` bertipe string
 
 Query `WHERE http.statusCode >= 500` saya hasilnya kosong, padahal datanya ada. Ternyata atribut itu tersimpan sebagai **string** di sebagian event, dan perbandingan `>=` hanya berlaku untuk numerik. Di tampilan FACET hal ini nggak kelihatan karena string dan angka ditampilkan sama. Solusinya bungkus dengan `numeric()`:
@@ -552,10 +549,7 @@ Kalau output node Code ada field `myNewField: 1`, berarti yang jalan masih kode 
 
 Webhook akun Vercel cuma tersedia di plan Pro dan Enterprise. Jalan gratisnya lewat **GitHub**: kalau project Vercel terhubung ke repo GitHub, Vercel selalu melaporkan status deploy ke GitHub sebagai *deployment status*, dan webhook GitHub itu gratis.
 
-```
-Push → Vercel deploy → Vercel lapor status ke GitHub
-  → GitHub Webhook (deployment_status) → n8n → Discord
-```
+![Alur notifikasi deploy Vercel: push, Vercel deploy dan lapor status ke GitHub, webhook deployment_status ke n8n, n8n mengambil data commit dari GitHub API, lalu card ke Discord](assets/alur-vercel-github.svg)
 
 ### Webhook GitHub
 
@@ -569,9 +563,7 @@ Di **Settings → Webhooks** repo (atau di level organisasi supaya semua repo ik
 
 Saya juga ingin card menampilkan **siapa yang commit** dan judul commit-nya. Masalahnya, di event `deployment_status` pembuat deploy tercatat sebagai `vercel[bot]`. Jadi perlu satu panggilan ke GitHub API:
 
-```
-Webhook → Code "Filter Deploy" → HTTP Request "GitHub Commit" → Code "Format Card" → HTTP Request (Discord)
-```
+Urutan node-nya seperti di diagram di atas: `Filter Deploy` → `GitHub Commit` → `Format Card` → HTTP Request ke Discord.
 
 **Code `Filter Deploy`** (namanya harus persis, karena dibaca node berikutnya):
 
