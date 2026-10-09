@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 320" width="760" height="320" role="img" font-family="-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif">
+<title>Alur umum: semua sumber alert masuk ke n8n lalu ke Discord</title>
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#495057"/></marker></defs>
+<rect width="760" height="320" rx="14" fill="#FFFFFF"/>
+<rect x="20" y="30" width="150" height="52" rx="10" fill="#FFF0F0" stroke="#E03131" stroke-width="1.5"/>
+<text x="95.0" y="52.5" text-anchor="middle" font-size="14" font-weight="600" fill="#7A1414">Sentry</text>
+<text x="95.0" y="69.5" text-anchor="middle" font-size="12" font-weight="400" fill="#7A1414">error aplikasi</text>
+<path d="M170,56 C215,56 215,170 250,170" fill="none" stroke="#495057" stroke-width="1.6" marker-end="url(#a)"/>
+<rect x="20" y="100" width="150" height="52" rx="10" fill="#FFF4E6" stroke="#F08C00" stroke-width="1.5"/>
+<text x="95.0" y="122.5" text-anchor="middle" font-size="14" font-weight="600" fill="#7A4100">Grafana</text>
+<text x="95.0" y="139.5" text-anchor="middle" font-size="12" font-weight="400" fill="#7A4100">Elasticsearch APM</text>
+<path d="M170,126 C215,126 215,170 250,170" fill="none" stroke="#495057" stroke-width="1.6" marker-end="url(#a)"/>
+<rect x="20" y="170" width="150" height="52" rx="10" fill="#E7F0FF" stroke="#4C6EF5" stroke-width="1.5"/>
+<text x="95.0" y="192.5" text-anchor="middle" font-size="14" font-weight="600" fill="#1C2E7A">New Relic</text>
+<text x="95.0" y="209.5" text-anchor="middle" font-size="12" font-weight="400" fill="#1C2E7A">APM 5xx</text>
+<path d="M170,196 C215,196 215,170 250,170" fill="none" stroke="#495057" stroke-width="1.6" marker-end="url(#a)"/>
+<rect x="20" y="240" width="150" height="52" rx="10" fill="#F1F3F5" stroke="#868E96" stroke-width="1.5"/>
+<text x="95.0" y="262.5" text-anchor="middle" font-size="14" font-weight="600" fill="#212529">GitHub</text>
+<text x="95.0" y="279.5" text-anchor="middle" font-size="12" font-weight="400" fill="#212529">deploy Vercel</text>
+<path d="M170,266 C215,266 215,170 250,170" fill="none" stroke="#495057" stroke-width="1.6" marker-end="url(#a)"/>
+<rect x="255" y="95" width="330" height="150" rx="12" fill="none" stroke="#ADB5BD" stroke-width="1.2" stroke-dasharray="6 4"/><text x="267" y="113" font-size="12" font-weight="600" fill="#495057">Workflow n8n</text>
+<rect x="270" y="140" width="90" height="56" rx="10" fill="#E6FCF5" stroke="#12B886" stroke-width="1.5"/>
+<text x="315.0" y="164.5" text-anchor="middle" font-size="14" font-weight="600" fill="#0B5E45">Webhook</text>
+<text x="315.0" y="181.5" text-anchor="middle" font-size="12" font-weight="400" fill="#0B5E45">1 path/sumber</text>
+<line x1="360" y1="168" x2="382" y2="168" stroke="#495057" stroke-width="1.6" marker-end="url(#a)"/>
+<rect x="384" y="140" width="82" height="56" rx="10" fill="#E6FCF5" stroke="#12B886" stroke-width="1.5"/>
+<text x="425.0" y="164.5" text-anchor="middle" font-size="14" font-weight="600" fill="#0B5E45">Code</text>
+<text x="425.0" y="181.5" text-anchor="middle" font-size="12" font-weight="400" fill="#0B5E45">format card</text>
+<line x1="466" y1="168" x2="488" y2="168" stroke="#495057" stroke-width="1.6" marker-end="url(#a)"/>
+<rect x="490" y="140" width="82" height="56" rx="10" fill="#E6FCF5" stroke="#12B886" stroke-width="1.5"/>
+<text x="531.0" y="164.5" text-anchor="middle" font-size="14" font-weight="600" fill="#0B5E45">HTTP</text>
+<text x="531.0" y="181.5" text-anchor="middle" font-size="12" font-weight="400" fill="#0B5E45">Request</text>
+<line x1="572" y1="168" x2="618" y2="168" stroke="#495057" stroke-width="1.6" marker-end="url(#a)"/><text x="595.0" y="161.0" text-anchor="middle" font-size="11" fill="#495057">POST</text>
+<rect x="620" y="132" width="120" height="72" rx="10" fill="#F3F0FF" stroke="#7950F2" stroke-width="1.5"/>
+<text x="680.0" y="156.0" text-anchor="middle" font-size="14" font-weight="600" fill="#3B1F8C">Discord</text>
+<text x="680.0" y="173.0" text-anchor="middle" font-size="12" font-weight="400" fill="#3B1F8C">embed card</text>
+<text x="680.0" y="190.0" text-anchor="middle" font-size="12" font-weight="400" fill="#3B1F8C">per channel</text>
+</svg>
