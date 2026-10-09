@@ -1,10 +1,13 @@
 {{- with site.Params.homeInfoParams }}
 <article class="first-entry home-info">
-    {{- with .Image }}
-    <img class="home-avatar" src="{{ . | relURL }}" alt="{{ site.Params.author }}" width="112" height="112">
-    {{- end }}
     <header class="entry-header">
         <h1>{{ .Title | markdownify }}</h1>
+        {{- with .Typed }}
+        <p class="home-typed" aria-label="{{ delimit . ", " }}">
+            <span class="home-typed-prefix" aria-hidden="true">as</span>
+            <span class="home-typed-text" aria-hidden="true" data-words="{{ . | jsonify }}">{{ index . 0 }}</span><span class="home-typed-cursor" aria-hidden="true"></span>
+        </p>
+        {{- end }}
     </header>
     <div class="entry-content md-content">
         {{ $opts := dict "display" "block" }}
@@ -14,4 +17,25 @@
         {{ partial "social_icons.html" (dict "align" site.Params.homeInfoParams.AlignSocialIconsTo) }}
     </footer>
 </article>
+{{- with .Typed }}
+<script>
+(function () {
+  var el = document.querySelector('.home-typed-text');
+  if (!el) return;
+  var words = JSON.parse(el.dataset.words || '[]');
+  if (words.length < 2 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var w = 0, i = words[0].length, deleting = true;
+  function tick() {
+    var word = words[w];
+    i += deleting ? -1 : 1;
+    el.textContent = word.slice(0, i);
+    var delay = deleting ? 45 : 90;
+    if (!deleting && i === word.length) { deleting = true; delay = 1800; }
+    else if (deleting && i === 0) { deleting = false; w = (w + 1) % words.length; word = words[w]; delay = 350; }
+    setTimeout(tick, delay);
+  }
+  setTimeout(tick, 1800);
+})();
+</script>
+{{- end }}
 {{- end -}}
