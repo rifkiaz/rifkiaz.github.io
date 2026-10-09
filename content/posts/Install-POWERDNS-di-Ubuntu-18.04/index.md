@@ -1,11 +1,9 @@
 ---
 title: "Install POWERDNS di Ubuntu 18.04"
 date: 2020-09-14T11:29:13+07:00
-image: assets/thumb.jpg
-author: Rifki Affandi
-kategori: [Tutorial]
+categories: [tutorial]
 tags: [linux, powerdns, ubuntu, dns, server]
-description: 
+description: "Panduan instalasi dan konfigurasi PowerDNS dengan backend MariaDB di Ubuntu 18.04."
 ---
 [POWERDNS](https://www.powerdns.com/) adalah DNS Server berbasis MySQL, yang ditulis dalam C ++ dan berlisensi Under GPL. PowerDNS dapat dikelola melalui web base interface (PowerAdmin). Pada tutorial kali ini akan membahas bagaimana menginstall dan mengkonfigurasi [POWERDNS](https://www.powerdns.com) pada [Ubuntu 18.04](http://kambing.ui.ac.id/iso/ubuntu/releases/bionic/). 
 

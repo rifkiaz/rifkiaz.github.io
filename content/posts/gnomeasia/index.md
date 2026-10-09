@@ -1,11 +1,9 @@
 ---
 title: "My Journey with GNOME Asia Summit 2022 Malaysia"
 date: 2022-12-15T14:44:46+07:00
-image: assets/thumb.jpg
-author: Rifki Affandi
-kategori: [Journey]
+categories: [journey]
 tags: [openSUSE, Tumbleweed, GNOME, Asia]
-description: 
+description: "Catatan perjalanan menghadiri GNOME.Asia Summit 2022 di Kuala Lumpur, Malaysia."
 ---
 # Day 0
 My day 0 is a travel to Malaysia, and this is first time for me. because I will try solo traveling to another country, and for trial I try going to Malaysia. 

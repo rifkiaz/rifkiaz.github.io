@@ -1,11 +1,9 @@
 ---
 title: "Membuat Blog Sederhana Dengan Hugo"
 date: 2020-05-27T19:40:22+07:00
-image: assets/thumb.jpg
-author: Rifki Affandi
-kategori: [Tutorial]
+categories: [tutorial]
 tags: [hugo, linux, openSUSE, blog, tutorial]
-description: 
+description: "Alasan memilih Hugo dan langkah membuat blog statis sederhana dari nol."
 ---
 
 

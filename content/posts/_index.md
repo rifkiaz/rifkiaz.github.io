@@ -1,9 +1,4 @@
 ---
-title: "Posts"
-weight: 1
-bookFlatSection: true
+title: "Tulisan"
+description: "Catatan teknis dan tutorial seputar DevOps, Linux, dan FLOSS."
 ---
-
-# Blog Posts
-
-Kumpulan catatan dan tutorial terkait FLOSS (Free/Libre Open Source Software).
