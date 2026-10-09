@@ -1,0 +1,9 @@
+# Only used for Netlify deploy previews on pull requests.
+# Production is deployed to GitHub Pages by .github/workflows/hugo.yml.
+[build]
+  publish = "public"
+  command = "hugo --minify --baseURL \"$DEPLOY_PRIME_URL/\""
+
+[build.environment]
+  HUGO_VERSION = "0.148.2"
+  HUGO_EXTENDED = "true"
