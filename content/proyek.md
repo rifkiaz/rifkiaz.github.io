@@ -10,6 +10,12 @@ comments: false
 
 Ini beberapa proyek infrastruktur dan otomasi yang pernah saya kerjakan. Detail yang spesifik ke kantor sengaja nggak saya sertakan. Yang saya tulis adalah pendekatan dan pelajarannya.
 
+## Cluster Elasticsearch di Docker dengan Ansible
+
+Role Ansible untuk membangun cluster Elasticsearch tiga node berbasis container: tuning kernel host, TLS antar-node dengan CA sendiri, password dari Ansible Vault, bootstrap cluster yang aman dijalankan ulang, dan rolling upgrade satu node per satu.
+
+**Stack:** Ansible, Elasticsearch, Docker, Ansible Vault · [Baca tulisannya →](/posts/ansible-elasticsearch-cluster-docker/)
+
 ## Otomasi MongoDB Replica Set dengan Ansible
 
 Role Ansible untuk memasang MongoDB replica set tiga node dengan keyfile, autentikasi aktif, dan inisialisasi yang idempoten. Rahasia dikelola dengan Ansible Vault.
