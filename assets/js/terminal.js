@@ -472,15 +472,32 @@
     neofetch: {
       desc: 'info "sistem"',
       run: function () {
-        var art = [
-          '    .--.    ',
-          '   |o_o |   ',
-          '   |:_/ |   ',
-          '  //   \\ \\  ',
-          ' (|     | ) ',
-          "/'\\_   _/`\\ ",
-          '\\___)=(___/ '
-        ];
+        // openSUSE logo, as drawn by neofetch (big and small variants)
+        var artBig = String.raw`           .;ldkO0000Okdl;.
+       .;d00xl:^''''''^:ok00d;.
+     .d00l'                'o00d.
+   .d0Kd'  Okxol:;,.          :O0d.
+  .OKKKK0kOKKKKKKKKKKOxo:,      lKO.
+ ,0KKKKKKKKKKKKKKKK0P^,,,^dx:    ;00,
+.OKKKKKKKKKKKKKKKKk'.oOPPb.'0k.   cKO.
+:KKKKKKKKKKKKKKKKK: kKx..dd lKd   'OK:
+dKKKKKKKKKKKOx0KKKd ^0KKKO' kKKc   dKd
+dKKKKKKKKKKKK;.;oOKx,..^..;kKKK0.  dKd
+:KKKKKKKKKKKK0o;...^cdxxOK0O/^^'  .0K:
+ kKKKKKKKKKKKKKKK0x;,,......,;od  lKk
+ '0KKKKKKKKKKKKKKKKKKKKK00KKOo^  c00'
+  'kKKKOxddxkOO00000Okxoc;''   .dKk'
+    l0Ko.                    .c00l'
+     'l0Kk:.              .;xK0l'
+        'lkK0xl:;,,,,;:ldO0kl'
+            '^:ldxkkkkxdl:^'`;
+        var artSmall = String.raw`  _______
+__|   __ \
+     / .\ \
+     \__/ |
+   _______|
+   \_______
+__________/`;
         var info = [
           [USER + '@' + HOST, ''],
           ['-----------', ''],
@@ -494,7 +511,11 @@
         ];
         var pre = document.createElement('div');
         pre.className = 'term-neofetch';
-        var a = span(art.join('\n'), 'term-art');
+        var a = document.createElement('div');
+        a.className = 'term-art';
+        a.setAttribute('aria-label', 'Logo openSUSE');
+        a.appendChild(span(artBig, 'term-art-big'));
+        a.appendChild(span(artSmall, 'term-art-small'));
         var i = document.createElement('div');
         info.forEach(function (r) {
           var d = document.createElement('div');
