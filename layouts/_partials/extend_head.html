@@ -141,7 +141,12 @@
   .term-click { cursor: pointer; }
   .term-click:hover { text-decoration: underline; text-underline-offset: 3px; }
   .term-neofetch { display: flex; flex-wrap: wrap; gap: 4px 3ch; align-items: flex-start; }
-  .term-art { color: var(--accent); white-space: pre; line-height: 1.3; }
+  .term-art { color: #73ba25; white-space: pre; line-height: 1.25; font-weight: 600; }
+  .term-art-small { display: none; }
+  @media (max-width: 600px) {
+    .term-art-big { display: none; }
+    .term-art-small { display: inline; }
+  }
   .term-input-line { display: flex; align-items: center; gap: 1ch; margin-top: 6px; }
   .term-input {
     flex: 1; min-width: 0; padding: 0; border: 0; outline: none; background: transparent;
