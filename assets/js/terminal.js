@@ -547,6 +547,18 @@
     input.focus({ preventScroll: true });
   });
 
+  // keep the prompt visible above the on-screen keyboard on phones
+  function keepInputVisible() {
+    if (document.activeElement !== input) return;
+    var vv = window.visualViewport;
+    var r = input.getBoundingClientRect();
+    var bottom = vv ? vv.height + vv.offsetTop : window.innerHeight;
+    if (r.bottom > bottom - 8 || r.top < 0) input.scrollIntoView({ block: 'center' });
+  }
+  if (window.visualViewport) window.visualViewport.addEventListener('resize', function () { setTimeout(keepInputVisible, 50); });
+  input.addEventListener('focus', function () { setTimeout(keepInputVisible, 300); });
+  form.addEventListener('submit', function () { setTimeout(keepInputVisible, 0); });
+
   var chips = document.getElementById('term-chips');
   if (chips) chips.addEventListener('click', function (e) {
     var b = e.target.closest('button[data-cmd]');
