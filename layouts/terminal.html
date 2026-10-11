@@ -1,0 +1,59 @@
+{{- define "main" }}
+{{- $home := site.Params.homeInfoParams }}
+{{- $posts := slice }}
+{{- range (where site.RegularPages "Section" "posts").ByDate.Reverse }}
+{{- $posts = $posts | append (dict "name" .File.ContentBaseName "title" .Title "date" (.Date.Format "2006-01-02") "url" .RelPermalink "summary" (.Description | default (.Summary | plainify | htmlUnescape | truncate 180))) }}
+{{- end }}
+{{- $sheets := slice }}
+{{- range (where site.RegularPages "Section" "cheatsheet").ByWeight }}
+{{- $sheets = $sheets | append (dict "name" .File.ContentBaseName "title" .Title "date" (.Date.Format "2006-01-02") "url" .RelPermalink "summary" (.Description | default "")) }}
+{{- end }}
+{{- $pageList := slice }}
+{{- with site.GetPage "/tentang" }}{{ $pageList = $pageList | append (dict "name" "tentang" "title" .Title "url" .RelPermalink "summary" .Description) }}{{ end }}
+{{- with site.GetPage "/proyek" }}{{ $pageList = $pageList | append (dict "name" "proyek" "title" .Title "url" .RelPermalink "summary" .Description) }}{{ end }}
+{{- $socials := slice }}
+{{- range site.Params.socialIcons }}{{ $socials = $socials | append (dict "name" .name "url" .url) }}{{ end }}
+{{- $data := dict
+  "name" ($home.Title | default site.Title)
+  "prompt" ($home.Prompt | default "rifki@devops: ~")
+  "roles" ($home.Typed | default slice)
+  "stack" ($home.Stack | default slice)
+  "posts" $posts
+  "cheatsheet" $sheets
+  "pages" $pageList
+  "socials" $socials
+  "home" ("/" | relLangURL)
+}}
+
+<header class="page-header">
+    <h1>{{ .Title }}</h1>
+    {{- with .Description }}
+    <div class="post-description">{{ . }}</div>
+    {{- end }}
+</header>
+
+<div class="terminal term-app" id="term">
+    <div class="terminal-bar" aria-hidden="true">
+        <span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span>
+        <span class="terminal-title">{{ $data.prompt }}</span>
+    </div>
+    <div class="terminal-body term-screen" id="term-screen">
+        <div id="term-out" role="log" aria-live="polite"></div>
+        <form class="term-input-line" id="term-form" autocomplete="off">
+            <label class="term-ps1" id="term-ps1" for="term-input"></label>
+            <input id="term-input" class="term-input" type="text" spellcheck="false" autocapitalize="off"
+                autocorrect="off" enterkeyhint="send" aria-label="Ketik perintah">
+        </form>
+    </div>
+</div>
+<div class="term-chips" id="term-chips" aria-label="Perintah cepat">
+    {{- range slice "help" "whoami" "ls posts" "neofetch" "game" "clear" }}
+    <button type="button" data-cmd="{{ . }}">{{ . }}</button>
+    {{- end }}
+</div>
+<noscript><p class="term-noscript">Terminal ini butuh JavaScript. Tanpa itu, kamu tetap bisa baca semua <a href="{{ "posts/" | relLangURL }}">tulisan</a>.</p></noscript>
+
+<script type="application/json" id="term-data">{{ $data | jsonify | safeJS }}</script>
+{{- $js := resources.Get "js/terminal.js" | minify | fingerprint }}
+<script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
+{{- end }}

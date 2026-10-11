@@ -60,6 +60,7 @@ Saya juga [member openSUSE](https://kudos.opensuse.org/user/Rifkiaz) dan aktif d
       { name = "proyek", url = "/proyek/" },
       { name = "cheatsheet", url = "/cheatsheet/" },
       { name = "tentang", url = "/tentang/" },
+      { name = "terminal", url = "/terminal/" },
     ]
 
   [[params.socialIcons]]

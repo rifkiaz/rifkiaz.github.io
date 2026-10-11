@@ -117,13 +117,61 @@
   .home-buttons a span { color: var(--accent); }
   .home-buttons a:hover { border-color: var(--accent); color: var(--accent); }
 
+  /* ---------- interactive terminal (/terminal/) ---------- */
+  .term-hint { margin-top: 12px; }
+  .term-hint a { color: var(--accent); box-shadow: none; }
+  .term-hint a:hover { text-decoration: underline; }
+  .term-app { margin-top: 4px; }
+  .term-screen {
+    height: min(62vh, 520px); overflow-y: auto; overscroll-behavior: contain;
+    cursor: text; word-break: break-word;
+  }
+  .term-row { white-space: pre-wrap; min-height: 1.6em; color: var(--primary); }
+  .term-echo { color: var(--content); margin-top: 6px; }
+  .term-ps1 { color: var(--accent); font-weight: 700; white-space: nowrap; }
+  .term-hl { color: var(--accent); font-weight: 600; }
+  .term-dim { color: var(--secondary); }
+  .term-err { color: #d1242f; }
+  :root[data-theme="dark"] .term-err { color: #f85149; }
+  .term-ok { color: var(--accent); }
+  .term-dir { color: var(--accent-2); font-weight: 600; }
+  .term-exec { color: var(--accent); }
+  .term-row a { color: var(--accent-2); text-decoration: underline; text-underline-offset: 3px; }
+  .term-ls-out { display: flex; flex-wrap: wrap; gap: 2px 2.4ch; }
+  .term-click { cursor: pointer; }
+  .term-click:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .term-neofetch { display: flex; flex-wrap: wrap; gap: 4px 3ch; align-items: flex-start; }
+  .term-art { color: var(--accent); white-space: pre; line-height: 1.3; }
+  .term-input-line { display: flex; align-items: center; gap: 1ch; margin-top: 6px; }
+  .term-input {
+    flex: 1; min-width: 0; padding: 0; border: 0; outline: none; background: transparent;
+    color: var(--primary); font: inherit; caret-color: var(--accent);
+  }
+  .term-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 6px; }
+  .term-chips button {
+    font-family: var(--mono); font-size: 13px; cursor: pointer;
+    padding: 5px 12px; border: 1px solid var(--border); border-radius: 8px;
+    background: var(--entry); color: var(--primary);
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+  .term-chips button:hover, .term-chips button:focus-visible { border-color: var(--accent); color: var(--accent); }
+  .term-noscript { font-family: var(--mono); font-size: 14px; margin-top: 12px; }
+  .term-shake { animation: term-shake 0.45s ease; }
+  @keyframes term-shake {
+    20%, 60% { transform: translateX(-6px); } 40%, 80% { transform: translateX(6px); }
+  }
+
   @keyframes term-blink { 50% { opacity: 0; } }
   @media (prefers-reduced-motion: reduce) {
-    .logo a::after, .home-typed-cursor { animation: none; }
+    .logo a::after, .home-typed-cursor, .term-shake { animation: none; }
   }
   @media (max-width: 480px) {
     .first-entry .term-name { font-size: 24px; }
     .terminal-body { padding: 16px; font-size: 13px; }
     .home-typed { font-size: 15px; }
+    /* 16px keeps iOS Safari from zooming in on focus */
+    .term-input { font-size: 16px; }
+    .term-screen { height: 55vh; height: 55dvh; padding: 14px; }
+    .term-chips button { padding: 8px 14px; font-size: 14px; }
   }
 </style>
