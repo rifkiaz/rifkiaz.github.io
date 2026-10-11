@@ -101,15 +101,84 @@
     line(frag(span(prompt, 'term-ps1'), ' ' + cmd), 'term-echo');
   }
 
-  // ---------- game: tebak port ----------
+  // ---------- games ----------
   var PORTS = [
     ['SSH', 22], ['HTTP', 80], ['HTTPS', 443], ['DNS', 53], ['SMTP', 25], ['FTP', 21],
     ['MySQL / MariaDB', 3306], ['PostgreSQL', 5432], ['MongoDB', 27017], ['Redis', 6379],
     ['Elasticsearch', 9200], ['Prometheus', 9090], ['node_exporter', 9100], ['Grafana', 3000],
     ['Alertmanager', 9093], ['Vault', 8200], ['n8n', 5678], ['RDP', 3389], ['Kubernetes API', 6443],
-    ['etcd', 2379], ['HAProxy stats (yang sering dipakai)', 8404], ['Telnet', 23], ['NTP', 123], ['LDAP', 389]
+    ['etcd', 2379], ['Telnet', 23], ['NTP', 123], ['LDAP', 389], ['RabbitMQ (AMQP)', 5672]
   ];
+  var HTTP_CODES = [
+    ['OK', 200], ['Created', 201], ['No Content', 204], ['Moved Permanently', 301], ['Found (redirect sementara)', 302],
+    ['Not Modified', 304], ['Bad Request', 400], ['Unauthorized', 401], ['Forbidden', 403], ['Not Found', 404],
+    ['Method Not Allowed', 405], ['Conflict', 409], ['Too Many Requests', 429], ['Internal Server Error', 500],
+    ["Bad Gateway (nginx-nya nyerah)", 502], ['Service Unavailable', 503], ['Gateway Timeout', 504], ["I'm a teapot ☕", 418]
+  ];
+  // [deskripsi, jawaban yang diterima...]
+  var CMDS = [
+    ['Lihat isi folder', 'ls', 'dir', 'll'],
+    ['Pindah ke folder lain', 'cd'],
+    ['Tampilkan folder tempat kamu berada sekarang', 'pwd'],
+    ['Lihat proses yang sedang jalan', 'ps', 'top', 'htop', 'btop'],
+    ['Cek sisa ruang disk per partisi', 'df'],
+    ['Cek ukuran sebuah folder', 'du'],
+    ['Cek pemakaian RAM', 'free', 'top', 'htop'],
+    ['Cari teks di dalam file', 'grep', 'rg', 'ag'],
+    ['Ubah permission file', 'chmod'],
+    ['Ubah pemilik file', 'chown'],
+    ['Hentikan proses berdasarkan PID', 'kill'],
+    ['Pantau isi log secara live', 'tail', 'journalctl'],
+    ['Restart service di systemd', 'systemctl'],
+    ['Lihat log dari systemd', 'journalctl'],
+    ['Salin file ke server lain lewat SSH', 'scp', 'rsync', 'sftp'],
+    ['Cek koneksi ke host dengan paket ICMP', 'ping'],
+    ['Lihat port yang sedang listen', 'ss', 'netstat', 'lsof'],
+    ['Cek record DNS sebuah domain', 'dig', 'nslookup', 'host', 'drill'],
+    ['Ekstrak file .tar.gz', 'tar'],
+    ['Jalankan perintah sebagai root', 'sudo', 'su', 'doas'],
+    ['Install paket di openSUSE', 'zypper'],
+    ['Lihat container Docker yang jalan', 'docker', 'podman'],
+    ['Lihat riwayat commit git', 'git'],
+    ['Berapa lama server sudah menyala', 'uptime'],
+    ['Buat folder baru', 'mkdir'],
+    ['Cari file berdasarkan nama', 'find', 'locate', 'fd']
+  ];
+  var TYPING = [
+    'sudo zypper dup',
+    'git commit -m "fix typo"',
+    'kubectl get pods -A',
+    'docker compose up -d',
+    'ansible-playbook -i inventory site.yml',
+    'tail -f /var/log/syslog',
+    'systemctl restart nginx',
+    'ssh -i ~/.ssh/id_ed25519 rifki@server',
+    'grep -rn "TODO" .',
+    'tar -czvf backup.tar.gz /etc',
+    'chmod 600 ~/.ssh/config',
+    'journalctl -u sshd --since today'
+  ];
+
+  var GAMES = {
+    port: { title: 'Tebak Port', desc: 'tebak port default service', start: function () { return quizNumber('Tebak Port', 'port?>', PORTS, 'Port default', 'jaringan'); } },
+    http: { title: 'Tebak Kode HTTP', desc: 'tebak status code HTTP', start: function () { return quizNumber('Tebak Kode HTTP', 'http?>', HTTP_CODES, 'Kode HTTP untuk', null); } },
+    cmd: { title: 'Tebak Perintah', desc: 'tebak perintah Linux dari deskripsinya', start: startCmd },
+    angka: { title: 'Tebak Angka', desc: 'tebak angka 1 sampai 100', start: startAngka },
+    ketik: { title: 'Adu Cepat Ngetik', desc: 'ketik perintah secepat mungkin', start: startKetik }
+  };
+
   var game = null;
+  var best = {};
+  try { best = JSON.parse(localStorage.getItem('rifki-sh-best') || '{}') || {}; } catch (e) { best = {}; }
+  function saveBest(key, value, lowerIsBetter) {
+    var old = best[key];
+    var better = old === undefined || (lowerIsBetter ? value < old : value > old);
+    if (better) {
+      best[key] = value;
+      try { localStorage.setItem('rifki-sh-best', JSON.stringify(best)); } catch (e) { /* private mode */ }
+    }
+    return better && old !== undefined;
+  }
 
   function shuffle(a) {
     a = a.slice();
@@ -120,59 +189,168 @@
     return a;
   }
 
-  function gameAsk() {
-    var q = game.qs[game.i];
-    line(frag(span('[' + (game.i + 1) + '/' + game.qs.length + '] ', 'term-dim'), 'Port default ', span(q[0], 'term-hl'), ' berapa?'));
-    setPrompt('port?>');
-  }
-
-  function gameStart() {
-    game = { qs: shuffle(PORTS).slice(0, 5), i: 0, score: 0, tries: 0 };
-    line(frag(span('🎮 Tebak Port', 'term-hl'), ' : 5 soal, tiap soal dapat 2 kesempatan.'));
-    line('Ketik angkanya, "skip" untuk lewati, atau "q" untuk keluar.', 'term-dim');
-    gameAsk();
-  }
-
-  function gameEnd() {
-    var s = game.score, n = game.qs.length;
-    var verdict = s === n ? 'Sempurna! Kamu layak pegang pager on-call. 🏆'
-      : s >= 3 ? 'Mantap, tinggal sedikit lagi jadi kamus port berjalan.'
-      : s >= 1 ? 'Lumayan. Cheat sheet jaringan bisa bantu: cat cheatsheet/jaringan'
-      : 'Nggak apa-apa, semua orang pernah lupa port. Coba lagi: game';
-    line(frag('Skor kamu: ', span(s + '/' + n, 'term-hl'), '. ' + verdict));
+  function stopGame(msg) {
+    if (msg) line(msg, 'term-dim');
     game = null;
     setPrompt(ps1());
   }
 
+  function cmdButton(cmd) {
+    var s = span(cmd, 'term-hl term-click');
+    s.dataset.cmd = cmd;
+    return s;
+  }
+
+  function gameMenu() {
+    line('🎮 Pilih game:');
+    Object.keys(GAMES).forEach(function (k) {
+      line(frag(cmdButton('game ' + k), ' '.repeat(12 - ('game ' + k).length) + GAMES[k].desc));
+    });
+    line('Di HP tinggal tap nama game-nya. Ketik "q" kapan saja buat keluar dari game.', 'term-dim');
+  }
+
+  function scoreLine(s, n, key) {
+    var rec = saveBest(key, s, false);
+    var verdict = s === n ? 'Sempurna! Kamu layak pegang pager on-call. 🏆'
+      : s >= n * 0.6 ? 'Mantap, dikit lagi jadi kamus berjalan.'
+      : s >= 1 ? 'Lumayan. Coba lagi biar makin hafal.'
+      : 'Nggak apa-apa, semua orang pernah lupa. Coba lagi ya.';
+    line(frag('Skor kamu: ', span(s + '/' + n, 'term-hl'), '. ' + verdict + (rec ? ' Rekor baru! 🎉' : '')));
+    if (best[key] !== undefined) line('Rekor terbaik kamu: ' + best[key] + '/' + n, 'term-dim');
+  }
+
+  // quiz with numeric answers: 5 questions, 2 tries, higher/lower hint
+  function quizNumber(title, prompt, bank, label, sheet) {
+    var qs = shuffle(bank).slice(0, 5);
+    var i = 0, score = 0, tries = 0;
+    function ask() {
+      line(frag(span('[' + (i + 1) + '/' + qs.length + '] ', 'term-dim'), label + ' ', span(qs[i][0], 'term-hl'), ' berapa?'));
+    }
+    function next() {
+      i++; tries = 0;
+      if (i < qs.length) return ask();
+      scoreLine(score, qs.length, prompt.replace('?>', ''));
+      if (score < 3 && sheet) line('Contekan: cat cheatsheet/' + sheet, 'term-dim');
+      stopGame();
+    }
+    line(frag(span('🎮 ' + title, 'term-hl'), ': 5 soal, tiap soal dapat 2 kesempatan.'));
+    line('Ketik angkanya, "skip" untuk lewati, atau "q" untuk keluar.', 'term-dim');
+    ask();
+    return {
+      prompt: prompt,
+      input: function (v) {
+        var a = qs[i][1];
+        if (v === 'skip') { line(frag('Jawabannya ', span(String(a), 'term-hl'), '.'), 'term-dim'); return next(); }
+        if (!/^\d+$/.test(v)) return err('Masukkan angka ya, atau "skip" / "q".');
+        var n = parseInt(v, 10);
+        if (n === a) { score++; line('✔ Benar!', 'term-ok'); return next(); }
+        if (tries++ === 0) return err('✘ Belum tepat. Petunjuk: ' + (n < a ? 'lebih besar' : 'lebih kecil') + '. Sekali lagi.');
+        err('✘ Salah. Jawabannya ' + a + '.');
+        next();
+      }
+    };
+  }
+
+  function startCmd() {
+    var qs = shuffle(CMDS).slice(0, 5);
+    var i = 0, score = 0, tries = 0;
+    function ask() {
+      line(frag(span('[' + (i + 1) + '/' + qs.length + '] ', 'term-dim'), span(qs[i][0], 'term-hl'), '. Perintahnya apa?'));
+    }
+    function next() {
+      i++; tries = 0;
+      if (i < qs.length) return ask();
+      scoreLine(score, qs.length, 'cmd');
+      if (score < 3) line('Contekan: cat cheatsheet/perintah-dasar', 'term-dim');
+      stopGame();
+    }
+    line(frag(span('🎮 Tebak Perintah', 'term-hl'), ': 5 soal, cukup ketik nama perintahnya.'));
+    line('"skip" untuk lewati, "q" untuk keluar.', 'term-dim');
+    ask();
+    return {
+      prompt: 'cmd?>',
+      input: function (v) {
+        var ans = qs[i].slice(1);
+        if (v === 'skip') { line(frag('Jawabannya ', span(ans.join(' / '), 'term-hl'), '.'), 'term-dim'); return next(); }
+        var word = v.replace(/^sudo\s+(?=\S)/, '').split(/\s+/)[0];
+        if (ans.indexOf(word) !== -1) {
+          score++;
+          line('✔ Benar!' + (ans.length > 1 ? ' Bisa juga: ' + ans.filter(function (x) { return x !== word; }).join(', ') : ''), 'term-ok');
+          return next();
+        }
+        if (tries++ === 0) return err('✘ Belum tepat. Petunjuk: diawali huruf "' + ans[0].charAt(0) + '" dan panjangnya ' + ans[0].length + ' huruf.');
+        err('✘ Salah. Jawabannya ' + ans.join(' / ') + '.');
+        next();
+      }
+    };
+  }
+
+  function startAngka() {
+    var target = 1 + Math.floor(Math.random() * 100);
+    var tries = 0, max = 7;
+    line(frag(span('🎮 Tebak Angka', 'term-hl'), ': saya pilih angka 1 sampai 100. Kamu punya ' + max + ' kesempatan.'));
+    line('Ketik "q" untuk keluar.', 'term-dim');
+    return {
+      prompt: 'angka?>',
+      input: function (v) {
+        if (!/^\d+$/.test(v)) return err('Masukkan angka 1 sampai 100 ya.');
+        var n = parseInt(v, 10);
+        tries++;
+        if (n === target) {
+          var rec = saveBest('angka', tries, true);
+          line('✔ Tepat! Angkanya ' + target + ', ketemu dalam ' + tries + ' tebakan.' + (rec ? ' Rekor baru! 🎉' : ''), 'term-ok');
+          line('Rekor terbaik kamu: ' + best.angka + ' tebakan. Main lagi: game angka', 'term-dim');
+          return stopGame();
+        }
+        if (tries >= max) { err('✘ Kesempatan habis. Angkanya ' + target + '. Binary search bisa bantu lho. 😉'); return stopGame(); }
+        err('✘ ' + (n < target ? 'Terlalu kecil' : 'Terlalu besar') + '. Sisa ' + (max - tries) + ' kesempatan.');
+      }
+    };
+  }
+
+  function startKetik() {
+    var qs = shuffle(TYPING).slice(0, 3);
+    var i = 0, t0 = 0, total = 0, chars = 0, miss = 0;
+    function ask() {
+      line(frag(span('[' + (i + 1) + '/' + qs.length + '] ', 'term-dim'), 'Ketik: ', span(qs[i], 'term-hl')));
+      t0 = Date.now();
+    }
+    line(frag(span('🎮 Adu Cepat Ngetik', 'term-hl'), ': ketik 3 perintah persis sama, secepat mungkin.'));
+    line('Waktu mulai jalan begitu perintahnya muncul. "q" untuk keluar.', 'term-dim');
+    ask();
+    return {
+      prompt: 'ketik?>',
+      raw: true,
+      input: function (v) {
+        if (v.trim() !== qs[i]) { miss++; return err('✘ Belum sama persis, coba lagi.'); }
+        var dt = (Date.now() - t0) / 1000;
+        total += dt; chars += qs[i].length;
+        line('✔ ' + dt.toFixed(1) + ' detik', 'term-ok');
+        if (++i < qs.length) return ask();
+        var cpm = Math.round(chars / total * 60);
+        var rec = saveBest('ketik', Math.round(total * 10) / 10, true);
+        line(frag('Total ', span(total.toFixed(1) + ' detik', 'term-hl'), ', sekitar ' + cpm + ' karakter/menit' + (miss ? ', salah ' + miss + 'x' : ', tanpa salah') + '.' + (rec ? ' Rekor baru! 🎉' : '')));
+        line(cpm > 250 ? 'Jari kamu jago banget. Pasti biasa hidup di terminal. ⚡' : cpm > 150 ? 'Cepat juga! Tinggal latihan dikit lagi.' : 'Santai aja, yang penting perintahnya benar. 😄');
+        line('Rekor terbaik kamu: ' + best.ketik + ' detik', 'term-dim');
+        stopGame();
+      }
+    };
+  }
+
+  function gameStart(args) {
+    var k = (args[0] || '').toLowerCase();
+    if (!k) return gameMenu();
+    if (k === 'random' || k === 'acak') { var ks = Object.keys(GAMES); k = ks[Math.floor(Math.random() * ks.length)]; }
+    if (!GAMES[k]) { err('game: "' + k + '" nggak ada.'); return gameMenu(); }
+    game = GAMES[k].start();
+    setPrompt(game.prompt);
+  }
+
   function gameInput(raw) {
     var v = raw.trim().toLowerCase();
-    var q = game.qs[game.i];
-    if (v === 'q' || v === 'quit' || v === 'exit') { line('Game dihentikan.', 'term-dim'); game = null; setPrompt(ps1()); return; }
-    var next = false;
-    if (v === 'skip') {
-      line(frag('Jawabannya ', span(String(q[1]), 'term-hl'), '.'), 'term-dim');
-      next = true;
-    } else if (!/^\d+$/.test(v)) {
-      err('Masukkan angka ya, atau "skip" / "q".');
-      return;
-    } else if (parseInt(v, 10) === q[1]) {
-      game.score++;
-      line('✔ Benar!', 'term-ok');
-      next = true;
-    } else if (game.tries === 0) {
-      game.tries = 1;
-      var n = parseInt(v, 10);
-      err('✘ Belum tepat. Petunjuk: ' + (n < q[1] ? 'lebih besar' : 'lebih kecil') + '. Sekali lagi.');
-      return;
-    } else {
-      err('✘ Salah. Jawabannya ' + q[1] + '.');
-      next = true;
-    }
-    if (next) {
-      game.i++;
-      game.tries = 0;
-      if (game.i >= game.qs.length) gameEnd(); else gameAsk();
-    }
+    if (v === 'q' || v === 'quit' || v === 'exit') return stopGame('Game dihentikan.');
+    if (!v) return;
+    game.input(game.raw ? raw : v);
   }
 
   // ---------- commands ----------
@@ -329,7 +507,7 @@
         line(pre);
       }
     },
-    game: { desc: 'main tebak port 🎮', run: function () { gameStart(); } },
+    game: { desc: 'main game 🎮 (port, http, cmd, angka, ketik)', run: function (args) { gameStart(args); } },
     fortune: { desc: 'kutipan acak', run: function () { line(FORTUNES[Math.floor(Math.random() * FORTUNES.length)]); } },
     social: {
       desc: 'akun media sosial',
@@ -446,7 +624,7 @@
   function run(raw) {
     var cmd = raw.trim();
     if (game) {
-      echoCommand(raw, 'port?>');
+      echoCommand(raw, game.prompt);
       gameInput(raw);
       return;
     }
@@ -463,7 +641,7 @@
       return;
     }
     c.run(parts.slice(1));
-    setPrompt(game ? 'port?>' : ps1());
+    setPrompt(game ? game.prompt : ps1());
   }
 
   form.addEventListener('submit', function (e) {
@@ -497,7 +675,7 @@
       }
     }
     if (cands && cands.length > 1) {
-      echoCommand(v, game ? 'port?>' : ps1());
+      echoCommand(v, game ? game.prompt : ps1());
       line(cands.join('  '), 'term-dim');
       scroll();
     }
@@ -522,17 +700,23 @@
       out.textContent = '';
     } else if (e.key === 'c' && e.ctrlKey && !window.getSelection().toString()) {
       e.preventDefault();
-      echoCommand(input.value + '^C', game ? 'port?>' : ps1());
+      echoCommand(input.value + '^C', game ? game.prompt : ps1());
       input.value = '';
-      if (game) { game = null; setPrompt(ps1()); }
+      if (game) stopGame();
       scroll();
     }
+  });
+
+  // no copy-paste shortcuts in the typing race
+  input.addEventListener('paste', function (e) {
+    if (game && game.raw) { e.preventDefault(); err('Eits, nggak boleh paste. Ketik manual ya. 😄'); scroll(); }
   });
 
   // click on a listed file/folder: cd into folders, cat files
   out.addEventListener('click', function (e) {
     var t = e.target.closest('.term-click');
     if (!t) return;
+    if (t.dataset.cmd) { if (!game) run(t.dataset.cmd); scroll(); return; }
     var r = resolve('~/' + t.dataset.path);
     if (!r) return;
     run((r.node.type === 'dir' ? 'cd ~/' : 'cat ~/') + t.dataset.path);
@@ -570,6 +754,6 @@
   // ---------- boot ----------
   setPrompt(ps1());
   line(frag('Selamat datang di ', span('rifki-sh', 'term-hl'), '. Terminal mini untuk jelajah isi web ini.'));
-  line(frag('Ketik ', span('help', 'term-hl'), ' untuk mulai, atau ', span('game', 'term-hl'), ' kalau mau langsung main.'), 'term-dim');
+  line(frag('Ketik ', span('help', 'term-hl'), ' untuk mulai, atau ', span('game', 'term-hl'), ' buat main game.'), 'term-dim');
   if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) input.focus({ preventScroll: true });
 })();
