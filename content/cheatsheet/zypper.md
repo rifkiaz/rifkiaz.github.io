@@ -60,6 +60,28 @@ sudo zypper in opi
 opi nama-paket
 ```
 
+## Mirror lokal Indonesia
+
+Komunitas openSUSE Indonesia ([opensuse.id](https://opensuse.id)) mengelola mirror repositori lokal di [download.opensuse.id](https://download.opensuse.id). Kalau kamu di Indonesia, mengambil paket dari sini biasanya jauh lebih cepat daripada server luar.
+
+Sebelum mengubah apa pun, buka dulu [download.opensuse.id](https://download.opensuse.id) di browser dan cocokkan folder di sana dengan URL repo yang kamu pakai sekarang (`zypper lr -u`). Kalau strukturnya sama, cukup ganti host-nya:
+
+```bash
+# Cadangkan dulu konfigurasi repo
+sudo cp -a /etc/zypp/repos.d /etc/zypp/repos.d.bak
+
+# Lihat URL repo yang aktif sekarang
+zypper lr -u
+
+# Ganti host download.opensuse.org ke mirror lokal
+sudo sed -i 's|download.opensuse.org|download.opensuse.id|g' /etc/zypp/repos.d/*.repo
+
+# Pastikan semua repo bisa di-refresh
+sudo zypper ref
+```
+
+Kalau ada repo yang gagal di-refresh, berarti folder itu tidak tersedia di mirror. Kembalikan saja file repo-nya dari `/etc/zypp/repos.d.bak`.
+
 ## Kunci paket (lock)
 
 | Perintah | Fungsi |

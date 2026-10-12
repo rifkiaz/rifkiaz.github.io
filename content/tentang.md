@@ -25,7 +25,7 @@ Kerjaan saya kurang lebih seputar mengurus server Linux, mengotomasi provisionin
 
 ## Komunitas open source
 
-Di luar kerjaan, saya aktif di komunitas FLOSS, termasuk openSUSE dan LibreOffice Indonesia, dan sempat jadi pembicara di GNOME.Asia Summit 2022 di Kuala Lumpur, membawakan topik seputar mechanical keyboard. Banyak tulisan di blog ini lahir dari hasil ngoprek bareng komunitas.
+Di luar kerjaan, saya aktif di komunitas FLOSS, termasuk openSUSE dan LibreOffice Indonesia, dan sempat jadi pembicara di GNOME.Asia Summit 2022 di Kuala Lumpur, membawakan topik seputar mechanical keyboard. Banyak tulisan di blog ini lahir dari hasil ngoprek bareng komunitas. Komunitas openSUSE Indonesia ([opensuse.id](https://opensuse.id)) juga mengelola mirror repositori lokal di [download.opensuse.id](https://download.opensuse.id), jadi pengguna di Indonesia bisa update lebih cepat. Cara memakainya ada di [cheat sheet Zypper](/cheatsheet/zypper/#mirror-lokal-indonesia).
 
 Saya juga terdaftar sebagai **openSUSE Member**. Profil kontribusi saya bisa kamu lihat di [openSUSE Kudos](https://kudos.opensuse.org/user/Rifkiaz). Contekan perintah openSUSE yang sering saya pakai saya kumpulkan di halaman [Cheat Sheet](/cheatsheet/).
 
