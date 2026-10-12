@@ -52,8 +52,8 @@ enableGitInfo = true
   [params.homeInfoParams]
     Title = "Rifki Affandi"
     Prompt = "rifki@devops: ~"
-    Typed = ["DevOps Engineer", "Infra & Automation", "Ansible Enthusiast", "openSUSE Member"]
-    Stack = ["linux", "ansible", "docker", "aws", "gcp", "prometheus", "grafana", "mongodb", "vault", "n8n"]
+    Typed = ["DevOps Engineer", "Infra & Automation", "Terraform & IaC", "Ansible Enthusiast", "openSUSE Member"]
+    Stack = ["linux", "ansible", "terraform", "docker", "aws", "gcp", "prometheus", "grafana", "mongodb", "vault", "n8n"]
     Content = """
 Sehari-hari saya mengurus infrastruktur dan DevOps: otomasi server pakai Ansible, database, monitoring, sampai tooling internal. Di sini saya mencatat hal-hal teknis dari kerjaan dan dari ngoprek bareng komunitas open source.
 
