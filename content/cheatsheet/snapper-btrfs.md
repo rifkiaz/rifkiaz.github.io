@@ -81,3 +81,5 @@ sudo snapper delete 100-150             # hapus yang tidak perlu
 sudo btrfs balance start -dusage=50 /   # kembalikan ruang
 sudo btrfs filesystem usage /
 ```
+
+{{< telegram-opensuse >}}

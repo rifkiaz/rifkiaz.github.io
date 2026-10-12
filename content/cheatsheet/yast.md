@@ -49,3 +49,5 @@ sudo firewall-cmd --add-service=cockpit --permanent && sudo firewall-cmd --reloa
 ```
 
 Lalu buka `https://alamat-server:9090` dan login dengan user sistem.
+
+{{< telegram-opensuse >}}

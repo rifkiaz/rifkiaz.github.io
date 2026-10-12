@@ -29,6 +29,9 @@ Di luar kerjaan, saya aktif di komunitas FLOSS, termasuk openSUSE dan LibreOffic
 
 Saya juga terdaftar sebagai **openSUSE Member**. Profil kontribusi saya bisa kamu lihat di [openSUSE Kudos](https://kudos.opensuse.org/user/Rifkiaz). Contekan perintah openSUSE yang sering saya pakai saya kumpulkan di halaman [Cheat Sheet](/cheatsheet/).
 
+{{< telegram-opensuse >}}
+
+
 ## Tentang blog ini
 
 Blog ini isinya catatan teknis yang saya tulis supaya bisa dibaca ulang, buat saya sendiri dan buat siapa saja yang lagi ketemu masalah serupa. Contoh konfigurasinya sengaja dibuat generik, jadi sesuaikan dulu dengan lingkunganmu sebelum dipakai di produksi.

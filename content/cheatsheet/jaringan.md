@@ -89,3 +89,5 @@ DNS di openSUSE dikelola oleh `netconfig`, jadi jangan edit `/etc/resolv.conf` l
 | `firewall-cmd --get-services` | Daftar nama service yang dikenal |
 
 Aturan tanpa `--permanent` langsung berlaku tapi hilang setelah reload atau reboot. Cara aman: tes dulu tanpa `--permanent`, kalau sudah benar jalankan `firewall-cmd --runtime-to-permanent`.
+
+{{< telegram-opensuse >}}
