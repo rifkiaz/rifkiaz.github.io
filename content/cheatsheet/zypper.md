@@ -64,7 +64,7 @@ opi nama-paket
 
 Komunitas openSUSE Indonesia ([opensuse.id](https://opensuse.id)) mengelola mirror repositori lokal di [download.opensuse.id](https://download.opensuse.id). Kalau kamu di Indonesia, mengambil paket dari sini biasanya jauh lebih cepat daripada server luar.
 
-Sebelum mengubah apa pun, buka dulu [download.opensuse.id](https://download.opensuse.id) di browser dan cocokkan folder di sana dengan URL repo yang kamu pakai sekarang (`zypper lr -u`). Kalau strukturnya sama, cukup ganti host-nya:
+Struktur foldernya sama dengan server resmi download.opensuse.org: ada `distribution`, `tumbleweed`, `slowroll`, `update`, dan `repositories` (repo OBS), ditambah `packman`. Jadi cara paling gampang adalah mengganti host di file repo yang sudah ada:
 
 ```bash
 # Cadangkan dulu konfigurasi repo
@@ -80,7 +80,22 @@ sudo sed -i 's|download.opensuse.org|download.opensuse.id|g' /etc/zypp/repos.d/*
 sudo zypper ref
 ```
 
-Kalau ada repo yang gagal di-refresh, berarti folder itu tidak tersedia di mirror. Kembalikan saja file repo-nya dari `/etc/zypp/repos.d.bak`.
+Kalau ada repo yang gagal di-refresh, kemungkinan folder itu tidak ikut di-mirror. Kembalikan saja file repo-nya dari `/etc/zypp/repos.d.bak`.
+
+Catatan: di instalasi yang lebih baru, repo bawaan kadang dikelola oleh paket `openSUSE-repos` dan URL-nya memakai `cdn.opensuse.org`. Kalau `zypper lr -u` menunjukkan itu, hasil `sed` di atas bisa tertimpa lagi saat repo di-refresh. Untuk kasus ini, tambahkan repo mirror secara manual, misalnya untuk Tumbleweed:
+
+```bash
+sudo zypper ar -f https://download.opensuse.id/tumbleweed/repo/oss/ id-oss
+sudo zypper ar -f https://download.opensuse.id/tumbleweed/repo/non-oss/ id-non-oss
+sudo zypper ref
+```
+
+Mirror ini juga menyediakan **Packman** (codec multimedia dan paket yang tidak ada di repo resmi). Buka folder [packman](https://download.opensuse.id/packman/) untuk mencari path yang sesuai dengan versi openSUSE-mu, lalu tambahkan dengan prioritas lebih tinggi:
+
+```bash
+sudo zypper ar -cfp 90 https://download.opensuse.id/packman/<path-sesuai-versi>/ packman
+sudo zypper dup --from packman --allow-vendor-change
+```
 
 ## Kunci paket (lock)
 
