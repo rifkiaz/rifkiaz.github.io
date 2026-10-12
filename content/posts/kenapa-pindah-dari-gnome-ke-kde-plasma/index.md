@@ -12,6 +12,10 @@ Di post sebelumnya, [KDE Plasma ala macOS di openSUSE Tumbleweed](/posts/kde-pla
 
 Jadi di post ini saya rangkum hal - hal yang bikin saya betah di KDE Plasma 6. Siapa tahu kamu yang masih di GNOME jadi tertarik untuk coba.
 
+Sebagai gambaran, ini tampilan desktop Plasma saya sehari - hari di ThinkPad X1 Nano: panel atas dengan menu global dan system tray, dock kecil di bawah, Konsole dengan tema Breeze Dark.
+
+![Desktop KDE Plasma 6 di openSUSE Tumbleweed](assets/kde-desktop.webp "Desktop KDE Plasma 6 saya di openSUSE Tumbleweed")
+
 ### 1. Hal Dasar Langsung Ada, Tanpa Extension
 Ini alasan nomor satu. Di GNOME, banyak hal yang menurut saya dasar justru harus pasang extension dulu:
 - **Icon tray** (Discord, Telegram, Nextcloud, dll) gak tampil tanpa extension AppIndicator.
