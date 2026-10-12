@@ -1,0 +1,4 @@
+{{- if .IsPage }}
+{{- $js := resources.Get "js/lightbox.js" | minify | fingerprint }}
+<script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
+{{- end }}
