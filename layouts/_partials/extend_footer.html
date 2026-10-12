@@ -2,3 +2,5 @@
 {{- $js := resources.Get "js/lightbox.js" | minify | fingerprint }}
 <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
 {{- end }}
+{{- $sub := resources.Get "js/submenu.js" | minify | fingerprint }}
+<script src="{{ $sub.RelPermalink }}" integrity="{{ $sub.Data.Integrity }}" defer></script>
