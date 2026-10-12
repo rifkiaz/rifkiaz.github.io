@@ -45,17 +45,26 @@
   if (!el) return;
   var words = JSON.parse(el.dataset.words || '[]');
   if (words.length < 2 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var w = 0, i = words[0].length, deleting = true;
+  var w = 0, i = words[0].length, deleting = true, visible = true, timer = null;
+  // Stop typing while the card is off screen or the tab is hidden, so it
+  // doesn't relayout and repaint the page while the reader scrolls past it.
+  function schedule(delay) { if (!timer && visible && !document.hidden) timer = setTimeout(tick, delay); }
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (e) { visible = e[0].isIntersecting; schedule(350); }).observe(el);
+  }
+  document.addEventListener('visibilitychange', function () { schedule(350); });
   function tick() {
+    timer = null;
+    if (!visible || document.hidden) return;
     var word = words[w];
     i += deleting ? -1 : 1;
     el.textContent = word.slice(0, i);
     var delay = deleting ? 45 : 90;
     if (!deleting && i === word.length) { deleting = true; delay = 1800; }
     else if (deleting && i === 0) { deleting = false; w = (w + 1) % words.length; word = words[w]; delay = 350; }
-    setTimeout(tick, delay);
+    schedule(delay);
   }
-  setTimeout(tick, 1800);
+  schedule(1800);
 })();
 </script>
 {{- end }}
