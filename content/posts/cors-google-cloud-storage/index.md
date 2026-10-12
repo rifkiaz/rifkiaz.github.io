@@ -26,6 +26,8 @@ Perhatikan `http://localhost:8090/`. Header `Origin` yang dikirim browser itu **
 
 Jadi tulis origin tanpa slash: `http://localhost:8090`.
 
+![Alur CORS: browser mengirim header Origin ke bucket GCS, kalau origin cocok persis header Access-Control-Allow-Origin dikirim, kalau tidak diblokir browser](assets/alur-cors.svg)
+
 ### Cara 1: lewat Console
 - Cloud Storage > Buckets > pilih bucket > edit konfigurasi CORS
 ````

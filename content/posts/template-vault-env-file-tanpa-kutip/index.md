@@ -37,6 +37,10 @@ Ternyata tergantung **siapa yang membaca file itu**, karena aturan parsing `.env
 
 Jadi kalau file ini dipakai sebagai `--env-file` di Docker, `DB_HOST` isinya literal `"db.example.internal"` lengkap dengan kutipnya, dan tentu saja host itu gak bisa di-resolve.
 
+Gambarannya kurang lebih seperti ini:
+
+![Alur file .env dari Vault: Docker env-file membaca kutip sebagai value, sementara bash dan dotenv melepasnya](assets/alur-env.svg)
+
 ### Template yang diperbaiki
 Kutipnya dihilangkan, **kecuali** untuk value multiline seperti private key atau sertifikat. Value seperti itu tetap butuh kutip supaya `\n` hasil escape gak merusak format file.
 ```

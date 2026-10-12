@@ -17,6 +17,10 @@ Contohnya pakai `node_exporter`, tapi polanya bisa dipakai juga untuk exporter l
 - **Dikelola systemd**, jadi otomatis hidup lagi setelah reboot.
 - **Gak terbuka ke publik.** Port exporter cuma bisa diakses server Prometheus.
 
+Gambaran alurnya kurang lebih seperti ini:
+
+![Alur role node_exporter dan pembuatan target scrape Prometheus dari inventory](assets/alur-role.svg)
+
 ### Kebutuhan
 - Ansible di laptop atau server kontrol
 - Server Linux dengan systemd

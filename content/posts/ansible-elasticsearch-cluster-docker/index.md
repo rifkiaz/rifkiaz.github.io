@@ -19,6 +19,10 @@ Pada tulisan kali ini saya akan berbagi cara mengotomasinya dengan Ansible. Oh y
 - Playbook **idempoten**, dan `cluster.initial_master_nodes` hanya dipakai saat cluster pertama kali dibentuk.
 - Playbook baru selesai setelah cluster benar-benar `green`.
 
+Gambaran arsitekturnya kurang lebih seperti ini:
+
+![Arsitektur: Ansible memasang tiga container Elasticsearch di tiga host, saling terhubung lewat port 9300 dengan TLS](assets/arsitektur.svg)
+
 ### Kebutuhan
 - Tiga server Linux (contoh di sini Ubuntu LTS) dengan Docker terpasang, saling terhubung di port 9200 dan 9300.
 - RAM minimal 4 GB per node untuk lab, lebih untuk production.

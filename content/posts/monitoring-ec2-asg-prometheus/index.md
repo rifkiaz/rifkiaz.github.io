@@ -11,15 +11,7 @@ Prometheus, ya tools monitoring yang sudah lama saya pakai. Selama ini server - 
 
 Solusinya ada tiga bagian, gambarannya kurang lebih seperti ini:
 
-```
-Instance di ASG ── node_exporter (:9100)
-        ▲
-        │ scrape, target ditemukan lewat EC2 service discovery
-        │
-Prometheus self-hosted ──► Grafana
-        │
-        └── cloudwatch_exporter (:9106) ◄── CloudWatch ◄── ALB (RPS, latency, error)
-```
+![Arsitektur: Prometheus menemukan instance ASG lewat EC2 API, scrape node_exporter, dan mengambil metrik ALB lewat cloudwatch_exporter](assets/arsitektur.svg)
 
 ### Kebutuhan
 - Prometheus self-hosted di EC2
