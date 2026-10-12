@@ -13,16 +13,7 @@ Di tulisan ini saya rangkum role-nya, langkah dari nol sampai ClickHouse jalan, 
 
 ## Gambaran besarnya
 
-```
-Laptop (Ansible) ──ssh (lewat VPN)──▶ EC2 Ubuntu 24.04
-                                       ├── EBS root  (OS)
-                                       └── EBS data  ──▶ /var/lib/clickhouse
-                                             ClickHouse LTS
-                                               :8123 HTTP   ◀── Airflow / dbt / BI
-                                               :9000 native ◀── Airflow / dbt / Grafana
-                                               :9363 /metrics ◀── Prometheus
-                                             node_exporter :9100 ◀── Prometheus
-```
+![Arsitektur: laptop menjalankan Ansible lewat SSH di VPN ke EC2 Ubuntu 24.04 berisi ClickHouse, node_exporter, EBS root, dan EBS data yang di-mount ke /var/lib/clickhouse. Airflow, BI, Grafana, dan Prometheus terhubung ke port masing-masing](assets/arsitektur.svg)
 
 Yang dikerjakan role `clickhouse`, berurutan:
 
@@ -32,6 +23,8 @@ Yang dikerjakan role `clickhouse`, berurutan:
 4. **install**: repo resmi ClickHouse channel `lts`, versi bisa di-pin, paket di-`hold`.
 5. **config**: file override di `config.d/` dan `users.d/`, divalidasi sebelum restart.
 6. **service** dan **post install**: health check, cek user `default` tanpa password ditolak, lalu membuat database.
+
+![Alur role: preflight, OS tuning, storage, install, lalu config. Kalau config valid, service di-restart dan post install jalan. Kalau tidak valid, play berhenti dan server tidak di-restart](assets/alur-role.svg)
 
 ## Kenapa native, bukan container?
 
@@ -277,6 +270,8 @@ head -1 vault.yml                                # $ANSIBLE_VAULT;1.1;AES256
 cd -
 ```
 
+![Alur ansible-vault: vault.yml terenkripsi dibuka ansible-playbook dengan vault password, didekripsi di memori, lalu dirender ke users.d di server yang hanya menyimpan hash SHA-256](assets/alur-vault.svg)
+
 Cara kerjanya singkat saja: file YAML di-encrypt AES-256 dengan satu *vault password*. File hasil encrypt aman di-commit ke git, yang harus dijaga cuma vault password-nya. Saat playbook jalan, Ansible mendekripsi di memori, `site.yml` mengecek semua key wajib ada (dengan `no_log`), lalu template `users.d` di-render. Di server, ClickHouse **hanya menyimpan hash SHA-256**, bukan password aslinya.
 
 Perintah yang sering dipakai:
@@ -362,12 +357,7 @@ Karena akses SSH lewat VPN, port 22 hanya dibuka dari VPN. Sisanya pakai **SG ID
 
 ClickHouse sebenarnya sudah punya UI bawaan di port HTTP: `http://<ip>:8123/dashboard` untuk grafik monitoring dan `http://<ip>:8123/play` untuk SQL editor. Untuk jangka panjang dan alert, saya sambungkan ke Grafana:
 
-```
-ClickHouse :9363 /metrics ──┐
-node_exporter :9100 ────────┼──▶ Prometheus ──▶ Grafana ──▶ alert ──▶ n8n ──▶ Discord
-                            │                      ▲
-ClickHouse :9000 (SQL) ─────┴──────────────────────┘ plugin ClickHouse
-```
+![Alur monitoring: metrik ClickHouse port 9363 dan node_exporter port 9100 di-scrape Prometheus lalu tampil di Grafana. Grafana juga query langsung ke ClickHouse port 9000 lewat plugin. Alert diteruskan lewat webhook ke n8n lalu ke Discord](assets/alur-monitoring.svg)
 
 - **Prometheus** scrape port 9363 dan 9100 untuk grafik kesehatan server dan alert.
 - **Plugin resmi ClickHouse untuk Grafana** (`grafana-clickhouse-datasource`) query langsung ke ClickHouse dengan user `grafana_ro`. Plugin ini membawa dashboard siap pakai: *ClickHouse System Dashboards*, *Query Analysis* (query lambat dan boros memori), dan *Data Analysis* (ukuran tabel dan kompresi).
