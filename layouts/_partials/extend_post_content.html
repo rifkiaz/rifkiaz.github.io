@@ -1,0 +1,14 @@
+{{- /* Daftar tulisan dalam satu seri (front matter: series: ["Nama Seri"]) */ -}}
+{{- with .GetTerms "series" }}
+{{- range . }}
+{{- $pages := .Pages.ByDate }}
+<nav class="series-box" aria-label="Seri {{ .LinkTitle }}">
+  <p class="series-title">Seri <a href="{{ .Permalink }}">{{ .LinkTitle }}</a></p>
+  <ol>
+    {{- range $pages }}
+    <li>{{ if eq .RelPermalink $.RelPermalink }}<strong>{{ .LinkTitle }}</strong> (sedang dibaca){{ else }}<a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>{{ end }}</li>
+    {{- end }}
+  </ol>
+</nav>
+{{- end }}
+{{- end }}
