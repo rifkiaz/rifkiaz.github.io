@@ -7,9 +7,9 @@ description: "Cara memantau instance EC2 di Auto Scaling Group dari Prometheus s
 ShowToc: true
 ---
 ### Pendahuluan
-Prometheus saya selama ini memantau server-server EC2 dengan `static_configs`: daftar IP ditulis manual satu per satu. Untuk server yang tetap, cara itu masih oke. Masalahnya muncul waktu ada aplikasi yang jalan di **Auto Scaling Group** (ASG) dengan kapasitas 2 sampai 50 instance. IP-nya datang dan pergi mengikuti scaling, dan gak mungkin saya edit `prometheus.yml` setiap kali ASG scale out (bisa - bisa seharian cuma ngurusin IP). Pada tulisan kali ini saya akan berbagi cara mengatasinya.
+Prometheus, ya tools monitoring yang sudah lama saya pakai. Selama ini server - server EC2 saya pantau dengan `static_configs`, alias daftar IP ditulis manual satu per satu. Untuk server yang tetap, cara itu masih oke lah. Masalahnya muncul waktu ada aplikasi yang jalan di **Auto Scaling Group** (ASG) dengan kapasitas 2 sampai 50 instance. IP-nya datang dan pergi mengikuti scaling, dan gak mungkin saya edit `prometheus.yml` setiap kali ASG scale out (bisa - bisa seharian cuma ngurusin IP). Pada tulisan kali ini saya akan berbagi cara mengatasinya.
 
-Solusinya ada tiga bagian:
+Solusinya ada tiga bagian, gambarannya kurang lebih seperti ini:
 
 ```
 Instance di ASG ── node_exporter (:9100)
@@ -21,11 +21,18 @@ Prometheus self-hosted ──► Grafana
         └── cloudwatch_exporter (:9106) ◄── CloudWatch ◄── ALB (RPS, latency, error)
 ```
 
-### 1. Pasang Node Exporter lewat User Data
+### Kebutuhan
+- Prometheus self-hosted di EC2
+- Auto Scaling Group dengan Launch Template
+- Akses ke AWS Console untuk IAM dan Security Group
+- Grafana (opsional, untuk dashboard)
 
-Instance di ASG dibuat dari **Launch Template**, jadi node_exporter harus terpasang otomatis saat instance pertama kali boot. Tempatnya di **EC2 > Launch Templates > pilih template > Actions > Modify template (Create new version) > Advanced details > User data**.
+### Tahapan
+#### 1. Pasang node_exporter lewat User Data
+Instance di ASG dibuat dari **Launch Template**, jadi node_exporter harus terpasang otomatis saat instance pertama kali boot. Tempatnya di:
+- EC2 > Launch Templates > pilih template > Actions > Modify template (Create new version) > Advanced details > User data
 
-Tambahkan blok ini ke skrip user data yang sudah ada:
+Tambahkan blok berikut ke skrip user data yang sudah ada:
 
 ```
 #!/bin/bash
@@ -57,15 +64,13 @@ systemctl enable --now node_exporter
 ```
 
 Beberapa hal kecil tapi penting:
-
-- **Taruh blok ini sebelum bagian yang menjalankan aplikasi.** Kalau skrip kamu punya bagian `sudo -u <user> bash <<'EOF' ... EOF` untuk deploy aplikasi, node_exporter tetap harus dipasang sebagai root di luar blok itu.
+- **Taruh blok ini sebelum bagian yang menjalankan aplikasi.** Kalau skripnya punya bagian `sudo -u <user> bash <<'EOF' ... EOF` untuk deploy aplikasi, node_exporter tetap harus dipasang sebagai root di luar blok itu.
 - **Pakai penanda heredoc yang berbeda** (`NODEEOF`, bukan `EOF`) supaya gak bentrok dengan heredoc lain di skrip yang sama.
 - Setelah template diubah, buka **Auto Scaling Group > Edit > Launch template version**, lalu pilih versi terbaru. Instance yang sudah jalan gak ikut berubah. User data cuma dijalankan saat instance pertama kali boot, jadi instance lama perlu diganti (misalnya lewat *instance refresh*) atau dipasangi manual.
 
 > Jangan menaruh password atau token di user data. Isinya bisa dibaca siapa pun yang punya akses `ec2:DescribeInstanceAttribute`, dan juga dari dalam instance lewat metadata service. Untuk secret, pakai SSM Parameter Store atau Secrets Manager.
 
-### 2. Izin IAM untuk Prometheus
-
+#### 2. Tambahkan izin IAM untuk Prometheus
 Prometheus perlu bertanya ke AWS instance mana saja yang sedang jalan. Tambahkan policy ini ke IAM Role yang terpasang di EC2 Prometheus:
 
 ```
@@ -86,8 +91,7 @@ Prometheus perlu bertanya ke AWS instance mana saja yang sedang jalan. Tambahkan
 
 Pakai IAM Role, bukan access key yang ditulis di config. Prometheus otomatis mengambil kredensial dari instance profile.
 
-### 3. Security Group
-
+#### 3. Atur Security Group
 | Di mana | Arah | Sumber / tujuan | Port |
 |---|---|---|---|
 | SG instance ASG | Inbound | SG Prometheus | 9100 |
@@ -95,9 +99,8 @@ Pakai IAM Role, bukan access key yang ditulis di config. Prometheus otomatis men
 
 Prometheus dan ASG juga harus bisa saling menjangkau lewat jaringan: satu VPC, atau lewat VPC peering / Transit Gateway.
 
-### 4. EC2 Service Discovery di prometheus.yml
-
-Job untuk server tetap dibiarkan memakai `static_configs`. Untuk ASG, tambahkan job baru dengan `ec2_sd_configs`:
+#### 4. Tambahkan EC2 Service Discovery di prometheus.yml
+Job untuk server tetap biarkan saja pakai `static_configs`. Untuk ASG, tambahkan job baru dengan `ec2_sd_configs`:
 
 ```
   - job_name: "app-asg"
@@ -139,23 +142,21 @@ Job untuk server tetap dibiarkan memakai `static_configs`. Untuk ASG, tambahkan 
 
 AWS otomatis memberi tag `aws:autoscaling:groupName` ke setiap instance di ASG, jadi filter di atas langsung menangkap semua anggotanya. Prometheus me-refresh daftar target secara berkala (default setiap 60 detik). Instance baru otomatis masuk, instance yang di-terminate otomatis hilang, dan `prometheus.yml` gak perlu disentuh lagi.
 
-#### Kenapa label instance-nya begitu?
-
-Percobaan pertama saya memakai tag `Name` sebagai label `instance` dan `nodename`. Hasilnya, di dashboard Grafana (Node Exporter Full) semua instance menyatu jadi satu pilihan di dropdown. Tag `Name` dari Launch Template nilainya **sama** untuk semua instance di ASG.
+##### Kenapa label instance-nya begitu?
+Percobaan pertama saya memakai tag `Name` sebagai label `instance` dan `nodename`. Hasilnya, di dashboard Grafana (Node Exporter Full) semua instance menyatu jadi satu pilihan di dropdown (lah kok cuma satu?). Tag `Name` dari Launch Template nilainya **sama** untuk semua instance di ASG.
 
 Yang unik per instance adalah instance ID dan private IP. Gabungan keduanya menghasilkan label seperti `i-0abc123def4567890_10.0.12.34`: langsung kelihatan instance yang mana, dan IP-nya mudah dicocokkan saat debugging.
 
-Kalau kamu lebih suka nama urut seperti `app-1`, `app-2`, Prometheus gak bisa membuatnya sendiri karena relabeling cuma membaca metadata apa adanya. Pilihannya: memasang tag `Name` unik lewat Lambda yang dipicu event *EC2 Instance Launch Successful* dari EventBridge, atau memakai oktet terakhir IP sebagai akhiran (`app-34`). Buat saya, gabungan ID dan IP sudah paling praktis tanpa komponen tambahan.
+Kalau lebih suka nama urut seperti `app-1`, `app-2`, Prometheus gak bisa membuatnya sendiri karena relabeling cuma membaca metadata apa adanya. Pilihannya: memasang tag `Name` unik lewat Lambda yang dipicu event *EC2 Instance Launch Successful* dari EventBridge, atau memakai oktet terakhir IP sebagai akhiran (`app-34`). Buat saya, gabungan ID dan IP sudah paling praktis tanpa komponen tambahan.
 
-### 5. Validasi sebelum reload
-
-Kesalahan yang sempat saya alami: job baru ditempel tanpa indentasi dua spasi, jadi `- job_name:` berada di luar `scrape_configs` dan Prometheus gagal start. Biasakan cek dulu dengan `promtool`:
+#### 5. Validasi sebelum reload
+Kesalahan yang sempat saya alami (dan lumayan bikin panik): job baru ditempel tanpa indentasi dua spasi, jadi `- job_name:` berada di luar `scrape_configs` dan Prometheus gagal start. Biasakan cek dulu dengan `promtool`:
 
 ```
 promtool check config /etc/prometheus/prometheus.yml
 ```
 
-Kalau keluar `SUCCESS`, baru reload:
+Jika berhasil akan muncul `SUCCESS`, baru reload:
 
 ```
 sudo systemctl reload prometheus
@@ -163,8 +164,7 @@ sudo systemctl reload prometheus
 curl -X POST http://localhost:9090/-/reload
 ```
 
-### 6. Cek data sudah masuk
-
+#### 6. Cek data sudah masuk
 1. **Status > Targets** di UI Prometheus. Job `app-asg` harus muncul dengan jumlah target sesuai *desired capacity*, statusnya **UP**.
 2. Query di tab Graph:
 
@@ -182,14 +182,12 @@ curl -X POST http://localhost:9090/-/reload
 | Target muncul tapi DOWN | Security group port 9100, routing antar subnet/VPC |
 | Target UP tapi metrik kosong | `systemctl status node_exporter` di instance, `curl http://<private-ip>:9100/metrics` dari server Prometheus |
 
-### 7. Bonus: RPS dari ALB lewat CloudWatch Exporter
-
+### Bonus: RPS dari ALB lewat CloudWatch Exporter
 Node exporter cuma melihat resource OS (CPU, RAM, disk, network). Untuk **request per second**, sumbernya harus aplikasi atau load balancer. Karena trafik aplikasi ini masuk lewat ALB, cara termudah tanpa mengubah kode adalah mengambil metrik ALB dari CloudWatch dengan [cloudwatch_exporter](https://github.com/prometheus/cloudwatch_exporter).
 
 ALB sudah otomatis mengirim metriknya ke CloudWatch, jadi di sisi CloudWatch gak ada yang perlu diatur. Yang dibutuhkan cuma exporter dan izin IAM.
 
-#### Pasang exporter
-
+1. Pasang exporter
 ```
 sudo apt-get install -y default-jre
 sudo mkdir -p /opt/cloudwatch_exporter
@@ -197,9 +195,7 @@ sudo wget -O /opt/cloudwatch_exporter/cloudwatch_exporter.jar \
   https://github.com/prometheus/cloudwatch_exporter/releases/download/v0.15.5/cloudwatch_exporter-0.15.5-jar-with-dependencies.jar
 ```
 
-#### Pilih metrik secukupnya
-
-Setiap metrik berarti panggilan API CloudWatch yang **berbayar**, jadi saya ambil empat yang paling berguna saja. Simpan sebagai `/opt/cloudwatch_exporter/config.yml`:
+2. Pilih metrik secukupnya. Setiap metrik berarti panggilan API CloudWatch yang **berbayar**, jadi saya ambil empat yang paling berguna saja. Simpan sebagai `/opt/cloudwatch_exporter/config.yml`:
 
 ```
 region: ap-southeast-3
@@ -235,10 +231,9 @@ metrics:
     range_seconds: 600
 ```
 
-`HealthyHostCount` dan `ActiveConnectionCount` sengaja saya lewati: jumlah instance sehat sudah kelihatan dari `up{job="app-asg"}`. Kalau akun kamu punya banyak ALB, batasi ke ALB yang dimaksud dengan `aws_dimension_select` supaya exporter gak menarik metrik semua load balancer.
+`HealthyHostCount` dan `ActiveConnectionCount` sengaja saya lewati: jumlah instance sehat sudah kelihatan dari `up{job="app-asg"}`. Kalau akunnya punya banyak ALB, batasi ke ALB yang dimaksud dengan `aws_dimension_select` supaya exporter gak menarik metrik semua load balancer.
 
-#### Service systemd
-
+3. Buat service systemd
 ```
 # /etc/systemd/system/cloudwatch_exporter.service
 [Unit]
@@ -261,9 +256,7 @@ sudo systemctl enable --now cloudwatch_exporter
 
 Exporter ini gak perlu root. `DynamicUser=yes` menjalankannya sebagai user sementara.
 
-#### Izin IAM tambahan
-
-Tambahkan action berikut ke policy role Prometheus yang tadi:
+4. Tambahkan action berikut ke policy IAM role Prometheus yang tadi
 
 ```
 "cloudwatch:GetMetricStatistics",
@@ -272,8 +265,7 @@ Tambahkan action berikut ke policy role Prometheus yang tadi:
 "tag:GetResources"
 ```
 
-#### Job di Prometheus
-
+5. Tambahkan job di Prometheus
 ```
   - job_name: "cloudwatch-alb"
     scrape_interval: 60s
@@ -286,9 +278,7 @@ Tambahkan action berikut ke policy role Prometheus yang tadi:
 
 `scrape_interval: 60s` di job ini penting. Exporter memanggil API CloudWatch **setiap kali di-scrape**, jadi kalau ikut interval global 15 detik, biayanya jadi empat kali lipat tanpa data yang lebih baru. Lagi pula, metrik ALB memang beresolusi satu menit.
 
-#### Query di Grafana
-
-`RequestCount` dengan statistik `Sum` dan `period_seconds: 60` berisi jumlah request **per menit**, bukan counter yang terus naik. Jadi jangan pakai `rate()`, cukup bagi 60:
+6. Query di Grafana. `RequestCount` dengan statistik `Sum` dan `period_seconds: 60` berisi jumlah request **per menit**, bukan counter yang terus naik. Jadi jangan pakai `rate()`, cukup bagi 60:
 
 ```
 # RPS
@@ -305,7 +295,6 @@ aws_applicationelb_target_response_time_p95
 Nama metrik persisnya bisa dicek di `http://<prometheus-host>:9106/metrics`.
 
 #### Berapa biayanya?
-
 Harga `GetMetricStatistics` sekitar **$0.01 per 1.000 request**. Dengan empat metrik, satu ALB, satu target group, dan scrape tiap 60 detik:
 
 ```
@@ -316,8 +305,9 @@ Ditambah sedikit panggilan `ListMetrics` untuk menemukan dimensi. Bandingkan den
 
 Kalau instance-nya memakai Nginx sebagai reverse proxy, `nginx-prometheus-exporter` bisa jadi alternatif yang gratis total. Kalau butuh RPS per endpoint, instrumentasi langsung di aplikasi (misalnya `prom-client` untuk Node.js) yang paling detail.
 
-### Ringkasan
+Voila, sekarang Prometheus otomatis mengikuti naik turunnya ASG.
 
+### Ringkasan
 | Kebutuhan | Solusi |
 |---|---|
 | node_exporter otomatis di instance baru | User data di Launch Template |
@@ -327,3 +317,7 @@ Kalau instance-nya memakai Nginx sebagai reverse proxy, `nginx-prometheus-export
 | RPS, latency, error dari ALB | cloudwatch_exporter, 4 metrik, scrape 60 detik |
 
 Sekian, semoga membantu.
+
+Referensi:
+- [Prometheus ec2_sd_config](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#ec2_sd_config)
+- [cloudwatch_exporter](https://github.com/prometheus/cloudwatch_exporter)

@@ -7,21 +7,25 @@ description: "Cara mengirim alert dari Sentry, Grafana (data Elasticsearch APM),
 ShowToc: true
 ---
 ### Pendahuluan
-Di tim, alert kami tersebar di mana-mana: error aplikasi di Sentry, APM di Elastic, sebagian service di New Relic, dan deploy frontend di Vercel. Masing-masing punya integrasi Discord sendiri, tapi ada yang berbayar, ada yang terkunci lisensi, dan tampilannya beda - beda semua (asli bikin pusing kalau lagi ada insiden).
+Alerting, ya sesuatu yang wajib ada tapi sering bikin repot kalau sumbernya banyak. Di tempat saya, alert tersebar di mana - mana: error aplikasi di Sentry, APM di Elastic, sebagian service di New Relic, dan deploy frontend di Vercel. Masing - masing punya integrasi Discord sendiri, tapi ada yang berbayar, ada yang terkunci lisensi, dan tampilannya beda - beda semua (asli bikin pusing kalau lagi ada insiden).
 
 Akhirnya saya pakai satu pola untuk semuanya:
-
 ```
 Sumber alert → Webhook n8n → Code (format embed) → HTTP Request → Discord
 ```
 
 ![Alur umum: Sentry, Grafana, New Relic, dan GitHub mengirim webhook ke n8n, lalu n8n mengirim embed card ke Discord](assets/alur-umum.svg)
 
-n8n jadi "pintu" tunggal. Semua pesan dirapikan di node Code jadi **embed card** Discord dengan format yang konsisten: apa yang terjadi, di mana, kemungkinan penyebabnya, dan link untuk investigasi. Pada tulisan kali ini saya akan berbagi setup-nya, termasuk jebakan-jebakan yang saya temui.
+n8n jadi "pintu" tunggal. Semua pesan dirapikan di node Code jadi **embed card** Discord dengan format yang konsisten: apa yang terjadi, di mana, kemungkinan penyebabnya, dan link untuk investigasi. Pada tulisan kali ini saya akan berbagi setup-nya, termasuk jebakan - jebakan yang saya temui.
 
-> Semua URL, nama service, dan endpoint di tulisan ini contoh. Ganti dengan punya kamu.
+Catatan: semua URL, nama service, dan endpoint di tulisan ini cuma contoh, silahkan disesuaikan.
 
-### Pola dasar di n8n
+### Kebutuhan
+- n8n yang sudah jalan (self-hosted atau cloud)
+- Channel Discord dan webhook-nya
+- Akses admin ke Sentry, Grafana, New Relic, dan repo GitHub yang terhubung ke Vercel (sesuai yang dipakai saja)
+
+### Pola Dasar di n8n
 
 Setiap sumber pakai tiga node:
 
@@ -39,13 +43,13 @@ Setting HTTP Request-nya selalu sama:
 | Specify Body | **Using JSON** |
 | JSON | `{{ JSON.stringify($json) }}` (mode *Expression*) |
 
-Kenapa gak pakai node Discord bawaan n8n? Karena dengan HTTP Request kamu punya kontrol penuh atas bentuk embed.
+Kenapa gak pakai node Discord bawaan n8n? Karena dengan HTTP Request kita punya kontrol penuh atas bentuk embed.
 
 Beberapa hal yang sering bikin bingung di awal:
 
 - **Kode JavaScript harus di node Code**, bukan di kolom JSON HTTP Request. Kolom JSON cuma menerima JSON atau ekspresi `{{ }}`.
-- **URL test vs production.** `/webhook-test/...` cuma aktif waktu kamu menekan *Listen for test event*. Untuk dipakai sungguhan, **Publish** workflow dan pakai `/webhook/...`.
-- **URL webhook Discord itu rahasia.** Siapa pun yang memegangnya bisa kirim pesan ke channel kamu. Hati-hati waktu berbagi screenshot.
+- **URL test vs production.** `/webhook-test/...` cuma aktif waktu kita menekan *Listen for test event*. Untuk dipakai sungguhan, **Publish** workflow dan pakai `/webhook/...`.
+- **URL webhook Discord itu rahasia.** Siapa pun yang memegangnya bisa kirim pesan ke channel kita. Hati - hati waktu berbagi screenshot.
 - **Batas Discord:** title 256 karakter, description 4096, value field 1024, maksimal 10 embed per pesan. String kosong dan URL relatif ditolak dengan error 400.
 
 Karena itu, semua node Code di bawah memakai tiga helper yang sama:
@@ -72,7 +76,7 @@ Satu workflow boleh punya beberapa Webhook trigger. Saya taruh jalur Sentry dan 
 
 ### 1. Sentry > Discord
 
-Payload webhook Sentry itu besar (bisa ratusan KB, kebanyakan stacktrace dan `debug_meta`). Kamu cukup ambil beberapa field penting.
+Payload webhook Sentry itu besar (bisa ratusan KB, kebanyakan stacktrace dan `debug_meta`). Jadi cukup ambil beberapa field penting saja.
 
 ```
 const body = $input.first().json.body;
@@ -147,7 +151,7 @@ Beberapa catatan:
 - **Test notification dari Sentry itu sample event** (tag `sample_event: yes`), jadi datanya dummy. Kode di atas memberi prefix `[TEST]` supaya gak bikin panik.
 - Saya sengaja **tidak menampilkan data user** (email, id) di Discord. Channel Discord biasanya lebih luas aksesnya daripada Sentry.
 - Tambahkan node **IF** sebelum Code dengan kondisi `{{ $json.body.action }}` sama dengan `triggered`, supaya event lain gak ikut terkirim.
-- Untuk keamanan, verifikasi header `sentry-hook-signature` (HMAC-SHA256 dari body memakai Client Secret integrasi Sentry) supaya orang lain gak bisa spam webhook kamu.
+- Untuk keamanan, verifikasi header `sentry-hook-signature` (HMAC-SHA256 dari body memakai Client Secret integrasi Sentry) supaya orang lain gak bisa spam webhook kita.
 
 ### 2. Elasticsearch APM > Discord (lewat Grafana)
 
@@ -350,7 +354,7 @@ if (!out.length) {
 return out;
 ```
 
-Hasilnya kira-kira begini:
+Jika berhasil akan menampilkan card kurang lebih seperti berikut:
 
 ```
 ┃ 🔴 504 Gateway Timeout                ← judul bisa diklik ke APM
@@ -679,7 +683,7 @@ Catatan:
 - Untuk tes ulang tanpa deploy baru, buka **Recent Deliveries** di halaman webhook GitHub, pilih event `deployment_status` yang sukses, lalu **Redeliver**.
 - Cara ini cuma berlaku untuk deploy dari integrasi Git Vercel. Deploy lewat CLI dari pipeline CI gak lewat GitHub, jadi notifikasinya lebih gampang ditambahkan di pipeline itu sendiri.
 
-### Checklist produksi
+### Checklist Produksi
 
 Setelah semua jalur jalan:
 
@@ -689,11 +693,11 @@ Setelah semua jalur jalan:
 4. **Backup rule.** Export alert rules Grafana ke YAML dan simpan di repo.
 5. **Evaluasi setelah seminggu.** Terlalu berisik? Naikkan threshold atau kecualikan endpoint tertentu. Deploy rutin sering memicu 502/503? Buat *mute timing* untuk jam deploy.
 
-### Bonus: cek isi log kamu
+### Bonus: Cek Isi Log
 
 Waktu ngoprek ini saya sempat menemukan log level **debug** di production yang mencatat request/response lengkap ke pihak ketiga, termasuk data pribadi customer, dan satu baris yang mencatat nilai token rahasia secara plaintext. Siapa pun yang punya akses Kibana bisa membacanya.
 
-Kalau kamu pakai OTel Collector, pasang redaksi sebagai jaring pengaman sebelum data dikirim ke backend:
+Kalau pakai OTel Collector, pasang redaksi sebagai jaring pengaman sebelum data dikirim ke backend:
 
 ```
 processors:
@@ -708,6 +712,12 @@ processors:
 
 Tapi perbaikan utamanya tetap di aplikasi: set log level production ke `info`, jangan pernah log nilai secret, dan rotasi secret yang sempat tercatat.
 
-Sekarang semua alert masuk ke Discord dengan format yang sama, apa pun sumbernya. Menambah sumber baru juga gampang: tinggal satu Webhook trigger dan satu node Code lagi.
+Voila, sekarang semua alert masuk ke Discord dengan format yang sama, apa pun sumbernya. Menambah sumber baru juga gampang: tinggal satu Webhook trigger dan satu node Code lagi.
 
 Sekian, semoga membantu.
+
+Referensi:
+- [n8n Webhook node](https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.webhook/)
+- [Discord Webhook Resource](https://discord.com/developers/docs/resources/webhook)
+- [Grafana Alerting](https://grafana.com/docs/grafana/latest/alerting/)
+- [New Relic webhook destinations](https://docs.newrelic.com/docs/alerts/get-notified/notification-integrations/)
