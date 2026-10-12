@@ -1,0 +1,32 @@
+{{- /* Riwayat kerja dari data/pengalaman.yaml, gaya timeline terminal. */ -}}
+<div class="xp" aria-label="Riwayat pengalaman kerja">
+  <p class="xp__cmd"><span class="xp__prompt">$</span> git log --career --oneline</p>
+  <ol class="xp__list">
+  {{- range $i, $x := site.Data.pengalaman }}
+    {{- $s := time.AsTime (printf "%s-01" $x.start) }}
+    {{- $e := now }}
+    {{- with $x.end }}{{ $e = time.AsTime (printf "%s-01" .) }}{{ end }}
+    {{- $m := add (sub (add (mul $e.Year 12) (int $e.Month)) (add (mul $s.Year 12) (int $s.Month))) 1 }}
+    {{- $y := div $m 12 }}{{ $mo := mod $m 12 }}
+    <li class="xp__item{{ if not $x.end }} xp__item--now{{ end }}">
+      <div class="xp__head">
+        <h3 class="xp__role">{{ $x.role }}</h3>
+        <p class="xp__company">{{ $x.company }}{{ with $x.type }} · {{ . }}{{ end }}</p>
+        <p class="xp__meta">
+          <span class="xp__period">{{ $x.period }}</span>
+          <span class="xp__dur">{{ if $y }}{{ $y }} thn{{ end }}{{ if and $y $mo }} {{ end }}{{ if $mo }}{{ $mo }} bln{{ end }}</span>
+        </p>
+        <p class="xp__loc">{{ $x.location }}</p>
+      </div>
+      {{- with $x.points }}
+      <ul class="xp__points">
+        {{- range . }}<li>{{ . }}</li>{{ end }}
+      </ul>
+      {{- end }}
+      {{- with $x.skills }}
+      <p class="xp__skills">{{ range . }}<span>{{ . }}</span>{{ end }}</p>
+      {{- end }}
+    </li>
+  {{- end }}
+  </ol>
+</div>

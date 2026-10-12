@@ -52,6 +52,7 @@ enableGitInfo = true
     siteName = "Rifki Affandi"
     alternateName = ["rifkiaz", "rifkiaz.my.id"]
     jobTitle = "DevOps Engineer"
+    email = "rifkiaz@opensuse.org"
     personDescription = "DevOps engineer yang mengurus infrastruktur, otomasi Ansible dan Terraform, serta monitoring. openSUSE Member dan aktif di komunitas open source."
     personImage = "img/rifki-gnome-asia.jpg"
     knowsAbout = ["DevOps", "Ansible", "Terraform", "Prometheus", "Linux", "openSUSE", "MongoDB"]
@@ -95,6 +96,10 @@ Saya juga [member openSUSE](https://kudos.opensuse.org/user/Rifkiaz) dan aktif d
   [[params.socialIcons]]
     name = "instagram"
     url = "https://instagram.com/rifkiaz"
+
+  [[params.socialIcons]]
+    name = "email"
+    url = "mailto:rifkiaz@opensuse.org"
 
   [[params.socialIcons]]
     name = "rss"

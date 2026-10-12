@@ -277,3 +277,25 @@ transition: opacity 0.15s ease; pointer-events: none;
 .lb.lb-show, .lb-show .lb-img { animation: none; }
 .lb-img.lb-anim { transition: none; }
 }
+
+/* Timeline pengalaman kerja (shortcode pengalaman) */
+.post-content .xp { margin: 20px 0 32px; }
+.post-content .xp__cmd { font-family: var(--mono); font-size: 14px; color: var(--secondary); margin: 0 0 16px; }
+.post-content .xp__prompt { color: var(--accent); margin-inline-end: 6px; }
+.post-content .xp__list { list-style: none; margin: 0; padding: 0; border-left: 2px solid var(--border); }
+.post-content .xp__item { position: relative; margin: 0 0 22px; padding: 0 0 0 22px; }
+.post-content .xp__item:last-child { margin-bottom: 0; }
+.post-content .xp__item::before { content: ""; position: absolute; left: -7px; top: 7px; width: 12px; height: 12px; border-radius: 50%; background: var(--theme); border: 2px solid var(--accent); }
+.post-content .xp__item--now::before { background: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
+.post-content .xp__head p { margin: 0; }
+.post-content h3.xp__role { margin: 0 0 2px; font-size: 18px; line-height: 1.35; }
+.post-content .xp__company { font-weight: 500; color: var(--primary); }
+.post-content .xp__meta { display: flex; flex-wrap: wrap; gap: 4px 10px; font-family: var(--mono); font-size: 13px; color: var(--secondary); margin-top: 2px !important; }
+.post-content .xp__dur { color: var(--accent); }
+.post-content .xp__dur::before { content: "# "; opacity: 0.7; }
+.post-content .xp__loc { font-size: 14px; color: var(--secondary); }
+.post-content .xp__points { margin: 10px 0 0; padding-inline-start: 18px; font-size: 15.5px; }
+.post-content .xp__points li { margin-bottom: 4px; }
+.post-content .xp__skills { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 0; }
+.post-content .xp__skills span { font-family: var(--mono); font-size: 12px; padding: 2px 8px; border-radius: 6px; background: var(--accent-soft); color: var(--accent); }
+.post-content .contact-mail { font-family: var(--mono); }

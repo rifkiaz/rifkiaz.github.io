@@ -12,6 +12,7 @@
   "image" (absURL $sch.personImage)
   "knowsAbout" $sch.knowsAbout
   "sameAs" $sch.sameAs }}
+{{- with $sch.email }}{{ $person = merge $person (dict "email" (printf "mailto:%s" .)) }}{{ end }}
 {{- $website := dict
   "@type" "WebSite"
   "@id" (printf "%s#website" site.Home.Permalink)

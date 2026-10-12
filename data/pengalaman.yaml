@@ -1,0 +1,66 @@
+# Riwayat kerja untuk shortcode {{< pengalaman >}} di /tentang/.
+# Urutan: terbaru di atas. Disalin dari profil LinkedIn.
+- role: DevOps Engineer
+  company: Bang Jamin
+  type: Full-time
+  start: "2025-03"
+  end: ""
+  period: Mar 2025 – sekarang
+  location: Jakarta, Indonesia · Hybrid
+  points:
+    - Developed automation scripts using Python and Bash to streamline operational and deployment workflows.
+    - "Manage multi cloud environment like: GCP and AWS."
+    - Built and maintained multiple CI/CD pipelines with Jenkins to automate build, test, and deployment processes.
+    - Administered and optimized a wide range of AWS resources including EC2, VPC, S3, RDS, Route53, and more.
+    - Managed and monitored MongoDB Atlas databases to ensure high availability and performance.
+    - Migration from GCP to AWS.
+  skills: [Bash, Jenkins]
+
+- role: DevOps Engineer
+  company: PT. Elektronik Distribusi Otomatisasi Terkemuka (eDOT)
+  type: Full-time
+  start: "2024-10"
+  end: "2025-01"
+  period: Okt 2024 – Jan 2025
+  location: Indonesia · Remote
+  points:
+    - Managed and optimized Amazon EKS clusters across development, staging, and production environments.
+    - Designed and implemented Terraform modules to build reusable, scalable, and maintainable Infrastructure as Code (IaC) on AWS.
+    - Built and maintained multiple CI/CD pipelines with GitLab CI to automate build, test, and deployment processes.
+    - Administered and optimized a wide range of AWS resources including EC2, VPC, S3, RDS, Route53, and more.
+    - Managed and monitored MongoDB Atlas databases to ensure high availability and performance.
+  skills: [Kubernetes, PostgreSQL]
+
+- role: DevOps Engineer
+  company: Marine Technologies
+  type: Full-time
+  start: "2023-03"
+  end: "2024-04"
+  period: Mar 2023 – Apr 2024
+  location: Jakarta Metropolitan Area · Remote
+  skills: [GitLab, Linux System Administration]
+
+- role: DevOps Engineer
+  company: Aruna
+  type: Full-time
+  start: "2021-11"
+  end: "2023-02"
+  period: Nov 2021 – Feb 2023
+  location: Jakarta Selatan, Indonesia
+  skills: [DevOps, Kubernetes]
+
+- role: Infrastructure Manager
+  company: PT Sakti Kinerja Kolaborasindo
+  type: Full-time
+  start: "2021-01"
+  end: "2021-09"
+  period: Jan 2021 – Sep 2021
+  location: Bogor, Jawa Barat, Indonesia
+
+- role: DevOps Engineer
+  company: Awansakti.id
+  type: Full-time
+  start: "2020-08"
+  end: "2021-09"
+  period: Agu 2020 – Sep 2021
+  location: Indonesia
