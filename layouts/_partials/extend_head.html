@@ -43,6 +43,26 @@
   #menu a { font-family: var(--mono); font-size: 15px; text-transform: lowercase; }
   #menu a::before { content: "/"; color: var(--accent); }
   #menu .active { text-decoration-color: var(--accent); }
+  /* nested menu: toggle button + dropdown panel (placed by js/submenu.js) */
+  .header { position: relative; }
+  #menu .sub-toggle {
+    display: flex; align-items: center; gap: 0.35ch; padding: 0; border: 0; background: none;
+    color: var(--primary); font: inherit; font-family: var(--mono); font-size: 15px; line-height: inherit;
+    text-transform: lowercase; cursor: pointer;
+  }
+  #menu .sub-toggle::before { content: "/"; color: var(--accent); }
+  #menu .sub-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+  .sub-caret { color: var(--accent); font-size: 0.8em; transition: transform 0.15s; }
+  .sub-toggle[aria-expanded="true"] .sub-caret { transform: rotate(180deg); }
+  #menu .submenu {
+    position: absolute; z-index: 30; min-width: 200px; margin: 0; padding: 6px; list-style: none;
+    background: var(--entry); border: 1px solid var(--border); border-top: 2px solid var(--accent);
+    border-radius: var(--radius); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18); line-height: 1.4;
+  }
+  #menu .submenu[hidden] { display: none; }
+  #menu .submenu a { display: block; padding: 8px 10px; border-radius: 6px; font-size: 14px; white-space: nowrap; }
+  #menu .submenu a:hover, #menu .submenu a:focus-visible { background: var(--accent-soft); color: var(--accent); outline: none; }
+  #menu .submenu a[aria-current="page"] { color: var(--accent); }
   .breadcrumbs, .post-meta, .entry-footer, .footer, .paginav .title, .post-tags, .toc summary {
     font-family: var(--mono);
   }
