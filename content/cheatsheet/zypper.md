@@ -124,3 +124,5 @@ sudo zypper --releasever=15.6 dup
 ```
 
 > Sebelum `dup`, pastikan snapper aktif supaya kamu bisa rollback kalau ada yang rusak. Lihat [cheat sheet Snapper dan Btrfs](/cheatsheet/snapper-btrfs/).
+
+{{< telegram-opensuse >}}

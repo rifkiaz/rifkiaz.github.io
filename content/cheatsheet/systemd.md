@@ -82,3 +82,5 @@ RestartSec=5
 ```
 
 Simpan, lalu `sudo systemctl restart nama-service`. Override disimpan di `/etc/systemd/system/nama-service.service.d/override.conf`, jadi aman dari update paket.
+
+{{< telegram-opensuse >}}
