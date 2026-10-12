@@ -8,7 +8,7 @@
 {{- end }}
 
 {{- /* Title */}}
-<title>{{ if .IsHome }}{{ else }}{{ if .Title }}{{ .Title }} | {{ end }}{{ end }}{{ site.Title }}</title>
+<title>{{ if .IsHome }}{{ site.Params.homeTitle | default site.Title }}{{ else }}{{ if .Title }}{{ .Title }} | {{ end }}{{ site.Title }}{{ end }}</title>
 
 {{- /* Meta */}}
 {{- if .IsHome }}
@@ -99,7 +99,10 @@
 {{- end -}}
 
 {{- /* Favicons */}}
-<link rel="icon" href="{{ site.Params.assets.favicon | default "favicon.ico" | absURL }}">
+<link rel="icon" href="{{ site.Params.assets.favicon | default "favicon.ico" | absURL }}" sizes="48x48">
+<link rel="icon" type="image/png" sizes="192x192" href="{{ "android-chrome-192x192.png" | absURL }}">
+<link rel="icon" type="image/png" sizes="96x96" href="{{ "favicon-96x96.png" | absURL }}">
+<link rel="icon" type="image/png" sizes="48x48" href="{{ "favicon-48x48.png" | absURL }}">
 <link rel="icon" type="image/png" sizes="16x16" href="{{ site.Params.assets.favicon16x16 | default "favicon-16x16.png" | absURL }}">
 <link rel="icon" type="image/png" sizes="32x32" href="{{ site.Params.assets.favicon32x32 | default "favicon-32x32.png" | absURL }}">
 <link rel="apple-touch-icon" href="{{ site.Params.assets.apple_touch_icon | default "apple-touch-icon.png" | absURL }}">

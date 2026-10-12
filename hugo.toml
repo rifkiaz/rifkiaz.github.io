@@ -28,7 +28,8 @@ enableGitInfo = true
 
 [params]
   env = "production"
-  description = "Catatan teknis seputar DevOps, otomasi infrastruktur, observability, dan FLOSS oleh Rifki Affandi."
+  homeTitle = "Rifki Affandi · DevOps Engineer, Blog & Portofolio"
+  description = "Blog dan portofolio Rifki Affandi, DevOps engineer dan openSUSE Member. Catatan teknis seputar Ansible, Terraform, monitoring Prometheus, Linux, dan open source."
   author = "Rifki Affandi"
   keywords = ["DevOps", "Ansible", "MongoDB", "Prometheus", "Linux", "openSUSE", "FLOSS"]
   images = ["img/rifki-gnome-asia.jpg"]
@@ -46,6 +47,20 @@ enableGitInfo = true
   comments = true
   mainSections = ["posts"]
   DateFormat = "2 January 2006"
+
+  [params.schema]
+    siteName = "Rifki Affandi"
+    alternateName = ["rifkiaz", "rifkiaz.my.id"]
+    jobTitle = "DevOps Engineer"
+    personDescription = "DevOps engineer yang mengurus infrastruktur, otomasi Ansible dan Terraform, serta monitoring. openSUSE Member dan aktif di komunitas open source."
+    personImage = "img/rifki-gnome-asia.jpg"
+    knowsAbout = ["DevOps", "Ansible", "Terraform", "Prometheus", "Linux", "openSUSE", "MongoDB"]
+    sameAs = [
+      "https://github.com/rifkiaz",
+      "https://x.com/rifkiiaz",
+      "https://instagram.com/rifkiaz",
+      "https://kudos.opensuse.org/user/Rifkiaz",
+    ]
 
   [params.label]
     text = "rifkiaz"
