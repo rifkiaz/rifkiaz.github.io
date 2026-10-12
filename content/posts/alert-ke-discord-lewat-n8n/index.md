@@ -6,8 +6,8 @@ tags: [n8n, discord, sentry, grafana, elasticsearch, new-relic, vercel, monitori
 description: "Cara mengirim alert dari Sentry, Grafana (data Elasticsearch APM), New Relic, dan status deploy Vercel ke Discord sebagai embed card yang rapi dan informatif, semuanya lewat n8n."
 ShowToc: true
 ---
-
-Di tim, alert kami tersebar di mana-mana: error aplikasi di Sentry, APM di Elastic, sebagian service di New Relic, dan deploy frontend di Vercel. Masing-masing punya integrasi Discord sendiri, tapi ada yang berbayar, ada yang terkunci lisensi, dan tampilannya beda-beda semua.
+### Pendahuluan
+Di tim, alert kami tersebar di mana-mana: error aplikasi di Sentry, APM di Elastic, sebagian service di New Relic, dan deploy frontend di Vercel. Masing-masing punya integrasi Discord sendiri, tapi ada yang berbayar, ada yang terkunci lisensi, dan tampilannya beda - beda semua (asli bikin pusing kalau lagi ada insiden).
 
 Akhirnya saya pakai satu pola untuk semuanya:
 
@@ -17,11 +17,11 @@ Sumber alert → Webhook n8n → Code (format embed) → HTTP Request → Discor
 
 ![Alur umum: Sentry, Grafana, New Relic, dan GitHub mengirim webhook ke n8n, lalu n8n mengirim embed card ke Discord](assets/alur-umum.svg)
 
-n8n jadi "pintu" tunggal. Semua pesan dirapikan di node Code jadi **embed card** Discord dengan format yang konsisten: apa yang terjadi, di mana, kemungkinan penyebabnya, dan link untuk investigasi. Tulisan ini merangkum setup-nya, termasuk jebakan-jebakan yang saya temui.
+n8n jadi "pintu" tunggal. Semua pesan dirapikan di node Code jadi **embed card** Discord dengan format yang konsisten: apa yang terjadi, di mana, kemungkinan penyebabnya, dan link untuk investigasi. Pada tulisan kali ini saya akan berbagi setup-nya, termasuk jebakan-jebakan yang saya temui.
 
 > Semua URL, nama service, dan endpoint di tulisan ini contoh. Ganti dengan punya kamu.
 
-## Pola dasar di n8n
+### Pola dasar di n8n
 
 Setiap sumber pakai tiga node:
 
@@ -34,12 +34,12 @@ Setting HTTP Request-nya selalu sama:
 | Setting | Nilai |
 |---|---|
 | Method | `POST` |
-| URL | URL webhook Discord (Edit Channel → Integrations → Webhooks) |
+| URL | URL webhook Discord (Edit Channel > Integrations > Webhooks) |
 | Send Body | ON, tipe **JSON** |
 | Specify Body | **Using JSON** |
 | JSON | `{{ JSON.stringify($json) }}` (mode *Expression*) |
 
-Kenapa nggak pakai node Discord bawaan n8n? Karena dengan HTTP Request kamu punya kontrol penuh atas bentuk embed.
+Kenapa gak pakai node Discord bawaan n8n? Karena dengan HTTP Request kamu punya kontrol penuh atas bentuk embed.
 
 Beberapa hal yang sering bikin bingung di awal:
 
@@ -50,7 +50,7 @@ Beberapa hal yang sering bikin bingung di awal:
 
 Karena itu, semua node Code di bawah memakai tiga helper yang sama:
 
-```js
+```
 // potong sesuai limit Discord; undefined kalau kosong (Discord menolak string kosong)
 const trunc = (s, n) => {
   s = String(s ?? '').trim();
@@ -68,13 +68,13 @@ const safeTs = (t) => {
 };
 ```
 
-Satu workflow boleh punya beberapa Webhook trigger. Saya taruh jalur Sentry dan Grafana di satu canvas dengan path berbeda, jadi kalau satu jalur perlu di-debug, jalur lain nggak tersentuh. Alternatifnya satu Webhook plus node **Switch** yang memilah berdasarkan header atau isi body, tapi menurut saya dua trigger lebih jelas.
+Satu workflow boleh punya beberapa Webhook trigger. Saya taruh jalur Sentry dan Grafana di satu canvas dengan path berbeda, jadi kalau satu jalur perlu di-debug, jalur lain gak tersentuh. Alternatifnya satu Webhook plus node **Switch** yang memilah berdasarkan header atau isi body, tapi menurut saya dua trigger lebih jelas.
 
-## 1. Sentry → Discord
+### 1. Sentry > Discord
 
 Payload webhook Sentry itu besar (bisa ratusan KB, kebanyakan stacktrace dan `debug_meta`). Kamu cukup ambil beberapa field penting.
 
-```js
+```
 const body = $input.first().json.body;
 const ev = body?.data?.event ?? {};
 
@@ -144,18 +144,18 @@ return [{
 
 Beberapa catatan:
 
-- **Test notification dari Sentry itu sample event** (tag `sample_event: yes`), jadi datanya dummy. Kode di atas memberi prefix `[TEST]` supaya nggak bikin panik.
+- **Test notification dari Sentry itu sample event** (tag `sample_event: yes`), jadi datanya dummy. Kode di atas memberi prefix `[TEST]` supaya gak bikin panik.
 - Saya sengaja **tidak menampilkan data user** (email, id) di Discord. Channel Discord biasanya lebih luas aksesnya daripada Sentry.
-- Tambahkan node **IF** sebelum Code dengan kondisi `{{ $json.body.action }}` sama dengan `triggered`, supaya event lain nggak ikut terkirim.
-- Untuk keamanan, verifikasi header `sentry-hook-signature` (HMAC-SHA256 dari body memakai Client Secret integrasi Sentry) supaya orang lain nggak bisa spam webhook kamu.
+- Tambahkan node **IF** sebelum Code dengan kondisi `{{ $json.body.action }}` sama dengan `triggered`, supaya event lain gak ikut terkirim.
+- Untuk keamanan, verifikasi header `sentry-hook-signature` (HMAC-SHA256 dari body memakai Client Secret integrasi Sentry) supaya orang lain gak bisa spam webhook kamu.
 
-## 2. Elasticsearch APM → Discord (lewat Grafana)
+### 2. Elasticsearch APM > Discord (lewat Grafana)
 
 Ini bagian yang paling banyak jebakannya.
 
-### Kenapa nggak langsung dari Kibana?
+#### Kenapa gak langsung dari Kibana?
 
-Rencana awalnya Kibana Alerting dengan connector Webhook ke n8n. Ternyata di lisensi **Basic** (gratis), connector yang tersedia cuma *Index* dan *Server log*. Webhook butuh lisensi Gold ke atas. Tombol *Start trial* juga bukan solusi, karena cuma 30 hari dan nggak bisa diulang.
+Rencana awalnya Kibana Alerting dengan connector Webhook ke n8n. Ternyata di lisensi **Basic** (gratis), connector yang tersedia cuma *Index* dan *Server log*. Webhook butuh lisensi Gold ke atas. Tombol *Start trial* juga bukan solusi, karena cuma 30 hari dan gak bisa diulang.
 
 Pilihan yang tersisa:
 
@@ -165,13 +165,13 @@ Pilihan yang tersisa:
 | Dedup / grouping / resolved | Atur sendiri | Built-in | Built-in |
 | Biaya | Gratis | Gratis | Gratis (OSS) |
 
-Karena kami sudah punya Grafana untuk Prometheus, jalan paling ringan adalah **menambahkan Elasticsearch sebagai data source di Grafana** dan membuat alert di sana. Data nggak perlu diduplikasi, config OTel Collector nggak berubah, dan Kibana APM tetap jadi tempat investigasi.
+Karena kami sudah punya Grafana untuk Prometheus, jalan paling ringan adalah **menambahkan Elasticsearch sebagai data source di Grafana** dan membuat alert di sana. Data gak perlu diduplikasi, config OTel Collector gak berubah, dan Kibana APM tetap jadi tempat investigasi.
 
 ![Alur alert Elasticsearch APM: Grafana membaca Elasticsearch sebagai data source, mengirim webhook ke n8n, lalu card di Discord berisi link ke Kibana APM](assets/alur-grafana-elasticsearch.svg)
 
-Sempat juga terpikir pindah ke LGTM (Loki, Grafana, Tempo, Mimir), atau kirim paralel lewat *collector chaining*. Itu bisa dan cukup umum, tapi kalau kebutuhan APM sudah terpenuhi oleh Elastic, yang sebenarnya kurang cuma alerting. Jadi nggak perlu bangun stack baru hanya untuk itu.
+Sempat juga terpikir pindah ke LGTM (Loki, Grafana, Tempo, Mimir), atau kirim paralel lewat *collector chaining*. Itu bisa dan cukup umum, tapi kalau kebutuhan APM sudah terpenuhi oleh Elastic, yang sebenarnya kurang cuma alerting. Jadi gak perlu bangun stack baru hanya untuk itu.
 
-### Cari nama field status code
+#### Cari nama field status code
 
 Dokumen APM yang punya status HTTP adalah **transaction**, bukan span. Di Grafana Explore, cek field mana yang terisi:
 
@@ -183,7 +183,7 @@ Kalau kosong, coba `labels.http_response_status_code`. Itu terjadi kalau APM Ser
 
 Lalu lihat volume 4xx dan 5xx dalam 30 hari untuk menentukan threshold. Di kasus saya, 5xx jarang (kurang dari satu per hari), sementara 4xx didominasi **401** dari token expired. Kalau 401 digabung ke rule 4xx biasa, alert bakal bunyi terus.
 
-### Tiga rule
+#### Tiga rule
 
 | Rule | Query tambahan | Threshold / 5 menit | Pending | Severity |
 |---|---|---|---|---|
@@ -196,7 +196,7 @@ Semua query diawali `processor.event:transaction AND service.environment:PROD AN
 Setting rule 5xx di Grafana:
 
 - **Query A** (Elasticsearch, Query type *Metrics*), time range **now-5m**, metric **Count**.
-- **Group by**, urutannya penting: Terms `service.name` → Terms `transaction.name` → Terms `http.response.status_code` (semua *Order by Doc Count*) → **Date Histogram** `@timestamp` dengan interval **1m**.
+- **Group by**, urutannya penting: Terms `service.name` > Terms `transaction.name` > Terms `http.response.status_code` (semua *Order by Doc Count*) > **Date Histogram** `@timestamp` dengan interval **1m**.
 - **Expression B**: Reduce, **Sum**, mode **Drop Non-numeric Values** (mode *Strict* bisa menghasilkan NaN).
 - **Expression C**: Threshold, input B, **IS ABOVE 0**, jadi alert condition.
 - **No data handling: Normal.** Ini wajib. Tanpa ini, setiap periode tanpa error akan mengirim alert `DatasourceNoData`.
@@ -215,7 +215,7 @@ Untuk rule 401 spike, hapus Terms `transaction.name` supaya lonjakan yang terseb
 
 Grouping notifikasi: group by `alertname`, `service.name`, `transaction.name`, `http.response.status_code`, dengan Group wait 30s, Group interval 5m, Repeat interval 1h. Hasilnya satu card per kombinasi service + endpoint + status, diulang paling cepat tiap jam, plus card resolved saat error berhenti.
 
-### Jebakan: "too many buckets"
+#### Jebakan: "too many buckets"
 
 Untuk mengetes rule dengan data asli, trik yang saya pakai adalah mengubah time range sementara ke **now-30d**. Hasilnya malah error:
 
@@ -232,15 +232,15 @@ Solusinya, set interval eksplisit:
 | Time range | now-30d | **now-5m** |
 | Date Histogram interval | 1d | **1m** |
 
-Karena reduce-nya **Sum**, besar kecilnya interval nggak mengubah hasil hitungan. Dan jangan lupa kembalikan ke setting produksi setelah tes, kalau nggak alert lama akan dikirim ulang tiap jam selama sebulan.
+Karena reduce-nya **Sum**, besar kecilnya interval gak mengubah hasil hitungan. Dan jangan lupa kembalikan ke setting produksi setelah tes, kalau gak alert lama akan dikirim ulang tiap jam selama sebulan.
 
-### Dari template teks ke embed card
+#### Dari template teks ke embed card
 
-Integration Discord bawaan Grafana bisa dikustom pakai notification template (Go template), tapi hasilnya tetap teks biasa. Saya sempat beberapa kali iterasi template dan hasilnya selalu terasa berantakan. Akhirnya contact point saya ganti ke **Webhook → n8n** supaya bisa jadi embed card seperti Sentry.
+Integration Discord bawaan Grafana bisa dikustom pakai notification template (Go template), tapi hasilnya tetap teks biasa. Saya sempat beberapa kali iterasi template dan hasilnya selalu terasa berantakan. Akhirnya contact point saya ganti ke **Webhook > n8n** supaya bisa jadi embed card seperti Sentry.
 
 Node Code untuk payload Grafana:
 
-```js
+```
 const p = $input.first().json.body;
 
 const CODE_NAME = {
@@ -369,9 +369,9 @@ Hasilnya kira-kira begini:
 Dua jebakan di bagian ini:
 
 - **Error 400 `{"embeds": ["0"]}` dari Discord.** Tombol Test di contact point Grafana mengirim `generatorURL` relatif (`?orgId=1`), dan Discord menolak URL yang bukan absolut. Makanya ada `safeUrl`. Kalau link dari alert asli juga relatif, set `root_url` Grafana (`GF_SERVER_ROOT_URL`).
-- **Tombol Test (Predefined) nggak punya label `service.name`**, jadi yang muncul selalu card "alert sistem" abu-abu. Pakai **Test → Custom** dengan label dan annotation buatan untuk melihat card lengkap.
+- **Tombol Test (Predefined) gak punya label `service.name`**, jadi yang muncul selalu card "alert sistem" abu-abu. Pakai **Test > Custom** dengan label dan annotation buatan untuk melihat card lengkap.
 
-### Pause vs Silence
+#### Pause vs Silence
 
 Kalau satu rule terlalu berisik (misalnya 400 dari validasi client), ada dua pilihan:
 
@@ -383,17 +383,17 @@ Kalau satu rule terlalu berisik (misalnya 400 dari validasi client), ada dua pil
 
 Kalau cuma kode 400 yang mau dimatikan, ubah query jadi `... AND NOT http.response.status_code:(400 OR 401)`.
 
-## 3. New Relic → Discord
+### 3. New Relic > Discord
 
-Polanya sama: **NRQL Condition → Alert Policy → Workflow → Destination (Webhook) → n8n**. Alerting sudah termasuk di plan New Relic tanpa biaya tambahan.
+Polanya sama: **NRQL Condition > Alert Policy > Workflow > Destination (Webhook) > n8n**. Alerting sudah termasuk di plan New Relic tanpa biaya tambahan.
 
 ![Alur New Relic: NRQL Condition, Alert Policy, Workflow, Destination webhook, n8n, lalu Discord](assets/alur-new-relic.svg)
 
-### Jebakan: `http.statusCode` bertipe string
+#### Jebakan: `http.statusCode` bertipe string
 
-Query `WHERE http.statusCode >= 500` saya hasilnya kosong, padahal datanya ada. Ternyata atribut itu tersimpan sebagai **string** di sebagian event, dan perbandingan `>=` hanya berlaku untuk numerik. Di tampilan FACET hal ini nggak kelihatan karena string dan angka ditampilkan sama. Solusinya bungkus dengan `numeric()`:
+Query `WHERE http.statusCode >= 500` saya hasilnya kosong, padahal datanya ada. Ternyata atribut itu tersimpan sebagai **string** di sebagian event, dan perbandingan `>=` hanya berlaku untuk numerik. Di tampilan FACET hal ini gak kelihatan karena string dan angka ditampilkan sama. Solusinya bungkus dengan `numeric()`:
 
-```sql
+```
 SELECT count(*) FROM Transaction
 WHERE appName LIKE 'Prod-%' AND numeric(http.statusCode) >= 500
 FACET appName, name, http.statusCode
@@ -403,7 +403,7 @@ Cek tipe atribut dengan `SELECT keyset() FROM Transaction ...`; atributnya akan 
 
 Waktu breakdown, 4xx di New Relic ternyata hampir semuanya noise (health check yang memanggil path salah, polling dengan token invalid), jadi untuk New Relic saya cukup pantau **5xx saja**. Filter `appName` juga wajib, karena app dev punya puluhan ribu 4xx per hari.
 
-### Setting condition
+#### Setting condition
 
 | Bagian | Nilai |
 |---|---|
@@ -413,15 +413,15 @@ Waktu breakdown, 4xx di New Relic ternyata hampir semuanya noise (health check y
 | Threshold | Critical, above 0, at least once in 1 minute |
 | Signal loss | Jangan buka incident saat signal hilang |
 
-**Fill data gaps = 0** itu penting. Tanpa itu, saat nggak ada 5xx sama sekali New Relic nggak punya data untuk dievaluasi, incident nggak pernah tertutup, dan card resolved nggak pernah terkirim.
+**Fill data gaps = 0** itu penting. Tanpa itu, saat gak ada 5xx sama sekali New Relic gak punya data untuk dievaluasi, incident gak pernah tertutup, dan card resolved gak pernah terkirim.
 
 Alert Policy pakai *One issue per condition and signal*, supaya setiap kombinasi app, endpoint, dan status jadi alert sendiri.
 
-### Payload template
+#### Payload template
 
 Di Workflow, ganti payload template default dengan ini, lalu centang notify on **Activated** dan **Closed**:
 
-```json
+```
 {
   "source": "newrelic",
   "issueUrl": {{json issuePageUrl}},
@@ -443,9 +443,9 @@ Di Workflow, ganti payload template default dengan ini, lalu centang notify on *
 
 Nilai FACET (app, nama transaksi, status code) ada di `accumulations.rawTag`, dengan nama atribut sebagai key. Saran saya, tangkap dulu payload asli sebelum menulis kode. Paling gampang: Publish workflow n8n, arahkan Destination ke URL production, lalu lihat tab **Executions** di n8n. Cara ini menangkap payload Activated dan Closed sekaligus.
 
-### Node Code
+#### Node Code
 
-```js
+```
 const b = $input.first().json.body ?? {};
 const acc = b.accumulations ?? {};
 const raw = acc.rawTag ?? {};
@@ -536,38 +536,38 @@ if (closed) {
 return [{ json: { username: 'New Relic Alert', embeds: [embed] } }];
 ```
 
-Payload New Relic nggak menyertakan jumlah error, jadi card menampilkan jumlah incident dan, saat resolved, durasinya.
+Payload New Relic gak menyertakan jumlah error, jadi card menampilkan jumlah incident dan, saat resolved, durasinya.
 
-### Cara tes tanpa menunggu error asli
+#### Cara tes tanpa menunggu error asli
 
-1. **Pin data palsu di node Webhook.** Di panel Output node Webhook, klik ikon pensil, isi payload tiruan (misalnya `state: "ACTIVATED"` dengan `rawTag` berisi app, nama transaksi, dan `"http.statusCode": ["500"]`), lalu Execute node Code dan HTTP Request. Ubah ke `CLOSED` untuk melihat card resolved. **Jangan lupa Unpin** setelahnya, kalau nggak workflow akan terus memakai data palsu.
+1. **Pin data palsu di node Webhook.** Di panel Output node Webhook, klik ikon pensil, isi payload tiruan (misalnya `state: "ACTIVATED"` dengan `rawTag` berisi app, nama transaksi, dan `"http.statusCode": ["500"]`), lalu Execute node Code dan HTTP Request. Ubah ke `CLOSED` untuk melihat card resolved. **Jangan lupa Unpin** setelahnya, kalau gak workflow akan terus memakai data palsu.
 2. **End-to-end dengan condition sementara**, misalnya query 400 dari satu app, tunggu card masuk, lalu hapus condition-nya dan tunggu card resolved.
 
 Kalau output node Code ada field `myNewField: 1`, berarti yang jalan masih kode contoh bawaan n8n. Kalau muncul `Unexpected token '}'`, kemungkinan kodenya terpotong waktu di-paste; pastikan baris terakhir editor adalah `return ...`.
 
-## 4. Notifikasi deploy Vercel → Discord
+### 4. Notifikasi deploy Vercel > Discord
 
 Webhook akun Vercel cuma tersedia di plan Pro dan Enterprise. Jalan gratisnya lewat **GitHub**: kalau project Vercel terhubung ke repo GitHub, Vercel selalu melaporkan status deploy ke GitHub sebagai *deployment status*, dan webhook GitHub itu gratis.
 
 ![Alur notifikasi deploy Vercel: push, Vercel deploy dan lapor status ke GitHub, webhook deployment_status ke n8n, n8n mengambil data commit dari GitHub API, lalu card ke Discord](assets/alur-vercel-github.svg)
 
-### Webhook GitHub
+#### Webhook GitHub
 
-Di **Settings → Webhooks** repo (atau di level organisasi supaya semua repo ikut):
+Di **Settings > Webhooks** repo (atau di level organisasi supaya semua repo ikut):
 
 - Payload URL: `https://n8n.example.com/webhook/github-vercel`
 - Content type: **`application/json`** (default-nya form-urlencoded, ini sering kelewat)
 - Events: *Let me select individual events*, uncheck **Pushes**, centang **Deployment statuses** saja
 
-### Workflow n8n
+#### Workflow n8n
 
 Saya juga ingin card menampilkan **siapa yang commit** dan judul commit-nya. Masalahnya, di event `deployment_status` pembuat deploy tercatat sebagai `vercel[bot]`. Jadi perlu satu panggilan ke GitHub API:
 
-Urutan node-nya seperti di diagram di atas: `Filter Deploy` → `GitHub Commit` → `Format Card` → HTTP Request ke Discord.
+Urutan node-nya seperti di diagram di atas: `Filter Deploy` > `GitHub Commit` > `Format Card` > HTTP Request ke Discord.
 
 **Code `Filter Deploy`** (namanya harus persis, karena dibaca node berikutnya):
 
-```js
+```
 // set true kalau hanya ingin notifikasi deploy Production (tanpa Preview)
 const ONLY_PRODUCTION = false;
 
@@ -615,11 +615,11 @@ return [{
 - Method **GET**, URL `https://api.github.com/repos/{{ $json.repo }}/commits/{{ $json.sha }}`
 - Auth: Header Auth `Authorization: Bearer <token>`, pakai fine-grained token dengan permission **Contents: Read-only** saja
 - Header `Accept: application/vnd.github+json` dan `User-Agent` bebas
-- **Settings → On Error: Continue**, supaya kalau token kedaluwarsa atau kena rate limit, notifikasi tetap terkirim tanpa nama author
+- **Settings > On Error: Continue**, supaya kalau token kedaluwarsa atau kena rate limit, notifikasi tetap terkirim tanpa nama author
 
 **Code `Format Card`:**
 
-```js
+```
 const d = $('Filter Deploy').first().json;
 const c = $input.first().json ?? {};
 
@@ -675,27 +675,27 @@ return [{ json: { username: 'Vercel Deploy', embeds: [embed] } }];
 Catatan:
 
 - **Preview deploy bisa ramai.** Satu PR bisa menghasilkan beberapa deploy preview. Kalau channel-nya cuma untuk rilis, set `ONLY_PRODUCTION = true`.
-- **Author yang tampil adalah author commit.** Untuk squash merge, itu pembuat PR. Kalau username GitHub nggak muncul dan cuma nama, berarti email git config orang itu nggak terhubung ke akun GitHub-nya.
+- **Author yang tampil adalah author commit.** Untuk squash merge, itu pembuat PR. Kalau username GitHub gak muncul dan cuma nama, berarti email git config orang itu gak terhubung ke akun GitHub-nya.
 - Untuk tes ulang tanpa deploy baru, buka **Recent Deliveries** di halaman webhook GitHub, pilih event `deployment_status` yang sukses, lalu **Redeliver**.
-- Cara ini cuma berlaku untuk deploy dari integrasi Git Vercel. Deploy lewat CLI dari pipeline CI nggak lewat GitHub, jadi notifikasinya lebih gampang ditambahkan di pipeline itu sendiri.
+- Cara ini cuma berlaku untuk deploy dari integrasi Git Vercel. Deploy lewat CLI dari pipeline CI gak lewat GitHub, jadi notifikasinya lebih gampang ditambahkan di pipeline itu sendiri.
 
-## Checklist produksi
+### Checklist produksi
 
 Setelah semua jalur jalan:
 
 1. **Amankan webhook n8n.** Saat ini siapa pun yang tahu URL bisa mengirim card palsu. Pasang Header Auth di node Webhook (`Authorization: Bearer <token>`, generate dengan `openssl rand -hex 24`) dan isi token yang sama di contact point Grafana atau Destination New Relic. Untuk GitHub, isi *Secret* dan verifikasi signature-nya.
-2. **Siapkan Error Workflow di n8n.** Karena semua alert lewat n8n, kalau n8n bermasalah alert nggak sampai. Buat workflow kecil dengan *Error Trigger* yang mengirim pesan ke Discord, lalu pasang sebagai Error Workflow.
+2. **Siapkan Error Workflow di n8n.** Karena semua alert lewat n8n, kalau n8n bermasalah alert gak sampai. Buat workflow kecil dengan *Error Trigger* yang mengirim pesan ke Discord, lalu pasang sebagai Error Workflow.
 3. **Kembalikan semua rule ke setting produksi** setelah tes (time range 5 menit, interval 1m).
 4. **Backup rule.** Export alert rules Grafana ke YAML dan simpan di repo.
 5. **Evaluasi setelah seminggu.** Terlalu berisik? Naikkan threshold atau kecualikan endpoint tertentu. Deploy rutin sering memicu 502/503? Buat *mute timing* untuk jam deploy.
 
-## Bonus: cek isi log kamu
+### Bonus: cek isi log kamu
 
 Waktu ngoprek ini saya sempat menemukan log level **debug** di production yang mencatat request/response lengkap ke pihak ketiga, termasuk data pribadi customer, dan satu baris yang mencatat nilai token rahasia secara plaintext. Siapa pun yang punya akses Kibana bisa membacanya.
 
 Kalau kamu pakai OTel Collector, pasang redaksi sebagai jaring pengaman sebelum data dikirim ke backend:
 
-```yaml
+```
 processors:
   transform/redact:
     log_statements:
@@ -709,3 +709,5 @@ processors:
 Tapi perbaikan utamanya tetap di aplikasi: set log level production ke `info`, jangan pernah log nilai secret, dan rotasi secret yang sempat tercatat.
 
 Sekarang semua alert masuk ke Discord dengan format yang sama, apa pun sumbernya. Menambah sumber baru juga gampang: tinggal satu Webhook trigger dan satu node Code lagi.
+
+Sekian, semoga membantu.

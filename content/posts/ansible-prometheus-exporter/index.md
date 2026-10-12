@@ -5,22 +5,22 @@ description: "Role Ansible yang rapi untuk memasang node_exporter sebagai servic
 categories: [proyek]
 tags: [ansible, prometheus, node-exporter, monitoring, observability]
 ---
-
-Monitoring yang enak dipakai itu dimulai dari metrik yang konsisten di semua server. Kalau `node_exporter` dipasang manual satu per satu di puluhan host, ujung-ujungnya versinya beda-beda, flag-nya beda, atau ada yang lupa di-enable sehingga mati setelah reboot. Di tulisan ini saya mau berbagi role Ansible sederhana untuk memasang exporter Prometheus supaya hasilnya selalu sama.
+### Pendahuluan
+Monitoring yang enak dipakai itu dimulai dari metrik yang konsisten di semua server. Kalau `node_exporter` dipasang manual satu per satu di puluhan host, ujung-ujungnya versinya beda-beda, flag-nya beda, atau ada yang lupa di-enable sehingga mati setelah reboot (pernah kejadian, dan baru ketahuan waktu dashboard-nya bolong). Pada tulisan kali ini saya mau berbagi role Ansible sederhana untuk memasang exporter Prometheus supaya hasilnya selalu sama.
 
 Contohnya pakai `node_exporter`, tapi polanya bisa dipakai juga untuk exporter lain yang bentuknya satu binary, misalnya exporter MongoDB, MySQL, atau HAProxy.
 
-## Prinsip yang saya pegang
+### Prinsip yang saya pegang
 
 - **Versi dikunci** di variabel, bukan "latest".
 - **Checksum dicek** dulu sebelum binary dipasang.
 - **Jalan pakai user khusus tanpa shell**, bukan root.
 - **Dikelola systemd**, jadi otomatis hidup lagi setelah reboot.
-- **Nggak terbuka ke publik.** Port exporter cuma bisa diakses server Prometheus.
+- **Gak terbuka ke publik.** Port exporter cuma bisa diakses server Prometheus.
 
-## Struktur role
+### Struktur role
 
-```text
+```
 roles/node_exporter/
 ├── defaults/main.yml
 ├── handlers/main.yml
@@ -28,9 +28,9 @@ roles/node_exporter/
 └── templates/node_exporter.service.j2
 ```
 
-## Variabel
+### Variabel
 
-```yaml
+```
 # roles/node_exporter/defaults/main.yml
 node_exporter_version: "1.9.1"
 node_exporter_arch: amd64
@@ -43,9 +43,9 @@ node_exporter_extra_flags:
 
 Kalau mau upgrade, cek versi terbaru di halaman rilis resmi lalu ganti `node_exporter_version` secara manual. Dengan begitu upgrade selalu disengaja, bukan kejutan.
 
-## Task
+### Task
 
-```yaml
+```
 # roles/node_exporter/tasks/main.yml
 - name: Buat user sistem untuk node_exporter
   ansible.builtin.user:
@@ -107,9 +107,9 @@ Kalau mau upgrade, cek versi terbaru di halaman rilis resmi lalu ganti `node_exp
   delay: 3
 ```
 
-## Unit systemd
+### Unit systemd
 
-```ini
+```
 # roles/node_exporter/templates/node_exporter.service.j2
 [Unit]
 Description=Prometheus Node Exporter
@@ -136,9 +136,9 @@ WantedBy=multi-user.target
 
 Opsi hardening seperti `ProtectSystem` dan `NoNewPrivileges` gampang ditambahkan, dan cukup membantu membatasi dampaknya kalau suatu saat ada celah di exporter.
 
-## Handler
+### Handler
 
-```yaml
+```
 # roles/node_exporter/handlers/main.yml
 - name: Restart node_exporter
   ansible.builtin.systemd_service:
@@ -147,9 +147,9 @@ Opsi hardening seperti `ProtectSystem` dan `NoNewPrivileges` gampang ditambahkan
     daemon_reload: true
 ```
 
-## Playbook
+### Playbook
 
-```yaml
+```
 # monitoring.yml
 - name: Pasang node_exporter
   hosts: all
@@ -158,15 +158,15 @@ Opsi hardening seperti `ProtectSystem` dan `NoNewPrivileges` gampang ditambahkan
     - node_exporter
 ```
 
-```bash
+```
 ansible-playbook -i inventory/hosts.yml monitoring.yml
 ```
 
-## Target scrape dari inventory
+### Target scrape dari inventory
 
-Supaya daftar target Prometheus nggak perlu ditulis manual, saya generate dari inventory yang sama. Contoh template untuk `file_sd`:
+Supaya daftar target Prometheus gak perlu ditulis manual, saya generate dari inventory yang sama. Contoh template untuk `file_sd`:
 
-```yaml
+```
 # roles/prometheus_targets/templates/node.yml.j2
 - targets:
 {% for host in groups['all'] %}
@@ -178,7 +178,7 @@ Supaya daftar target Prometheus nggak perlu ditulis manual, saya generate dari i
 
 Lalu di `prometheus.yml`:
 
-```yaml
+```
 scrape_configs:
   - job_name: node
     file_sd_configs:
@@ -188,14 +188,16 @@ scrape_configs:
 
 Prometheus otomatis membaca ulang file `file_sd`, jadi kalau ada host baru, cukup tambahkan ke inventory lalu jalankan playbook. Satu catatan: template ini butuh fakta dari semua host, jadi pastikan fact gathering sudah jalan untuk semua host di play yang sama.
 
-## Keamanan
+### Keamanan
 
 - Buka port 9100 di firewall **hanya** untuk alamat server Prometheus.
-- Kalau jaringannya nggak sepenuhnya bisa dipercaya, aktifkan TLS dan basic auth lewat `--web.config.file`, yang sudah didukung exporter resmi Prometheus.
-- Matikan collector yang nggak dipakai. Makin sedikit metrik, makin ringan bebannya dan makin sedikit informasi yang terekspos.
+- Kalau jaringannya gak sepenuhnya bisa dipercaya, aktifkan TLS dan basic auth lewat `--web.config.file`, yang sudah didukung exporter resmi Prometheus.
+- Matikan collector yang gak dipakai. Makin sedikit metrik, makin ringan bebannya dan makin sedikit informasi yang terekspos.
 
-## Alternatif: collection resmi
+### Alternatif: collection resmi
 
-Kalau nggak mau repot memelihara role sendiri, collection `prometheus.prometheus` di Ansible Galaxy sudah punya role untuk `node_exporter` dan beberapa exporter lain. Tapi bikin role sendiri tetap ada gunanya: kita jadi paham apa yang terjadi di balik layar, dan bisa dipakai untuk exporter yang belum ada di collection itu.
+Kalau gak mau repot memelihara role sendiri, collection `prometheus.prometheus` di Ansible Galaxy sudah punya role untuk `node_exporter` dan beberapa exporter lain. Tapi bikin role sendiri tetap ada gunanya: kita jadi paham apa yang terjadi di balik layar, dan bisa dipakai untuk exporter yang belum ada di collection itu.
 
 Exporter ini cocok dipasangkan dengan [MongoDB replica set yang dipasang pakai Ansible](/posts/ansible-mongodb-replica-set/). Metrik host dari `node_exporter`, metrik database dari exporter MongoDB, dan semuanya dipasang dari satu repository otomasi.
+
+Sekian, semoga membantu.

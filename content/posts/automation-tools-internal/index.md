@@ -5,18 +5,18 @@ description: "Prinsip dan kerangka praktis untuk mengubah kumpulan script operas
 categories: [proyek]
 tags: [otomasi, python, cli, devops, tooling]
 ---
+### Pendahuluan
+Hampir semua orang ops punya satu folder berisi script kecil: cek disk, rotasi log, restart service, tarik laporan. Masalahnya baru kerasa waktu script itu mulai dipakai orang lain. Parameternya beda-beda, gak ada mode uji coba, output-nya susah dibaca, dan satu salah ketik bisa langsung kena ke production (amit - amit).
 
-Hampir semua orang ops punya satu folder berisi script kecil: cek disk, rotasi log, restart service, tarik laporan. Masalahnya baru kerasa waktu script itu mulai dipakai orang lain. Parameternya beda-beda, nggak ada mode uji coba, output-nya susah dibaca, dan satu salah ketik bisa langsung kena ke produksi.
+Pada tulisan kali ini saya akan merangkum prinsip yang saya pakai untuk merapikan script-script seperti itu jadi satu **automation tool internal** yang bisa dipercaya tim.
 
-Di tulisan ini saya rangkum prinsip yang saya pakai untuk merapikan script-script seperti itu jadi satu **automation tool internal** yang bisa dipercaya tim.
+### Prinsip desain
 
-## Prinsip desain
-
-### 1. Satu pintu masuk, banyak subcommand
+#### 1. Satu pintu masuk, banyak subcommand
 
 Daripada belasan script dengan gaya masing-masing, satu CLI dengan beberapa subcommand jauh lebih gampang dipelajari:
 
-```text
+```
 opsctl disk-report --host web-01
 opsctl service restart nginx --host web-01 --dry-run
 opsctl backup verify --target db
@@ -24,31 +24,31 @@ opsctl backup verify --target db
 
 Cukup ingat satu nama, dan `opsctl --help` otomatis jadi dokumentasi yang selalu up to date.
 
-### 2. Dry-run untuk semua aksi yang mengubah sesuatu
+#### 2. Dry-run untuk semua aksi yang mengubah sesuatu
 
 Setiap perintah yang mengubah sesuatu wajib punya `--dry-run`, yang menampilkan apa yang *akan* dilakukan tanpa benar-benar menjalankannya. Untuk aksi yang berisiko, minta konfirmasi dulu, dan sediakan `--yes` untuk dipakai di pipeline.
 
-### 3. Idempoten
+#### 3. Idempoten
 
 Menjalankan perintah yang sama dua kali harus tetap aman. Cek dulu kondisi sekarang, baru ubah kalau memang perlu. Prinsipnya sama seperti Ansible, dan alasannya juga sama: automation pasti bakal dijalankan ulang, entah karena retry, timeout, atau salah klik.
 
-### 4. Rahasia tidak pernah ada di kode
+#### 4. Rahasia tidak pernah ada di kode
 
 Kredensial dibaca dari environment variable atau secret manager, jangan di-hardcode dan jangan di-commit. Tambahkan juga secret scanner di CI sebagai jaring pengaman.
 
-### 5. Output untuk manusia dan mesin
+#### 5. Output untuk manusia dan mesin
 
 Output default-nya ringkas dan enak dibaca, plus ada `--output json` supaya hasilnya bisa diolah tool lain. Log ke stderr, hasil ke stdout.
 
-### 6. Exit code yang jujur
+#### 6. Exit code yang jujur
 
 `0` berarti berhasil, selain itu gagal. Kedengarannya sepele, tapi justru ini yang bikin tool bisa dirangkai di cron, CI, atau tool otomasi lain.
 
-## Kerangka minimal dengan Python
+### Kerangka minimal dengan Python
 
 Ini contoh kerangkanya, cukup pakai library standar Python:
 
-```python
+```
 #!/usr/bin/env python3
 """opsctl: automation tool internal untuk tugas operasional."""
 import argparse
@@ -115,9 +115,9 @@ if __name__ == "__main__":
 
 Kerangkanya sengaja dibuat sederhana. Setiap subcommand cuma fungsi biasa yang menerima `args` dan mengembalikan exit code, jadi gampang dites pakai `pytest`.
 
-## Struktur repository
+### Struktur repository
 
-```text
+```
 opsctl/
 ├── opsctl/
 │   ├── __init__.py
@@ -132,14 +132,14 @@ opsctl/
 
 Kalau entry point-nya sudah didefinisikan di `pyproject.toml`, tool ini bisa dipasang pakai `pipx install .` dan langsung bisa dipanggil sebagai `opsctl` di laptop siapa pun di tim.
 
-## Kapan memakai Ansible, kapan memakai tool sendiri
+### Kapan memakai Ansible, kapan memakai tool sendiri
 
 - **Ansible** cocok untuk mengatur *kondisi* server: paket, konfigurasi, service. Contohnya bisa dilihat di [deploy MongoDB replica set dengan Ansible](/posts/ansible-mongodb-replica-set/).
 - **Tool internal** cocok untuk tugas operasional yang sifatnya *aksi* atau *laporan*: cek cepat, bersih-bersih, integrasi dengan API internal, atau membungkus beberapa langkah yang sering dikerjakan barengan.
 
 Dua-duanya bisa saling melengkapi. Tool internal bahkan bisa memanggil playbook Ansible sebagai salah satu subcommand-nya.
 
-## Checklist sebelum dibagikan ke tim
+### Checklist sebelum dibagikan ke tim
 
 - [ ] Ada `--help` yang jelas di setiap subcommand
 - [ ] Semua aksi yang mengubah state punya `--dry-run`
@@ -148,4 +148,6 @@ Dua-duanya bisa saling melengkapi. Tool internal bahkan bisa memanggil playbook 
 - [ ] CI menjalankan lint dan test di setiap pull request
 - [ ] README berisi cara install dan contoh pemakaian
 
-Automation tool yang bagus nggak harus besar. Yang penting tim berani dan percaya untuk menjalankannya, dan rasa percaya itu dibangun dari hal-hal kecil di atas.
+Automation tool yang bagus gak harus besar. Yang penting tim berani dan percaya untuk menjalankannya, dan rasa percaya itu dibangun dari hal-hal kecil di atas.
+
+Sekian, semoga membantu.
