@@ -6,12 +6,12 @@ categories: [proyek]
 tags: [ansible, elasticsearch, docker, cluster, otomasi, devops]
 ShowToc: true
 ---
+### Pendahuluan
+Menjalankan satu container Elasticsearch untuk development itu cukup satu perintah `docker run`. Cluster tiga node untuk production lain cerita: setting kernel di host harus benar, node-node harus saling menemukan, komunikasi antar-node harus terenkripsi, dan proses bootstrap cluster punya jebakan yang bisa bikin data "hilang" kalau salah urus (dan itu bukan hal yang mau dialami di production).
 
-Menjalankan satu container Elasticsearch untuk development itu cukup satu perintah `docker run`. Cluster tiga node untuk production lain cerita: setting kernel di host harus benar, node-node harus saling menemukan, komunikasi antar-node harus terenkripsi, dan proses bootstrap cluster punya jebakan yang bisa bikin data "hilang" kalau salah urus.
+Pada tulisan kali ini saya akan merangkum cara saya mengotomasinya dengan Ansible. Semua nama host, IP, dan versi di bawah cuma contoh, jadi sesuaikan dengan lingkunganmu.
 
-Di tulisan ini saya rangkum cara saya mengotomasinya dengan Ansible. Semua nama host, IP, dan versi di bawah cuma contoh, jadi sesuaikan dengan lingkunganmu.
-
-## Yang mau dicapai
+### Yang mau dicapai
 
 - Tiga node Elasticsearch 8.x, satu container per host. Ketiganya master-eligible sekaligus data node.
 - Container memakai image resmi, dikelola Ansible lewat collection `community.docker`.
@@ -20,19 +20,19 @@ Di tulisan ini saya rangkum cara saya mengotomasinya dengan Ansible. Semua nama 
 - Playbook **idempoten**, dan `cluster.initial_master_nodes` hanya dipakai saat cluster pertama kali dibentuk.
 - Playbook baru selesai setelah cluster benar-benar `green`.
 
-## Prasyarat
+### Prasyarat
 
 - Tiga server Linux (contoh di sini Ubuntu LTS) dengan Docker terpasang, saling terhubung di port 9200 dan 9300.
 - RAM minimal 4 GB per node untuk lab, lebih untuk production.
 - Collection Ansible yang dipakai:
 
-```bash
+```
 ansible-galaxy collection install community.docker community.crypto ansible.posix
 ```
 
-## Struktur proyek
+### Struktur proyek
 
-```text
+```
 es-ansible/
 ├── inventory/
 │   ├── hosts.yml
@@ -53,9 +53,9 @@ es-ansible/
 └── site.yml
 ```
 
-## Inventory dan variabel
+### Inventory dan variabel
 
-```yaml
+```
 # inventory/hosts.yml
 all:
   children:
@@ -66,7 +66,7 @@ all:
         es-03: { ansible_host: 192.0.2.13 }
 ```
 
-```yaml
+```
 # inventory/group_vars/elasticsearch/main.yml
 es_version: "8.15.0"
 es_cluster_name: "logs-cluster"
@@ -76,20 +76,20 @@ es_certs_dir: /srv/elasticsearch/certs
 es_elastic_password: "{{ vault_es_elastic_password }}"
 ```
 
-```yaml
+```
 # inventory/group_vars/elasticsearch/vault.yml (sebelum dienkripsi)
 vault_es_elastic_password: "ganti-dengan-password-panjang"
 ```
 
-```bash
+```
 ansible-vault encrypt inventory/group_vars/elasticsearch/vault.yml
 ```
 
-## 1. Siapkan host
+### 1. Siapkan host
 
 Elasticsearch punya *bootstrap checks*. Begitu node di-bind ke alamat selain loopback, node akan **menolak start** kalau beberapa setting host belum benar. Yang paling sering kena adalah `vm.max_map_count`.
 
-```yaml
+```
 # roles/elasticsearch/tasks/host.yml
 - name: Set vm.max_map_count
   ansible.posix.sysctl:
@@ -119,11 +119,11 @@ Owner `1000:0` itu bukan asal pilih: proses Elasticsearch di image resmi berjala
 
 Untuk swap, `swapoff -a` cuma berlaku sampai reboot. Agar permanen, hapus entri swap di `/etc/fstab`. Opsi lainnya adalah `bootstrap.memory_lock: true` (ada di bagian container di bawah).
 
-## 2. Sertifikat TLS
+### 2. Sertifikat TLS
 
 Elasticsearch 8 sebenarnya bisa membuat sertifikat sendiri saat pertama start, tapi mekanisme itu dirancang untuk satu node yang lalu di-*enroll* ke node lain secara manual. Untuk cluster yang dibangun Ansible, saya lebih suka membuat CA sendiri sekali di mesin kontrol, lalu menerbitkan sertifikat per node. Semuanya pakai `community.crypto`, jadi tetap idempoten.
 
-```yaml
+```
 # roles/elasticsearch/tasks/certs.yml
 - name: Buat CA (sekali, di mesin kontrol)
   delegate_to: localhost
@@ -198,13 +198,13 @@ Elasticsearch 8 sebenarnya bisa membuat sertifikat sendiri saat pertama start, t
 
 Direktori `pki/` berisi private key CA, jadi **jangan di-commit** (masukkan ke `.gitignore`), atau enkripsi juga dengan Vault.
 
-## 3. Container dan jebakan bootstrap cluster
+### 3. Container dan jebakan bootstrap cluster
 
 Saat cluster **pertama kali** dibentuk, node-node perlu tahu siapa saja kandidat master awal lewat `cluster.initial_master_nodes`. Setelah cluster terbentuk, setting itu **harus dihilangkan**. Kalau dibiarkan, lalu suatu hari data salah satu node terhapus dan node itu start ulang, node tersebut bisa membentuk cluster baru sendirian, lengkap dengan password dan state yang berbeda.
 
 Triknya: cek apakah direktori data sudah punya state cluster. Kalau belum ada, berarti ini bootstrap pertama.
 
-```yaml
+```
 # roles/elasticsearch/tasks/container.yml
 - name: Cek apakah node sudah pernah bergabung ke cluster
   ansible.builtin.stat:
@@ -264,11 +264,11 @@ Beberapa catatan:
 - **`no_log: true`** mencegah password tercetak di output Ansible, termasuk saat ada task yang gagal.
 - Penentuan `es_bootstrap` melihat ke **semua** node: kalau salah satu node saja sudah punya state, berarti cluster sudah pernah terbentuk, dan `initial_master_nodes` tidak dipasang ke node mana pun.
 
-## 4. Tunggu sampai cluster green
+### 4. Tunggu sampai cluster green
 
 Tanpa langkah ini, playbook "sukses" padahal cluster belum tentu sehat.
 
-```yaml
+```
 # roles/elasticsearch/tasks/verify.yml
 - name: Tunggu cluster green
   ansible.builtin.uri:
@@ -293,15 +293,15 @@ Tanpa langkah ini, playbook "sukses" padahal cluster belum tentu sehat.
 
 Handler restart-nya sederhana:
 
-```yaml
+```
 # roles/elasticsearch/handlers/main.yml
 - name: Restart elasticsearch
   ansible.builtin.command: docker restart elasticsearch
 ```
 
-## 5. Playbook
+### 5. Playbook
 
-```yaml
+```
 # site.yml
 - name: Cluster Elasticsearch
   hosts: elasticsearch
@@ -310,7 +310,7 @@ Handler restart-nya sederhana:
     - elasticsearch
 ```
 
-```yaml
+```
 # roles/elasticsearch/tasks/main.yml
 - ansible.builtin.import_tasks: host.yml
 - ansible.builtin.import_tasks: certs.yml
@@ -319,24 +319,24 @@ Handler restart-nya sederhana:
 - ansible.builtin.import_tasks: verify.yml
 ```
 
-```bash
+```
 ansible-playbook -i inventory/hosts.yml site.yml --ask-vault-pass
 ```
 
 Cek manual dari salah satu node:
 
-```bash
+```
 curl --cacert /srv/elasticsearch/certs/ca.crt -u elastic \
   "https://localhost:9200/_cat/nodes?v"
 ```
 
 Hasilnya tiga baris node, salah satunya bertanda `*` di kolom `master`.
 
-## Upgrade versi tanpa downtime
+### Upgrade versi tanpa downtime
 
 Karena versi diatur lewat `es_version`, upgrade cukup mengganti variabel itu. Tapi jangan biarkan Ansible me-restart ketiga node sekaligus. Jalankan playbook dengan `serial: 1`, supaya node diganti satu per satu dan setiap node baru lanjut setelah cluster kembali green:
 
-```yaml
+```
 - name: Rolling upgrade
   hosts: elasticsearch
   become: true
@@ -347,9 +347,11 @@ Karena versi diatur lewat `es_version`, upgrade cukup mengganti variabel itu. Ta
 
 Untuk cluster dengan data besar, tambahkan langkah menonaktifkan alokasi shard (`cluster.routing.allocation.enable: primaries`) sebelum restart dan mengaktifkannya lagi setelahnya, sesuai panduan *rolling upgrade* di dokumentasi Elastic.
 
-## Pelajaran
+### Pelajaran
 
 - **Bootstrap checks itu teman.** Error `max virtual memory areas vm.max_map_count [65530] is too low` di log berarti task sysctl belum jalan, bukan masalah di image.
 - **Jangan biarkan `cluster.initial_master_nodes` permanen.** Ini satu-satunya setting di sini yang bisa membuat cluster terbelah diam-diam.
 - **Publish host harus IP yang bisa dijangkau node lain.** Di Docker mode bridge tanpa pengaturan tambahan, node akan mengumumkan IP container dan gagal saling menemukan.
 - **Rahasia di satu tempat.** Password di Vault, private key CA di luar repository, dan `no_log` di task yang menyentuhnya.
+
+Sekian, semoga membantu.
