@@ -6,20 +6,18 @@ categories: [proyek]
 tags: [ansible, mongodb, replica-set, otomasi, devops]
 ---
 ### Pendahuluan
-Pasang satu server MongoDB secara manual itu gampang. Tapi kalau harus pasang tiga node replica set dengan konfigurasi yang sama persis, keyfile yang sama, autentikasi aktif, dan bisa dijalankan ulang kapan saja tanpa merusak cluster yang sudah jalan, ceritanya jadi lain (bisa - bisa ada yang kelewat satu node). Pada tulisan kali ini saya mau berbagi cara saya mengotomasinya pakai Ansible.
+[MongoDB](https://www.mongodb.com/) adalah database NoSQL berbasis dokumen yang cukup populer, dan di tempat saya banyak dipakai untuk aplikasi production. Pasang satu server MongoDB secara manual itu gampang. Tapi kalau harus pasang tiga node replica set dengan konfigurasi yang sama persis, keyfile yang sama, autentikasi aktif, dan bisa dijalankan ulang kapan saja tanpa merusak cluster yang sudah jalan, ceritanya jadi lain (bisa - bisa ada yang kelewat satu node). Pada tulisan kali ini saya akan berbagi cara mengotomasinya pakai Ansible.
 
-Oh iya, semua nama host, user, dan nilai di bawah cuma contoh, jadi sesuaikan saja dengan lingkunganmu.
+Oh ya, semua nama host, user, dan nilai di bawah cuma contoh ya, silakan disesuaikan.
 
-### Yang mau dicapai
-
+### Yang Mau Dicapai
 - Tiga node MongoDB (satu primary, dua secondary) dalam replica set `rs0`.
 - Autentikasi internal antar-node menggunakan **keyfile**.
 - `authorization` aktif, dengan satu user admin.
-- Playbook **idempoten**: mau dijalankan berapa kali pun hasilnya tetap sama, dan gak mencoba `rs.initiate()` lagi di cluster yang sudah hidup.
+- Playbook **idempoten**: mau dijalankan berapa kali pun hasilnya tetap sama, dan gak nyoba `rs.initiate()` lagi di cluster yang sudah hidup.
 - Rahasia seperti password dan keyfile disimpan di **Ansible Vault**, bukan ditaruh di repository sebagai teks biasa.
 
-### Prasyarat
-
+### Kebutuhan
 - Tiga server Ubuntu LTS yang bisa saling terhubung di port 27017 dan bisa dipanggil lewat nama host.
 - Ansible di mesin kontrol, ditambah collection `community.mongodb`:
 
@@ -27,10 +25,9 @@ Oh iya, semua nama host, user, dan nilai di bawah cuma contoh, jadi sesuaikan sa
 ansible-galaxy collection install community.mongodb
 ```
 
-Modul-modul di collection ini butuh `pymongo` di node target. Sebelum pasang, cek dulu versi yang didukung di dokumentasi collection-nya.
+Modul - modul di collection ini butuh `pymongo` di node target. Sebelum pasang, cek dulu versi yang didukung di dokumentasi collection-nya ya.
 
-### Struktur proyek
-
+### Struktur Project
 ```
 mongodb-ansible/
 ├── inventory/
@@ -53,8 +50,8 @@ mongodb-ansible/
 └── site.yml
 ```
 
-### Inventory
-
+### Tahapan
+#### 1. Isi inventory
 ```
 # inventory/hosts.yml
 all:
@@ -66,7 +63,7 @@ all:
         mongo-03:
 ```
 
-Node pertama di grup nantinya dipakai untuk inisialisasi replica set, dan saya kasih prioritas lebih tinggi supaya dia yang terpilih jadi primary. Daftar anggotanya saya tulis jelas di `group_vars` biar gampang dibaca:
+Node pertama di grup nantinya dipakai untuk inisialisasi replica set, dan saya kasih prioritas lebih tinggi supaya dia yang terpilih jadi primary. Daftar anggotanya saya tulis di `group_vars` biar gampang dibaca:
 
 ```
 # inventory/group_vars/mongodb/main.yml
@@ -77,8 +74,7 @@ mongodb_members:
   - host: "mongo-03:27017"
 ```
 
-### Variabel dan rahasia
-
+#### 2. Isi variabel dan rahasia
 ```
 # roles/mongodb/defaults/main.yml
 mongodb_version: "8.0"
@@ -91,13 +87,13 @@ mongodb_keyfile_path: /etc/mongodb/keyfile
 mongodb_admin_user: admin
 ```
 
-Keyfile dan password admin masuk ke Vault. Isi keyfile cukup dibuat sekali:
+Keyfile dan password admin disimpan di Vault. Isi keyfile cukup dibuat sekali saja:
 
 ```
 openssl rand -base64 756
 ```
 
-Lalu simpan di `vault.yml` dan enkripsi:
+Lalu simpan di `vault.yml` dan encrypt:
 
 ```
 # inventory/group_vars/mongodb/vault.yml (sebelum dienkripsi)
@@ -110,8 +106,7 @@ mongodb_keyfile_content: |
 ansible-vault encrypt inventory/group_vars/mongodb/vault.yml
 ```
 
-### Instalasi
-
+#### 3. Instalasi
 ```
 # roles/mongodb/tasks/install.yml
 - name: Pasang GPG key repository MongoDB
@@ -137,8 +132,7 @@ ansible-vault encrypt inventory/group_vars/mongodb/vault.yml
     update_cache: true
 ```
 
-### Konfigurasi dan keyfile
-
+#### 4. Konfigurasi dan keyfile
 ```
 # roles/mongodb/templates/mongod.conf.j2
 storage:
@@ -202,11 +196,10 @@ replication:
     state: restarted
 ```
 
-Yang perlu diingat, keyfile harus **sama persis** di semua node dan cuma boleh dibaca user `mongodb`. Kalau permission-nya terlalu longgar, `mongod` bakal menolak jalan.
+Catatan: keyfile harus **sama persis** di semua node dan cuma boleh dibaca user `mongodb`. Kalau permission-nya terlalu longgar, `mongod` bakal menolak jalan.
 
-### Inisialisasi replica set yang idempoten
-
-Nah, bagian ini yang paling sering bikin playbook gagal di run kedua. Begitu user admin dibuat, *localhost exception* langsung tertutup, jadi perintah yang tadinya bisa jalan tanpa login sekarang minta kredensial. Triknya, cek status pakai `db.hello()`. Perintah ini gak butuh autentikasi dan akan mengembalikan `setName` kalau replica set sudah aktif.
+#### 5. Inisialisasi replica set yang idempoten
+Nah, bagian ini yang paling sering bikin playbook gagal di run kedua (asli bikin kesel). Begitu user admin dibuat, *localhost exception* langsung tertutup, jadi perintah yang tadinya bisa jalan tanpa login sekarang minta kredensial. Triknya, cek status pakai `db.hello()`. Perintah ini gak butuh autentikasi dan akan mengembalikan `setName` kalau replica set sudah aktif.
 
 ```
 # roles/mongodb/tasks/replicaset.yml
@@ -241,8 +234,7 @@ Nah, bagian ini yang paling sering bikin playbook gagal di run kedua. Begitu use
 
 `run_once` tanpa `delegate_to` akan jalan di host pertama pada play, yaitu `mongo-01`. Kebetulan itu juga anggota yang saya kasih prioritas 2 di `mongodb_members`.
 
-### Membuat user admin
-
+#### 6. Buat user admin
 ```
 # roles/mongodb/tasks/users.yml
 - name: Buat user admin
@@ -266,8 +258,7 @@ Nah, bagian ini yang paling sering bikin playbook gagal di run kedua. Begitu use
 
 Opsi `create_for_localhost_exception` membuat user pertama lewat localhost exception, lalu menulis file penanda. Di run berikutnya, modul akan login seperti biasa pakai `login_user` dan `login_password`.
 
-### Menyatukan semuanya
-
+#### 7. Satukan semuanya
 ```
 # roles/mongodb/tasks/main.yml
 - name: Install
@@ -301,28 +292,32 @@ Opsi `create_for_localhost_exception` membuat user pertama lewat localhost excep
     - mongodb
 ```
 
-Tinggal jalankan:
+Tinggal jalankan playbook-nya:
 
 ```
 ansible-playbook -i inventory/hosts.yml site.yml --ask-vault-pass
 ```
 
-### Verifikasi
-
+#### 8. Verifikasi
 ```
 mongosh "mongodb://mongo-01:27017,mongo-02:27017,mongo-03:27017/?replicaSet=rs0&authSource=admin" \
   -u admin -p --eval "rs.status().members.map(m => m.name + ' ' + m.stateStr)"
 ```
 
-Kalau semuanya lancar, akan muncul satu `PRIMARY` dan dua `SECONDARY`. Setelah itu coba jalankan playbook sekali lagi. Semua task harusnya berstatus `ok` tanpa ada yang `changed`.
+Jika berhasil akan muncul satu `PRIMARY` dan dua `SECONDARY`. Setelah itu coba jalankan playbook sekali lagi, semua task harusnya `ok` tanpa ada yang `changed`.
 
-### Beberapa hal yang saya pelajari
+Voila, replica set sudah jalan.
 
+### Beberapa Hal yang Saya Pelajari
 - **Jangan pernah commit keyfile atau password** sebagai teks biasa. Pakai Ansible Vault (atau secret manager) dari hari pertama.
 - **Idempotensi itu harus dites**, jangan cuma diasumsikan. Jalankan playbook dua kali di lingkungan uji dan pastikan run kedua bersih.
 - **Batasi akses jaringan.** Arahkan `bindIp` ke interface privat saja, lalu buka port 27017 di firewall hanya untuk anggota replica set dan aplikasi yang memang perlu.
 - **Coba failover-nya.** Matikan primary di lingkungan uji, lalu pastikan aplikasi masih bisa menulis setelah election selesai.
 
-Di tulisan berikutnya, saya bahas cara pasang [Prometheus exporter dengan Ansible](/posts/ansible-prometheus-exporter/) supaya cluster seperti ini bisa dipantau.
+Nantikan tulisan selanjutnya perihal cara pasang [Prometheus exporter dengan Ansible](/posts/ansible-prometheus-exporter/) supaya cluster seperti ini bisa dipantau ya ~
 
 Sekian, semoga membantu.
+
+Referensi:
+- [MongoDB Replication](https://www.mongodb.com/docs/manual/replication/)
+- [community.mongodb collection](https://galaxy.ansible.com/ui/repo/published/community/mongodb/)
