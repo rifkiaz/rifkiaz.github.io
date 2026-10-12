@@ -37,17 +37,27 @@ Combo Beyblade X ditulis dengan format **Blade Ratchet Bit**, misalnya `Wizard R
 
 Data dari ribuan top cut turnamen (BEYWATCH.GG) dan rangkuman meta dari BeyX Hub:
 
-Gambar di bawah ini ilustrasi buatan saya, bukan foto produk. Warnanya menandai peran: merah attack, biru stamina, hijau stamina yang cenderung bertahan, ungu counter. Panah putus-putus menunjukkan arah putaran.
+Tiga combo teratas pakai foto koleksi saya sendiri: foto pertama sudah terpasang, foto kedua dibongkar jadi blade, ratchet, dan bit. Sisanya masih kartu ilustrasi buatan saya. Warna kartunya menandai peran: merah attack, biru stamina, hijau stamina yang cenderung bertahan, ungu counter. Panah putus-putus menunjukkan arah putaran.
 
 ### Wizard Rod 1-60 Hexa
 
-![Kartu combo Wizard Rod, ratchet 1-60, bit Hexa, peran stamina, putar kanan](assets/wizard-rod-1-60-hexa.webp)
+<div class="foto-duo">
+
+![Foto Wizard Rod 1-60 Hexa milik saya, terpasang lengkap](assets/foto-wizard-rod.webp)
+![Foto bagian Wizard Rod 1-60 Hexa dibongkar: blade Wizard Rod, ratchet 1-60 hijau, dan bit Hexa merah](assets/foto-wizard-rod-part.webp)
+
+</div>
 
 Combo dengan volume terbesar: lebih dari 2.600 top cut dan sekitar 26% dari semua kemenangan di data BEYWATCH.GG. Tahan burst dan awet muternya.
 
 ### Shark Scale 1-70 Low Rush
 
-![Kartu combo Shark Scale, ratchet 1-70, bit Low Rush, peran attack, putar kanan](assets/shark-scale-1-70-low-rush.webp)
+<div class="foto-duo">
+
+![Foto Shark Scale 1-70 Low Rush milik saya, terpasang lengkap](assets/foto-shark-scale.webp)
+![Foto bagian Shark Scale 1-70 Low Rush dibongkar: blade Shark Scale, ratchet 1-70 merah, dan bit Low Rush ungu](assets/foto-shark-scale-part.webp)
+
+</div>
 
 Paling ditakuti buat lawan stamina. Varian 3-60 atau 7-60 Rush juga sering juara.
 
@@ -59,7 +69,12 @@ Alternatif attack yang lebih gampang dicari, persentase juaranya tinggi.
 
 ### Cobalt Dragoon 5-60 Elevate
 
-![Kartu combo Cobalt Dragoon, ratchet 5-60, bit Elevate, peran counter, putar kiri](assets/cobalt-dragoon-5-60-elevate.webp)
+<div class="foto-duo">
+
+![Foto Cobalt Dragoon 5-60 Elevate milik saya, terpasang lengkap](assets/foto-cobalt-dragoon.webp)
+![Foto bagian Cobalt Dragoon 5-60 Elevate dibongkar: blade Cobalt Dragoon, ratchet 5-60 merah, dan bit Elevate ungu](assets/foto-cobalt-dragoon-part.webp)
+
+</div>
 
 Satu-satunya blade putar kiri yang rutin muncul di meta. Enak buat ngelawan blade putar kanan dan tipe stamina.
 
