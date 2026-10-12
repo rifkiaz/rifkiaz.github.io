@@ -23,6 +23,12 @@ Kerjaan saya kurang lebih seputar mengurus server Linux, mengotomasi provisionin
 - **Platform**: Linux (openSUSE, Ubuntu, Debian), Docker, HAProxy, OPNsense, PowerDNS.
 - **CI/CD dan Git**: GitHub Actions, alur kerja berbasis pull request.
 
+## Pengalaman kerja
+
+Ringkasan perjalanan karier saya, dari yang terbaru.
+
+{{< pengalaman >}}
+
 ## Komunitas open source
 
 Di luar kerjaan, saya aktif di komunitas FLOSS, termasuk openSUSE dan LibreOffice Indonesia, dan sempat jadi pembicara di GNOME.Asia Summit 2022 di Kuala Lumpur, membawakan topik seputar mechanical keyboard. Banyak tulisan di blog ini lahir dari hasil ngoprek bareng komunitas. Komunitas openSUSE Indonesia ([opensuse.id](https://opensuse.id)) juga mengelola mirror repositori lokal di [download.opensuse.id](https://download.opensuse.id), jadi pengguna di Indonesia bisa update lebih cepat. Cara memakainya ada di [cheat sheet Zypper](/cheatsheet/zypper/#mirror-lokal-indonesia).
@@ -37,6 +43,8 @@ Saya juga terdaftar sebagai **openSUSE Member**. Profil kontribusi saya bisa kam
 Blog ini isinya catatan teknis yang saya tulis supaya bisa dibaca ulang, buat saya sendiri dan buat siapa saja yang lagi ketemu masalah serupa. Contoh konfigurasinya sengaja dibuat generik, jadi sesuaikan dulu dengan lingkunganmu sebelum dipakai di produksi.
 
 ## Kontak
+
+Mau ngobrol soal kerjaan, kolaborasi, atau sekadar tanya-tanya? Kirim email saja ke <a class="contact-mail" href="mailto:rifkiaz@opensuse.org">rifkiaz@opensuse.org</a>. Selain itu, saya juga ada di:
 
 - GitHub: [github.com/rifkiaz](https://github.com/rifkiaz)
 - openSUSE: [kudos.opensuse.org/user/Rifkiaz](https://kudos.opensuse.org/user/Rifkiaz)
