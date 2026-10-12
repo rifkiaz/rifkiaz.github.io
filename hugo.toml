@@ -119,18 +119,6 @@ Saya juga [member openSUSE](https://kudos.opensuse.org/user/Rifkiaz) dan aktif d
     weight = 25
 
   [[menu.main]]
-    identifier = "hobi"
-    name = "Hobi"
-    weight = 28
-
-  [[menu.main]]
-    identifier = "beyblade-x-meta"
-    name = "Meta Beyblade X"
-    url = "/hobi/beyblade-x-meta/"
-    parent = "hobi"
-    weight = 10
-
-  [[menu.main]]
     identifier = "archives"
     name = "Arsip"
     url = "/archives/"
