@@ -1,10 +1,10 @@
-+++
-title = "How To Install Google Cursor on openSUSE Tumbelweed"
-date = 2020-05-08T04:48:14+07:00
-tags = ['Google Cursor', 'openSUSE', 'Tumbleweed']
-categories = ['tutorial']
-description = "Build and install the Google cursor theme on openSUSE Tumbleweed."
-+++
+---
+title: "How To Install Google Cursor on openSUSE Tumbelweed"
+date: 2020-05-08T04:48:14+07:00
+tags: ["Google Cursor", "openSUSE", "Tumbleweed"]
+categories: ["tutorial"]
+description: "Build and install the Google cursor theme on openSUSE Tumbleweed."
+---
 
 ### Install Dependencies
 Before install Google Cursor, please install dependencies
