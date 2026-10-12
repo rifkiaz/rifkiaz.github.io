@@ -30,9 +30,8 @@ Sebelum pilih tools, saya tulis dulu kebutuhannya:
 Untuk kebanyakan tim, saran saya mulai saja dari aplikasi yang sudah ada, lalu tambahkan autentikasi dan aturan main di depannya.
 
 ### Arsitektur
-````
-Pengguna ──HTTPS──▶ Reverse proxy (TLS + autentikasi) ──▶ Aplikasi paste ──▶ Storage
-````
+![Arsitektur paste internal: pengguna lewat HTTPS ke reverse proxy, lalu ke aplikasi paste dan storage di server internal](assets/arsitektur.svg)
+
 - **Reverse proxy** (Nginx, HAProxy, atau Caddy) mengurus TLS, autentikasi, rate limit, dan header keamanan.
 - **Aplikasi paste** cuma listen di `127.0.0.1` atau jaringan privat, gak pernah langsung menghadap internet.
 - **Storage** untuk skala kecil cukup filesystem saja, atau database kalau butuh replikasi.

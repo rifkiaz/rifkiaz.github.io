@@ -17,6 +17,10 @@ Oh ya, semua nama host, user, dan nilai di bawah cuma contoh ya, silakan disesua
 - Playbook **idempoten**: mau dijalankan berapa kali pun hasilnya tetap sama, dan gak nyoba `rs.initiate()` lagi di cluster yang sudah hidup.
 - Rahasia seperti password dan keyfile disimpan di **Ansible Vault**, bukan ditaruh di repository sebagai teks biasa.
 
+Gambaran arsitekturnya kurang lebih seperti ini:
+
+![Arsitektur: Ansible dari laptop memasang tiga node MongoDB dalam replica set rs0, satu primary dan dua secondary](assets/arsitektur.svg)
+
 ### Kebutuhan
 - Tiga server Ubuntu LTS yang bisa saling terhubung di port 27017 dan bisa dipanggil lewat nama host.
 - Ansible di mesin kontrol, ditambah collection `community.mongodb`:
