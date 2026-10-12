@@ -3,6 +3,7 @@ title: "KDE Plasma ala macOS di openSUSE Tumbleweed (Sekaligus Pensiunkan GNOME)
 date: 2026-10-08T23:48:00+07:00
 categories: [tutorial]
 tags: [openSUSE, tumbleweed, kde, plasma, macos, whitesur, sddm, gnome, bash]
+series: ["Pindah dari GNOME ke KDE"]
 description: "Skrip bash untuk mengubah KDE Plasma 6 di openSUSE Tumbleweed jadi mirip macOS dengan tema WhiteSur, pindah dari GDM ke SDDM, lalu menghapus GNOME dengan aman."
 ShowToc: true
 ---
@@ -103,6 +104,8 @@ Konfigurasi lama ada di `~/kde-macos-backup/`. Ekstrak dengan perintah berikut, 
 ```
 tar -C ~ -xzf <file-backup>
 ```
+
+Penasaran kenapa saya akhirnya pindah ke Plasma? Ceritanya ada di lanjutannya: [Kenapa Saya Pindah dari GNOME ke KDE Plasma](/posts/kenapa-pindah-dari-gnome-ke-kde-plasma/).
 
 Sekian, semoga membantu.
 
