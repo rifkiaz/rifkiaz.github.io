@@ -15,6 +15,7 @@ enableGitInfo = true
 [taxonomies]
   category = "categories"
   tag = "tags"
+  series = "series"
 
 [services.disqus]
   shortname = "blog-rifkiaz-web-id"
