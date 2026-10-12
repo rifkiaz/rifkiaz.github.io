@@ -31,24 +31,55 @@ Combo Beyblade X ditulis dengan format **Blade Ratchet Bit**, misalnya `Wizard R
 - **Ratchet**: angka pertama itu jumlah tonjolannya, angka kedua tingginya dalam sepersepuluh milimeter. Jadi `1-60` artinya satu tonjolan dengan tinggi 6,0 mm.
 - **Bit**: ujung bawah yang menyentuh stadium. Ini yang menentukan gerakannya: ngebut menyerang, diam di tengah, atau muter lama.
 
+![Ilustrasi anatomi combo Wizard Rod 1-60 Hexa: blade di atas, ratchet 1-60 setinggi 6,0 mm di tengah, bit Hexa di bawah yang menyentuh lantai stadium](assets/anatomi.webp)
+
 ## Combo yang lagi kuat
 
 Data dari ribuan top cut turnamen (BEYWATCH.GG) dan rangkuman meta dari BeyX Hub:
 
-- **Wizard Rod 1-60 Hexa** · _stamina_
-  Combo dengan volume terbesar: lebih dari 2.600 top cut dan sekitar 26% dari semua kemenangan di data BEYWATCH.GG. Tahan burst dan awet muternya.
-- **Shark Scale 1-70 Low Rush** · _attack_
-  Paling ditakuti buat lawan stamina. Varian 3-60 atau 7-60 Rush juga sering juara.
-- **Aero Pegasus 1-60 Rush** atau **3-60 Rush** · _attack_
-  Alternatif attack yang lebih gampang dicari, persentase juaranya tinggi.
-- **Cobalt Dragoon 5-60 Elevate** · _counter, putar kiri_
-  Satu-satunya blade putar kiri yang rutin muncul di meta. Enak buat ngelawan blade putar kanan dan tipe stamina.
-- **Silver Wolf 9-60 Free Ball** · _stamina, bertahan_
-  Orbitnya susah ditebak, merepotkan attack maupun stamina. Butuh jam terbang buat maksimal.
-- **Hover Wyvern 1-60 Rush** · _attack_
-  Serangannya pakai kontak menggesek. Sebagian data lama pakai 9-60 Kick, data 2026 lebih condong ke 1-60 atau 1-70 Rush.
-- **Wizard Rod 9-60 Ball** atau **Free Ball** · _stamina_
-  Varian Wizard Rod yang lebih tinggi, masih sering juara.
+Gambar di bawah ini ilustrasi buatan saya, bukan foto produk. Warnanya menandai peran: merah attack, biru stamina, hijau stamina yang cenderung bertahan, ungu counter. Panah putus-putus menunjukkan arah putaran.
+
+### Wizard Rod 1-60 Hexa
+
+![Kartu combo Wizard Rod, ratchet 1-60, bit Hexa, peran stamina, putar kanan](assets/wizard-rod-1-60-hexa.webp)
+
+Combo dengan volume terbesar: lebih dari 2.600 top cut dan sekitar 26% dari semua kemenangan di data BEYWATCH.GG. Tahan burst dan awet muternya.
+
+### Shark Scale 1-70 Low Rush
+
+![Kartu combo Shark Scale, ratchet 1-70, bit Low Rush, peran attack, putar kanan](assets/shark-scale-1-70-low-rush.webp)
+
+Paling ditakuti buat lawan stamina. Varian 3-60 atau 7-60 Rush juga sering juara.
+
+### Aero Pegasus 1-60 / 3-60 Rush
+
+![Kartu combo Aero Pegasus, ratchet 1-60 atau 3-60, bit Rush, peran attack, putar kanan](assets/aero-pegasus-1-60-rush.webp)
+
+Alternatif attack yang lebih gampang dicari, persentase juaranya tinggi.
+
+### Cobalt Dragoon 5-60 Elevate
+
+![Kartu combo Cobalt Dragoon, ratchet 5-60, bit Elevate, peran counter, putar kiri](assets/cobalt-dragoon-5-60-elevate.webp)
+
+Satu-satunya blade putar kiri yang rutin muncul di meta. Enak buat ngelawan blade putar kanan dan tipe stamina.
+
+### Silver Wolf 9-60 Free Ball
+
+![Kartu combo Silver Wolf, ratchet 9-60, bit Free Ball, peran stamina dan bertahan, putar kanan](assets/silver-wolf-9-60-free-ball.webp)
+
+Orbitnya susah ditebak, merepotkan attack maupun stamina. Butuh jam terbang buat maksimal.
+
+### Hover Wyvern 1-60 Rush
+
+![Kartu combo Hover Wyvern, ratchet 1-60, bit Rush, peran attack, putar kanan](assets/hover-wyvern-1-60-rush.webp)
+
+Serangannya pakai kontak menggesek. Sebagian data lama pakai 9-60 Kick, data 2026 lebih condong ke 1-60 atau 1-70 Rush.
+
+### Wizard Rod 9-60 Ball / Free Ball
+
+![Kartu combo Wizard Rod, ratchet 9-60, bit Ball atau Free Ball, peran stamina, putar kanan](assets/wizard-rod-9-60-ball.webp)
+
+Varian Wizard Rod yang lebih tinggi, masih sering juara.
 
 Contoh hasil turnamen akhir Agustus sampai awal September 2026 juga kelihatan polanya: Shark Scale 7-60 Rush, Shark Scale 1-50 Low Rush, Wizard Rod 7-60 Narrow, Aero Pegasus 1-60 Rush, dan Phoenix Wing 3-60 Rush semuanya sempat juara di event yang berbeda.
 
