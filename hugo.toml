@@ -21,6 +21,9 @@ enableGitInfo = true
 
 [outputs]
   home = ["HTML", "RSS", "JSON"]
+  # No per-tag/per-category feeds: Search Console flagged them as duplicates.
+  taxonomy = ["HTML"]
+  term = ["HTML"]
 
 [params]
   env = "production"
