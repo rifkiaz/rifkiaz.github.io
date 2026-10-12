@@ -1,1 +1,28 @@
-{{- template "_internal/disqus.html" . }}
+{{- /* Disqus, loaded only when the reader nears the comments. Hugo's built-in
+     template fetches embed.js (plus its iframes and ads) on every page load,
+     which keeps the main thread busy while the reader is still scrolling. */}}
+{{- with site.Config.Services.Disqus.Shortname }}
+<div id="disqus_thread"></div>
+<script>
+(function () {
+  var el = document.getElementById('disqus_thread');
+  if (["localhost", "127.0.0.1"].indexOf(location.hostname) !== -1) {
+    el.textContent = 'Disqus comments not available by default when the website is previewed locally.';
+    return;
+  }
+  function load() {
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://{{ . }}.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    document.head.appendChild(s);
+  }
+  if (!('IntersectionObserver' in window)) return load();
+  var io = new IntersectionObserver(function (entries) {
+    if (entries[0].isIntersecting) { io.disconnect(); load(); }
+  }, { rootMargin: '600px 0px' });
+  io.observe(el);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+{{- end }}
