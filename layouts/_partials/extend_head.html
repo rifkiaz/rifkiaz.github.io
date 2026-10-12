@@ -39,8 +39,7 @@
 
   /* ---------- header ---------- */
   .logo a { font-family: var(--mono); font-weight: 700; font-size: 20px; letter-spacing: -0.02em; column-gap: 0; }
-  .logo a::before { content: "❯"; color: var(--accent); margin-inline-end: 0.5ch; }
-  .logo a::after { content: "_"; color: var(--accent); animation: term-blink 1s steps(1) infinite; }
+  .logo a img { width: 30px; height: 30px; margin-inline-end: 10px; border-radius: 7px; }
   #menu a { font-family: var(--mono); font-size: 15px; text-transform: lowercase; }
   #menu a::before { content: "/"; color: var(--accent); }
   #menu .active { text-decoration-color: var(--accent); }
@@ -171,7 +170,7 @@
 
   @keyframes term-blink { 50% { opacity: 0; } }
   @media (prefers-reduced-motion: reduce) {
-    .logo a::after, .home-typed-cursor, .term-shake { animation: none; }
+    .home-typed-cursor, .term-shake { animation: none; }
   }
   @media (max-width: 480px) {
     .first-entry .term-name { font-size: 24px; }

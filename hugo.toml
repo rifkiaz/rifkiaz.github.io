@@ -48,6 +48,8 @@ enableGitInfo = true
 
   [params.label]
     text = "rifkiaz"
+    icon = "logo.svg"
+    iconHeight = 30
 
   [params.homeInfoParams]
     Title = "Rifki Affandi"
