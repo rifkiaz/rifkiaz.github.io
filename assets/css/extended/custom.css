@@ -318,11 +318,18 @@ transition: opacity 0.15s ease; pointer-events: none;
 .bt-rank { padding: 6px 0; border: 1px solid var(--border); border-radius: var(--radius); background: var(--entry); }
 .post-content .bt-rank li, .post-content .bt-part li { margin: 0; }
 .bt-row, .bt-part li { display: grid; align-items: center; gap: 10px; }
-.bt-row { grid-template-columns: 1.6em minmax(7.5em, 9.5em) 1fr 2.6em 3.6em; padding: 5px 14px; }
+.bt-row { grid-template-columns: 1.6em minmax(8em, 10em) 1fr 2.6em 3.6em; padding: 6px 14px; }
 .bt-row:hover, .bt-part li:hover { background: var(--accent-soft); }
 .bt-pos { font-family: var(--mono); font-size: 13px; color: var(--secondary); text-align: right; }
 .bt-row:nth-child(-n+3) .bt-pos { color: var(--accent); font-weight: 700; }
 .bt-name { color: var(--primary); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bt-combo { display: block; font-family: var(--mono); font-size: 12px; font-weight: 500; color: var(--secondary); }
+.bt-card__name .bt-combo { display: inline; font-size: 14px; color: var(--accent-2); white-space: nowrap; }
+.bt-row .bt-name { white-space: normal; line-height: 1.25; }
+.post-content .bt-part__title a { box-shadow: none; text-decoration: underline; text-underline-offset: 3px; text-transform: none; }
+.bt-wins { margin-top: 10px; }
+.bt-part.bt-wins li { grid-template-columns: minmax(8em, 10em) 1fr 2.6em; }
+.bt-wins .bt-name { white-space: normal; line-height: 1.25; }
 .bt-bar { height: 8px; border-radius: 4px; background: var(--code-bg); overflow: hidden; }
 .bt-bar span { display: block; height: 100%; border-radius: 4px; background: var(--accent); }
 .bt-count { font-family: var(--mono); font-size: 13px; color: var(--secondary); text-align: right; }
@@ -340,6 +347,7 @@ transition: opacity 0.15s ease; pointer-events: none;
   .bt-cards, .bt-parts { grid-template-columns: 1fr; }
   .bt-card { flex-direction: row; flex-wrap: wrap; align-items: baseline; column-gap: 10px; }
   .bt-card__label { flex-basis: 100%; }
+  .bt-part.bt-wins li { grid-template-columns: 8.6em 1fr 2.2em; gap: 7px; padding: 4px 10px; font-size: 14px; }
   .bt-row { grid-template-columns: 1.3em 8.6em 1fr 2.2em 3.2em; gap: 7px; padding: 5px 10px; font-size: 14px; }
   .bt-chg { padding: 1px 5px; }
 }
