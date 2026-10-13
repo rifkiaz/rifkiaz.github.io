@@ -299,3 +299,47 @@ transition: opacity 0.15s ease; pointer-events: none;
 .post-content .xp__skills { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 0; }
 .post-content .xp__skills span { font-family: var(--mono); font-size: 12px; padding: 2px 8px; border-radius: 6px; background: var(--accent-soft); color: var(--accent); }
 .post-content .contact-mail { font-family: var(--mono); }
+
+/* ---------- beyblade weekly trend (shortcode beyblade-tren) ---------- */
+.bt { --up: #15803d; --down: #c2410c; --new: #1d4ed8; margin: 20px 0 28px; font-size: 15px; }
+:root[data-theme="dark"] .bt { --up: #3fb950; --down: #f0883e; --new: #58a6ff; }
+.post-content .bt p.bt-meta { margin: 0 0 12px; font-family: var(--mono); font-size: 12.5px; color: var(--secondary); }
+.post-content .bt-meta a { box-shadow: none; text-decoration: underline; text-underline-offset: 3px; }
+.bt-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
+.bt-card { display: flex; flex-direction: column; gap: 2px; padding: 12px 14px; border: 1px solid var(--border); border-top: 3px solid var(--c); border-radius: var(--radius); background: var(--entry); }
+.bt-card--top { --c: var(--accent); }
+.bt-card--up { --c: var(--up); }
+.bt-card--down { --c: var(--down); }
+.bt-card__label { font-family: var(--mono); font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--secondary); }
+.bt-card__label span { color: var(--c); }
+.bt-card__name { font-size: 18px; font-weight: 700; color: var(--primary); line-height: 1.3; }
+.bt-card__note { font-family: var(--mono); font-size: 13px; color: var(--secondary); }
+.post-content ol.bt-rank, .post-content .bt-part ul { list-style: none; margin: 0; padding: 0; }
+.bt-rank { padding: 6px 0; border: 1px solid var(--border); border-radius: var(--radius); background: var(--entry); }
+.post-content .bt-rank li, .post-content .bt-part li { margin: 0; }
+.bt-row, .bt-part li { display: grid; align-items: center; gap: 10px; }
+.bt-row { grid-template-columns: 1.6em minmax(7.5em, 9.5em) 1fr 2.6em 3.6em; padding: 5px 14px; }
+.bt-row:hover, .bt-part li:hover { background: var(--accent-soft); }
+.bt-pos { font-family: var(--mono); font-size: 13px; color: var(--secondary); text-align: right; }
+.bt-row:nth-child(-n+3) .bt-pos { color: var(--accent); font-weight: 700; }
+.bt-name { color: var(--primary); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bt-bar { height: 8px; border-radius: 4px; background: var(--code-bg); overflow: hidden; }
+.bt-bar span { display: block; height: 100%; border-radius: 4px; background: var(--accent); }
+.bt-count { font-family: var(--mono); font-size: 13px; color: var(--secondary); text-align: right; }
+.bt-chg { justify-self: end; font-family: var(--mono); font-size: 12px; font-weight: 600; padding: 1px 7px; border-radius: 999px; white-space: nowrap; }
+.bt-chg--up { color: var(--up); background: color-mix(in srgb, var(--up) 14%, transparent); }
+.bt-chg--down { color: var(--down); background: color-mix(in srgb, var(--down) 14%, transparent); }
+.bt-chg--new { color: var(--new); background: color-mix(in srgb, var(--new) 14%, transparent); }
+.bt-chg--same { color: var(--secondary); }
+.bt-parts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+.bt-part { padding: 10px 0 6px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--entry); }
+.bt-part__title { display: block; padding: 0 14px 4px; font-family: var(--mono); font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--secondary); }
+.bt-part li { grid-template-columns: minmax(5em, 6.5em) 1fr 2.6em; padding: 4px 14px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+@media (max-width: 600px) {
+  .bt-cards, .bt-parts { grid-template-columns: 1fr; }
+  .bt-card { flex-direction: row; flex-wrap: wrap; align-items: baseline; column-gap: 10px; }
+  .bt-card__label { flex-basis: 100%; }
+  .bt-row { grid-template-columns: 1.3em 8.6em 1fr 2.2em 3.2em; gap: 7px; padding: 5px 10px; font-size: 14px; }
+  .bt-chg { padding: 1px 5px; }
+}

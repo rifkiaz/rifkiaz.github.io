@@ -100,16 +100,9 @@ Contoh hasil turnamen akhir Agustus sampai awal September 2026 juga kelihatan po
 
 ## Tren seminggu terakhir
 
-Peringkat blade berdasarkan combo juara 4 sampai 11 Oktober 2026 (BBXHub, 5 event, 45 combo juara):
+Blade yang paling sering ada di combo juara minggu ini, lengkap dengan naik turunnya peringkat dibanding minggu sebelumnya. Bar menunjukkan berapa kali blade itu dipakai combo juara.
 
-1. Wizard Rod
-2. Shark Scale
-3. Meteor Dragoon (naik dari peringkat 7)
-4. Silver Wolf (naik)
-5. Cobalt Dragoon
-6. Aero Pegasus (turun dari peringkat 3)
-7. Phoenix Wing
-8. Hover Wyvern (turun dari peringkat 4)
+{{< beyblade-tren >}}
 
 Sampelnya kecil, jadi naik turun satu-dua posisi belum tentu berarti banyak. Yang konsisten dari minggu ke minggu tetap duo Wizard Rod dan Shark Scale.
 
