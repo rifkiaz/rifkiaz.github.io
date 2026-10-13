@@ -1,6 +1,9 @@
 # Data "Tren seminggu terakhir" di /hobi/beyblade-x-meta/ (shortcode beyblade-tren).
 # Diperbarui tiap update meta 2 mingguan. `naik`: perubahan peringkat dari minggu
 # sebelumnya (positif = naik, negatif = turun, 0 = tetap); `baru: true` kalau baru masuk.
+# `combo`: ratchet + bit yang paling sering menang bareng blade itu minggu ini; kalau
+# minggu ini tidak ada datanya, pakai combo terbaik blade itu di BEYWATCH.GG.
+# `combo_juara`: combo yang paling sering ada di deck juara minggu ini (BEYWATCH.GG).
 periode: "4–11 Oktober 2026"
 event: 5
 combo: 45
@@ -8,16 +11,16 @@ sumber:
   nama: BBXHub
   url: https://bbxhub.net/
 blade:
-  - { nama: Wizard Rod, pakai: 9, naik: 1 }
-  - { nama: Shark Scale, pakai: 8, naik: -1 }
-  - { nama: Meteor Dragoon, pakai: 4, naik: 4 }
-  - { nama: Silver Wolf, pakai: 3, naik: 2 }
-  - { nama: Cobalt Dragoon, pakai: 3, naik: 0 }
-  - { nama: Aero Pegasus, pakai: 3, naik: -3 }
-  - { nama: Phoenix Wing, pakai: 3, naik: 1 }
-  - { nama: Hover Wyvern, pakai: 2, naik: -4 }
-  - { nama: Dran Strike, pakai: 1, baru: true }
-  - { nama: Tyranno Beat, pakai: 1, naik: 5 }
+  - { nama: Wizard Rod, combo: "1-60 Hexa", pakai: 9, naik: 1 }
+  - { nama: Shark Scale, combo: "1-70 Low Rush", pakai: 8, naik: -1 }
+  - { nama: Meteor Dragoon, combo: "7-60 Level", pakai: 4, naik: 4 }
+  - { nama: Silver Wolf, combo: "9-70 Free Ball", pakai: 3, naik: 2 }
+  - { nama: Cobalt Dragoon, combo: "5-60 Elevate", pakai: 3, naik: 0 }
+  - { nama: Aero Pegasus, combo: "1-60 Rush", pakai: 3, naik: -3 }
+  - { nama: Phoenix Wing, combo: "3-60 Rush", pakai: 3, naik: 1 }
+  - { nama: Hover Wyvern, combo: "9-60 Kick", pakai: 2, naik: -4 }
+  - { nama: Dran Strike, combo: "9-60 Kick", pakai: 1, baru: true }
+  - { nama: Tyranno Beat, combo: "1-60 Rush", pakai: 1, naik: 5 }
 ratchet:
   - { nama: "1-60", pakai: 12 }
   - { nama: "9-60", pakai: 9 }
@@ -28,3 +31,14 @@ bit:
   - { nama: Hexa, pakai: 7 }
   - { nama: Low Rush, pakai: 5 }
   - { nama: Elevate, pakai: 5 }
+combo_juara:
+  sumber:
+    nama: BEYWATCH.GG
+    url: https://beywatch.gg/tournaments
+  event: 10
+  daftar:
+    - { nama: Wizard Rod, combo: "1-60 Hexa", pakai: 2 }
+    - { nama: Shark Scale, combo: "1-70 Low Rush", pakai: 2 }
+    - { nama: Meteor Dragoon, combo: "7-60 Level", pakai: 1 }
+    - { nama: Meteor Dragoon, combo: "9-60 Elevate", pakai: 1 }
+    - { nama: Silver Wolf, combo: "9-70 Free Ball", pakai: 1 }
