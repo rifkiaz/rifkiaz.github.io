@@ -1,0 +1,70 @@
+{{- /* Weekly Beyblade X trend from data/beyblade/tren.yaml: highlight cards,
+       blade ranking with usage bars and rank change, top ratchets and bits. */ -}}
+{{- $d := site.Data.beyblade.tren -}}
+{{- $blades := $d.blade -}}
+{{- $max := 1 -}}{{- range $blades }}{{ if gt .pakai $max }}{{ $max = .pakai }}{{ end }}{{ end -}}
+{{- $up := dict "naik" 0 -}}{{- $down := dict "naik" 0 -}}
+{{- range $i, $b := $blades -}}
+  {{- $n := $b.naik | default 0 -}}
+  {{- if gt $n ($up.naik | default 0) }}{{ $up = merge $b (dict "rank" (add $i 1)) }}{{ end -}}
+  {{- if lt $n ($down.naik | default 0) }}{{ $down = merge $b (dict "rank" (add $i 1)) }}{{ end -}}
+{{- end -}}
+{{- $top := index $blades 0 -}}
+<div class="bt">
+  <p class="bt-meta">{{ $d.periode }} · {{ $d.event }} event · {{ $d.combo }} combo juara · data <a href="{{ $d.sumber.url }}">{{ $d.sumber.nama }}</a></p>
+  <div class="bt-cards">
+    <div class="bt-card bt-card--top">
+      <span class="bt-card__label"><span aria-hidden="true">★</span> Paling sering juara</span>
+      <span class="bt-card__name">{{ $top.nama }}</span>
+      <span class="bt-card__note">{{ $top.pakai }}× dari {{ $d.combo }} combo</span>
+    </div>
+    {{- with $up.nama }}
+    <div class="bt-card bt-card--up">
+      <span class="bt-card__label"><span aria-hidden="true">▲</span> Naik paling tinggi</span>
+      <span class="bt-card__name">{{ . }}</span>
+      <span class="bt-card__note">#{{ add $up.rank $up.naik }} → #{{ $up.rank }}</span>
+    </div>
+    {{- end }}
+    {{- with $down.nama }}
+    <div class="bt-card bt-card--down">
+      <span class="bt-card__label"><span aria-hidden="true">▼</span> Turun paling dalam</span>
+      <span class="bt-card__name">{{ . }}</span>
+      <span class="bt-card__note">#{{ add $down.rank $down.naik }} → #{{ $down.rank }}</span>
+    </div>
+    {{- end }}
+  </div>
+  <ol class="bt-rank" aria-label="Peringkat blade minggu ini">
+    {{- range $i, $b := $blades }}
+    {{- $n := $b.naik | default 0 }}
+    <li class="bt-row" title="{{ $b.nama }}: {{ $b.pakai }}× juara">
+      <span class="bt-pos">{{ add $i 1 }}</span>
+      <span class="bt-name">{{ $b.nama }}</span>
+      <span class="bt-bar" aria-hidden="true"><span style="width: {{ div (mul $b.pakai 100.0) $max }}%"></span></span>
+      <span class="bt-count">{{ $b.pakai }}×</span>
+      {{- if $b.baru }}
+      <span class="bt-chg bt-chg--new">baru</span>
+      {{- else if gt $n 0 }}
+      <span class="bt-chg bt-chg--up"><span aria-hidden="true">▲</span> {{ $n }}<span class="sr-only"> peringkat naik</span></span>
+      {{- else if lt $n 0 }}
+      <span class="bt-chg bt-chg--down"><span aria-hidden="true">▼</span> {{ mul $n -1 }}<span class="sr-only"> peringkat turun</span></span>
+      {{- else }}
+      <span class="bt-chg bt-chg--same"><span aria-hidden="true">=</span><span class="sr-only">tetap</span></span>
+      {{- end }}
+    </li>
+    {{- end }}
+  </ol>
+  <div class="bt-parts">
+    {{- range $k := slice "ratchet" "bit" }}
+    {{- $list := index $d $k }}
+    {{- $m := 1 }}{{ range $list }}{{ if gt .pakai $m }}{{ $m = .pakai }}{{ end }}{{ end }}
+    <div class="bt-part">
+      <span class="bt-part__title">{{ $k }} teratas</span>
+      <ul>
+        {{- range $list }}
+        <li title="{{ .nama }}: {{ .pakai }}×"><span class="bt-name">{{ .nama }}</span><span class="bt-bar" aria-hidden="true"><span style="width: {{ div (mul .pakai 100.0) $m }}%"></span></span><span class="bt-count">{{ .pakai }}×</span></li>
+        {{- end }}
+      </ul>
+    </div>
+    {{- end }}
+  </div>
+</div>

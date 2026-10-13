@@ -1,0 +1,30 @@
+# Data "Tren seminggu terakhir" di /hobi/beyblade-x-meta/ (shortcode beyblade-tren).
+# Diperbarui tiap update meta 2 mingguan. `naik`: perubahan peringkat dari minggu
+# sebelumnya (positif = naik, negatif = turun, 0 = tetap); `baru: true` kalau baru masuk.
+periode: "4–11 Oktober 2026"
+event: 5
+combo: 45
+sumber:
+  nama: BBXHub
+  url: https://bbxhub.net/
+blade:
+  - { nama: Wizard Rod, pakai: 9, naik: 1 }
+  - { nama: Shark Scale, pakai: 8, naik: -1 }
+  - { nama: Meteor Dragoon, pakai: 4, naik: 4 }
+  - { nama: Silver Wolf, pakai: 3, naik: 2 }
+  - { nama: Cobalt Dragoon, pakai: 3, naik: 0 }
+  - { nama: Aero Pegasus, pakai: 3, naik: -3 }
+  - { nama: Phoenix Wing, pakai: 3, naik: 1 }
+  - { nama: Hover Wyvern, pakai: 2, naik: -4 }
+  - { nama: Dran Strike, pakai: 1, baru: true }
+  - { nama: Tyranno Beat, pakai: 1, naik: 5 }
+ratchet:
+  - { nama: "1-60", pakai: 12 }
+  - { nama: "9-60", pakai: 9 }
+  - { nama: "3-60", pakai: 6 }
+bit:
+  - { nama: Rush, pakai: 7 }
+  - { nama: Free Ball, pakai: 7 }
+  - { nama: Hexa, pakai: 7 }
+  - { nama: Low Rush, pakai: 5 }
+  - { nama: Elevate, pakai: 5 }
