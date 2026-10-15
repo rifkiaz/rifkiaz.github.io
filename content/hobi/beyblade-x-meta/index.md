@@ -2,7 +2,7 @@
 title: "Meta Beyblade X Sekarang"
 description: "Combo, blade, ratchet, dan bit yang lagi sering juara di turnamen Beyblade X, diperbarui berkala dari data turnamen."
 date: 2026-10-12
-lastmod: 2026-10-12
+lastmod: 2026-10-15
 url: "/hobi/beyblade-x-meta/"
 categories: ["hobi"]
 tags: ["beyblade x"]
@@ -11,7 +11,7 @@ TocOpen: false
 ShowPostNavLinks: false
 ---
 
-> **Update terakhir: 12 Oktober 2026.** Data diambil dari hasil turnamen sampai 11 Oktober 2026. Meta Beyblade X gerak cepat tiap ada rilis baru, jadi anggap halaman ini sebagai potret saat ini, bukan aturan baku.
+> **Update terakhir: 15 Oktober 2026.** Data diambil dari hasil turnamen sampai 13 Oktober 2026. Meta Beyblade X gerak cepat tiap ada rilis baru, jadi anggap halaman ini sebagai potret saat ini, bukan aturan baku.
 
 ## Ringkasnya
 
@@ -21,7 +21,8 @@ Kalau kamu cuma mau intinya:
 - **Shark Scale** jadi lawan utamanya. Gara-gara Shark Scale (dan sempat juga Hover Wyvern), tipe attack balik lagi ke papan atas, jadi bawa stamina semua sekarang lebih berisiko.
 - Ratchet yang paling laku **1-60**, disusul **9-60** dan **3-60**.
 - Bit yang paling sering muncul di podium: **Rush**, **Hexa**, **Low Rush**, **Free Ball**, dan **Elevate**.
-- Seminggu terakhir **Meteor Dragoon** dan **Silver Wolf** lagi naik, sementara **Hover Wyvern** dan **Aero Pegasus** agak turun.
+- Seminggu terakhir **Meteor Dragoon** dan **Silver Wolf** lagi naik, sementara **Hover Wyvern** dan **Aero Pegasus** agak turun. Di deck juara terbaru, **Shark Scale 1-70 Low Rush** paling sering muncul.
+- Dari Custom Line, Over Blade **Blast** sekarang sudah masuk tier teratas di BEYWATCH.GG.
 
 ## Cara baca nama combo
 
@@ -96,6 +97,8 @@ Serangannya pakai kontak menggesek. Sebagian data lama pakai 9-60 Kick, data 202
 
 Varian Wizard Rod yang lebih tinggi, masih sering juara.
 
+Yang lagi naik daun: **Meteor Dragoon 9-60 Elevate** sekarang masuk 10 besar combo di BEYWATCH.GG, dan varian **Meteor Dragoon 7-60 Level** juga rutin muncul di deck juara.
+
 Contoh hasil turnamen akhir Agustus sampai awal September 2026 juga kelihatan polanya: Shark Scale 7-60 Rush, Shark Scale 1-50 Low Rush, Wizard Rod 7-60 Narrow, Aero Pegasus 1-60 Rush, dan Phoenix Wing 3-60 Rush semuanya sempat juara di event yang berbeda.
 
 ## Tren seminggu terakhir
@@ -116,7 +119,7 @@ Sampelnya kecil, jadi naik turun satu-dua posisi belum tentu berarti banyak. Yan
 
 ## Custom Line (CX)
 
-Part Custom Line seperti Lock Chip **Emperor** dan **Cerberus**, Over Blade **Blast** dan **Flame**, serta Assist Blade **Heavy** dan **Wheel** mulai muncul di daftar juara. Jumlahnya masih satu-dua per minggu, jadi belum cukup data buat bilang mana yang benar-benar kuat. Ini bagian yang paling layak dipantau beberapa bulan ke depan.
+Part Custom Line seperti Lock Chip **Emperor** dan **Cerberus**, Over Blade **Blast** dan **Flame**, serta Assist Blade **Heavy** dan **Wheel** mulai muncul di daftar juara. Yang paling menonjol sekarang **Blast**: per pertengahan Oktober, tier list BEYWATCH.GG sudah menaruhnya di tier X (paling atas) dengan combo 9-60 Kick, sejajar Shark Scale, Aero Pegasus, dan Wizard Rod. Part CX lain masih satu-dua per minggu, jadi belum cukup data buat bilang mana yang benar-benar kuat. Kalau kamu mau mulai koleksi CX, Blast pilihan paling aman buat sekarang.
 
 ## Kalau mau nyusun deck
 
@@ -136,8 +139,9 @@ Ini cuma titik awal. Kondisi stadium, gaya launch kamu, dan meta di komunitas lo
 
 ## Sumber
 
-- [BEYWATCH.GG: Best Beyblade X Combos](https://beywatch.gg/combos), statistik top cut turnamen sampai 11 Oktober 2026
+- [BEYWATCH.GG: Best Beyblade X Combos](https://beywatch.gg/combos), statistik top cut turnamen sampai 12 Oktober 2026
 - [BBXHub: Meta Tier List & Best Combos](https://bbxhub.net/), peringkat mingguan 4 sampai 11 Oktober 2026
+- [BEYWATCH.GG: Tournaments](https://beywatch.gg/tournaments), deck juara turnamen 8 sampai 11 Oktober 2026
 - [BeyX Hub: Best Beyblade X Combos 2026](https://beyxhub.org/en/guide/best-beyblade-x-combos-2026), panduan meta Juni 2026
 - [beybladewiki.com: Tournament Results](https://beybladewiki.com/competitive/results), daftar podium turnamen terbaru
 - [WBO: Winning Combinations at WBO Organized Events](https://worldbeyblade.org/Thread-Winning-Combinations-at-WBO-Organized-Events-Beyblade-X-BBX)

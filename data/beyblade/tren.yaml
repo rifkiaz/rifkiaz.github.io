@@ -35,10 +35,10 @@ combo_juara:
   sumber:
     nama: BEYWATCH.GG
     url: https://beywatch.gg/tournaments
-  event: 10
+  event: 11
   daftar:
+    - { nama: Shark Scale, combo: "1-70 Low Rush", pakai: 3 }
     - { nama: Wizard Rod, combo: "1-60 Hexa", pakai: 2 }
-    - { nama: Shark Scale, combo: "1-70 Low Rush", pakai: 2 }
     - { nama: Meteor Dragoon, combo: "7-60 Level", pakai: 1 }
     - { nama: Meteor Dragoon, combo: "9-60 Elevate", pakai: 1 }
     - { nama: Silver Wolf, combo: "9-70 Free Ball", pakai: 1 }
