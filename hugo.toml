@@ -84,6 +84,7 @@ Saya juga [member openSUSE](https://kudos.opensuse.org/user/Rifkiaz) dan aktif d
       { name = "tentang", url = "/tentang/" },
       { name = "terminal", url = "/terminal/" },
       { name = "topologi", url = "/topologi/" },
+      { name = "gitops", url = "/gitops/" },
     ]
 
   [[params.socialIcons]]
@@ -150,6 +151,13 @@ Saya juga [member openSUSE](https://kudos.opensuse.org/user/Rifkiaz) dan aktif d
     url = "/topologi/"
     parent = "lab"
     weight = 10
+
+  [[menu.main]]
+    identifier = "gitops"
+    name = "Simulasi GitOps"
+    url = "/gitops/"
+    parent = "lab"
+    weight = 15
 
   [[menu.main]]
     identifier = "terminal"
