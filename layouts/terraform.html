@@ -1,0 +1,130 @@
+{{- define "main" }}
+<header class="page-header">
+    <h1>{{ .Title }}</h1>
+    {{- with .Description }}
+    <div class="post-description">{{ . }}</div>
+    {{- end }}
+</header>
+
+<div class="gx sx tf" id="tf">
+    <div class="gx-flow" aria-label="Alur Terraform">
+        <div class="gx-node" data-node="code">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M10 12l-2 2 2 2M14 12l2 2-2 2"/></svg>
+            <b>main.tf</b><span id="tf-f-code"></span>
+        </div>
+        <div class="gx-link" data-link="plan"><span>plan</span></div>
+        <div class="gx-node" data-node="plan">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M3.5 6h2M4.5 5v2M3.5 12h2M3.5 18h2"/></svg>
+            <b>rencana</b><span id="tf-f-plan"></span>
+        </div>
+        <div class="gx-link" data-link="apply"><span>apply</span></div>
+        <div class="gx-node" data-node="aws">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18h10.5a4 4 0 0 0 .6-7.95A6 6 0 0 0 6.6 9.1 4.5 4.5 0 0 0 7 18z"/></svg>
+            <b>aws</b><span id="tf-f-aws"></span>
+        </div>
+        <div class="gx-link" data-link="state"><span>catat</span></div>
+        <div class="gx-node" data-node="state">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="5.5" rx="7.5" ry="2.8"/><path d="M4.5 5.5v13c0 1.5 3.4 2.8 7.5 2.8s7.5-1.3 7.5-2.8v-13M4.5 12c0 1.5 3.4 2.8 7.5 2.8s7.5-1.3 7.5-2.8"/></svg>
+            <b>tfstate</b><span id="tf-f-state"></span>
+        </div>
+    </div>
+
+    <details class="gx-missions" open>
+        <summary>misi <span id="tf-m-count">0/6</span></summary>
+        <ol id="tf-m-list"></ol>
+    </details>
+
+    <div class="gx-grid sx-grid">
+        <section class="gx-panel sx-code" aria-labelledby="tf-code-title">
+            <header class="gx-ph">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M10 12l-2 2 2 2M14 12l2 2-2 2"/></svg>
+                <h2 id="tf-code-title">main.tf</h2>
+                <span class="gx-chip">HCL</span>
+                <button type="button" class="gx-reset" data-act="file-reset">kembalikan file</button>
+            </header>
+            <div class="sx-snips">
+                <span>tambah:</span>
+                <button type="button" data-act="snip" data-k="bucket">+ s3 bucket</button>
+                <button type="button" data-act="snip" data-k="sg">+ security group</button>
+                <button type="button" data-act="snip" data-k="count">count = 2</button>
+            </div>
+            <div id="tf-ed"></div>
+        </section>
+
+        <section class="gx-panel sx-shell" aria-labelledby="tf-sh-title">
+            <header class="gx-ph">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3M12 15h5"/></svg>
+                <h2 id="tf-sh-title">terminal</h2>
+                <button type="button" class="gx-reset" data-act="reset">reset simulasi</button>
+            </header>
+            <div class="sx-tbox">
+                <div class="sx-out" id="tf-out" role="log" aria-live="off"></div>
+                <div class="sx-prompt">
+                    <label id="tf-ps" for="tf-in">lab@tf:~/infra$</label>
+                    <input id="tf-in" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="ketik perintah, misal terraform plan">
+                </div>
+            </div>
+            <div class="sx-quick" id="tf-quick">
+                <button type="button" class="gx-primary sx-yn" data-act="cmd" data-cmd="yes">yes</button>
+                <button type="button" class="sx-yn" data-act="cmd" data-cmd="no">no</button>
+                <button type="button" data-act="cmd" data-cmd="terraform init">init</button>
+                <button type="button" data-act="cmd" data-cmd="terraform plan">plan</button>
+                <button type="button" data-act="cmd" data-cmd="terraform apply">apply</button>
+                <button type="button" data-act="cmd" data-cmd="terraform destroy">destroy</button>
+                <button type="button" data-act="cmd" data-cmd="terraform state list">state list</button>
+                <button type="button" data-act="cmd" data-cmd="terraform output">output</button>
+                <button type="button" data-act="cmd" data-cmd="terraform fmt">fmt</button>
+                <button type="button" data-act="cmd" data-cmd="terraform validate">validate</button>
+            </div>
+        </section>
+
+        <section class="gx-panel tf-aws" aria-labelledby="tf-aws-title">
+            <header class="gx-ph">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18h10.5a4 4 0 0 0 .6-7.95A6 6 0 0 0 6.6 9.1 4.5 4.5 0 0 0 7 18z"/></svg>
+                <h2 id="tf-aws-title">akun AWS</h2>
+                <span class="gx-chip" id="tf-region"></span>
+            </header>
+            <div class="tf-cloud" id="tf-cloud">
+                <p class="tf-empty" id="tf-empty">Masih kosong. Resource bakal muncul di sini setelah <b>terraform apply</b>.</p>
+                <div class="tf-net" id="tf-net"></div>
+                <div class="tf-zone" hidden><h3>VPC default</h3><div class="tf-loose" id="tf-loose"></div></div>
+                <div class="tf-zone" hidden><h3>S3</h3><div class="tf-s3s" id="tf-s3"></div></div>
+            </div>
+        </section>
+
+        <section class="gx-panel tf-side" aria-labelledby="tf-con-title">
+            <header class="gx-ph">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+                <h2 id="tf-con-title">console AWS</h2>
+                <span class="gx-chip gx-chip-warn">di luar Terraform</span>
+            </header>
+            <p class="gx-kube-note">Klik-klik manual di console bikin AWS beda dengan state (drift). Coba satu, lalu jalankan <b>terraform plan</b>.</p>
+            <div class="tf-con" id="tf-con"></div>
+            <h3 class="gx-sub tf-st-h">cat terraform.tfstate <span id="tf-serial"></span></h3>
+            <pre class="tf-state" id="tf-state"></pre>
+        </section>
+    </div>
+
+    <details class="gx-help">
+        <summary>apa itu Terraform, plan, dan state?</summary>
+        <ul>
+            <li><b>Terraform</b> bikin infrastruktur dari kode. Kamu tulis kondisi yang diinginkan di file <code>.tf</code>, Terraform yang mencari cara mencapainya lewat API cloud.</li>
+            <li><b>init</b> mengunduh provider (di sini <code>hashicorp/aws</code>). <b>plan</b> membandingkan kode, state, dan kondisi asli di AWS, lalu menampilkan rencana. <b>apply</b> menjalankan rencana itu.</li>
+            <li>Simbol di plan: <code>+</code> dibuat, <code>~</code> diubah di tempat, <code>-</code> dihapus, <code>-/+</code> dihapus lalu dibuat ulang. Ada atribut yang ga bisa diubah di tempat, misal <code>ami</code> atau <code>cidr_block</code>, jadi resource-nya harus diganti (<i>forces replacement</i>).</li>
+            <li><b>State</b> (<code>terraform.tfstate</code>) adalah catatan Terraform soal resource mana milik kode yang mana. Tanpa state, Terraform ga tahu kalau <code>aws_instance.web</code> itu instance <code>i-0abc…</code>. Di tim, state disimpan di remote backend (misal S3) dan dikunci saat apply.</li>
+            <li><b>Drift</b> terjadi kalau ada yang mengubah resource di luar Terraform. Plan selalu refresh dulu, jadi drift ketahuan dan Terraform menawarkan mengembalikannya sesuai kode.</li>
+            <li>Urutan dibuat dari referensi: subnet merujuk <code>aws_vpc.main.id</code>, jadi VPC dibuat duluan dan dihapus belakangan. Resource yang ga saling bergantung dikerjakan paralel.</li>
+            <li>Coba juga: <code>terraform plan -destroy</code>, <code>terraform apply -replace=aws_instance.web</code>, <code>terraform state rm</code>, atau nama bucket <code>"test"</code> buat lihat apply yang gagal di tengah jalan.</li>
+        </ul>
+    </details>
+    <p class="gx-note">Ini simulasi, bukan Terraform beneran. HCL-nya versi mini, provider-nya cuma punya 5 jenis resource, dan waktunya dipercepat 10x. Semua cuma ada di browser kamu dan ga disimpan di mana pun.</p>
+
+    <div class="gx-toast" id="tf-toast" role="status" aria-live="polite"></div>
+</div>
+<noscript><p class="term-noscript">Simulasi ini butuh JavaScript.</p></noscript>
+
+{{- $kit := resources.Get "js/simkit.js" | minify | fingerprint }}
+<script src="{{ $kit.RelPermalink }}" integrity="{{ $kit.Data.Integrity }}" defer></script>
+{{- $js := resources.Get "js/terraform.js" | minify | fingerprint }}
+<script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
+{{- end }}
