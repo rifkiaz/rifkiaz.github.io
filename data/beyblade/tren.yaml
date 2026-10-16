@@ -1,5 +1,6 @@
 # Data "Tren seminggu terakhir" di /hobi/beyblade-x-meta/ (shortcode beyblade-tren).
-# Diperbarui tiap update meta 2 mingguan. `naik`: perubahan peringkat dari minggu
+# Diperbarui tiap update meta 2 mingguan. `blade` berisi SEMUA blade minggu itu
+# (halaman menampilkan 10 per halaman). `naik`: perubahan peringkat dari minggu
 # sebelumnya (positif = naik, negatif = turun, 0 = tetap); `baru: true` kalau baru masuk.
 # `combo`: ratchet + bit yang paling sering menang bareng blade itu minggu ini; kalau
 # minggu ini tidak ada datanya, pakai combo terbaik blade itu di BEYWATCH.GG.
@@ -19,8 +20,19 @@ blade:
   - { nama: Aero Pegasus, combo: "1-60 Rush", pakai: 3, naik: -3 }
   - { nama: Phoenix Wing, combo: "3-60 Rush", pakai: 3, naik: 1 }
   - { nama: Hover Wyvern, combo: "9-60 Kick", pakai: 2, naik: -4 }
-  - { nama: Dran Strike, combo: "9-60 Kick", pakai: 1, baru: true }
-  - { nama: Tyranno Beat, combo: "1-60 Rush", pakai: 1, naik: 5 }
+  - { nama: Dran Strike, combo: "3-60 Rush", pakai: 1, baru: true }
+  - { nama: Tyranno Beat, combo: "4-70 Low Orb", pakai: 1, naik: 5 }
+  # Peringkat 11 ke bawah: BBXHub cuma menampilkan 10 besar, jadi sisanya dihitung
+  # sendiri dari daftar podium bbxhub.net/tournaments (periode sama). Tanpa `naik`
+  # karena perubahan peringkatnya tidak tercatat; urutan yang sama-sama 1× alfabetis.
+  - { nama: Cerberus Flame Wheel, combo: "3-60 Ball", pakai: 1 }
+  - { nama: Clock Mirage, combo: "7-55 Low Orb", pakai: 1 }
+  - { nama: Dran Buster, combo: "1-60 Flat", pakai: 1 }
+  - { nama: Emperor Blast Heavy, combo: "9-60 Jolt", pakai: 1 }
+  - { nama: Ghost Circle, combo: "3-60 Orb", pakai: 1 }
+  - { nama: Knight Mail, combo: "7-60 Rush", pakai: 1 }
+  - { nama: Ring Aether, combo: "1-60 Hexa", pakai: 1 }
+  - { nama: Shark Edge, combo: "4-60 Free Ball", pakai: 1 }
 ratchet:
   - { nama: "1-60", pakai: 12 }
   - { nama: "9-60", pakai: 9 }
