@@ -17,6 +17,7 @@
           <span class="xp__dur">{{ if $y }}{{ $y }} thn{{ end }}{{ if and $y $mo }} {{ end }}{{ if $mo }}{{ $mo }} bln{{ end }}</span>
         </p>
         <p class="xp__loc">{{ $x.location }}</p>
+        {{ partial "xp-art.html" ($x.art | default "terminal") }}
       </div>
       {{- with $x.points }}
       <ul class="xp__points">
