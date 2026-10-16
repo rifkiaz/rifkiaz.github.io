@@ -85,6 +85,8 @@ Saya juga [member openSUSE](https://kudos.opensuse.org/user/Rifkiaz) dan aktif d
       { name = "terminal", url = "/terminal/" },
       { name = "topologi", url = "/topologi/" },
       { name = "gitops", url = "/gitops/" },
+      { name = "terraform", url = "/terraform/" },
+      { name = "ansible", url = "/ansible/" },
     ]
 
   [[params.socialIcons]]
@@ -158,6 +160,20 @@ Saya juga [member openSUSE](https://kudos.opensuse.org/user/Rifkiaz) dan aktif d
     url = "/gitops/"
     parent = "lab"
     weight = 15
+
+  [[menu.main]]
+    identifier = "terraform"
+    name = "Simulasi Terraform"
+    url = "/terraform/"
+    parent = "lab"
+    weight = 16
+
+  [[menu.main]]
+    identifier = "ansible"
+    name = "Simulasi Ansible"
+    url = "/ansible/"
+    parent = "lab"
+    weight = 17
 
   [[menu.main]]
     identifier = "kalkulator"

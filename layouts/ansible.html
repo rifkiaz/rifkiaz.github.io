@@ -1,0 +1,110 @@
+{{- define "main" }}
+<header class="page-header">
+    <h1>{{ .Title }}</h1>
+    {{- with .Description }}
+    <div class="post-description">{{ . }}</div>
+    {{- end }}
+</header>
+
+<div class="gx sx an" id="an">
+    <div class="gx-flow" aria-label="Alur Ansible">
+        <div class="gx-node" data-node="inv">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01"/></svg>
+            <b>inventory</b><span id="an-f-inv"></span>
+        </div>
+        <div class="gx-link" data-link="target"><span>target</span></div>
+        <div class="gx-node" data-node="pb">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg>
+            <b>playbook</b><span id="an-f-pb"></span>
+        </div>
+        <div class="gx-link" data-link="ssh"><span>ssh</span></div>
+        <div class="gx-node" data-node="srv">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="7" rx="1.5"/><rect x="3" y="13" width="18" height="7" rx="1.5"/><path d="M7 7.5h.01M7 16.5h.01"/></svg>
+            <b>server</b><span id="an-f-srv"></span>
+        </div>
+        <div class="gx-link" data-link="recap"><span>hasil</span></div>
+        <div class="gx-node" data-node="recap">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+            <b>recap</b><span id="an-f-rc"></span>
+        </div>
+    </div>
+
+    <details class="gx-missions" open>
+        <summary>misi <span id="an-m-count">0/6</span></summary>
+        <ol id="an-m-list"></ol>
+    </details>
+
+    <div class="gx-grid sx-grid">
+        <section class="gx-panel sx-code" aria-labelledby="an-code-title">
+            <header class="gx-ph">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                <h2 id="an-code-title">~/lab</h2>
+                <span class="gx-chip">control node</span>
+                <button type="button" class="gx-reset" data-act="file-reset">kembalikan file</button>
+            </header>
+            <div class="sx-tabs" id="an-tabs" role="tablist" aria-label="File"></div>
+            <div id="an-ed"></div>
+        </section>
+
+        <section class="gx-panel sx-shell" aria-labelledby="an-sh-title">
+            <header class="gx-ph">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3M12 15h5"/></svg>
+                <h2 id="an-sh-title">terminal</h2>
+                <button type="button" class="gx-reset" data-act="reset">reset simulasi</button>
+            </header>
+            <div class="sx-tbox">
+                <div class="sx-out" id="an-out" role="log" aria-live="off"></div>
+                <div class="sx-prompt">
+                    <label for="an-in">deploy@control:~/lab$</label>
+                    <input id="an-in" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="ketik perintah, misal ansible all -m ping">
+                </div>
+            </div>
+            <div class="sx-opts">
+                <button type="button" class="gx-primary" data-act="play">▶ ansible-playbook site.yml</button>
+                <label class="gx-sw"><input type="checkbox" id="an-check"><span aria-hidden="true"></span>--check</label>
+                <label class="gx-sw"><input type="checkbox" id="an-diff"><span aria-hidden="true"></span>--diff</label>
+                <label class="an-lim">--limit <select id="an-limit" aria-label="Batasi host"></select></label>
+            </div>
+            <div class="sx-quick" id="an-quick">
+                <button type="button" data-act="cmd" data-cmd="ansible all -m ping">ping semua</button>
+                <button type="button" data-act="cmd" data-cmd="ansible all -a &quot;uptime&quot;">uptime</button>
+                <button type="button" data-act="cmd" data-cmd="ansible-inventory --graph">inventory --graph</button>
+                <button type="button" data-act="cmd" data-cmd="ansible-playbook site.yml --syntax-check">--syntax-check</button>
+                <button type="button" data-act="cmd" data-cmd="curl web1">curl web1</button>
+            </div>
+        </section>
+    </div>
+
+    <section class="gx-panel an-lab" aria-labelledby="an-lab-title">
+        <header class="gx-ph">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="7" rx="1.5"/><rect x="3" y="13" width="18" height="7" rx="1.5"/><path d="M7 7.5h.01M7 16.5h.01"/></svg>
+            <h2 id="an-lab-title">server lab</h2>
+            <span class="gx-chip">5 mesin</span>
+        </header>
+        <p class="gx-kube-note">Isi tiap server ikut berubah saat playbook jalan. Matikan satu server pakai tombolnya buat lihat <b>UNREACHABLE</b>.</p>
+        <div class="an-hosts" id="an-hosts"></div>
+    </section>
+
+    <details class="gx-help">
+        <summary>apa itu Ansible, playbook, dan idempotent?</summary>
+        <ul>
+            <li><b>Ansible</b> mengatur banyak server sekaligus lewat SSH, tanpa agent. Cukup ada Python di server tujuan.</li>
+            <li><b>Inventory</b> berisi daftar host dan grupnya. <b>Playbook</b> berisi play: "di grup ini, jalankan task-task ini". Tiap task memanggil satu modul, misal <code>apt</code>, <code>template</code>, atau <code>service</code>.</li>
+            <li>Hasil per host: <code>ok</code> (sudah sesuai, ga diubah), <code>changed</code> (diubah), <code>failed</code> (gagal, host itu berhenti di play ini), <code>unreachable</code> (ga bisa SSH), <code>skipping</code> (kondisi <code>when</code> ga terpenuhi).</li>
+            <li><b>Idempotent</b> artinya dijalankan berkali-kali hasilnya sama. Modul seperti <code>apt</code> dan <code>template</code> cek dulu sebelum mengubah, jadi run kedua harusnya <code>changed=0</code>. Modul <code>shell</code> dan <code>command</code> ga tahu apa-apa soal kondisi server, jadi selalu <i>changed</i>, kecuali dikasih <code>creates:</code> atau <code>changed_when: false</code>.</li>
+            <li><b>Handler</b> cuma jalan kalau ada task yang <i>changed</i> dan memanggilnya lewat <code>notify</code>, dan jalannya sekali di akhir play. Cocok buat restart service setelah config berubah.</li>
+            <li><code>--check</code> menjalankan playbook tanpa mengubah apa pun, <code>--diff</code> menampilkan isi file yang bakal berubah, dan <code>--limit</code> membatasi host yang dikerjakan.</li>
+            <li>Modul <code>apt</code> cuma ada di keluarga Debian/Ubuntu. Buat server campuran, pakai modul <code>package</code>, atau pisahkan dengan <code>when: ansible_os_family == "Debian"</code>.</li>
+        </ul>
+    </details>
+    <p class="gx-note">Ini simulasi, bukan Ansible beneran. YAML dan Jinja-nya versi mini, modulnya cuma sebagian, dan servernya bohongan. Semua cuma ada di browser kamu dan ga disimpan di mana pun.</p>
+
+    <div class="gx-toast" id="an-toast" role="status" aria-live="polite"></div>
+</div>
+<noscript><p class="term-noscript">Simulasi ini butuh JavaScript.</p></noscript>
+
+{{- $kit := resources.Get "js/simkit.js" | minify | fingerprint }}
+<script src="{{ $kit.RelPermalink }}" integrity="{{ $kit.Data.Integrity }}" defer></script>
+{{- $js := resources.Get "js/ansible.js" | minify | fingerprint }}
+<script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
+{{- end }}
