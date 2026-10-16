@@ -31,3 +31,6 @@
   {{- end }}
   </ol>
 </div>
+{{- /* Script dimuat di sini, bukan di extend_footer: footer PaperMod di-cache per jenis halaman. */}}
+{{- $xp := resources.Get "js/pengalaman.js" | minify | fingerprint }}
+<script src="{{ $xp.RelPermalink }}" integrity="{{ $xp.Data.Integrity }}" defer></script>

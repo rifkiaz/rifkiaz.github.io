@@ -283,10 +283,14 @@ transition: opacity 0.15s ease; pointer-events: none;
 .post-content .xp { margin: 20px 0 32px; }
 .post-content .xp__cmd { font-family: var(--mono); font-size: 14px; color: var(--secondary); margin: 0 0 16px; }
 .post-content .xp__prompt { color: var(--accent); margin-inline-end: 6px; }
-.post-content .xp__list { list-style: none; margin: 0; padding: 0; border-left: 2px solid var(--border); }
-.post-content .xp__item { position: relative; margin: 0 0 22px; padding: 0 0 0 22px; }
+.post-content .xp__list { list-style: none; margin: 0; padding: 0; position: relative; --xp-p: 1; }
+/* Rel abu-abu, lalu garis hijau yang "tergambar" sesuai --xp-p (diatur pengalaman.js saat scroll). */
+.post-content .xp__list::before, .post-content .xp__list::after { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; border-radius: 2px; }
+.post-content .xp__list::before { background: var(--border); }
+.post-content .xp__list::after { background: linear-gradient(var(--accent), var(--accent-2)); transform-origin: top; transform: scaleY(var(--xp-p)); }
+.post-content .xp__item { position: relative; margin: 0 0 22px; padding: 0 0 0 24px; }
 .post-content .xp__item:last-child { margin-bottom: 0; }
-.post-content .xp__item::before { content: ""; position: absolute; left: -7px; top: 7px; width: 12px; height: 12px; border-radius: 50%; background: var(--theme); border: 2px solid var(--accent); }
+.post-content .xp__item::before { content: ""; position: absolute; z-index: 1; left: -5px; top: 7px; width: 12px; height: 12px; border-radius: 50%; background: var(--theme); border: 2px solid var(--accent); }
 .post-content .xp__item--now::before { background: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
 .post-content .xp__head p { margin: 0; }
 .post-content h3.xp__role { margin: 0 0 2px; font-size: 18px; line-height: 1.35; }
@@ -426,3 +430,14 @@ transition: opacity 0.15s ease; pointer-events: none;
 @media (prefers-reduced-motion: reduce) {
   .xp-spin, .xp-move, .xp-bob, .xp-wave, .xp-drop, .xp-led, .xp-cursor { animation: none; }
 }
+
+/* Animasi timeline (aktif hanya kalau pengalaman.js memasang .xp--anim) */
+.xp--anim .xp__list::after { transition: transform 0.15s linear; box-shadow: 0 0 8px var(--accent-soft); }
+.post-content .xp--anim .xp__item::before { transform: scale(0.5); border-color: var(--border); background: var(--theme); box-shadow: none; transition: transform 0.35s cubic-bezier(.3, 1.6, .5, 1), border-color 0.3s, background 0.3s; }
+.post-content .xp--anim .xp__item.is-hit::before { transform: scale(1); border-color: var(--accent); }
+.post-content .xp--anim .xp__item--now.is-hit::before { background: var(--accent); animation: xp-pulse 2s ease-out infinite; }
+.xp--anim .xp__item > * { opacity: 0; transform: translateX(14px); transition: opacity 0.5s ease, transform 0.5s ease; }
+.xp--anim .xp__item.is-in > * { opacity: 1; transform: none; }
+.xp--anim .xp__item.is-in > :nth-child(2) { transition-delay: 0.08s; }
+.xp--anim .xp__item.is-in > :nth-child(3) { transition-delay: 0.16s; }
+@keyframes xp-pulse { 0% { box-shadow: 0 0 0 0 var(--accent-soft), 0 0 0 0 rgba(63, 185, 80, 0.45); } 100% { box-shadow: 0 0 0 4px var(--accent-soft), 0 0 0 12px rgba(63, 185, 80, 0); } }
