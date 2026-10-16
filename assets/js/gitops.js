@@ -528,7 +528,7 @@
     Object.keys(rsEls).forEach(function (tag) {
       if (shown.indexOf(tag) < 0) { rsEls[tag].remove(); delete rsEls[tag]; }
     });
-    shown.forEach(function (tag) {
+    shown.forEach(function (tag, i) {
       var el = rsEls[tag];
       if (!el) {
         el = document.createElement('div');
@@ -537,7 +537,8 @@
         el.dataset.hue = TAGS[tag].hue;
         rsEls[tag] = el;
       }
-      rssEl.appendChild(el);
+      // only move nodes when the order changes: re-inserting restarts the pods' CSS animations
+      if (rssEl.children[i] !== el) rssEl.insertBefore(el, rssEl.children[i] || null);
       var mine = S.pods.filter(function (p) { return p.tag === tag; });
       var rd = mine.filter(function (p) { return p.ready; }).length;
       var want = tag === S.live.tag ? R : 0;
