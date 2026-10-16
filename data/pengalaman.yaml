@@ -1,7 +1,9 @@
 # Riwayat kerja untuk shortcode {{< pengalaman >}} di /tentang/.
-# Urutan: terbaru di atas. Disalin dari profil LinkedIn.
+# Urutan: terbaru di atas. `art`: ilustrasi di layouts/_partials/xp-art.html
+# (cloud, k8s, ship, containers, rack, terminal). Disalin dari profil LinkedIn.
 - role: DevOps Engineer
   company: Bang Jamin
+  art: cloud
   type: Full-time
   start: "2025-03"
   end: ""
@@ -18,6 +20,7 @@
 
 - role: DevOps Engineer
   company: PT. Elektronik Distribusi Otomatisasi Terkemuka (eDOT)
+  art: k8s
   type: Full-time
   start: "2024-10"
   end: "2025-01"
@@ -33,6 +36,7 @@
 
 - role: DevOps Engineer
   company: Marine Technologies
+  art: ship
   type: Full-time
   start: "2023-03"
   end: "2024-04"
@@ -42,6 +46,7 @@
 
 - role: DevOps Engineer
   company: Aruna
+  art: containers
   type: Full-time
   start: "2021-11"
   end: "2023-02"
@@ -51,6 +56,7 @@
 
 - role: Infrastructure Manager
   company: PT Sakti Kinerja Kolaborasindo
+  art: rack
   type: Full-time
   start: "2021-01"
   end: "2021-09"
@@ -59,6 +65,7 @@
 
 - role: DevOps Engineer
   company: Awansakti.id
+  art: terminal
   type: Full-time
   start: "2020-08"
   end: "2021-09"
