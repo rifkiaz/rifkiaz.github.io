@@ -24,7 +24,7 @@ Requires Hugo **extended** 0.148.2 or newer (the version pinned in `.github/work
 │   │   └── assets/            # images/files used only by that post
 │   ├── cheatsheet/            # /cheatsheet/ section
 │   ├── hobi/                  # /hobi/ section (bundles, same layout as posts)
-│   └── *.md                   # standalone pages: tentang, proyek, archives, search, terminal
+│   └── *.md                   # standalone pages: tentang, proyek, archives, search, terminal, topologi, kalkulator
 ├── layouts/                   # overrides on top of PaperMod
 │   ├── _partials/             # head/header/home_info/schema overrides + extend_* hooks
 │   ├── _shortcodes/
@@ -32,6 +32,7 @@ Requires Hugo **extended** 0.148.2 or newer (the version pinned in `.github/work
 ├── assets/
 │   ├── css/extended/          # custom CSS, bundled into PaperMod's stylesheet
 │   └── js/                    # lightbox, submenu, terminal (minified + fingerprinted)
+├── data/hargacloud.json       # AWS/GCP prices for /kalkulator/ (refresh: tools/hargacloud/)
 ├── static/                    # copied as-is: favicons, logo, fonts, CNAME, img/
 └── themes/PaperMod/           # theme (git submodule, do not edit)
 ```
