@@ -511,6 +511,72 @@
     return groups.some(function (g) { return g.every(function (re) { return re.test(c); }); });
   }
 
+  // ilustrasi animasi (SVG + CSS) yang muncul saat kuis dimulai
+  function hex(cx, cy, r) {
+    var p = [];
+    for (var a = 0; a < 6; a++) p.push((cx + r * Math.cos(a * Math.PI / 3)).toFixed(1) + ',' + (cy + r * Math.sin(a * Math.PI / 3)).toFixed(1));
+    return p.join(' ');
+  }
+  var QUIZ_ART = {
+    terraform: {
+      color: '#844fba',
+      caption: 'terraform apply: kode di main.tf berubah jadi infrastruktur.',
+      svg: '<rect class="qa-box" x="8" y="18" width="112" height="94" rx="8"/>' +
+        '<text class="qa-dim" x="20" y="38">main.tf</text>' +
+        '<rect class="qa-code" x="20" y="50" width="82" height="6" rx="3"/>' +
+        '<rect class="qa-code" x="32" y="64" width="64" height="6" rx="3"/>' +
+        '<rect class="qa-code" x="32" y="78" width="74" height="6" rx="3"/>' +
+        '<rect class="qa-code" x="20" y="92" width="40" height="6" rx="3"/>' +
+        '<line class="qa-line" x1="128" y1="65" x2="206" y2="65"/>' +
+        '<text class="qa-dim" x="167" y="55" text-anchor="middle">apply</text>' +
+        '<circle class="qa-dot qa-tf-dot" cx="128" cy="65" r="5"/>' +
+        ['aws_vpc.main', 'aws_instance.web', 'aws_db.main'].map(function (n, i) {
+          return '<g class="qa-pop" style="animation-delay:' + (i * 0.35) + 's">' +
+            '<rect class="qa-res" x="214" y="' + (14 + i * 37) + '" width="138" height="28" rx="6"/>' +
+            '<text class="qa-t" x="226" y="' + (32 + i * 37) + '">+ ' + n + '</text></g>';
+        }).join('')
+    },
+    ansible: {
+      color: '#e5484d',
+      caption: 'ansible-playbook: satu playbook, semua server dikonfigurasi lewat SSH.',
+      svg: '<rect class="qa-box" x="8" y="38" width="100" height="54" rx="8"/>' +
+        '<text class="qa-t" x="58" y="61" text-anchor="middle">ansible</text>' +
+        '<text class="qa-dim" x="58" y="79" text-anchor="middle">site.yml</text>' +
+        ['web1', 'web2', 'db1'].map(function (n, i) {
+          var y = 25 + i * 40, d = (i * 0.3) + 's';
+          return '<line class="qa-line" x1="108" y1="65" x2="236" y2="' + y + '"/>' +
+            '<circle class="qa-dot qa-an-dot" cx="108" cy="65" r="5" style="--dx:128px;--dy:' + (y - 65) + 'px;animation-delay:' + d + '"/>' +
+            '<rect class="qa-box" x="236" y="' + (y - 15) + '" width="116" height="30" rx="6"/>' +
+            '<text class="qa-t" x="248" y="' + (y + 4) + '">' + n + '</text>' +
+            '<circle class="qa-led" cx="336" cy="' + y + '" r="6" style="animation-delay:' + d + '"/>';
+        }).join('')
+    },
+    kubernetes: {
+      color: '#326ce5',
+      caption: 'Kubernetes self-healing: pod yang crash langsung diganti pod baru.',
+      svg: '<rect class="qa-box qa-cluster" x="8" y="8" width="344" height="114" rx="10"/>' +
+        '<text class="qa-dim" x="22" y="28">deployment/web · replicas: 3</text>' +
+        [70, 180].map(function (x, i) {
+          return '<g class="qa-pulse" style="animation-delay:' + (i * 0.5) + 's"><polygon class="qa-pod" points="' + hex(x, 75, 26) + '"/>' +
+            '<text class="qa-pod-t" x="' + x + '" y="79" text-anchor="middle">pod</text></g>';
+        }).join('') +
+        '<g class="qa-crash"><polygon class="qa-pod qa-pod-bad" points="' + hex(290, 75, 26) + '"/>' +
+        '<text class="qa-pod-t" x="290" y="79" text-anchor="middle">crash</text></g>' +
+        '<g class="qa-heal"><polygon class="qa-pod" points="' + hex(290, 75, 26) + '"/>' +
+        '<text class="qa-pod-t" x="290" y="79" text-anchor="middle">pod</text></g>'
+    }
+  };
+
+  function quizArt(key) {
+    var A = QUIZ_ART[key];
+    if (!A) return;
+    var el = line('', 'qa');
+    el.style.setProperty('--qc', A.color);
+    el.setAttribute('aria-hidden', 'true');
+    el.innerHTML = '<svg viewBox="0 0 360 130" role="presentation">' + A.svg + '</svg>';
+    line(A.caption, 'term-dim');
+  }
+
   function quizMenu() {
     line('🧪 Kuis hands-on: jawab tiap skenario dengan perintah yang benar.');
     Object.keys(QUIZ).forEach(function (k) {
@@ -536,6 +602,7 @@
       stopGame();
     }
     line(frag(span('🧪 Kuis ' + Z.title, 'term-hl'), ': 5 skenario, ketik perintah lengkapnya. Tiap soal dapat 2 kesempatan.'));
+    quizArt(key);
     line(Z.intro + ' Ketik "hint", "skip", atau "q".', 'term-dim');
     ask();
     return {
