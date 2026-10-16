@@ -95,7 +95,25 @@
   function scroll() { screen.scrollTop = screen.scrollHeight; }
 
   function ps1() { return USER + '@' + HOST + ':' + pathStr(cwd) + '$'; }
-  function setPrompt(text) { ps1El.textContent = text; }
+  var chips = document.getElementById('term-chips');
+  var chipsHome = chips ? chips.innerHTML : '';
+  var chipsMode = '';
+  // saat game jalan, tombol cepat diganti jadi kontrol game (hint/skip/q)
+  function updateChips() {
+    if (!chips) return;
+    var list = game ? (game.chips || ['q']) : null;
+    var mode = list ? list.join('|') : '';
+    if (mode === chipsMode) return;
+    chipsMode = mode;
+    if (!list) { chips.innerHTML = chipsHome; return; }
+    chips.textContent = '';
+    list.forEach(function (c) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.dataset.cmd = c; b.textContent = c;
+      chips.appendChild(b);
+    });
+  }
+  function setPrompt(text) { ps1El.textContent = text; updateChips(); }
 
   function echoCommand(cmd, prompt) {
     line(frag(span(prompt, 'term-ps1'), ' ' + cmd), 'term-echo');
@@ -207,6 +225,7 @@
       line(frag(cmdButton('game ' + k), ' '.repeat(12 - ('game ' + k).length) + GAMES[k].desc));
     });
     line('Di HP tinggal tap nama game-nya. Ketik "q" kapan saja buat keluar dari game.', 'term-dim');
+    line(frag('Mau yang lebih teknis? Coba ', cmdButton('quiz'), ' untuk kuis Terraform, Ansible, dan Kubernetes.'), 'term-dim');
   }
 
   function scoreLine(s, n, key) {
@@ -350,7 +369,207 @@
     var v = raw.trim().toLowerCase();
     if (v === 'q' || v === 'quit' || v === 'exit') return stopGame('Game dihentikan.');
     if (!v) return;
-    game.input(game.raw ? raw : v);
+    game.input(game.raw || game.keepCase ? raw : v);
+  }
+
+  // ---------- quiz hands-on ----------
+  // tiap soal: [skenario, petunjuk, contoh jawaban, pola regex (semua harus cocok; array of array = alternatif), output simulasi]
+  var INV = /(-i|--inventory|--inventory-file)[= ]hosts\.ini\b/;
+  var PB = /^ansible-playbook\b.*\bsite\.yml\b/;
+  var DEP = '(deployments?|deploy)[ /]web\\b';
+  var QUIZ = {
+    terraform: {
+      title: 'Terraform', tool: /^terraform\b/, start: 'terraform',
+      intro: 'Kamu ada di folder project Terraform berisi main.tf dan variables.tf.',
+      qs: [
+        ['Folder project baru di-clone. Siapkan backend dan download provider-nya.', 'langkah pertama sebelum plan/apply apa pun', 'terraform init',
+          [/^terraform init\b/], ['Initializing the backend...', 'Initializing provider plugins...', '- Installing hashicorp/aws v5.70.0...', 'Terraform has been successfully initialized!']],
+        ['Lihat apa saja yang akan berubah, tanpa mengubah apa pun.', 'subcommand-nya 4 huruf, diawali "p"', 'terraform plan',
+          [/^terraform plan\b/], ['aws_instance.web: Refreshing state... [id=i-0abc]', 'Plan: 1 to add, 1 to change, 0 to destroy.']],
+        ['Simpan hasil plan ke file bernama tfplan, biar yang di-apply nanti persis sama.', 'pakai opsi -out', 'terraform plan -out=tfplan',
+          [/^terraform plan\b/, /-out[= ]["']?tfplan\b/], ['Plan: 1 to add, 0 to change, 0 to destroy.', 'Saved the plan to: tfplan']],
+        ['Terapkan perubahan di pipeline CI, tanpa prompt konfirmasi "yes".', 'apply dengan opsi auto-...', 'terraform apply -auto-approve',
+          [/^terraform apply\b/, /-auto-approve\b/], ['aws_instance.web: Creating...', 'aws_instance.web: Creation complete after 32s [id=i-0def]', 'Apply complete! Resources: 1 added, 0 changed, 0 destroyed.']],
+        ['Rapikan format semua file .tf, termasuk yang ada di subfolder modules/.', 'fmt plus opsi supaya masuk ke subfolder', 'terraform fmt -recursive',
+          [/^terraform fmt\b/, /-recursive\b/], ['main.tf', 'modules/vpc/main.tf']],
+        ['Cek apakah konfigurasinya valid secara sintaks.', 'subcommand-nya mirip kata "validasi"', 'terraform validate',
+          [/^terraform validate\b/], ['Success! The configuration is valid.']],
+        ['Tampilkan daftar semua resource yang tercatat di state.', 'state + subcommand untuk menampilkan daftar', 'terraform state list',
+          [/^terraform state list\b/], ['aws_instance.web', 'aws_s3_bucket.logs', 'module.vpc.aws_vpc.main']],
+        ['Lihat semua atribut resource aws_instance.web yang ada di state.', 'state + subcommand untuk menampilkan detail', 'terraform state show aws_instance.web',
+          [/^terraform state show ["']?aws_instance\.web\b/], ['# aws_instance.web:', 'resource "aws_instance" "web" {', '    instance_type = "t3.micro"', '}']],
+        ['Resource aws_instance.web di kode sudah kamu rename jadi aws_instance.app. Pindahkan juga di state supaya nggak dibuat ulang.', 'state + subcommand yang mirip perintah mv di Linux', 'terraform state mv aws_instance.web aws_instance.app',
+          [/^terraform state mv\b.*\baws_instance\.web ["']?aws_instance\.app\b/], ['Move "aws_instance.web" to "aws_instance.app"', 'Successfully moved 1 object(s).']],
+        ['Bucket S3 my-logs dibuat manual lewat console. Masukkan ke state sebagai aws_s3_bucket.logs.', 'import <alamat resource> <id>', 'terraform import aws_s3_bucket.logs my-logs',
+          [/^terraform import\b.*\baws_s3_bucket\.logs ["']?my-logs\b/], ['aws_s3_bucket.logs: Importing from ID "my-logs"...', 'Import successful!']],
+        ['Paksa aws_instance.web dibuat ulang saat apply (taint sudah deprecated).', 'apply dengan opsi -replace=', 'terraform apply -replace=aws_instance.web',
+          [/^terraform (apply|plan)\b/, /-replace[= ]["']?aws_instance\.web\b/], ['# aws_instance.web will be replaced, as requested', 'Plan: 1 to add, 0 to change, 1 to destroy.']],
+        ['Plan hanya untuk module.vpc saja.', 'opsi -target=', 'terraform plan -target=module.vpc',
+          [/^terraform plan\b/, /-target[= ]["']?module\.vpc\b/], ['Warning: Resource targeting is in effect', 'Plan: 2 to add, 0 to change, 0 to destroy.']],
+        ['Upgrade provider ke versi terbaru yang masih masuk version constraint.', 'init dengan opsi tambahan', 'terraform init -upgrade',
+          [/^terraform init\b/, /-upgrade\b/], ['Upgrading modules...', '- Installing hashicorp/aws v5.72.1...', 'Terraform has been successfully initialized!']],
+        ['Buat workspace baru bernama staging (sekaligus pindah ke sana).', 'workspace + subcommand untuk membuat', 'terraform workspace new staging',
+          [/^terraform workspace new staging$/], ['Created and switched to workspace "staging"!']],
+        ['Ambil nilai output db_endpoint dari state.', 'subcommand-nya sama dengan nama block-nya di kode', 'terraform output db_endpoint',
+          [/^terraform output\b.*\bdb_endpoint\b/], ['"db.internal.example:5432"']],
+        ['Hapus semua resource yang dikelola project ini.', 'kebalikan dari apply', 'terraform destroy',
+          [[/^terraform destroy\b/], [/^terraform apply\b/, /-destroy\b/]], ['Plan: 0 to add, 0 to change, 3 to destroy.', 'Destroy complete! Resources: 3 destroyed.']]
+      ]
+    },
+    ansible: {
+      title: 'Ansible', tool: /^ansible(-\w+)?\b/, start: 'ansible / ansible-playbook / ansible-vault / ...',
+      intro: 'Ada inventory hosts.ini (grup webservers dan db) dan playbook site.yml.',
+      qs: [
+        ['Cek semua host di hosts.ini bisa dijangkau Ansible.', 'ad-hoc ke "all" pakai module ping', 'ansible all -i hosts.ini -m ping',
+          [/^ansible all\b/, INV, /-m[= ](ansible\.builtin\.)?ping\b/], ['web1 | SUCCESS => {"ping": "pong"}', 'db1 | SUCCESS => {"ping": "pong"}']],
+        ['Jalankan playbook site.yml dengan inventory hosts.ini.', 'ansible-playbook -i <inventory> <playbook>', 'ansible-playbook -i hosts.ini site.yml',
+          [PB, INV], ['PLAY RECAP *********************************', 'web1 : ok=12 changed=2 unreachable=0 failed=0']],
+        ['Dry-run site.yml (inventory hosts.ini) sambil menampilkan diff perubahan file.', 'dua opsi: --check dan --diff', 'ansible-playbook -i hosts.ini site.yml --check --diff',
+          [PB, INV, /(--check\b|\s-C\b)/, /(--diff\b|\s-D\b)/], ['--- before: /etc/nginx/nginx.conf', '+++ after: /etc/nginx/nginx.conf', 'web1 : ok=12 changed=1 (check mode)']],
+        ['Jalankan site.yml (inventory hosts.ini) hanya ke grup webservers.', 'opsi --limit atau -l', 'ansible-playbook -i hosts.ini site.yml --limit webservers',
+          [PB, INV, /(--limit|-l)[= ]["']?webservers\b/], ['PLAY [all] *********************************', 'web1 : ok=12 changed=0', 'web2 : ok=12 changed=0']],
+        ['Jalankan site.yml (inventory hosts.ini) hanya untuk task yang bertag nginx.', 'opsi --tags atau -t', 'ansible-playbook -i hosts.ini site.yml --tags nginx',
+          [PB, INV, /(--tags|-t)[= ]["']?nginx\b/], ['TASK [nginx : Install nginx] ***************', 'ok: [web1]']],
+        ['Jalankan site.yml (inventory hosts.ini) dengan variabel env=prod dari command line.', 'opsi -e atau --extra-vars', 'ansible-playbook -i hosts.ini site.yml -e env=prod',
+          [PB, INV, /(-e|--extra-vars)[= ]["']?env=prod\b/], ['TASK [debug] *******************************', 'ok: [web1] => {"msg": "deploy ke prod"}']],
+        ['Jalankan site.yml (inventory hosts.ini), tapi minta password sudo dulu.', 'opsi --ask-become-pass (huruf K besar)', 'ansible-playbook -i hosts.ini site.yml -K',
+          [PB, INV, /(--ask-become-pass\b|\s-K\b)/], ['BECOME password:', 'PLAY [all] *********************************']],
+        ['Cek sintaks site.yml tanpa menjalankan apa pun.', 'opsi --syntax-...', 'ansible-playbook site.yml --syntax-check',
+          [PB, /--syntax-check\b/], ['playbook: site.yml']],
+        ['Lihat struktur grup dan host di hosts.ini dalam bentuk pohon.', 'ansible-inventory dengan opsi --graph', 'ansible-inventory -i hosts.ini --graph',
+          [/^ansible-inventory\b/, INV, /--graph\b/], ['@all:', '  |--@webservers:', '  |  |--web1', '  |--@db:', '  |  |--db1']],
+        ['Cek uptime semua host di grup db (inventory hosts.ini) pakai perintah ad-hoc.', 'ansible <grup> -a "<perintah>"', 'ansible db -i hosts.ini -a uptime',
+          [/^ansible db\b/, INV, /(-a|--args)[= ]["']?uptime\b/], ['db1 | CHANGED | rc=0 >>', ' 10:02:11 up 41 days,  2 users,  load average: 0.08, 0.05, 0.01']],
+        ['Lihat semua facts milik host web1 (inventory hosts.ini).', 'module yang dipakai saat gather_facts', 'ansible web1 -i hosts.ini -m setup',
+          [/^ansible web1\b/, INV, /-m[= ](ansible\.builtin\.)?setup\b/], ['web1 | SUCCESS => {', '    "ansible_facts": { "ansible_distribution": "openSUSE Leap", ... }']],
+        ['Restart nginx di grup webservers (inventory hosts.ini) secara ad-hoc, pakai sudo.', '-m service -a "name=... state=..." plus -b', 'ansible webservers -i hosts.ini -m service -a "name=nginx state=restarted" -b',
+          [/^ansible webservers\b/, INV, /-m[= ](ansible\.builtin\.)?(service|systemd|systemd_service)\b/, /name=nginx\b/, /state=restarted\b/, /(\s-b\b|--become\b)/], ['web1 | CHANGED => {"name": "nginx", "state": "started"}']],
+        ['Enkripsi file group_vars/all/vault.yml yang isinya password.', 'ansible-vault + subcommand untuk enkripsi', 'ansible-vault encrypt group_vars/all/vault.yml',
+          [/^ansible-vault encrypt\b.*\s(\.\/)?group_vars\/all\/vault\.yml\b/], ['New Vault password:', 'Encryption successful']],
+        ['Edit file secrets.yml yang sudah terenkripsi vault.', 'ansible-vault + subcommand untuk mengedit', 'ansible-vault edit secrets.yml',
+          [/^ansible-vault edit\b.*\s(\.\/)?secrets\.yml\b/], ['Vault password:', '(editor terbuka, simpan lalu keluar)']],
+        ['Install semua role yang ada di requirements.yml.', 'ansible-galaxy install -r ...', 'ansible-galaxy install -r requirements.yml',
+          [/^ansible-galaxy( role| collection)? install\b/, /(-r|--role-file|--requirements-file)[= ](\.\/)?requirements\.yml\b/], ['Starting galaxy role install process', '- geerlingguy.docker (7.4.1) was installed successfully']],
+        ['Baca dokumentasi module copy langsung dari terminal.', 'ansible-doc <nama module>', 'ansible-doc copy',
+          [/^ansible-doc\b.*\s(ansible\.builtin\.)?copy$/], ['> ANSIBLE.BUILTIN.COPY', '  The copy module copies a file from the local or remote machine...']]
+      ]
+    },
+    kubernetes: {
+      title: 'Kubernetes', tool: /^(kubectl|kubens)\b/, start: 'kubectl (alias k juga boleh)',
+      intro: 'kubectl sudah terhubung ke cluster. Alias "k" untuk kubectl juga diterima.',
+      qs: [
+        ['Lihat semua pod di semua namespace.', 'get pods plus opsi -A', 'kubectl get pods -A',
+          [/^kubectl\b.*\bget (pods?|po)\b/, /(\s-A\b|--all-namespaces\b)/], ['NAMESPACE     NAME                       READY   STATUS    RESTARTS', 'kube-system   coredns-5d78c9869d-x2kqp   1/1     Running   0', 'default       web-7d9f                   1/1     Running   0']],
+        ['Lihat pod di namespace monitoring saja.', 'opsi -n <namespace>', 'kubectl get pods -n monitoring',
+          [/^kubectl\b.*\bget (pods?|po)\b/, /(-n|--namespace)[= ]monitoring\b/], ['NAME                          READY   STATUS    RESTARTS', 'prometheus-0                  2/2     Running   0', 'grafana-6b8f7c9d4-qzk2w       1/1     Running   0']],
+        ['Pod web-7d9f statusnya Pending. Lihat detail dan event-nya.', 'subcommand-nya kata kerja "jelaskan" dalam bahasa Inggris', 'kubectl describe pod web-7d9f',
+          [/^kubectl\b.*\bdescribe (pods?|po)[ \/]web-7d9f\b/], ['Events:', '  Warning  FailedScheduling  0/3 nodes are available: 3 Insufficient memory.']],
+        ['Ikuti log pod api-5c8b secara live.', 'logs plus opsi -f', 'kubectl logs -f api-5c8b',
+          [/^kubectl\b.*\blogs\b/, /\b((pods?|po)\/)?api-5c8b\b/, /(\s-f\b|--follow\b)/], ['2026-10-16T10:01:02Z INFO server listening on :8080', '2026-10-16T10:01:05Z INFO GET /healthz 200']],
+        ['Pod api-5c8b kena CrashLoopBackOff. Lihat log dari container sebelum crash.', 'logs plus opsi --previous', 'kubectl logs api-5c8b --previous',
+          [/^kubectl\b.*\blogs\b/, /\bapi-5c8b\b/, /(\s-p\b|--previous\b)/], ['panic: dial tcp db:5432: connect: connection refused']],
+        ['Masuk ke shell di dalam pod web-7d9f.', 'exec -it <pod> -- sh', 'kubectl exec -it web-7d9f -- sh',
+          [/^kubectl\b.*\bexec\b/, /\bweb-7d9f\b/, /(\s-it\b|\s-ti\b|\s-i -t\b|\s-t -i\b)/, /\s--\s+(\/bin\/)?(ba)?sh$/], ['/ #']],
+        ['Terapkan manifest deploy.yaml ke cluster.', 'apply -f <file>', 'kubectl apply -f deploy.yaml',
+          [/^kubectl\b.*\bapply\b/, /(-f|--filename)[= ](\.\/)?deploy\.yaml\b/], ['deployment.apps/web configured', 'service/web unchanged']],
+        ['Naikkan deployment web jadi 5 replica.', 'scale plus opsi --replicas', 'kubectl scale deployment web --replicas=5',
+          [/^kubectl\b.*\bscale\b/, new RegExp(DEP), /--replicas[= ]5\b/], ['deployment.apps/web scaled']],
+        ['Restart semua pod deployment web secara bergiliran (rolling).', 'rollout + subcommand restart', 'kubectl rollout restart deployment web',
+          [new RegExp('^kubectl\\b.*\\brollout restart ' + DEP)], ['deployment.apps/web restarted']],
+        ['Pantau apakah rollout deployment web sudah selesai.', 'rollout + subcommand status', 'kubectl rollout status deployment web',
+          [new RegExp('^kubectl\\b.*\\brollout status ' + DEP)], ['Waiting for deployment "web" rollout to finish: 2 of 3 updated replicas are available...', 'deployment "web" successfully rolled out']],
+        ['Versi baru deployment web bikin error. Kembalikan ke revisi sebelumnya.', 'rollout + subcommand undo', 'kubectl rollout undo deployment web',
+          [new RegExp('^kubectl\\b.*\\brollout undo ' + DEP)], ['deployment.apps/web rolled back']],
+        ['Ganti image container web di deployment web jadi nginx:1.27.', 'set image <deployment> <container>=<image>', 'kubectl set image deployment/web web=nginx:1.27',
+          [new RegExp('^kubectl\\b.*\\bset image ' + DEP), /\sweb=nginx:1\.27\b/], ['deployment.apps/web image updated']],
+        ['Buka Grafana di service grafana (port 3000) dari laptop lewat localhost:3000.', 'port-forward svc/<nama> <port>', 'kubectl port-forward svc/grafana 3000:3000',
+          [/^kubectl\b.*\bport-forward (svc|services?)\/grafana\b/, /\s3000(:3000)?(\s|$)/], ['Forwarding from 127.0.0.1:3000 -> 3000', 'Forwarding from [::1]:3000 -> 3000']],
+        ['Lihat pemakaian CPU dan memori tiap pod.', 'subcommand-nya sama seperti perintah top di Linux', 'kubectl top pods',
+          [/^kubectl\b.*\btop (pods?|po)\b/], ['NAME       CPU(cores)   MEMORY(bytes)', 'web-7d9f   3m           42Mi', 'api-5c8b   12m          128Mi']],
+        ['Pindah ke context prod-cluster.', 'config use-context <nama>', 'kubectl config use-context prod-cluster',
+          [/^kubectl config use-context prod-cluster$/], ['Switched to context "prod-cluster".']],
+        ['Jadikan monitoring namespace default untuk context yang sedang aktif.', 'config set-context --current --namespace=...', 'kubectl config set-context --current --namespace=monitoring',
+          [[/^kubectl config set-context\b/, /--current\b/, /--namespace[= ]monitoring\b/], [/^kubens monitoring$/]], ['Context "prod-cluster" modified.']],
+        ['Node worker-2 mau di-maintenance. Kosongkan pod-nya, pod DaemonSet biarkan saja.', 'drain plus opsi --ignore-daemonsets', 'kubectl drain worker-2 --ignore-daemonsets',
+          [/^kubectl\b.*\bdrain (nodes?\/)?worker-2\b/, /--ignore-daemonsets\b/], ['node/worker-2 cordoned', 'evicting pod default/web-7d9f', 'node/worker-2 drained']],
+        ['Buat secret generic bernama db-cred berisi username=admin.', 'create secret generic ... --from-literal=', 'kubectl create secret generic db-cred --from-literal=username=admin',
+          [/^kubectl\b.*\bcreate secret generic db-cred\b/, /--from-literal[= ]username=admin\b/], ['secret/db-cred created']]
+      ]
+    }
+  };
+  var QUIZ_ALIAS = { tf: 'terraform', ans: 'ansible', k8s: 'kubernetes', kube: 'kubernetes', kubectl: 'kubernetes' };
+
+  // keyboard HP suka ganti -- jadi — dan kutip jadi kutip miring
+  function normCmd(v) {
+    return v.replace(/—/g, '--').replace(/–/g, '-').replace(/[“”]/g, '"').replace(/[‘’]/g, "'")
+      .trim().replace(/\s+/g, ' ').replace(/^\$ /, '').replace(/^sudo /, '')
+      .replace(/^k /, 'kubectl ').replace(/^tf /, 'terraform ');
+  }
+
+  function quizMatch(c, m) {
+    var groups = m[0] instanceof RegExp ? [m] : m;
+    return groups.some(function (g) { return g.every(function (re) { return re.test(c); }); });
+  }
+
+  function quizMenu() {
+    line('🧪 Kuis hands-on: jawab tiap skenario dengan perintah yang benar.');
+    Object.keys(QUIZ).forEach(function (k) {
+      line(frag(cmdButton('quiz ' + k), ' '.repeat(17 - ('quiz ' + k).length) + QUIZ[k].qs.length + ' skenario, 5 soal acak per ronde'));
+    });
+    line('Alias: quiz tf, quiz k8s. "hint" untuk petunjuk, "skip" untuk lewati, "q" untuk keluar.', 'term-dim');
+  }
+
+  function startQuiz(key) {
+    var Z = QUIZ[key];
+    var qs = shuffle(Z.qs).slice(0, 5);
+    var i = 0, score = 0, tries = 0;
+    function ask() {
+      line(frag(span('[' + (i + 1) + '/' + qs.length + '] ', 'term-dim'), span(qs[i][0], 'term-hl')));
+    }
+    function hint() { line('💡 Petunjuk: ' + qs[i][1], 'term-dim'); }
+    function reveal() { line(frag('Jawabannya: ', span(qs[i][2], 'term-hl')), 'term-dim'); }
+    function next() {
+      i++; tries = 0;
+      if (i < qs.length) return ask();
+      scoreLine(score, qs.length, 'quiz-' + key);
+      line('Main lagi: quiz ' + key + ' (soalnya diacak tiap ronde)', 'term-dim');
+      stopGame();
+    }
+    line(frag(span('🧪 Kuis ' + Z.title, 'term-hl'), ': 5 skenario, ketik perintah lengkapnya. Tiap soal dapat 2 kesempatan.'));
+    line(Z.intro + ' Ketik "hint", "skip", atau "q".', 'term-dim');
+    ask();
+    return {
+      prompt: key + '$',
+      keepCase: true,
+      chips: ['hint', 'skip', 'q'],
+      input: function (raw) {
+        var c = normCmd(raw), low = c.toLowerCase();
+        if (low === 'hint' || low === 'petunjuk') { tries = Math.max(tries, 1); return hint(); }
+        if (low === 'skip') { reveal(); return next(); }
+        var q = qs[i];
+        if (quizMatch(c, q[3])) {
+          score++;
+          line(q[4].join('\n'), 'term-dim term-sim');
+          line('✔ Benar!' + (c !== q[2] ? ' Versi saya: ' + q[2] : ''), 'term-ok');
+          return next();
+        }
+        if (!Z.tool.test(c)) return err('Ini kuis ' + Z.title + ', perintahnya diawali ' + Z.start + '.');
+        if (tries++ === 0) { err('✘ Belum tepat. Coba lagi.'); return hint(); }
+        err('✘ Masih belum.');
+        reveal();
+        next();
+      }
+    };
+  }
+
+  function quizCmd(args) {
+    var k = (args[0] || '').toLowerCase();
+    k = QUIZ_ALIAS[k] || k;
+    if (!k) return quizMenu();
+    if (k === 'random' || k === 'acak') { var ks = Object.keys(QUIZ); k = ks[Math.floor(Math.random() * ks.length)]; }
+    if (!QUIZ[k]) { err('quiz: "' + k + '" belum ada.'); return quizMenu(); }
+    game = startQuiz(k);
+    setPrompt(game.prompt);
   }
 
   // ---------- commands ----------
@@ -529,6 +748,7 @@ __________/`;
       }
     },
     game: { desc: 'main game 🎮 (port, http, cmd, angka, ketik)', run: function (args) { gameStart(args); } },
+    quiz: { desc: 'kuis hands-on 🧪 (terraform, ansible, kubernetes)', run: function (args) { quizCmd(args); } },
     fortune: { desc: 'kutipan acak', run: function () { line(FORTUNES[Math.floor(Math.random() * FORTUNES.length)]); } },
     social: {
       desc: 'akun media sosial',
@@ -764,7 +984,6 @@ __________/`;
   input.addEventListener('focus', function () { setTimeout(keepInputVisible, 300); });
   form.addEventListener('submit', function () { setTimeout(keepInputVisible, 0); });
 
-  var chips = document.getElementById('term-chips');
   if (chips) chips.addEventListener('click', function (e) {
     var b = e.target.closest('button[data-cmd]');
     if (!b) return;
@@ -775,6 +994,6 @@ __________/`;
   // ---------- boot ----------
   setPrompt(ps1());
   line(frag('Selamat datang di ', span('rifki-sh', 'term-hl'), '. Terminal mini untuk jelajah isi web ini.'));
-  line(frag('Ketik ', span('help', 'term-hl'), ' untuk mulai, atau ', span('game', 'term-hl'), ' buat main game.'), 'term-dim');
+  line(frag('Ketik ', span('help', 'term-hl'), ' untuk mulai, atau ', span('game', 'term-hl'), ' buat main game, atau ', span('quiz', 'term-hl'), ' buat kuis Terraform/Ansible/Kubernetes.'), 'term-dim');
   if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) input.focus({ preventScroll: true });
 })();

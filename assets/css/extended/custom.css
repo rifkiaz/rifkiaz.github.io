@@ -148,6 +148,7 @@
 .term-ps1 { color: var(--accent); font-weight: 700; white-space: nowrap; }
 .term-hl { color: var(--accent); font-weight: 600; }
 .term-dim { color: var(--secondary); }
+.term-sim { white-space: pre; overflow-x: auto; }
 .term-err { color: #d1242f; }
 :root[data-theme="dark"] .term-err { color: #f85149; }
 .term-ok { color: var(--accent); }
