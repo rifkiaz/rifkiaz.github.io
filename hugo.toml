@@ -83,6 +83,7 @@ Saya juga [member openSUSE](https://kudos.opensuse.org/user/Rifkiaz) dan aktif d
       { name = "cheatsheet", url = "/cheatsheet/" },
       { name = "tentang", url = "/tentang/" },
       { name = "terminal", url = "/terminal/" },
+      { name = "topologi", url = "/topologi/" },
     ]
 
   [[params.socialIcons]]
@@ -137,6 +138,25 @@ Saya juga [member openSUSE](https://kudos.opensuse.org/user/Rifkiaz) dan aktif d
     name = "Cheatsheet"
     url = "/cheatsheet/"
     weight = 25
+
+  [[menu.main]]
+    identifier = "lab"
+    name = "Lab"
+    weight = 27
+
+  [[menu.main]]
+    identifier = "topologi"
+    name = "Simulator Topologi"
+    url = "/topologi/"
+    parent = "lab"
+    weight = 10
+
+  [[menu.main]]
+    identifier = "terminal"
+    name = "Terminal"
+    url = "/terminal/"
+    parent = "lab"
+    weight = 20
 
   [[menu.main]]
     identifier = "hobi"

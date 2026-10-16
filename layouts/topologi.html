@@ -1,0 +1,126 @@
+{{- define "main" }}
+<header class="page-header">
+    <h1>{{ .Title }}</h1>
+    {{- with .Description }}
+    <div class="post-description">{{ . }}</div>
+    {{- end }}
+</header>
+
+<div class="topo" id="topo" data-url="{{ .Permalink }}" data-font="{{ "fonts/jetbrains-mono-latin.woff2" | relURL }}">
+    <div class="topo-bar" role="toolbar" aria-label="Alat kanvas">
+        <label class="topo-tpl">
+            <span>contoh</span>
+            <select id="topo-tpl" aria-label="Muat contoh topologi">
+                <option value="">pilih…</option>
+                <option value="aws">AWS 3-tier</option>
+                <option value="gcp">GCP serverless</option>
+                <option value="k8s">Kubernetes app</option>
+                <option value="tf">Alur Terraform</option>
+                <option value="ans">Ansible playbook</option>
+            </select>
+        </label>
+        <button type="button" data-act="undo" title="Urungkan (Ctrl+Z)">↶ urungkan</button>
+        <button type="button" data-act="redo" title="Ulangi (Ctrl+Shift+Z)">↷ ulangi</button>
+        <button type="button" data-act="clear">kosongkan</button>
+        <span class="topo-spacer"></span>
+        <button type="button" class="topo-primary" data-act="share">bagikan ↗</button>
+    </div>
+
+    <div class="topo-wrap">
+        <aside class="topo-pal" aria-label="Komponen">
+            <div class="topo-tabs" id="topo-tabs" role="tablist"></div>
+            <div class="topo-items" id="topo-items"></div>
+        </aside>
+
+        <div class="topo-stage" id="topo-stage">
+            <svg id="topo-svg" class="topo-svg" role="application" aria-label="Kanvas topologi">
+                <defs>
+                    <pattern id="topo-grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                        <circle cx="1" cy="1" r="1" class="topo-dot"></circle>
+                    </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#topo-grid)"></rect>
+                <g id="topo-world"></g>
+            </svg>
+
+            <div class="topo-insp" id="topo-insp" hidden>
+                <input id="topo-label" type="text" maxlength="60" autocomplete="off" spellcheck="false" aria-label="Label">
+                <button type="button" data-act="link" data-for="node group">sambungkan</button>
+                <button type="button" data-act="dup" data-for="node group">duplikat</button>
+                <button type="button" data-act="arrow" data-for="edge">panah →</button>
+                <button type="button" data-act="dash" data-for="edge">garis ──</button>
+                <button type="button" data-act="flip" data-for="edge">balik arah</button>
+                <button type="button" data-act="del" class="topo-danger">hapus</button>
+            </div>
+
+            <div class="topo-hint" id="topo-hint" hidden>
+                Ketuk komponen tujuan untuk menyambung.
+                <button type="button" data-act="cancel-link">batal</button>
+            </div>
+
+            <div class="topo-empty" id="topo-empty">
+                <p class="topo-empty-title"><span>❯</span> kanvas masih kosong</p>
+                <p>Seret komponen ke sini (atau ketuk saja), lalu tarik tombol <b>→</b> di sebelahnya ke komponen lain untuk menyambung. Mau langsung lihat contoh?</p>
+                <p class="topo-empty-btns">
+                    <button type="button" data-tpl="aws">aws</button>
+                    <button type="button" data-tpl="gcp">gcp</button>
+                    <button type="button" data-tpl="k8s">kubernetes</button>
+                    <button type="button" data-tpl="tf">terraform</button>
+                    <button type="button" data-tpl="ans">ansible</button>
+                </p>
+            </div>
+
+            <div class="topo-zoom" aria-label="Zoom">
+                <button type="button" data-act="zout" aria-label="Perkecil">−</button>
+                <span id="topo-zoom-val">100%</span>
+                <button type="button" data-act="zin" aria-label="Perbesar">+</button>
+                <button type="button" data-act="fit" aria-label="Pas ke layar">⤢</button>
+            </div>
+        </div>
+    </div>
+
+    <details class="topo-help">
+        <summary>cara pakai</summary>
+        <ul>
+            <li><b>Tambah:</b> seret komponen dari panel ke kanvas, atau ketuk untuk menaruhnya di tengah. Komponen bergaris putus-putus (VPC, Subnet, Namespace, dll.) itu area untuk mengelompokkan.</li>
+            <li><b>Sambung:</b> pilih komponen, lalu tarik tombol hijau <b>→</b> ke komponen lain. Di HP, ketuk tombol itu (atau <i>sambungkan</i>) lalu ketuk tujuannya.</li>
+            <li><b>Ubah:</b> ketuk dua kali untuk ganti nama. Garis juga bisa dikasih label, dibikin putus-putus, atau dibalik arahnya.</li>
+            <li><b>Geser kanvas:</b> seret area kosong. Zoom pakai tombol di pojok, Ctrl + scroll, atau cubit dua jari.</li>
+            <li><b>Pintasan:</b> Delete untuk hapus, Ctrl+Z / Ctrl+Shift+Z untuk urungkan dan ulangi, Ctrl+D duplikat, panah untuk geser.</li>
+        </ul>
+    </details>
+    <p class="topo-note">Semua gambar cuma ada di browser kamu dan ga disimpan di mana pun. Refresh atau tutup tab, gambarnya hilang. Kalau mau disimpan, bagikan atau unduh jadi gambar lewat tombol <b>bagikan</b>.</p>
+
+    <dialog class="topo-dialog" id="topo-share" aria-labelledby="topo-share-title">
+        <div class="topo-dialog-head">
+            <h2 id="topo-share-title">bagikan topologi</h2>
+            <button type="button" data-act="close-share" aria-label="Tutup">✕</button>
+        </div>
+        <label class="topo-field">
+            <span>judul (opsional)</span>
+            <input id="topo-title" type="text" maxlength="60" placeholder="misal: Arsitektur toko online" autocomplete="off">
+        </label>
+        <div class="topo-preview-wrap"><img id="topo-preview" alt="Pratinjau gambar topologi"></div>
+        <div class="topo-share-main">
+            <button type="button" class="topo-primary" data-share="native" hidden>bagikan…</button>
+            <button type="button" data-share="download">unduh png</button>
+            <button type="button" data-share="copy" hidden>salin gambar</button>
+        </div>
+        <p class="topo-share-label">atau buka di:</p>
+        <div class="topo-nets">
+            <a data-net="x" target="_blank" rel="noopener">X</a>
+            <a data-net="facebook" target="_blank" rel="noopener">Facebook</a>
+            <a data-net="linkedin" target="_blank" rel="noopener">LinkedIn</a>
+            <a data-net="whatsapp" target="_blank" rel="noopener">WhatsApp</a>
+            <a data-net="telegram" target="_blank" rel="noopener">Telegram</a>
+        </div>
+        <p class="topo-share-note">Gambar dibuat langsung di browser kamu, ga diunggah ke server. Sosmed cuma bisa menerima tautan, jadi gambarnya otomatis diunduh dulu biar tinggal kamu lampirkan.</p>
+    </dialog>
+
+    <div class="topo-toast" id="topo-toast" role="status" aria-live="polite"></div>
+</div>
+<noscript><p class="term-noscript">Simulator ini butuh JavaScript.</p></noscript>
+
+{{- $js := resources.Get "js/topologi.js" | minify | fingerprint }}
+<script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
+{{- end }}
