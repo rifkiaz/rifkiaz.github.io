@@ -1,5 +1,6 @@
 {{- /* Weekly Beyblade X trend from data/beyblade/tren.yaml: highlight cards,
-       blade ranking (with each blade's main combo) with usage bars and rank change,
+       full blade ranking (with each blade's main combo, 10 per page via js/bt-pager.js)
+       with usage bars and rank change,
        combos in this week's winning decks, top ratchets and bits. */ -}}
 {{- $d := site.Data.beyblade.tren -}}
 {{- $blades := $d.blade -}}
@@ -34,7 +35,7 @@
     </div>
     {{- end }}
   </div>
-  <ol class="bt-rank" aria-label="Peringkat blade minggu ini">
+  <ol class="bt-rank" aria-label="Peringkat blade minggu ini" data-per="10">
     {{- range $i, $b := $blades }}
     {{- $n := $b.naik | default 0 }}
     <li class="bt-row" title="{{ $b.nama }}{{ with $b.combo }} {{ . }}{{ end }}: {{ $b.pakai }}× juara">
@@ -48,12 +49,16 @@
       <span class="bt-chg bt-chg--up"><span aria-hidden="true">▲</span> {{ $n }}<span class="sr-only"> peringkat naik</span></span>
       {{- else if lt $n 0 }}
       <span class="bt-chg bt-chg--down"><span aria-hidden="true">▼</span> {{ mul $n -1 }}<span class="sr-only"> peringkat turun</span></span>
-      {{- else }}
+      {{- else if isset $b "naik" }}
       <span class="bt-chg bt-chg--same"><span aria-hidden="true">=</span><span class="sr-only">tetap</span></span>
+      {{- else }}
+      <span class="bt-chg bt-chg--same"><span aria-hidden="true">–</span><span class="sr-only">perubahan tidak tercatat</span></span>
       {{- end }}
     </li>
     {{- end }}
   </ol>
+  {{- $pager := resources.Get "js/bt-pager.js" | minify | fingerprint }}
+  <script src="{{ $pager.RelPermalink }}" integrity="{{ $pager.Data.Integrity }}" defer></script>
   {{- with $d.combo_juara }}
   {{- $cm := 1 }}{{ range .daftar }}{{ if gt .pakai $cm }}{{ $cm = .pakai }}{{ end }}{{ end }}
   <div class="bt-part bt-wins">

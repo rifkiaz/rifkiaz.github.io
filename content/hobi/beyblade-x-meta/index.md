@@ -103,7 +103,7 @@ Contoh hasil turnamen akhir Agustus sampai awal September 2026 juga kelihatan po
 
 ## Tren seminggu terakhir
 
-Blade yang paling sering ada di combo juara minggu ini, lengkap dengan naik turunnya peringkat dibanding minggu sebelumnya. Bar menunjukkan berapa kali blade itu dipakai combo juara, dan di bawah nama blade ada combo yang paling sering menang bareng blade itu (kalau minggu ini tidak ada datanya, diambil dari combo terbaiknya di BEYWATCH.GG).
+Blade yang paling sering ada di combo juara minggu ini, lengkap dengan naik turunnya peringkat dibanding minggu sebelumnya. Bar menunjukkan berapa kali blade itu dipakai combo juara, dan di bawah nama blade ada combo yang paling sering menang bareng blade itu (kalau minggu ini tidak ada datanya, diambil dari combo terbaiknya di BEYWATCH.GG). Daftarnya lengkap sampai urutan terakhir, 10 blade per halaman. Blade di urutan 11 ke bawah cuma muncul sekali, jadi naik turunnya tidak dicatat (ditandai –).
 
 {{< beyblade-tren >}}
 
