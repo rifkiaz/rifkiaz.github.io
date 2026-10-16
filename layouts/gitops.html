@@ -1,0 +1,124 @@
+{{- define "main" }}
+<header class="page-header">
+    <h1>{{ .Title }}</h1>
+    {{- with .Description }}
+    <div class="post-description">{{ . }}</div>
+    {{- end }}
+</header>
+
+<div class="gx" id="gx">
+    <div class="gx-flow" aria-label="Alur GitOps">
+        <div class="gx-node" data-node="dev">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="5" width="14" height="10" rx="1.5"/><path d="M2.5 19h19"/></svg>
+            <b>kamu</b><span id="gx-f-dev"></span>
+        </div>
+        <div class="gx-link" data-link="push"><span>push</span></div>
+        <div class="gx-node" data-node="git">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="5" r="2.2"/><circle cx="6" cy="19" r="2.2"/><circle cx="18" cy="8" r="2.2"/><path d="M6 7.2v9.6M18 10.2c0 4-6 3.5-11 7"/></svg>
+            <b>git</b><span id="gx-f-git"></span>
+        </div>
+        <div class="gx-link" data-link="pull"><span>pull</span></div>
+        <div class="gx-node" data-node="argo">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.5 13a7.6 7.6 0 0 1-13.4 4.2M4.5 11a7.6 7.6 0 0 1 13.4-4.2"/><path d="M18.2 2.8v4.4h-4.4M5.8 21.2v-4.4h4.4"/></svg>
+            <b>argo cd</b><span id="gx-f-argo"></span>
+        </div>
+        <div class="gx-link" data-link="apply"><span>apply</span></div>
+        <div class="gx-node" data-node="k8s">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l8.2 4.75v9.5L12 21.5l-8.2-4.75v-9.5z"/><circle cx="12" cy="12" r="3"/><path d="M12 6v3M12 15v3M6.8 9l2.6 1.5M14.6 13.5l2.6 1.5M6.8 15l2.6-1.5M14.6 10.5L17.2 9"/></svg>
+            <b>cluster</b><span id="gx-f-k8s"></span>
+        </div>
+    </div>
+
+    <details class="gx-missions" id="gx-missions" open>
+        <summary>misi <span id="gx-m-count">0/5</span></summary>
+        <ol id="gx-m-list"></ol>
+    </details>
+
+    <div class="gx-grid">
+        <section class="gx-panel gx-git" aria-labelledby="gx-git-title">
+            <header class="gx-ph">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="5" r="2.2"/><circle cx="6" cy="19" r="2.2"/><circle cx="18" cy="8" r="2.2"/><path d="M6 7.2v9.6M18 10.2c0 4-6 3.5-11 7"/></svg>
+                <h2 id="gx-git-title">toko-gitops</h2>
+                <span class="gx-chip">⎇ main</span>
+            </header>
+            <div class="gx-path">apps/toko-web/<b>deployment.yaml</b></div>
+            <div class="gx-yaml" id="gx-yaml"></div>
+            <div class="gx-commit">
+                <input id="gx-msg" type="text" maxlength="72" autocomplete="off" spellcheck="false" aria-label="Pesan commit" placeholder="pesan commit">
+                <div class="gx-commit-btns">
+                    <button type="button" class="gx-primary" data-act="commit">commit &amp; push</button>
+                    <button type="button" data-act="discard">batal</button>
+                </div>
+            </div>
+            <h3 class="gx-sub">git log</h3>
+            <ol class="gx-commits" id="gx-commits"></ol>
+        </section>
+
+        <section class="gx-panel gx-argo" aria-labelledby="gx-argo-title">
+            <header class="gx-ph">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.5 13a7.6 7.6 0 0 1-13.4 4.2M4.5 11a7.6 7.6 0 0 1 13.4-4.2"/><path d="M18.2 2.8v4.4h-4.4M5.8 21.2v-4.4h4.4"/></svg>
+                <h2 id="gx-argo-title">toko-web</h2>
+                <span class="gx-chip">argo cd app</span>
+            </header>
+            <div class="gx-badges">
+                <span class="gx-badge" id="gx-sync"></span>
+                <span class="gx-badge" id="gx-health"></span>
+                <span class="gx-rev" id="gx-rev"></span>
+            </div>
+            <div class="gx-actions">
+                <button type="button" data-act="refresh">refresh</button>
+                <button type="button" class="gx-primary" data-act="sync">sync</button>
+                <label class="gx-sw"><input type="checkbox" id="gx-auto"><span aria-hidden="true"></span>auto-sync</label>
+                <label class="gx-sw"><input type="checkbox" id="gx-heal"><span aria-hidden="true"></span>self-heal</label>
+            </div>
+            <div class="gx-poll"><i id="gx-poll-bar"></i><span id="gx-poll-txt"></span></div>
+            <div class="gx-diff" id="gx-diff"></div>
+            <div class="gx-tree" id="gx-tree"></div>
+            <details class="gx-hist">
+                <summary>history &amp; rollback</summary>
+                <ol id="gx-hist"></ol>
+                <p class="gx-hist-note" id="gx-hist-note"></p>
+            </details>
+        </section>
+
+        <section class="gx-panel gx-kube" aria-labelledby="gx-kube-title">
+            <header class="gx-ph">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3M12 15h5"/></svg>
+                <h2 id="gx-kube-title">kubectl</h2>
+                <span class="gx-chip gx-chip-warn">langsung ke cluster</span>
+            </header>
+            <p class="gx-kube-note">Ini jalan pintas yang bikin cluster beda dengan Git (drift). Coba jalankan, lalu lihat apa yang dilakukan Argo CD.</p>
+            <div class="gx-cmds" id="gx-cmds"></div>
+        </section>
+
+        <section class="gx-panel gx-events" aria-labelledby="gx-ev-title">
+            <header class="gx-ph">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01"/></svg>
+                <h2 id="gx-ev-title">event log</h2>
+                <button type="button" class="gx-reset" data-act="reset">reset simulasi</button>
+            </header>
+            <div class="gx-term" id="gx-term" role="log" aria-live="off"></div>
+        </section>
+    </div>
+
+    <details class="gx-help">
+        <summary>apa itu GitOps dan Argo CD?</summary>
+        <ul>
+            <li><b>GitOps</b> artinya Git jadi satu-satunya sumber kebenaran. Mau ganti apa pun di cluster, caranya lewat commit, bukan <code>kubectl</code> manual.</li>
+            <li><b>Argo CD</b> jalan di dalam cluster dan menarik (pull) manifest dari Git, lalu membandingkannya dengan isi cluster. Cluster ga perlu dibukakan akses dari luar buat deploy.</li>
+            <li><b>Sync status</b> menjawab "isi cluster sama dengan Git atau ngga" (Synced / OutOfSync). <b>Health</b> menjawab "aplikasinya sehat atau ngga" (Healthy / Progressing / Degraded). Keduanya beda: bisa Synced tapi Degraded.</li>
+            <li><b>Polling:</b> aslinya Argo CD cek Git tiap 3 menit (atau langsung kalau pakai webhook). Di sini dipercepat jadi 10 detik, dan kamu bisa klik <i>refresh</i>.</li>
+            <li><b>Auto-sync</b> otomatis menerapkan commit baru. <b>Self-heal</b> mengembalikan perubahan manual di cluster ke kondisi Git. Tanpa self-heal, drift dibiarkan dan cuma ditandai OutOfSync.</li>
+            <li><b>Rollback</b> di Argo CD mengembalikan cluster ke revisi lama, tapi Git tetap di commit terbaru. Karena itu rollback cuma bisa saat auto-sync mati. Cara yang lebih GitOps adalah <i>git revert</i>.</li>
+            <li>Rolling update di sini pakai <code>maxSurge: 1</code> dan <code>maxUnavailable: 0</code>: pod lama baru dimatikan setelah pod baru siap. Makanya image yang rusak ga bikin aplikasi mati, cuma rollout-nya macet.</li>
+        </ul>
+    </details>
+    <p class="gx-note">Ini simulasi, bukan Argo CD beneran, dan waktunya dipercepat. Semua cuma ada di browser kamu dan ga disimpan di mana pun. Refresh halaman buat mulai dari awal.</p>
+
+    <div class="gx-toast" id="gx-toast" role="status" aria-live="polite"></div>
+</div>
+<noscript><p class="term-noscript">Simulasi ini butuh JavaScript.</p></noscript>
+
+{{- $js := resources.Get "js/gitops.js" | minify | fingerprint }}
+<script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
+{{- end }}
