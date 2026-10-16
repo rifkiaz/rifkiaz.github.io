@@ -160,6 +160,13 @@ Saya juga [member openSUSE](https://kudos.opensuse.org/user/Rifkiaz) dan aktif d
     weight = 15
 
   [[menu.main]]
+    identifier = "kalkulator"
+    name = "Kalkulator Cloud"
+    url = "/kalkulator/"
+    parent = "lab"
+    weight = 18
+
+  [[menu.main]]
     identifier = "terminal"
     name = "Terminal"
     url = "/terminal/"

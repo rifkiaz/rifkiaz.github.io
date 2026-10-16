@@ -1,0 +1,77 @@
+{{- define "main" }}
+{{- $data := index site.Data "hargacloud" }}
+<header class="page-header">
+    <h1>{{ .Title }}</h1>
+    {{- with .Description }}
+    <div class="post-description">{{ . }}</div>
+    {{- end }}
+</header>
+
+<div class="kalk" id="kalk">
+    <div class="kalk-bar" role="toolbar" aria-label="Pengaturan kalkulator">
+        <label class="kalk-opt">
+            <span>region</span>
+            <select id="kalk-region" aria-label="Region"></select>
+        </label>
+        <label class="kalk-opt">
+            <span>harga VM</span>
+            <select id="kalk-model" aria-label="Model harga VM">
+                <option value="od">on-demand</option>
+                <option value="y1">komitmen 1 tahun</option>
+                <option value="y3">komitmen 3 tahun</option>
+            </select>
+        </label>
+        <div class="kalk-cur" role="group" aria-label="Mata uang">
+            <button type="button" data-cur="usd" aria-pressed="true">USD</button>
+            <button type="button" data-cur="idr" aria-pressed="false">IDR</button>
+        </div>
+        <label class="kalk-opt kalk-kurs" id="kalk-kurs-wrap" hidden>
+            <span>kurs Rp</span>
+            <input id="kalk-kurs" type="number" inputmode="numeric" min="1000" max="100000" step="50" aria-label="Kurs rupiah per 1 USD">
+        </label>
+        <span class="kalk-spacer"></span>
+        <label class="kalk-opt">
+            <span>contoh</span>
+            <select id="kalk-preset" aria-label="Muat contoh">
+                <option value="">pilih…</option>
+                <option value="web">web app kecil</option>
+                <option value="k8s">kubernetes produksi</option>
+                <option value="data">penyimpanan & backup</option>
+                <option value="kosong">kosongkan semua</option>
+            </select>
+        </label>
+        <button type="button" data-act="link" title="Salin tautan berisi isian ini">salin tautan</button>
+    </div>
+
+    <div class="kalk-wrap">
+        <div class="kalk-main" id="kalk-main"></div>
+        <aside class="kalk-sum" id="kalk-sum" aria-label="Ringkasan biaya"></aside>
+    </div>
+
+    <div class="kalk-dock" id="kalk-dock" aria-hidden="true"></div>
+
+    <div class="kalk-notes">
+        <p class="kalk-warn"><b>⚠ Ini estimasi kasar, bukan tagihan.</b> Angkanya diambil dari daftar harga publik AWS dan GCP per <span id="kalk-asof"></span>, dalam USD, belum termasuk pajak, diskon kontrak, kredit, maupun free tier. Harga cloud bisa berubah kapan saja, jadi cek lagi di kalkulator resminya sebelum ambil keputusan: <a href="https://calculator.aws/" target="_blank" rel="noopener">AWS Pricing Calculator</a> dan <a href="https://cloud.google.com/products/calculator" target="_blank" rel="noopener">Google Cloud Pricing Calculator</a>.</p>
+        <details class="kalk-help">
+            <summary>asumsi yang dipakai</summary>
+            <ul>
+                <li><b>Mesin virtual:</b> Linux, tenancy biasa. AWS pakai harga EC2 on-demand, GCP pakai harga Compute Engine. Seri N2 di GCP otomatis dapat <i>sustained use discount</i> kalau nyala lebih dari 25% sebulan, E2 tidak. Mode komitmen dihitung penuh 730 jam/bulan: AWS pakai Reserved Instance standar tanpa uang muka, GCP pakai committed use discount berbasis resource.</li>
+                <li><b>Block storage:</b> SSD = EBS gp3 vs Persistent Disk balanced, HDD = EBS st1 vs Persistent Disk standard. IOPS dan throughput di atas baseline gp3 tidak dihitung.</li>
+                <li><b>Object storage:</b> cuma biaya simpan per GB. Biaya request, retrieval, dan minimum durasi simpan tidak masuk. Kelas arsip: S3 Glacier Flexible Retrieval vs GCS Archive.</li>
+                <li><b>Database:</b> RDS (MySQL atau PostgreSQL) dengan storage gp3 vs Cloud SQL Enterprise dengan SSD. HA berarti Multi-AZ di AWS dan instance regional di GCP. Backup tidak dihitung.</li>
+                <li><b>Load balancer:</b> AWS Application Load Balancer, dengan anggapan 1 LCU-jam ≈ 1 GB data diproses. GCP dihitung dari forwarding rule (5 pertama satu harga, sisanya per rule) plus data yang diproses.</li>
+                <li><b>Egress:</b> data keluar ke internet. AWS satu tarif ke mana pun, GCP Premium Tier tarifnya tergantung tujuan. Transfer antar-zona dan antar-region tidak dihitung.</li>
+                <li><b>Kubernetes:</b> cuma biaya control plane EKS dan GKE (sama-sama $0,10/jam per cluster). Node-nya hitung sebagai VM di atas.</li>
+            </ul>
+        </details>
+        <p class="kalk-note">Semua hitungan jalan di browser kamu dan ga ada yang disimpan. Mau berbagi isian? Pakai <b>salin tautan</b>, isiannya ikut di tautan itu.</p>
+    </div>
+
+    <div class="kalk-toast" id="kalk-toast" role="status" aria-live="polite"></div>
+</div>
+<script type="application/json" id="kalk-data">{{ $data | jsonify | safeJS }}</script>
+<noscript><p class="term-noscript">Kalkulator ini butuh JavaScript.</p></noscript>
+
+{{- $js := resources.Get "js/kalkulator.js" | minify | fingerprint }}
+<script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
+{{- end }}
