@@ -37,6 +37,20 @@
     });
   });
 
+  // Groups inside a panel (Lab → Simulasi → ...) expand in place, so they
+  // work the same on touch screens and stay inside the viewport.
+  document.querySelectorAll('#menu .group-toggle').forEach(function (btn) {
+    var list = document.getElementById(btn.getAttribute('aria-controls'));
+    btn.addEventListener('click', function () {
+      var open = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+      list.hidden = open;
+      var panel = btn.closest('.submenu');
+      var top = document.querySelector('[aria-controls="' + panel.id + '"]');
+      if (top) place(top, panel);
+    });
+  });
+
   document.addEventListener('click', function (e) {
     if (!e.target.closest('.submenu')) closeAll();
   });
