@@ -90,7 +90,36 @@
             {{- $menu_item_url := (cond (strings.HasSuffix .URL "/") .URL (printf "%s/" .URL) ) | absLangURL }}
             {{- $page_url:= $currentPage.Permalink | absLangURL }}
             {{- $is_search := eq (site.GetPage .KeyName).Layout `search` }}
-            {{- if .HasChildren }}
+            {{- if eq .Identifier "lab" }}
+            {{- /* Lab dropdown is built from data/lab.yaml, grouped one level deeper. */}}
+            {{- $hub := .URL | absLangURL }}
+            {{- $active := eq $hub $page_url }}
+            {{- $groups := slice }}
+            {{- range site.Data.lab.groups }}
+            {{- $items := slice }}
+            {{- $open := false }}
+            {{- range .items }}{{ if site.GetPage .url }}{{ $items = $items | append . }}{{ if eq (.url | absLangURL) $page_url }}{{ $open = true }}{{ $active = true }}{{ end }}{{ end }}{{ end }}
+            {{- if $items }}{{ $groups = $groups | append (dict "id" .id "name" .name "items" $items "open" $open) }}{{ end }}
+            {{- end }}
+            <li class="has-sub">
+                <button type="button" class="sub-toggle" aria-expanded="false" aria-controls="sub-lab">
+                    <span {{- if $active }} class="active" {{- end }}>{{ .Name }}</span><span class="sub-caret" aria-hidden="true">▾</span>
+                </button>
+                <ul class="submenu" id="sub-lab" hidden>
+                    <li><a href="{{ $hub }}" {{- if eq $hub $page_url }} aria-current="page"{{ end }}>semua lab</a></li>
+                    {{- range $groups }}
+                    <li class="sub-group">
+                        <button type="button" class="group-toggle" aria-expanded="{{ .open }}" aria-controls="sub-lab-{{ .id }}">{{ .name }}<span class="sub-caret" aria-hidden="true">▸</span></button>
+                        <ul class="sub-nested" id="sub-lab-{{ .id }}" {{- if not .open }} hidden{{ end }}>
+                            {{- range .items }}
+                            <li><a href="{{ .url | absLangURL }}" {{- if eq (.url | absLangURL) $page_url }} aria-current="page"{{ end }}>{{ partial "lab-icon.html" .icon }}{{ .name }}</a></li>
+                            {{- end }}
+                        </ul>
+                    </li>
+                    {{- end }}
+                </ul>
+            </li>
+            {{- else if .HasChildren }}
             {{- $active := false }}
             {{- range .Children }}{{ if eq (.URL | absLangURL) $page_url }}{{ $active = true }}{{ end }}{{ end }}
             <li class="has-sub">

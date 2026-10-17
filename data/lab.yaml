@@ -1,0 +1,25 @@
+# Lab hub (/lab/) and the "Lab" dropdown in the top menu are both built from
+# this file. An entry only shows once a page with that url exists, so labs
+# that are still being built can be listed ahead of time.
+groups:
+  - id: simulasi
+    name: Simulasi
+    desc: Coba tool DevOps langsung di browser, tanpa server dan tanpa akun cloud.
+    items:
+      - { url: /docker/, name: Docker, icon: docker, desc: "Build image, jalankan container, dan atur network serta volume." }
+      - { url: /swarm/, name: Docker Swarm, icon: swarm, desc: "Bikin cluster Swarm, deploy service, scale, dan lihat failover." }
+      - { url: /ceph/, name: Ceph, icon: ceph, desc: "Simulasi cluster storage Ceph: OSD, pool, replikasi, dan recovery." }
+      - { url: /terraform/, name: Terraform, icon: terraform, desc: "Tulis main.tf, lalu init, plan, apply, dan destroy ke akun AWS bohongan." }
+      - { url: /ansible/, name: Ansible, icon: ansible, desc: "Jalankan playbook ke lima server lab dan lihat hasil per host." }
+      - { url: /gitops/, name: GitOps, icon: gitops, desc: "Commit manifest, lalu lihat Argo CD sync, self-heal, dan rollback." }
+  - id: tools
+    name: Tools
+    desc: Alat bantu kecil buat kerjaan sehari-hari.
+    items:
+      - { url: /topologi/, name: Topologi, icon: topologi, desc: "Susun diagram infra AWS, GCP, dan Kubernetes, lalu ekspor gambarnya." }
+      - { url: /kalkulator/, name: Kalkulator Cloud, icon: kalkulator, desc: "Bandingkan estimasi biaya bulanan AWS dan GCP berdampingan." }
+  - id: fun
+    name: Fun
+    desc: Buat iseng.
+    items:
+      - { url: /terminal/, name: Terminal, icon: terminal, desc: "Terminal mini: jelajahi tulisan pakai ls dan cat, atau main game." }

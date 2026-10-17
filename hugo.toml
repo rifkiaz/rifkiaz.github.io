@@ -82,11 +82,8 @@ Saya juga [member openSUSE](https://kudos.opensuse.org/user/Rifkiaz) dan aktif d
       { name = "proyek", url = "/proyek/" },
       { name = "cheatsheet", url = "/cheatsheet/" },
       { name = "tentang", url = "/tentang/" },
+      { name = "lab", url = "/lab/" },
       { name = "terminal", url = "/terminal/" },
-      { name = "topologi", url = "/topologi/" },
-      { name = "gitops", url = "/gitops/" },
-      { name = "terraform", url = "/terraform/" },
-      { name = "ansible", url = "/ansible/" },
     ]
 
   [[params.socialIcons]]
@@ -145,49 +142,8 @@ Saya juga [member openSUSE](https://kudos.opensuse.org/user/Rifkiaz) dan aktif d
   [[menu.main]]
     identifier = "lab"
     name = "Lab"
+    url = "/lab/"
     weight = 27
-
-  [[menu.main]]
-    identifier = "topologi"
-    name = "Simulator Topologi"
-    url = "/topologi/"
-    parent = "lab"
-    weight = 10
-
-  [[menu.main]]
-    identifier = "gitops"
-    name = "Simulasi GitOps"
-    url = "/gitops/"
-    parent = "lab"
-    weight = 15
-
-  [[menu.main]]
-    identifier = "terraform"
-    name = "Simulasi Terraform"
-    url = "/terraform/"
-    parent = "lab"
-    weight = 16
-
-  [[menu.main]]
-    identifier = "ansible"
-    name = "Simulasi Ansible"
-    url = "/ansible/"
-    parent = "lab"
-    weight = 17
-
-  [[menu.main]]
-    identifier = "kalkulator"
-    name = "Kalkulator Cloud"
-    url = "/kalkulator/"
-    parent = "lab"
-    weight = 18
-
-  [[menu.main]]
-    identifier = "terminal"
-    name = "Terminal"
-    url = "/terminal/"
-    parent = "lab"
-    weight = 20
 
   [[menu.main]]
     identifier = "hobi"

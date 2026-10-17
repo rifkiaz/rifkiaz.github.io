@@ -1,0 +1,32 @@
+{{- define "main" }}
+<header class="page-header">
+    <h1>{{ .Title }}</h1>
+    {{- with .Description }}
+    <div class="post-description">{{ . }}</div>
+    {{- end }}
+</header>
+
+<div class="lab-hub">
+    {{- range site.Data.lab.groups }}
+    {{- $items := slice }}
+    {{- range .items }}{{ if site.GetPage .url }}{{ $items = $items | append . }}{{ end }}{{ end }}
+    {{- if $items }}
+    <section class="lab-group" aria-labelledby="lab-{{ .id }}">
+        <h2 id="lab-{{ .id }}" class="lab-group-title">{{ .name }}</h2>
+        {{- with .desc }}<p class="lab-group-desc">{{ . }}</p>{{ end }}
+        <ul class="lab-grid">
+            {{- range $items }}
+            <li>
+                <a class="lab-card" href="{{ .url | absLangURL }}">
+                    <span class="lab-tile lab-c-{{ .icon }}">{{ partial "lab-icon.html" .icon }}</span>
+                    <span class="lab-name">{{ .name }}</span>
+                    <span class="lab-desc">{{ .desc }}</span>
+                </a>
+            </li>
+            {{- end }}
+        </ul>
+    </section>
+    {{- end }}
+    {{- end }}
+</div>
+{{- end }}
