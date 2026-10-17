@@ -10,6 +10,7 @@ groups:
       - { url: /swarm/, name: Docker Swarm, icon: swarm, desc: "Bikin cluster Swarm, deploy service, scale, dan lihat failover." }
       - { url: /ceph/, name: Ceph, icon: ceph, desc: "Simulasi cluster storage Ceph: OSD, pool, replikasi, dan recovery." }
       - { url: /openstack/, name: OpenStack, icon: openstack, desc: "Private cloud mini: network, router, security group, server, floating IP, dan volume." }
+      - { url: /vault/, name: Vault, icon: vault, desc: "Init dan unseal, simpan secret, tulis policy, AppRole, kredensial database dinamis, dan transit." }
       - { url: /terraform/, name: Terraform, icon: terraform, desc: "Tulis main.tf, lalu init, plan, apply, dan destroy ke akun AWS bohongan." }
       - { url: /ansible/, name: Ansible, icon: ansible, desc: "Jalankan playbook ke lima server lab dan lihat hasil per host." }
       - { url: /gitops/, name: GitOps, icon: gitops, desc: "Commit manifest, lalu lihat Argo CD sync, self-heal, dan rollback." }

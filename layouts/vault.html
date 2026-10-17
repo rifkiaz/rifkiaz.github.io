@@ -1,0 +1,107 @@
+{{- define "main" }}
+<header class="page-header">
+    <h1>{{ .Title }}</h1>
+    {{- with .Description }}
+    <div class="post-description">{{ . }}</div>
+    {{- end }}
+</header>
+
+<div class="gx sx vt" id="vt">
+    <div class="gx-flow" aria-label="Alur permintaan ke Vault">
+        <div class="gx-node" data-node="cli">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3M12 15h5"/></svg>
+            <b>kamu (CLI)</b><span id="vt-f-cli"></span>
+        </div>
+        <div class="gx-link" data-link="api"><span>token</span></div>
+        <div class="gx-node" data-node="vault">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v5.5c0 4.6-3.3 8.2-8 9.5-4.7-1.3-8-4.9-8-9.5V6z"/><rect x="9" y="11" width="6" height="5" rx="1"/><path d="M10.2 11V9.6a1.8 1.8 0 0 1 3.6 0V11"/></svg>
+            <b>vault</b><span id="vt-f-vault"></span>
+        </div>
+        <div class="gx-link" data-link="barrier"><span>barrier</span></div>
+        <div class="gx-node" data-node="storage">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="6" rx="7" ry="2.5"/><path d="M5 6v12c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5V6M5 12c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5"/></svg>
+            <b>raft</b><span id="vt-f-sto"></span>
+        </div>
+        <div class="gx-link" data-link="creds"><span>user dinamis</span></div>
+        <div class="gx-node" data-node="db">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="7" rx="1.5"/><rect x="3" y="13" width="18" height="7" rx="1.5"/><path d="M7 7.5h.01M7 16.5h.01M11 7.5h6M11 16.5h6"/></svg>
+            <b>postgres</b><span id="vt-f-db"></span>
+        </div>
+    </div>
+
+    <details class="gx-missions" open>
+        <summary>misi <span id="vt-m-count">0/10</span></summary>
+        <ol id="vt-m-list"></ol>
+    </details>
+
+    <div class="gx-grid sx-grid">
+        <section class="gx-panel sx-shell" aria-labelledby="vt-sh-title">
+            <header class="gx-ph">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3M12 15h5"/></svg>
+                <h2 id="vt-sh-title">terminal</h2>
+                <span class="gx-chip" id="vt-tok">belum login</span>
+                <button type="button" class="gx-reset" data-act="reset">reset simulasi</button>
+            </header>
+            <div class="sx-tbox">
+                <div class="sx-out" id="vt-out" role="log" aria-live="off"></div>
+                <div class="sx-prompt">
+                    <label for="vt-in" id="vt-ps">kamu@laptop:~$</label>
+                    <input id="vt-in" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="ketik perintah, misal vault status">
+                </div>
+            </div>
+            <p class="vt-qh">langkah berikutnya</p>
+            <div class="sx-quick" id="vt-quick"></div>
+        </section>
+
+        <section class="gx-panel vt-dash" aria-labelledby="vt-d-title">
+            <header class="gx-ph">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v5.5c0 4.6-3.3 8.2-8 9.5-4.7-1.3-8-4.9-8-9.5V6z"/></svg>
+                <h2 id="vt-d-title">vault-1</h2>
+                <span class="gx-chip" id="vt-state">belum di-init</span>
+            </header>
+            <div class="sx-tabs vt-tabs" role="tablist" aria-label="Menu dashboard">
+                <button type="button" role="tab" id="vt-tab-status" aria-controls="vt-v-status" data-act="tab" data-tab="status" aria-selected="true">status</button>
+                <button type="button" role="tab" id="vt-tab-secrets" aria-controls="vt-v-secrets" data-act="tab" data-tab="secrets" aria-selected="false">secrets <i id="vt-n-sec"></i></button>
+                <button type="button" role="tab" id="vt-tab-akses" aria-controls="vt-v-akses" data-act="tab" data-tab="akses" aria-selected="false">akses <i id="vt-n-pol"></i></button>
+                <button type="button" role="tab" id="vt-tab-lease" aria-controls="vt-v-lease" data-act="tab" data-tab="lease" aria-selected="false">lease <i id="vt-n-lease"></i></button>
+            </div>
+            <div class="vt-body">
+                <div class="vt-view" id="vt-v-status" role="tabpanel" aria-labelledby="vt-tab-status" data-view="status"></div>
+                <div class="vt-view" id="vt-v-secrets" role="tabpanel" aria-labelledby="vt-tab-secrets" data-view="secrets" hidden></div>
+                <div class="vt-view" id="vt-v-akses" role="tabpanel" aria-labelledby="vt-tab-akses" data-view="akses" hidden>
+                    <p class="vt-sub">file <b>app-read.hcl</b> di laptop kamu <span>edit langsung di sini</span></p>
+                    <div id="vt-ed"></div>
+                    <div class="vt-edbar">
+                        <button type="button" class="gx-primary" data-act="cmd" data-cmd="vault policy write app-read app-read.hcl">vault policy write app-read</button>
+                        <button type="button" data-act="snip" data-snip="ro">contoh: baca saja</button>
+                        <button type="button" data-act="snip" data-snip="v1">contoh: path salah</button>
+                    </div>
+                    <div id="vt-akses"></div>
+                </div>
+                <div class="vt-view" id="vt-v-lease" role="tabpanel" aria-labelledby="vt-tab-lease" data-view="lease" hidden></div>
+            </div>
+        </section>
+    </div>
+
+    <details class="gx-help">
+        <summary>apa itu seal, token, policy, dan lease?</summary>
+        <ul>
+            <li><b>Seal dan unseal.</b> Semua data Vault di storage dienkripsi. Kunci enkripsinya dikunci lagi pakai <b>root key</b> yang dipecah jadi beberapa <b>unseal key</b> (Shamir's Secret Sharing). Setelah restart, Vault selalu tersegel dan baru bisa dipakai setelah cukup banyak pemegang key memasukkan bagiannya, misalnya 3 dari 5.</li>
+            <li><b>Token.</b> Semua permintaan ke Vault pakai token. Root token boleh apa saja, jadi di produksi cuma dipakai buat setup awal. Aplikasi dan orang dapat token lewat <b>auth method</b> seperti AppRole, userpass, atau Kubernetes.</li>
+            <li><b>Policy.</b> Token cuma boleh melakukan yang diizinkan policy-nya, per path dan per kemampuan (<code>read</code>, <code>create</code>, <code>update</code>, <code>delete</code>, <code>list</code>, <code>sudo</code>). Yang ga disebut berarti ditolak. Di KV v2, path API-nya pakai prefix <code>data/</code>, jadi <code>secret/app/db</code> di CLI dicek sebagai <code>secret/data/app/db</code>.</li>
+            <li><b>Secrets engine.</b> KV menyimpan secret statis (v2 punya riwayat versi). <b>Database</b> membuat user database baru tiap kali diminta. <b>Transit</b> mengenkripsi data tanpa menyimpannya, jadi aplikasi ga perlu pegang kunci.</li>
+            <li><b>Lease.</b> Secret dinamis punya masa berlaku. Setelah lease habis atau dicabut (<code>vault lease revoke</code>), Vault menghapus user database-nya. Kredensial yang bocor jadi cuma berguna sebentar.</li>
+            <li><b>Seal darurat.</b> Kalau ada insiden, <code>vault operator seal</code> langsung menghentikan semua akses. Data tetap aman di storage, tapi butuh unseal key lagi buat membukanya.</li>
+        </ul>
+    </details>
+    <p class="gx-note">Ini simulasi, bukan Vault beneran. Server, database, key, dan token-nya bohongan, IP-nya pakai rentang contoh, dan perintahnya cuma sebagian. Di produksi, Vault wajib pakai TLS (https). Semua cuma ada di browser kamu dan ga disimpan di mana pun.</p>
+
+    <div class="gx-toast" id="vt-toast" role="status" aria-live="polite"></div>
+</div>
+<noscript><p class="term-noscript">Simulasi ini butuh JavaScript.</p></noscript>
+
+{{- $kit := resources.Get "js/simkit.js" | minify | fingerprint }}
+<script src="{{ $kit.RelPermalink }}" integrity="{{ $kit.Data.Integrity }}" defer></script>
+{{- $js := resources.Get "js/vault.js" | minify | fingerprint }}
+<script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
+{{- end }}
