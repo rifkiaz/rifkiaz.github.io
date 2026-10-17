@@ -1096,10 +1096,6 @@ transition: opacity 0.15s ease; pointer-events: none;
 .an-host.is-hit { animation: an-hit 0.5s ease-out; }
 @keyframes an-hit { from { box-shadow: 0 0 0 4px color-mix(in srgb, var(--st) 35%, transparent); } }
 
-@media (min-width: 901px) {
-  /* keep the terminal in view while scrolling a long file */
-  .sx-shell { position: sticky; top: 72px; }
-}
 @media (max-width: 900px) {
   .sx-grid { grid-template-columns: minmax(0, 1fr); }
   .sx-out { height: 340px; }
