@@ -1,0 +1,111 @@
+{{- define "main" }}
+<header class="page-header">
+    <h1>{{ .Title }}</h1>
+    {{- with .Description }}
+    <div class="post-description">{{ . }}</div>
+    {{- end }}
+</header>
+
+<div class="gx sx cp" id="cp">
+    <div class="gx-flow" aria-label="Alur data Ceph">
+        <div class="gx-node" data-node="cli">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>
+            <b>klien</b><span id="cp-f-cli"></span>
+        </div>
+        <div class="gx-link" data-link="write"><span>tulis</span></div>
+        <div class="gx-node" data-node="pool">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/></svg>
+            <b>pool</b><span id="cp-f-pool"></span>
+        </div>
+        <div class="gx-link" data-link="hash"><span>hash</span></div>
+        <div class="gx-node" data-node="pg">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            <b>PG</b><span id="cp-f-pg"></span>
+        </div>
+        <div class="gx-link" data-link="crush"><span>CRUSH</span></div>
+        <div class="gx-node" data-node="osd">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><circle cx="12" cy="11" r="3.5"/><path d="M8 18h.01"/></svg>
+            <b>OSD</b><span id="cp-f-osd"></span>
+        </div>
+    </div>
+
+    <details class="gx-missions" open>
+        <summary>misi <span id="cp-m-count">0/7</span></summary>
+        <ol id="cp-m-list"></ol>
+    </details>
+
+    <div class="gx-grid sx-grid">
+        <section class="gx-panel sx-shell" aria-labelledby="cp-sh-title">
+            <header class="gx-ph">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3M12 15h5"/></svg>
+                <h2 id="cp-sh-title">terminal</h2>
+                <span class="gx-chip">cephadm shell</span>
+                <button type="button" class="gx-reset" data-act="reset">reset simulasi</button>
+            </header>
+            <div class="sx-tbox">
+                <div class="sx-out" id="cp-out" role="log" aria-live="off"></div>
+                <div class="sx-prompt">
+                    <label for="cp-in">root@node1:/#</label>
+                    <input id="cp-in" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="ketik perintah, misal ceph -s">
+                </div>
+            </div>
+            <div class="sx-quick" id="cp-quick">
+                <button type="button" data-act="cmd" data-cmd="ceph -s">ceph -s</button>
+                <button type="button" data-act="cmd" data-cmd="ceph health detail">health detail</button>
+                <button type="button" data-act="cmd" data-cmd="ceph osd tree">osd tree</button>
+                <button type="button" data-act="cmd" data-cmd="ceph osd df">osd df</button>
+                <button type="button" data-act="cmd" data-cmd="ceph df">ceph df</button>
+                <button type="button" data-act="cmd" data-cmd="ceph osd pool create data">pool create data</button>
+                <button type="button" data-act="cmd" data-cmd="ceph osd pool application enable data rbd">app enable</button>
+                <button type="button" data-act="cmd" data-cmd="rados -p data put foto.jpg ./foto.jpg">rados put</button>
+                <button type="button" data-act="cmd" data-cmd="ceph osd map data foto.jpg">osd map</button>
+                <button type="button" data-act="cmd" data-cmd="ceph pg stat">pg stat</button>
+            </div>
+        </section>
+
+        <section class="gx-panel cp-cluster" aria-labelledby="cp-cl-title">
+            <header class="gx-ph">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="5.5" rx="7" ry="2.5"/><path d="M5 5.5v13c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5v-13"/><path d="M5 10c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5M5 14.5c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5"/></svg>
+                <h2 id="cp-cl-title">cluster</h2>
+                <span class="cp-health" id="cp-health">HEALTH_OK</span>
+            </header>
+            <ul class="cp-checks" id="cp-checks"></ul>
+            <div class="cp-pgbar" id="cp-pgbar" aria-hidden="true"></div>
+            <p class="cp-pgtxt" id="cp-pgtxt"></p>
+            <div class="cp-hosts" id="cp-hosts"></div>
+            <p class="gx-kube-note cp-tip">Klik kotak OSD buat merusak disk-nya (klik lagi buat menyalakan ulang). Tombol di pojok kartu mematikan seluruh node.</p>
+        </section>
+    </div>
+
+    <section class="gx-panel cp-pools-panel" aria-labelledby="cp-pool-title">
+        <header class="gx-ph">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/></svg>
+            <h2 id="cp-pool-title">pool &amp; klien</h2>
+            <span class="gx-chip" id="cp-cap">0 / 600 GiB</span>
+        </header>
+        <div class="cp-pools" id="cp-pools"></div>
+        <div class="cp-map" id="cp-map" hidden></div>
+    </section>
+
+    <details class="gx-help">
+        <summary>apa itu OSD, pool, PG, dan CRUSH?</summary>
+        <ul>
+            <li><b>OSD</b> itu satu daemon yang mengurus satu disk. Cluster ini punya 3 node, masing-masing 2 disk 100 GiB. <b>Monitor</b> (mon) menyimpan peta cluster dan butuh mayoritas (quorum) supaya cluster bisa jalan.</li>
+            <li>Data disimpan di <b>pool</b>. Tiap objek di-hash ke salah satu <b>placement group</b> (PG), lalu algoritma <b>CRUSH</b> menentukan OSD mana yang memegang PG itu. Ga ada tabel lokasi; semua klien bisa menghitungnya sendiri.</li>
+            <li><code>size 3</code> artinya tiap data punya 3 salinan di 3 node berbeda. <code>min_size 2</code> artinya PG masih mau dibaca dan ditulis kalau tinggal 2 salinan. Kalau tinggal 1, I/O ke PG itu berhenti demi keamanan data.</li>
+            <li>OSD yang mati ditandai <b>down</b>. Setelah beberapa waktu (aslinya 10 menit, di sini dipercepat) dia ditandai <b>out</b>, dan CRUSH memindahkan salinannya ke OSD lain. Itu <b>recovery</b> atau <b>backfill</b>.</li>
+            <li><code>ceph osd set noout</code> dipakai saat maintenance terencana, supaya node yang dimatikan sebentar ga memicu pemindahan data besar-besaran.</li>
+            <li>OSD yang terisi 85% memicu <b>nearfull</b>, 95% <b>full</b> dan tulisan diblokir. Satu OSD penuh sudah cukup untuk menghentikan tulisan ke pool, jadi tambah kapasitas sebelum itu terjadi.</li>
+        </ul>
+    </details>
+    <p class="gx-note">Ini simulasi, bukan Ceph beneran. Disk-nya bohongan, CRUSH-nya versi sederhana, waktunya dipercepat, dan perintahnya cuma sebagian. Semua cuma ada di browser kamu dan ga disimpan di mana pun.</p>
+
+    <div class="gx-toast" id="cp-toast" role="status" aria-live="polite"></div>
+</div>
+<noscript><p class="term-noscript">Simulasi ini butuh JavaScript.</p></noscript>
+
+{{- $kit := resources.Get "js/simkit.js" | minify | fingerprint }}
+<script src="{{ $kit.RelPermalink }}" integrity="{{ $kit.Data.Integrity }}" defer></script>
+{{- $js := resources.Get "js/ceph.js" | minify | fingerprint }}
+<script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
+{{- end }}

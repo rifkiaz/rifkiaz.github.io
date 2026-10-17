@@ -1,0 +1,123 @@
+{{- define "main" }}
+<header class="page-header">
+    <h1>{{ .Title }}</h1>
+    {{- with .Description }}
+    <div class="post-description">{{ . }}</div>
+    {{- end }}
+</header>
+
+<div class="gx sx dk" id="dk">
+    <div class="gx-flow" aria-label="Alur Docker">
+        <div class="gx-node" data-node="df">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg>
+            <b>Dockerfile</b><span id="dk-f-df"></span>
+        </div>
+        <div class="gx-link" data-link="build"><span>build</span></div>
+        <div class="gx-node" data-node="img">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg>
+            <b>image</b><span id="dk-f-img"></span>
+        </div>
+        <div class="gx-link" data-link="run"><span>run</span></div>
+        <div class="gx-node" data-node="ctr">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="1.5"/><path d="M7 6v12M11 6v12M15 6v12"/></svg>
+            <b>container</b><span id="dk-f-ctr"></span>
+        </div>
+        <div class="gx-link" data-link="port"><span>-p</span></div>
+        <div class="gx-node" data-node="port">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>
+            <b>akses</b><span id="dk-f-port"></span>
+        </div>
+    </div>
+
+    <details class="gx-missions" open>
+        <summary>misi <span id="dk-m-count">0/6</span></summary>
+        <ol id="dk-m-list"></ol>
+    </details>
+
+    <div class="gx-grid sx-grid">
+        <section class="gx-panel sx-code" aria-labelledby="dk-code-title">
+            <header class="gx-ph">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                <h2 id="dk-code-title">~/app</h2>
+                <span class="gx-chip">build context</span>
+                <button type="button" class="gx-reset" data-act="file-reset">kembalikan file</button>
+            </header>
+            <div class="sx-tabs" id="dk-tabs" role="tablist" aria-label="File"></div>
+            <div id="dk-ed"></div>
+        </section>
+
+        <section class="gx-panel sx-shell" aria-labelledby="dk-sh-title">
+            <header class="gx-ph">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3M12 15h5"/></svg>
+                <h2 id="dk-sh-title">terminal</h2>
+                <button type="button" class="gx-reset" data-act="reset">reset simulasi</button>
+            </header>
+            <div class="sx-tbox">
+                <div class="sx-out" id="dk-out" role="log" aria-live="off"></div>
+                <div class="sx-prompt">
+                    <label for="dk-in">rifki@laptop:~/app$</label>
+                    <input id="dk-in" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="ketik perintah, misal docker run -d -p 8080:80 nginx">
+                </div>
+            </div>
+            <div class="sx-quick" id="dk-quick">
+                <button type="button" class="sx-yn" data-act="cmd" data-cmd="y">y</button>
+                <button type="button" class="sx-yn" data-act="cmd" data-cmd="n">N</button>
+                <button type="button" data-act="cmd" data-cmd="docker run -d -p 8080:80 --name web nginx">run nginx</button>
+                <button type="button" data-act="cmd" data-cmd="curl localhost:8080">curl :8080</button>
+                <button type="button" data-act="cmd" data-cmd="docker build -t app:1.0 .">build app</button>
+                <button type="button" data-act="cmd" data-cmd="docker run -d -p 5000:5000 --name app app:1.0">run app</button>
+                <button type="button" data-act="cmd" data-cmd="curl localhost:5000">curl :5000</button>
+                <button type="button" data-act="cmd" data-cmd="docker ps -a">ps -a</button>
+                <button type="button" data-act="cmd" data-cmd="docker images">images</button>
+                <button type="button" data-act="cmd" data-cmd="docker compose up -d">compose up</button>
+            </div>
+        </section>
+    </div>
+
+    <section class="gx-panel dk-host" aria-labelledby="dk-host-title">
+        <header class="gx-ph">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+            <h2 id="dk-host-title">docker host</h2>
+            <span class="gx-chip" id="dk-host-chip">laptop</span>
+        </header>
+        <div class="dk-cols">
+            <div>
+                <h3 class="gx-sub">container</h3>
+                <div class="dk-list" id="dk-ctrs"></div>
+                <p class="dk-empty" id="dk-ctrs-empty">Belum ada container. Coba tombol <b>run nginx</b>.</p>
+            </div>
+            <div>
+                <h3 class="gx-sub">image</h3>
+                <div class="dk-list" id="dk-imgs"></div>
+                <p class="dk-empty" id="dk-imgs-empty">Belum ada image. Image di-pull otomatis saat <b>docker run</b>, atau bikin sendiri pakai <b>docker build</b>.</p>
+            </div>
+        </div>
+        <div class="dk-store">
+            <div><h3 class="gx-sub">volume</h3><div class="dk-chips" id="dk-vols"></div></div>
+            <div><h3 class="gx-sub">network</h3><div class="dk-chips" id="dk-nets"></div></div>
+        </div>
+    </section>
+
+    <details class="gx-help">
+        <summary>apa itu image, container, layer, dan volume?</summary>
+        <ul>
+            <li><b>Image</b> itu cetakan: file sistem plus perintah default, dibangun dari <code>Dockerfile</code>. <b>Container</b> itu image yang lagi dijalankan. Satu image bisa jadi banyak container.</li>
+            <li>Tiap baris <code>RUN</code>, <code>COPY</code>, dan <code>ADD</code> bikin satu <b>layer</b>. Saat build ulang, Docker memakai ulang layer yang input-nya sama (<code>CACHED</code>). Begitu satu layer berubah, semua layer di bawahnya dibangun ulang. Makanya <code>COPY requirements.txt</code> dan <code>pip install</code> sebaiknya ditaruh sebelum <code>COPY . .</code>.</li>
+            <li>Container itu sekali pakai. Ubah kode lalu build ulang ga mengubah container yang sudah jalan. Kamu harus hapus dan bikin container baru dari image baru.</li>
+            <li>File yang ditulis di dalam container hilang saat container dihapus. Simpan data di <b>volume</b> (<code>-v nama:/path</code>) supaya tetap ada.</li>
+            <li><code>-p 8080:80</code> artinya port 8080 di laptop diteruskan ke port 80 di container. <code>EXPOSE</code> di Dockerfile cuma dokumentasi, ga membuka port apa pun.</li>
+            <li>Aplikasi di container harus listen di <code>0.0.0.0</code>. Kalau cuma di <code>127.0.0.1</code>, dia ga bisa diakses dari luar container walau port sudah di-publish.</li>
+            <li>Container di network buatan sendiri (termasuk yang dibikin Compose) bisa saling panggil pakai nama. Di network <code>bridge</code> bawaan, nama ga bisa di-resolve.</li>
+        </ul>
+    </details>
+    <p class="gx-note">Ini simulasi, bukan Docker beneran. Dockerfile dan Python-nya dibaca versi mini, registry-nya cuma punya beberapa image populer, dan semuanya jalan di browser kamu. Ga ada yang disimpan.</p>
+
+    <div class="gx-toast" id="dk-toast" role="status" aria-live="polite"></div>
+</div>
+<noscript><p class="term-noscript">Simulasi ini butuh JavaScript.</p></noscript>
+
+{{- $kit := resources.Get "js/simkit.js" | minify | fingerprint }}
+<script src="{{ $kit.RelPermalink }}" integrity="{{ $kit.Data.Integrity }}" defer></script>
+{{- $js := resources.Get "js/docker.js" | minify | fingerprint }}
+<script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
+{{- end }}

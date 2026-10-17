@@ -1,0 +1,110 @@
+{{- define "main" }}
+<header class="page-header">
+    <h1>{{ .Title }}</h1>
+    {{- with .Description }}
+    <div class="post-description">{{ . }}</div>
+    {{- end }}
+</header>
+
+<div class="gx sx sw" id="sw">
+    <div class="gx-flow" aria-label="Alur Docker Swarm">
+        <div class="gx-node" data-node="mgr">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.5 5 5.5.8-4 3.9.9 5.5L12 15.6 7.1 18.2 8 12.7 4 8.8l5.5-.8z"/></svg>
+            <b>manager</b><span id="sw-f-mgr"></span>
+        </div>
+        <div class="gx-link" data-link="sched"><span>jadwal</span></div>
+        <div class="gx-node" data-node="svc">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="7" height="7" rx="1.5"/><rect x="14" y="4" width="7" height="7" rx="1.5"/><rect x="3" y="13" width="7" height="7" rx="1.5"/><rect x="14" y="13" width="7" height="7" rx="1.5"/></svg>
+            <b>service</b><span id="sw-f-svc"></span>
+        </div>
+        <div class="gx-link" data-link="task"><span>task</span></div>
+        <div class="gx-node" data-node="node">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="7" rx="1.5"/><rect x="3" y="13" width="18" height="7" rx="1.5"/><path d="M7 7.5h.01M7 16.5h.01"/></svg>
+            <b>node</b><span id="sw-f-node"></span>
+        </div>
+        <div class="gx-link" data-link="mesh"><span>mesh</span></div>
+        <div class="gx-node" data-node="mesh">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>
+            <b>akses</b><span id="sw-f-mesh"></span>
+        </div>
+    </div>
+
+    <details class="gx-missions" open>
+        <summary>misi <span id="sw-m-count">0/8</span></summary>
+        <ol id="sw-m-list"></ol>
+    </details>
+
+    <div class="gx-grid sx-grid">
+        <section class="gx-panel sx-shell" aria-labelledby="sw-sh-title">
+            <header class="gx-ph">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3M12 15h5"/></svg>
+                <h2 id="sw-sh-title">terminal</h2>
+                <button type="button" class="gx-reset" data-act="reset">reset simulasi</button>
+            </header>
+            <div class="sx-tbox">
+                <div class="sx-out" id="sw-out" role="log" aria-live="off"></div>
+                <div class="sx-prompt">
+                    <label for="sw-in" id="sw-ps">rifki@manager1:~$</label>
+                    <input id="sw-in" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="ketik perintah, misal docker swarm init">
+                </div>
+            </div>
+            <div class="sx-quick" id="sw-quick"></div>
+        </section>
+
+        <section class="gx-panel sw-cluster" aria-labelledby="sw-cl-title">
+            <header class="gx-ph">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="7" rx="1.5"/><rect x="3" y="13" width="18" height="7" rx="1.5"/><path d="M7 7.5h.01M7 16.5h.01"/></svg>
+                <h2 id="sw-cl-title">cluster</h2>
+                <span class="gx-chip" id="sw-cl-chip">4 mesin</span>
+            </header>
+            <p class="gx-kube-note">Tiap kotak kecil itu satu <b>task</b> (container milik service). Matikan worker pakai tombolnya buat lihat Swarm memindahkan task-nya.</p>
+            <div class="sw-nodes" id="sw-nodes"></div>
+        </section>
+    </div>
+
+    <div class="gx-grid sx-grid sw-lower">
+        <section class="gx-panel" aria-labelledby="sw-svc-title">
+            <header class="gx-ph">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="7" height="7" rx="1.5"/><rect x="14" y="4" width="7" height="7" rx="1.5"/><rect x="3" y="13" width="7" height="7" rx="1.5"/><rect x="14" y="13" width="7" height="7" rx="1.5"/></svg>
+                <h2 id="sw-svc-title">service</h2>
+                <span class="gx-chip" id="sw-svc-chip">0</span>
+            </header>
+            <div class="sw-svcs" id="sw-svcs"></div>
+            <p class="dk-empty" id="sw-svcs-empty">Belum ada service. Init swarm dulu, lalu <b>docker service create</b>.</p>
+        </section>
+
+        <section class="gx-panel sx-code" aria-labelledby="sw-code-title">
+            <header class="gx-ph">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg>
+                <h2 id="sw-code-title">~/stack.yml</h2>
+                <button type="button" class="gx-reset" data-act="file-reset">kembalikan file</button>
+            </header>
+            <div id="sw-ed"></div>
+            <div class="sx-opts">
+                <button type="button" class="gx-primary" data-act="cmd" data-cmd="docker stack deploy -c stack.yml shop">▶ docker stack deploy -c stack.yml shop</button>
+            </div>
+        </section>
+    </div>
+
+    <details class="gx-help">
+        <summary>apa itu swarm, service, task, dan routing mesh?</summary>
+        <ul>
+            <li><b>Swarm</b> menggabungkan beberapa mesin Docker jadi satu cluster. <b>Manager</b> menyimpan state cluster dan memutuskan container jalan di mana. <b>Worker</b> cuma menjalankan container.</li>
+            <li>Kamu ga menjalankan container satu per satu. Kamu bikin <b>service</b> dan bilang "mau 3 replika". Manager memecahnya jadi <b>task</b> dan menyebarkannya ke node. Kalau ada task yang mati, manager bikin gantinya.</li>
+            <li><b>Routing mesh</b>: port yang di-publish service dibuka di semua node. Request ke node mana pun diteruskan ke salah satu task yang sehat, walau task itu ada di node lain.</li>
+            <li><b>Rolling update</b> mengganti task sedikit demi sedikit (<code>--update-parallelism</code>, <code>--update-delay</code>). Kalau task baru gagal, update berhenti (<code>pause</code>) atau langsung balik (<code>rollback</code>), tergantung <code>--update-failure-action</code>.</li>
+            <li><code>drain</code> mengosongkan node buat maintenance: task-nya dipindah, dan node itu ga dapat task baru sampai di-<code>active</code>-kan lagi.</li>
+            <li>Manager pakai Raft, jadi butuh mayoritas. Produksi biasanya pakai 3 atau 5 manager supaya tahan kalau satu mati.</li>
+        </ul>
+    </details>
+    <p class="gx-note">Ini simulasi, bukan Docker Swarm beneran. Mesinnya bohongan, waktunya dipercepat, dan perintahnya cuma sebagian. Semua cuma ada di browser kamu dan ga disimpan di mana pun.</p>
+
+    <div class="gx-toast" id="sw-toast" role="status" aria-live="polite"></div>
+</div>
+<noscript><p class="term-noscript">Simulasi ini butuh JavaScript.</p></noscript>
+
+{{- $kit := resources.Get "js/simkit.js" | minify | fingerprint }}
+<script src="{{ $kit.RelPermalink }}" integrity="{{ $kit.Data.Integrity }}" defer></script>
+{{- $js := resources.Get "js/swarm.js" | minify | fingerprint }}
+<script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
+{{- end }}
