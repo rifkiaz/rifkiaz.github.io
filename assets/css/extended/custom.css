@@ -1536,6 +1536,110 @@ transition: opacity 0.15s ease; pointer-events: none;
   .vt-prog i, .vt-ttl i, .vt-shackle { transition: none; }
 }
 
+/* ---------- simulasi git (/git/) ---------- */
+#gt-br.is-on { color: var(--accent); border-color: var(--accent); }
+.gt .gx-ph #gt-br { overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.gt .gx-ph #gt-op { margin-left: auto; }
+#gt-op[data-s="warn"] { color: var(--gx-warn); border-color: var(--gx-warn); }
+#gt-op[data-s="bad"] { color: var(--gx-bad); border-color: var(--gx-bad); }
+.gt .sx-prompt label { flex: 0 1 auto; min-width: 0; max-width: 62%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.gt-qh { margin: 10px 0 -4px; font-size: 11px; color: var(--secondary); }
+.gt-qh::before { content: "❯ "; color: var(--accent); }
+.gt .sx-quick button { max-width: 100%; text-align: left; overflow-wrap: anywhere; }
+.gt-tabs i { margin-left: 2px; color: var(--accent); }
+.gt-body { min-height: 320px; padding: 10px; border: 1px solid var(--border); border-radius: 0 8px 8px 8px; background: var(--theme); }
+.gt-view[hidden] { display: none; }
+/* terminal colours */
+.sx-out .gt-diff { white-space: pre; overflow-x: auto; scrollbar-width: thin; }
+.sx-out .gt-hh { color: #79c0ff; }
+.sx-out .gt-y { color: #e3b341; }
+.sx-out .gt-hd { color: #56d4dd; font-weight: 700; }
+.sx-out .gt-bb { font-weight: 700; }
+.sx-out .gt-gr { color: #d2a8ff; }
+.sx-out .gt-bl { color: #79c0ff; }
+.sx-out .gt-dir { color: #79c0ff; font-weight: 700; }
+/* commit graph */
+.gt-graph { position: relative; margin-top: 8px; }
+.gt-svg { position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; }
+.gt-svg path { fill: none; stroke-width: 2; }
+.gt-svg circle { stroke-width: 2; }
+.gt-svg .gt-wip { fill: var(--theme); stroke-dasharray: 2.5 2; }
+.gt-svg .gt-dhead { fill: var(--theme); stroke-width: 3; }
+.gt-row { position: absolute; left: 0; right: 0; }
+.gx .gt-rb {
+  display: flex; align-items: center; gap: 6px; width: 100%; height: 100%; min-width: 0; padding: 0 6px;
+  border: 0; border-radius: 7px; background: transparent; text-align: left; font-size: 12px;
+}
+.gx .gt-rb:hover, .gx .gt-rb:focus-visible { background: var(--entry); color: var(--primary); }
+.gt-rb code { flex: none; color: var(--gx-warn); font-size: 11.5px; }
+.gt-msg { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.gt-rb small { flex: none; font-size: 10.5px; color: var(--secondary); white-space: nowrap; }
+.gx .gt-rb.is-wip { color: var(--gx-warn); font-style: normal; }
+.gt-rb.is-fresh { background: var(--accent-soft); }
+.gt-rb.is-fresh small { color: var(--accent); }
+.gt-ref { flex: none; padding: 0 6px; border: 1px solid var(--accent-2); border-radius: 5px; font-size: 10.5px; line-height: 1.6; color: var(--accent-2); white-space: nowrap; max-width: 40%; overflow: hidden; text-overflow: ellipsis; }
+.gt-ref.is-head { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 700; }
+:root[data-theme="dark"] .gt-ref.is-head { color: #0d1117; }
+.gt-ref.is-remote { border-color: var(--gx-bad); color: var(--gx-bad); }
+.gt-ref.is-tag { border-color: var(--gx-warn); color: var(--gx-warn); }
+.gt-brs { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; }
+.gx .gt-br { display: inline-flex; align-items: baseline; gap: 5px; padding: 2px 9px; font-size: 11.5px; border-radius: 99px; }
+.gt-br b { font-weight: 600; }
+.gt-br small { font-size: 10.5px; color: var(--gx-warn); }
+.gx .gt-br.is-on { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+.gt-br.is-det { padding: 2px 9px; border: 1px solid var(--gx-warn); border-radius: 99px; font-size: 11.5px; color: var(--gx-warn); }
+.gt-stash { padding: 2px 9px; border: 1px dashed var(--border); border-radius: 99px; font-size: 11px; color: var(--secondary); }
+.gt-banner { margin-bottom: 8px; padding: 7px 10px; border: 1px solid var(--gx-warn); border-left-width: 4px; border-radius: 8px; font-size: 12px; line-height: 1.55; background: var(--entry); }
+.gt-banner.is-bad { border-color: var(--gx-bad); }
+.gx .gt-link { padding: 0; border: 0; background: none; font-size: inherit; color: var(--gx-bad); text-decoration: underline; text-underline-offset: 2px; }
+.gt-gate { display: grid; justify-items: center; gap: 12px; max-width: 46ch; margin: 48px auto; text-align: center; font-size: 12.5px; line-height: 1.6; color: var(--secondary); }
+.gt-gate p { margin: 0; }
+.gt-gate b { color: var(--primary); }
+.gt-note { margin: 8px 0 0; font-size: 11.5px; line-height: 1.6; color: var(--secondary); }
+.gt-note.is-warn { padding: 7px 9px; border: 1px dashed var(--gx-warn); border-radius: 8px; }
+.gt-note.is-bad { padding: 7px 9px; border: 1px dashed var(--gx-bad); border-radius: 8px; color: var(--primary); }
+.gt-note code { color: var(--accent); }
+.gx .gt-note button { margin-left: 4px; padding: 1px 8px; font-size: 11px; }
+.gt-sub { margin: 14px 0 4px; font-size: 11.5px; font-weight: 600; color: var(--secondary); }
+/* files */
+.gt-flist { display: flex; flex-wrap: wrap; gap: 5px; }
+.gx .gt-f { display: inline-flex; align-items: center; gap: 6px; padding: 2px 9px 2px 6px; font-size: 12px; border-radius: 7px; }
+.gt-f i { font-style: normal; font-weight: 700; font-size: 10.5px; min-width: 2ch; color: var(--secondary); white-space: pre; }
+.gt-f.is-mod i { color: var(--gx-warn); }
+.gt-f.is-staged i { color: var(--gx-ok); }
+.gt-f.is-new i { color: var(--accent-2); }
+.gt-f.is-bad i, .gt-f.is-bad span { color: var(--gx-bad); }
+.gt-f.is-ign { opacity: 0.6; }
+.gt-f.is-gone span { text-decoration: line-through; }
+.gx .gt-f.is-sel { border-color: var(--accent); background: var(--accent-soft); }
+.gt-fh { display: flex; align-items: baseline; gap: 8px; margin: 12px 0 0; font-size: 12.5px; }
+.gt-fh em { font-style: normal; font-size: 11px; color: var(--secondary); }
+.gt-facts { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.gx .gt-facts button { padding: 2px 9px; font-size: 11.5px; }
+.gx .gt-del:hover, .gx .gt-del:focus-visible { border-color: var(--gx-bad); color: var(--gx-bad); }
+#gt-ed { margin-top: 8px; }
+#gt-ed[hidden] { display: none; }
+#gt-ed .sx-hl { min-height: 220px; }
+.gt-mk { color: var(--gx-bad); }
+/* remote */
+.gt-gh { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.gx .gt-gh svg { width: 26px; height: 26px; color: var(--accent); }
+.gt-gh div { display: grid; min-width: 0; }
+.gt-gh b { font-size: 13px; overflow-wrap: anywhere; }
+.gt-gh small { font-size: 11px; color: var(--secondary); overflow-wrap: anywhere; }
+.gt-rbrs { display: grid; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.gt-rbr { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; padding: 5px 10px; border-top: 1px solid var(--border); background: var(--entry); font-size: 12px; }
+.gt-rbr:first-child { border-top: 0; }
+.gt-rbr code { color: var(--gx-warn); font-size: 11.5px; }
+.gt-rbr span { margin-left: auto; font-size: 11px; color: var(--secondary); }
+@media (max-width: 640px) {
+  .gt-body { padding: 8px; }
+  .gx .gt-tabs button { padding: 4px 9px; }
+  .gt-rb small { display: none; }
+  .gt-ref { max-width: 34%; }
+  .gt .sx-prompt label { max-width: 68%; font-size: 11px; }
+}
+
 /* ---------- kalkulator cloud (/kalkulator/) ---------- */
 .kalk {
   --kalk-w: min(1160px, calc(100vw - 32px));
@@ -1722,6 +1826,7 @@ transition: opacity 0.15s ease; pointer-events: none;
 .lab-c-terraform { --tile: #a371f7; }
 .lab-c-ansible { --tile: #ff7b72; }
 .lab-c-gitops { --tile: #f0883e; }
+.lab-c-git { --tile: #f05133; }
 .lab-c-topologi { --tile: #3fb950; }
 .lab-c-kalkulator { --tile: #d29922; }
 .lab-c-terminal { --tile: #3fb950; }
