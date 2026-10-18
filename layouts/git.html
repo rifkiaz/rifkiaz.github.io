@@ -1,0 +1,102 @@
+{{- define "main" }}
+<header class="page-header">
+    <h1>{{ .Title }}</h1>
+    {{- with .Description }}
+    <div class="post-description">{{ . }}</div>
+    {{- end }}
+</header>
+
+<div class="gx sx gt" id="gt">
+    <div class="gx-flow" aria-label="Alur perubahan di Git">
+        <div class="gx-node" data-node="work">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6.5A1.5 1.5 0 0 1 5.5 5H10l2 2h6.5A1.5 1.5 0 0 1 20 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 17.5z"/></svg>
+            <b>working dir</b><span id="gt-f-work"></span>
+        </div>
+        <div class="gx-link" data-link="add"><span>git add</span></div>
+        <div class="gx-node" data-node="stage">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 12.5l2.5 2.5L16 9.5"/></svg>
+            <b>staging</b><span id="gt-f-stage"></span>
+        </div>
+        <div class="gx-link" data-link="commit"><span>git commit</span></div>
+        <div class="gx-node" data-node="repo">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="7" cy="6" r="2"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="9" r="2"/><path d="M7 8v8M17 11c0 3.5-4 3.5-8.6 5.6"/></svg>
+            <b>repo lokal</b><span id="gt-f-repo"></span>
+        </div>
+        <div class="gx-link" data-link="push"><span>git push</span></div>
+        <div class="gx-node" data-node="origin">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18.5h10a4 4 0 0 0 .6-7.95A6 6 0 0 0 6.1 9.6 4.5 4.5 0 0 0 7 18.5z"/></svg>
+            <b>origin</b><span id="gt-f-origin"></span>
+        </div>
+    </div>
+
+    <details class="gx-missions" open>
+        <summary>misi <span id="gt-m-count">0/10</span></summary>
+        <ol id="gt-m-list"></ol>
+    </details>
+
+    <div class="gx-grid sx-grid">
+        <section class="gx-panel sx-shell" aria-labelledby="gt-sh-title">
+            <header class="gx-ph">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3M12 15h5"/></svg>
+                <h2 id="gt-sh-title">terminal</h2>
+                <span class="gx-chip" id="gt-br">bukan repo</span>
+                <button type="button" class="gx-reset" data-act="reset">reset simulasi</button>
+            </header>
+            <div class="sx-tbox">
+                <div class="sx-out" id="gt-out" role="log" aria-live="off"></div>
+                <div class="sx-prompt">
+                    <label for="gt-in" id="gt-ps">kamu@laptop:~/proyek-web$</label>
+                    <input id="gt-in" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="ketik perintah, misal git status">
+                </div>
+            </div>
+            <p class="gt-qh">langkah berikutnya</p>
+            <div class="sx-quick" id="gt-quick"></div>
+        </section>
+
+        <section class="gx-panel gt-dash" aria-labelledby="gt-d-title">
+            <header class="gx-ph">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="7" cy="6" r="2"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="9" r="2"/><path d="M7 8v8M17 11c0 3.5-4 3.5-8.6 5.6"/></svg>
+                <h2 id="gt-d-title">proyek-web</h2>
+                <span class="gx-chip" id="gt-op"></span>
+            </header>
+            <div class="sx-tabs gt-tabs" role="tablist" aria-label="Tampilan repo">
+                <button type="button" role="tab" id="gt-tab-graf" aria-controls="gt-v-graf" data-act="tab" data-tab="graf" aria-selected="true">graf <i id="gt-n-graf"></i></button>
+                <button type="button" role="tab" id="gt-tab-file" aria-controls="gt-v-file" data-act="tab" data-tab="file" aria-selected="false">file <i id="gt-n-file"></i></button>
+                <button type="button" role="tab" id="gt-tab-remote" aria-controls="gt-v-remote" data-act="tab" data-tab="remote" aria-selected="false">remote <i id="gt-n-remote"></i></button>
+            </div>
+            <div class="gt-body">
+                <div class="gt-view" id="gt-v-graf" role="tabpanel" aria-labelledby="gt-tab-graf" data-view="graf"></div>
+                <div class="gt-view" id="gt-v-file" role="tabpanel" aria-labelledby="gt-tab-file" data-view="file" hidden>
+                    <div id="gt-files"></div>
+                    <div id="gt-fbar"></div>
+                    <div id="gt-ed"></div>
+                    <p class="gt-note">Ketikan di editor langsung mengubah file di working dir, sama seperti menyimpan file di editor kamu.</p>
+                </div>
+                <div class="gt-view" id="gt-v-remote" role="tabpanel" aria-labelledby="gt-tab-remote" data-view="remote" hidden></div>
+            </div>
+        </section>
+    </div>
+
+    <details class="gx-help">
+        <summary>apa itu staging, branch, merge, rebase, dan reflog?</summary>
+        <ul>
+            <li><b>Tiga tempat di laptop.</b> <b>Working dir</b> adalah file yang kamu edit. <b>Staging</b> (index) adalah isi commit berikutnya: <code>git add</code> menyalin file ke sana. <code>git commit</code> menyimpan isi staging jadi satu snapshot permanen di <b>repo lokal</b>. Jadi kamu bisa memilih perubahan mana yang masuk commit.</li>
+            <li><b>Branch cuma penunjuk.</b> Branch adalah nama yang menunjuk ke satu commit, dan <b>HEAD</b> menunjuk ke branch yang sedang kamu pakai. Tiap commit baru menggeser branch itu maju. Bikin branch itu murah, ga ada file yang disalin.</li>
+            <li><b>Merge.</b> Kalau branch tujuan belum maju, Git cukup menggeser penunjuknya (<b>fast-forward</b>). Kalau dua-duanya sudah maju, Git bikin <b>merge commit</b> dengan dua parent. Kalau baris yang sama diubah di dua sisi, Git berhenti dan menandai <b>konflik</b> pakai <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>, <code>=======</code>, dan <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>. Kamu yang memutuskan isinya, lalu <code>git add</code> dan commit.</li>
+            <li><b>Remote.</b> <code>origin</code> adalah salinan repo di server, misalnya GitHub. <code>git push</code> mengirim commit kamu, <code>git fetch</code> mengambil commit orang lain ke <code>origin/main</code>, dan <code>git pull</code> = fetch lalu merge (atau rebase). Push ditolak kalau di remote ada commit yang belum kamu punya.</li>
+            <li><b>Rebase.</b> Memindahkan commit-commit branch kamu supaya seolah dibuat di atas ujung branch lain. Riwayatnya jadi lurus, tapi commit-nya dibuat ulang dengan hash baru, jadi jangan rebase commit yang sudah dipakai orang lain.</li>
+            <li><b>Reset, revert, dan reflog.</b> <code>git reset</code> memundurkan branch (<code>--soft</code> perubahan tetap di staging, <code>--mixed</code> di working dir, <code>--hard</code> dibuang). <code>git revert</code> membuat commit baru yang membatalkan commit lama, aman buat branch yang sudah di-push. Commit yang "hilang" karena reset masih bisa ditemukan di <code>git reflog</code>.</li>
+            <li><b>Stash.</b> Menyimpan perubahan yang belum siap di-commit ke tempat sementara, supaya working dir bersih dan kamu bisa pindah branch. <code>git stash pop</code> mengembalikannya.</li>
+        </ul>
+    </details>
+    <p class="gx-note">Ini simulasi, bukan Git beneran. Repo, remote, dan teman satu timnya bohongan, dan perintahnya cuma sebagian. Hash commit-nya acak. Semua cuma ada di browser kamu dan ga disimpan di mana pun.</p>
+
+    <div class="gx-toast" id="gt-toast" role="status" aria-live="polite"></div>
+</div>
+<noscript><p class="term-noscript">Simulasi ini butuh JavaScript.</p></noscript>
+
+{{- $kit := resources.Get "js/simkit.js" | minify | fingerprint }}
+<script src="{{ $kit.RelPermalink }}" integrity="{{ $kit.Data.Integrity }}" defer></script>
+{{- $js := resources.Get "js/git.js" | minify | fingerprint }}
+<script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
+{{- end }}

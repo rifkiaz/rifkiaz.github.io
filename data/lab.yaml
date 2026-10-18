@@ -6,6 +6,7 @@ groups:
     name: Simulasi
     desc: Coba tool DevOps langsung di browser, tanpa server dan tanpa akun cloud.
     items:
+      - { url: /git/, name: Git, icon: git, desc: "Init, add, commit, branch, merge sampai konflik, push dan pull bareng teman, lalu stash, reset, reflog, dan rebase." }
       - { url: /docker/, name: Docker, icon: docker, desc: "Build image, jalankan container, dan atur network serta volume." }
       - { url: /swarm/, name: Docker Swarm, icon: swarm, desc: "Bikin cluster Swarm, deploy service, scale, dan lihat failover." }
       - { url: /ceph/, name: Ceph, icon: ceph, desc: "Simulasi cluster storage Ceph: OSD, pool, replikasi, dan recovery." }
