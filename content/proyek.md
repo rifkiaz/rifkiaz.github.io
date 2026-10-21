@@ -8,7 +8,19 @@ ShowBreadCrumbs: false
 comments: false
 ---
 
-Ini beberapa proyek infrastruktur dan otomasi yang pernah saya kerjakan. Detail yang spesifik ke kantor sengaja nggak saya sertakan. Yang saya tulis adalah pendekatan dan pelajarannya.
+Ini beberapa proyek infrastruktur, otomasi, dan desktop Linux yang pernah saya kerjakan. Detail yang spesifik ke kantor sengaja nggak saya sertakan. Yang saya tulis adalah pendekatan dan pelajarannya.
+
+## PhoneShare
+
+Aplikasi desktop (Windows dan Linux) plus aplikasi Android untuk kirim file dan folder dua arah lewat Wi-Fi: HP terdeteksi otomatis, pairing pakai PIN, transfer paralel, resume saat Wi-Fi putus, dan file identik dilewati saat kirim ulang.
+
+**Stack:** .NET 8, Avalonia, Android, GitHub Actions · [Baca tulisannya →](/posts/phoneshare-kirim-file-pc-android/)
+
+## macOS Battery untuk KDE Plasma 6
+
+Widget baterai bergaya macOS untuk KDE Plasma 6, murni QML: persentase di dalam, kiri, atau kanan baterai, ukuran yang bisa diatur, ikon petir saat dicas, dan popup berisi baterai perangkat lain. Dirilis sebagai `.plasmoid` lewat GitHub Actions.
+
+**Stack:** QML, KDE Plasma 6, GitHub Actions · [Baca tulisannya →](/posts/widget-baterai-ala-macos-kde-plasma-6/)
 
 ## ClickHouse Single Node dengan Ansible
 
