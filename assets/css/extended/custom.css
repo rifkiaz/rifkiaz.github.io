@@ -517,6 +517,17 @@ transition: opacity 0.15s ease; pointer-events: none;
 .topo-svg .topo-handle { cursor: crosshair; }
 .topo-svg .topo-resize { cursor: nwse-resize; }
 .topo-dot { fill: var(--tertiary); }
+.topo-flow { animation: topo-flow linear infinite; }
+.topo-flow-fwd { animation-name: topo-flow; }
+.topo-flow-rev { animation-name: topo-flow-rev; }
+@keyframes topo-flow { from { stroke-dashoffset: 26.01; } to { stroke-dashoffset: 0; } }
+@keyframes topo-flow-rev { from { stroke-dashoffset: 0; } to { stroke-dashoffset: 26.01; } }
+.topo .topo-flow-btn::before { content: "● "; color: var(--secondary); }
+.topo .topo-flow-btn[aria-pressed="true"]::before { color: var(--accent); }
+@media (prefers-reduced-motion: reduce) {
+  .topo-flow { display: none; }
+  .topo .topo-flow-btn { display: none; }
+}
 
 .topo-insp {
   position: absolute; top: 8px; left: 8px; right: 8px; z-index: 2;
