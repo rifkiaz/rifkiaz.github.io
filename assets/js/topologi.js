@@ -153,6 +153,7 @@
   var linkFrom = null; // node id waiting for a target (tap-to-connect)
   var drag = null;
   var dirty = false;
+  var flowOn = true;
 
   function uid(p) { return p + (seq++); }
   function byId(id) {
@@ -346,6 +347,7 @@
         'marker-end': arrow !== 'none' ? 'url(#' + (s ? 'topo-arr-sel' : 'topo-arr') + ')' : null,
         'marker-start': arrow === 'both' ? 'url(#' + (s ? 'topo-arr-sel' : 'topo-arr') + ')' : null
       }, g);
+      if (ui && flowOn) flow(g, d, e, P, Math.hypot(p.x2 - p.x1, p.y2 - p.y1));
       if (e.label) {
         var mx = (p.x1 + p.x2) / 2, my = (p.y1 + p.y2) / 2;
         var lbl = wrap(e.label, 24, 1)[0];
@@ -390,6 +392,24 @@
         }, root);
       }
     }
+  }
+  // "packets" running along an edge, from -> to (both ways for <->). The
+  // negative delay keeps the animation phase continuous across re-renders.
+  var FLOW_GAP = 26;
+  function flow(g, d, e, P, len) {
+    if (len < 24) return;
+    var dur = e.dashed ? 1.6 : 0.8;
+    var delay = -((performance.now() / 1000) % dur).toFixed(3) + 's';
+    var dirs = (e.arrow || 'end') === 'both' ? ['fwd', 'rev'] : ['fwd'];
+    dirs.forEach(function (dir, i) {
+      var f = el('path', {
+        d: d, fill: 'none', stroke: P.accent, 'stroke-width': 4.4, 'stroke-linecap': 'round',
+        'stroke-dasharray': '0.01 ' + FLOW_GAP, 'stroke-dashoffset': i * FLOW_GAP / 2,
+        class: 'topo-flow topo-flow-' + dir, 'pointer-events': 'none'
+      }, g);
+      f.style.animationDuration = dur + 's';
+      f.style.animationDelay = delay;
+    });
   }
   function groupGlyph(cat) {
     return { aws: 'cloud', gcp: 'cloud', k8s: 'cluster', tf: 'module', ans: 'list' }[cat] || 'frame';
@@ -947,6 +967,11 @@
         break;
       case 'flip':
         if (edge) { checkpoint(); var f = edge.from; edge.from = edge.to; edge.to = f; render(); }
+        break;
+      case 'flow':
+        flowOn = !flowOn;
+        b.setAttribute('aria-pressed', flowOn ? 'true' : 'false');
+        render();
         break;
       case 'cancel-link': linkFrom = null; render(); break;
       case 'share': openShare(); break;
