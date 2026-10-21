@@ -46,6 +46,12 @@ Pastebin internal untuk tim teknis sebagai pengganti pastebin publik: enkripsi d
 
 **Stack:** Docker, Nginx, PrivateBin · [Baca tulisannya →](/posts/paste-internal-yang-aman/)
 
+## PhoneShare
+
+Aplikasi desktop (Windows dan Linux) plus aplikasi Android untuk kirim file dan folder dua arah lewat Wi-Fi: HP terdeteksi otomatis, pairing pakai PIN, transfer paralel, resume saat Wi-Fi putus, dan file identik dilewati saat kirim ulang.
+
+**Stack:** .NET 8, Avalonia, Android, GitHub Actions · [Baca tulisannya →](/posts/phoneshare-kirim-file-pc-android/)
+
 ---
 
 Mau ngobrol soal proyek serupa? Sapa saja saya lewat [GitHub](https://github.com/rifkiaz) atau [X/Twitter](https://x.com/rifkiiaz).
