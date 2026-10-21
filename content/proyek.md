@@ -10,6 +10,12 @@ comments: false
 
 Ini beberapa proyek infrastruktur, otomasi, dan desktop Linux yang pernah saya kerjakan. Detail yang spesifik ke kantor sengaja nggak saya sertakan. Yang saya tulis adalah pendekatan dan pelajarannya.
 
+## PhoneShare
+
+Aplikasi desktop (Windows dan Linux) plus aplikasi Android untuk kirim file dan folder dua arah lewat Wi-Fi: HP terdeteksi otomatis, pairing pakai PIN, transfer paralel, resume saat Wi-Fi putus, dan file identik dilewati saat kirim ulang.
+
+**Stack:** .NET 8, Avalonia, Android, GitHub Actions · [Baca tulisannya →](/posts/phoneshare-kirim-file-pc-android/)
+
 ## macOS Battery untuk KDE Plasma 6
 
 Widget baterai bergaya macOS untuk KDE Plasma 6, murni QML: persentase di dalam, kiri, atau kanan baterai, ukuran yang bisa diatur, ikon petir saat dicas, dan popup berisi baterai perangkat lain. Dirilis sebagai `.plasmoid` lewat GitHub Actions.
@@ -51,12 +57,6 @@ Merapikan kumpulan script operasional menjadi satu CLI internal dengan subcomman
 Pastebin internal untuk tim teknis sebagai pengganti pastebin publik: enkripsi di sisi klien, expiry, burn after reading, di belakang reverse proxy dengan autentikasi.
 
 **Stack:** Docker, Nginx, PrivateBin · [Baca tulisannya →](/posts/paste-internal-yang-aman/)
-
-## PhoneShare
-
-Aplikasi desktop (Windows dan Linux) plus aplikasi Android untuk kirim file dan folder dua arah lewat Wi-Fi: HP terdeteksi otomatis, pairing pakai PIN, transfer paralel, resume saat Wi-Fi putus, dan file identik dilewati saat kirim ulang.
-
-**Stack:** .NET 8, Avalonia, Android, GitHub Actions · [Baca tulisannya →](/posts/phoneshare-kirim-file-pc-android/)
 
 ---
 

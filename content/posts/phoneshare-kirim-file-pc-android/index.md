@@ -1,6 +1,6 @@
 ---
 title: "PhoneShare: Kirim File antara PC dan Android Lewat Wi-Fi Tanpa Kabel"
-date: 2026-10-21T15:30:00+07:00
+date: 2026-10-19T20:40:00+07:00
 description: "Proyek sampingan saya: aplikasi desktop untuk Windows dan Linux plus aplikasi Android untuk kirim file dan folder lewat Wi-Fi, lengkap dengan resume, transfer paralel, dan pairing pakai PIN."
 categories: [proyek]
 tags: [android, dotnet, avalonia, linux, opensuse, windows, side-project]

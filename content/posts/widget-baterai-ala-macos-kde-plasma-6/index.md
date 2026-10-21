@@ -1,6 +1,6 @@
 ---
 title: "Membuat Widget Baterai ala macOS untuk KDE Plasma 6"
-date: 2026-10-21T15:30:00+07:00
+date: 2026-10-14T21:05:00+07:00
 categories: [proyek]
 tags: [kde, plasma, plasmoid, qml, macos, openSUSE, tumbleweed, leap]
 series: ["Pindah dari GNOME ke KDE"]
