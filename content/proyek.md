@@ -10,6 +10,12 @@ comments: false
 
 Ini beberapa proyek infrastruktur, otomasi, dan desktop Linux yang pernah saya kerjakan. Detail yang spesifik ke kantor sengaja nggak saya sertakan. Yang saya tulis adalah pendekatan dan pelajarannya.
 
+## Skema (ddl-drawing)
+
+Alat open-source untuk mendesain database ala dbdiagram.io, tapi bisa tabel SQL dan koleksi MongoDB (termasuk objek bersarang dan array of object) dalam satu diagram. Edit lewat kode atau langsung di kanvas, lalu ekspor ke DDL PostgreSQL/MySQL, validator `$jsonSchema` MongoDB, PNG, dan SVG.
+
+**Stack:** TypeScript, React, CodeMirror, React Flow, ELK.js, Vercel · [Baca tulisannya →](/posts/skema-desain-database-sql-nosql/)
+
 ## PhoneShare
 
 Aplikasi desktop (Windows dan Linux) plus aplikasi Android untuk kirim file dan folder dua arah lewat Wi-Fi: HP terdeteksi otomatis, pairing pakai PIN, transfer paralel, resume saat Wi-Fi putus, dan file identik dilewati saat kirim ulang.
