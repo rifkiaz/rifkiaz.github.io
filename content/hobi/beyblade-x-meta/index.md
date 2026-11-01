@@ -2,7 +2,7 @@
 title: "Meta Beyblade X Sekarang"
 description: "Combo, blade, ratchet, dan bit yang lagi sering juara di turnamen Beyblade X, diperbarui berkala dari data turnamen."
 date: 2026-10-12
-lastmod: 2026-10-15
+lastmod: 2026-11-01
 url: "/hobi/beyblade-x-meta/"
 categories: ["hobi"]
 tags: ["beyblade x"]
@@ -11,18 +11,18 @@ TocOpen: false
 ShowPostNavLinks: false
 ---
 
-> **Update terakhir: 15 Oktober 2026.** Data diambil dari hasil turnamen sampai 13 Oktober 2026. Meta Beyblade X gerak cepat tiap ada rilis baru, jadi anggap halaman ini sebagai potret saat ini, bukan aturan baku.
+> **Update terakhir: 1 November 2026.** Data diambil dari hasil turnamen sampai 27 Oktober 2026. Meta Beyblade X gerak cepat tiap ada rilis baru, jadi anggap halaman ini sebagai potret saat ini, bukan aturan baku.
 
 ## Ringkasnya
 
 Kalau kamu cuma mau intinya:
 
-- **Wizard Rod** masih jadi blade paling banyak dipakai dan paling sering juara. Combo andalannya **Wizard Rod 1-60 Hexa**.
-- **Shark Scale** jadi lawan utamanya. Gara-gara Shark Scale (dan sempat juga Hover Wyvern), tipe attack balik lagi ke papan atas, jadi bawa stamina semua sekarang lebih berisiko.
+- **Wizard Rod** dan **Shark Scale** masih berdua di puncak. Di peringkat mingguan BBXHub, Shark Scale sekarang tipis di depan (19 lawan 18), tapi Wizard Rod ada di 9 dari 12 deck juara terbaru di BEYWATCH.GG. Combo andalannya tetap **Wizard Rod 1-60 Hexa** dan **Shark Scale 1-70 Low Rush**.
+- Tipe attack masih kuat, jadi bawa stamina semua tetap berisiko.
 - Ratchet yang paling laku **1-60**, disusul **9-60** dan **3-60**.
-- Bit yang paling sering muncul di podium: **Rush**, **Hexa**, **Low Rush**, **Free Ball**, dan **Elevate**.
-- Seminggu terakhir **Meteor Dragoon** dan **Silver Wolf** lagi naik, sementara **Hover Wyvern** dan **Aero Pegasus** agak turun. Di deck juara terbaru, **Shark Scale 1-70 Low Rush** paling sering muncul.
-- Dari Custom Line, Over Blade **Blast** sekarang sudah masuk tier teratas di BEYWATCH.GG.
+- Bit yang paling sering muncul di podium: **Hexa**, lalu **Kick** yang lagi naik, **Free Ball**, **Low Rush**, dan **Rush**.
+- Yang lagi naik: **Hells Nether** (lompat 14 peringkat), **Meteor Dragoon** (naik 6), dan pendatang baru **Glory Valkyrie**.
+- Dari Custom Line, **Blast** (Emperor Blast Heavy 9-60 Kick) masih bertahan di tier teratas BEYWATCH.GG.
 
 ## Cara baca nama combo
 
@@ -97,13 +97,13 @@ Serangannya pakai kontak menggesek. Sebagian data lama pakai 9-60 Kick, data 202
 
 Varian Wizard Rod yang lebih tinggi, masih sering juara.
 
-Yang lagi naik daun: **Meteor Dragoon 9-60 Elevate** sekarang masuk 10 besar combo di BEYWATCH.GG, dan varian **Meteor Dragoon 7-60 Level** juga rutin muncul di deck juara.
+Yang lagi naik daun: **Meteor Dragoon 9-60 Elevate** masih di 10 besar combo BEYWATCH.GG (peringkat 5), dan **Glory Valkyrie Kick** sekarang masuk tier S serta dua kali ada di deck juara akhir Oktober.
 
 Contoh hasil turnamen akhir Agustus sampai awal September 2026 juga kelihatan polanya: Shark Scale 7-60 Rush, Shark Scale 1-50 Low Rush, Wizard Rod 7-60 Narrow, Aero Pegasus 1-60 Rush, dan Phoenix Wing 3-60 Rush semuanya sempat juara di event yang berbeda.
 
 ## Tren seminggu terakhir
 
-Blade yang paling sering ada di combo juara minggu ini, lengkap dengan naik turunnya peringkat dibanding minggu sebelumnya. Bar menunjukkan berapa kali blade itu dipakai combo juara, dan di bawah nama blade ada combo yang paling sering menang bareng blade itu (kalau minggu ini tidak ada datanya, diambil dari combo terbaiknya di BEYWATCH.GG). Daftarnya lengkap sampai urutan terakhir, 10 blade per halaman. Blade di urutan 11 ke bawah cuma muncul sekali, jadi naik turunnya tidak dicatat (ditandai –).
+Blade yang paling sering ada di combo juara minggu ini, lengkap dengan naik turunnya peringkat dibanding minggu sebelumnya. Bar menunjukkan berapa kali blade itu dipakai combo juara, dan di bawah nama blade ada combo yang paling sering menang bareng blade itu (kalau minggu ini tidak ada datanya, diambil dari combo terbaiknya di BEYWATCH.GG). Daftarnya lengkap sampai urutan terakhir, 10 blade per halaman. Blade di urutan 11 ke bawah tidak masuk 10 besar di sumbernya, jadi naik turunnya tidak dicatat (ditandai –). Hells Nether dan Glory Valkyrie tidak pakai ratchet terpisah, makanya combo-nya cuma nama bit.
 
 {{< beyblade-tren >}}
 
@@ -111,15 +111,15 @@ Sampelnya kecil, jadi naik turun satu-dua posisi belum tentu berarti banyak. Yan
 
 ## Part yang paling sering dipakai
 
-**Blade**: Wizard Rod, Shark Scale, Phoenix Wing, Cobalt Dragoon, Aero Pegasus, Silver Wolf, Hover Wyvern, dan yang lagi naik Meteor Dragoon.
+**Blade**: Shark Scale, Wizard Rod, Hover Wyvern, Meteor Dragoon, Silver Wolf, Cobalt Dragoon, Aero Pegasus, dan yang lagi naik Hells Nether serta Glory Valkyrie.
 
-**Ratchet**: 1-60 jauh di depan, lalu 9-60, 3-60, 5-60, 1-70, dan 7-60.
+**Ratchet**: 1-60 jauh di depan, lalu 9-60, 3-60, 7-60, 1-70, dan 9-70.
 
-**Bit**: Rush, Hexa, Low Rush, Free Ball, dan Elevate. Di bawahnya ada Narrow, Level, Low Orb, Ball, dan Kick.
+**Bit**: Hexa, Kick, Free Ball, Low Rush, dan Rush. Di bawahnya ada Narrow, Elevate, Level, Ball, dan Low Orb.
 
 ## Custom Line (CX)
 
-Part Custom Line seperti Lock Chip **Emperor** dan **Cerberus**, Over Blade **Blast** dan **Flame**, serta Assist Blade **Heavy** dan **Wheel** mulai muncul di daftar juara. Yang paling menonjol sekarang **Blast**: per pertengahan Oktober, tier list BEYWATCH.GG sudah menaruhnya di tier X (paling atas) dengan combo 9-60 Kick, sejajar Shark Scale, Aero Pegasus, dan Wizard Rod. Part CX lain masih satu-dua per minggu, jadi belum cukup data buat bilang mana yang benar-benar kuat. Kalau kamu mau mulai koleksi CX, Blast pilihan paling aman buat sekarang.
+Part Custom Line seperti Lock Chip **Emperor** dan **Cerberus**, Over Blade **Blast** dan **Flame**, serta Assist Blade **Heavy** dan **Wheel** mulai muncul di daftar juara. Yang paling menonjol sekarang **Blast**: sejak pertengahan Oktober sampai akhir Oktober, tier list BEYWATCH.GG menaruhnya di tier X (paling atas) dengan combo Emperor Blast Heavy 9-60 Kick, sejajar Shark Scale, Aero Pegasus, dan Wizard Rod. **Delta** (Emperor Delta 9-60 Kick) ada di tier S, dan di podium minggu 8 sampai 15 Oktober juga muncul Emperor Delta Flow Heavy, Pegasus Blast Heavy, dan Phoenix Flare Heavy. Part CX lain masih satu-dua per minggu, jadi belum cukup data buat bilang mana yang benar-benar kuat. Kalau kamu mau mulai koleksi CX, Blast pilihan paling aman buat sekarang.
 
 ## Kalau mau nyusun deck
 
@@ -139,9 +139,10 @@ Ini cuma titik awal. Kondisi stadium, gaya launch kamu, dan meta di komunitas lo
 
 ## Sumber
 
-- [BEYWATCH.GG: Best Beyblade X Combos](https://beywatch.gg/combos), statistik top cut turnamen sampai 12 Oktober 2026
-- [BBXHub: Meta Tier List & Best Combos](https://bbxhub.net/), peringkat mingguan 4 sampai 11 Oktober 2026
-- [BEYWATCH.GG: Tournaments](https://beywatch.gg/tournaments), deck juara turnamen 8 sampai 11 Oktober 2026
+- [BEYWATCH.GG: Best Beyblade X Combos](https://beywatch.gg/combos), statistik top cut turnamen sampai 26 Oktober 2026
+- [BBXHub: Meta Tier List & Best Combos](https://bbxhub.net/), peringkat mingguan 8 sampai 15 Oktober 2026 (data terbaru yang tersedia per 30 Oktober)
+- [BBXHub: Tournament Winners](https://bbxhub.net/tournaments), podium turnamen 8 sampai 15 Oktober 2026 buat peringkat 11 ke bawah
+- [BEYWATCH.GG: Tournaments](https://beywatch.gg/tournaments), deck juara turnamen 20 sampai 27 Oktober 2026
 - [BeyX Hub: Best Beyblade X Combos 2026](https://beyxhub.org/en/guide/best-beyblade-x-combos-2026), panduan meta Juni 2026
 - [beybladewiki.com: Tournament Results](https://beybladewiki.com/competitive/results), daftar podium turnamen terbaru
 - [WBO: Winning Combinations at WBO Organized Events](https://worldbeyblade.org/Thread-Winning-Combinations-at-WBO-Organized-Events-Beyblade-X-BBX)
