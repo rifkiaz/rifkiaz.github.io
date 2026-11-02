@@ -1924,3 +1924,22 @@ transition: opacity 0.15s ease; pointer-events: none;
   .lab-card { transition: none; }
   .lab-card:hover, .lab-card:focus-visible { transform: none; }
 }
+/* Beyblade X part catalogue (shortcode beyblade-katalog, /hobi/beyblade-x-part/) */
+.kt-filter { position: sticky; top: 0; z-index: 5; display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; margin: 20px 0; padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--entry); }
+.kt-q { flex: 1 1 220px; min-width: 0; padding: 7px 10px; border: 1px solid var(--border); border-radius: 6px; background: var(--theme); color: var(--primary); font: inherit; font-size: 15px; }
+.kt-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.kt-chip { padding: 4px 10px; border: 1px solid var(--border); border-radius: 999px; background: transparent; color: var(--secondary); font-family: var(--mono); font-size: 12.5px; cursor: pointer; }
+.kt-chip.is-on { border-color: var(--accent); color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent); }
+.post-content p.kt-none { flex-basis: 100%; margin: 0; font-size: 14px; color: var(--secondary); }
+.kt-group[hidden], .kt-item[hidden] { display: none !important; }
+.post-content h3.kt-sub { margin: 18px 0 10px; font-size: 16px; font-family: var(--mono); }
+.kt-count { font-size: 12px; font-weight: 400; color: var(--secondary); }
+.kt-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 10px; }
+.post-content .kt-item { margin: 0; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 8px 6px; text-align: center; border: 1px solid var(--border); border-radius: var(--radius); background: var(--entry); }
+.post-content .kt-item img { width: 100%; max-width: 100px; height: auto; aspect-ratio: 1; object-fit: contain; margin: 0; padding: 4px; border-radius: 8px; background: radial-gradient(circle at 50% 45%, #fff 0%, #eef0f3 70%); }
+.post-content .kt-item figcaption { margin: 0; display: flex; flex-direction: column; gap: 1px; font-size: 12px; line-height: 1.35; color: var(--secondary); }
+.kt-name { font-family: var(--mono); font-size: 12.5px; font-weight: 600; color: var(--primary); overflow-wrap: anywhere; }
+.kt-meta { font-family: var(--mono); font-size: 11px; }
+.kt-t--attack { color: #e5534b; } .kt-t--defense { color: #3fb950; } .kt-t--stamina { color: #539bf5; } .kt-t--balance { color: #b083f0; }
+.post-content a.kt-src { font-size: 11px; color: var(--secondary); box-shadow: none; text-decoration: underline dotted; }
+@media (max-width: 600px) { .kt-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; } }

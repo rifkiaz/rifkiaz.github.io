@@ -42,6 +42,8 @@ Beyblade X punya tiga line produk. Kodenya kelihatan di nama produk (BX-01, UX-1
 
 Gambar part di atas adalah render resmi Takara Tomy yang saya ambil dari [Beyblade Wiki](https://beyblade.fandom.com/) di Fandom. Hak ciptanya tetap milik Takara Tomy, jadi tiap gambar saya beri tautan ke halaman sumbernya.
 
+Mau lihat semua blade, ratchet, dan bit yang ada? Ada di [Katalog Part Beyblade X](/hobi/beyblade-x-part/), lengkap dengan filter tipe dan pencarian.
+
 ## Combo yang lagi kuat
 
 Data dari ribuan top cut turnamen (BEYWATCH.GG) dan rangkuman meta dari BeyX Hub:
