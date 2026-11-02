@@ -1,0 +1,66 @@
+{{- /* Winning decks of the last 6 months from data/beyblade/juara.yaml (built by
+       gen-juara.py from BEYWATCH.GG): most common combos and blades in winning
+       decks, top combo per month, and every winning deck (month filter + 10 per
+       page via js/bt-pager.js). */ -}}
+{{- $d := site.Data.beyblade.juara -}}
+{{- $bulan := slice "Jan" "Feb" "Mar" "Apr" "Mei" "Jun" "Jul" "Agu" "Sep" "Okt" "Nov" "Des" -}}
+<div class="bt bt-juara">
+  <p class="bt-meta">{{ $d.periode }} · {{ lang.FormatNumber 0 $d.dengan_deck }} deck juara · data <a href="{{ $d.sumber.url }}">{{ $d.sumber.nama }}</a></p>
+  <div class="bt-months">
+    {{- range $d.bulan }}
+    <div class="bt-month">
+      <span class="bt-card__label">{{ .nama }} · {{ .event }} event</span>
+      <span class="bt-month__name">{{ .top.nama }} <span class="bt-combo">{{ .top.combo }}</span></span>
+      <span class="bt-card__note">{{ .top.pakai }}× juara</span>
+    </div>
+    {{- end }}
+  </div>
+  <div class="bt-parts">
+    {{- with $d.combo_teratas }}
+    {{- $m := (index . 0).pakai }}
+    <div class="bt-part bt-wins">
+      <span class="bt-part__title">combo paling sering juara</span>
+      <ul>
+        {{- range . }}
+        <li title="{{ .nama }} {{ .combo }}: {{ .pakai }}×"><span class="bt-name">{{ .nama }}<span class="bt-combo">{{ .combo }}</span></span><span class="bt-bar" aria-hidden="true"><span style="width: {{ div (mul .pakai 100.0) $m }}%"></span></span><span class="bt-count">{{ .pakai }}×</span></li>
+        {{- end }}
+      </ul>
+    </div>
+    {{- end }}
+    {{- with $d.blade_teratas }}
+    <div class="bt-part bt-wins">
+      <span class="bt-part__title">blade di deck juara</span>
+      <ul>
+        {{- range . }}
+        {{- $pct := div (mul .pakai 100.0) $d.dengan_deck }}
+        <li title="{{ .nama }}: ada di {{ .pakai }} dari {{ $d.dengan_deck }} deck juara"><span class="bt-name">{{ .nama }}</span><span class="bt-bar" aria-hidden="true"><span style="width: {{ $pct }}%"></span></span><span class="bt-count">{{ math.Round $pct }}%</span></li>
+        {{- end }}
+      </ul>
+    </div>
+    {{- end }}
+  </div>
+  <div class="bt-filter" data-for="bt-juara-list" role="group" aria-label="Pilih bulan" hidden>
+    <button type="button" data-bulan="" aria-pressed="true">Semua</button>
+    {{- range $d.bulan }}
+    <button type="button" data-bulan="{{ .id }}" aria-pressed="false">{{ index $bulan (sub (int (substr .id 5 2 | strings.TrimLeft "0")) 1) }}</button>
+    {{- end }}
+  </div>
+  <ol class="bt-decks" id="bt-juara-list" data-per="10" data-pager-label="Halaman daftar deck juara" aria-label="Deck juara turnamen, terbaru dulu">
+    {{- range $d.event }}
+    {{- $t := time.AsTime .t }}
+    <li class="bt-deck" data-bulan="{{ substr .t 0 7 }}">
+      <div class="bt-deck__head">
+        <time datetime="{{ .t }}">{{ $t.Day }} {{ index $bulan (sub (int $t.Month) 1) }}</time>
+        <span class="bt-deck__event">{{ .e }}{{ with .l }} <span class="bt-deck__loc">· {{ . }}</span>{{ end }}</span>
+      </div>
+      <ul class="bt-deck__combos">
+        {{- range .d }}
+        <li>{{ .b }}{{ with .c }} <span class="bt-combo">{{ . }}</span>{{ end }}</li>
+        {{- end }}
+      </ul>
+    </li>
+    {{- end }}
+  </ol>
+  {{- $pager := resources.Get "js/bt-pager.js" | minify | fingerprint }}
+  <script src="{{ $pager.RelPermalink }}" integrity="{{ $pager.Data.Integrity }}" defer></script>
+</div>
