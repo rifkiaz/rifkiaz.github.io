@@ -1,0 +1,21 @@
+# Gambar part untuk shortcode beyblade-combo di /hobi/beyblade-x-meta/.
+# Kunci = nama file di content/hobi/beyblade-x-meta/assets/part/<kunci>.webp
+# (render resmi Takara Tomy/Hasbro dari Beyblade Wiki di Fandom, dikecilkan ke WebP
+# tanpa metadata). Awalan kunci (blade-, ratchet-, bit-) menentukan label perannya.
+blade-wizard-rod: { nama: "Wizard Rod", wiki: "https://beyblade.fandom.com/wiki/Blade_-_WizardRod" }
+blade-shark-scale: { nama: "Shark Scale", wiki: "https://beyblade.fandom.com/wiki/Blade_-_SharkScale" }
+blade-aero-pegasus: { nama: "Aero Pegasus", wiki: "https://beyblade.fandom.com/wiki/Blade_-_AeroPegasus" }
+blade-cobalt-dragoon: { nama: "Cobalt Dragoon", wiki: "https://beyblade.fandom.com/wiki/Blade_-_CobaltDragoon" }
+blade-silver-wolf: { nama: "Silver Wolf", wiki: "https://beyblade.fandom.com/wiki/Blade_-_SilverWolf" }
+blade-hover-wyvern: { nama: "Hover Wyvern", wiki: "https://beyblade.fandom.com/wiki/Blade_-_Hover_Wyvern" }
+ratchet-1-60: { nama: "1-60", wiki: "https://beyblade.fandom.com/wiki/Ratchet_-_1-60" }
+ratchet-1-70: { nama: "1-70", wiki: "https://beyblade.fandom.com/wiki/Ratchet_-_1-70" }
+ratchet-3-60: { nama: "3-60", wiki: "https://beyblade.fandom.com/wiki/Ratchet_-_3-60" }
+ratchet-5-60: { nama: "5-60", wiki: "https://beyblade.fandom.com/wiki/Ratchet_-_5-60" }
+ratchet-9-60: { nama: "9-60", wiki: "https://beyblade.fandom.com/wiki/Ratchet_-_9-60" }
+bit-hexa: { nama: "Hexa", wiki: "https://beyblade.fandom.com/wiki/Bit_-_Hexa" }
+bit-low-rush: { nama: "Low Rush", wiki: "https://beyblade.fandom.com/wiki/Bit_-_Low_Rush" }
+bit-rush: { nama: "Rush", wiki: "https://beyblade.fandom.com/wiki/Bit_-_Rush" }
+bit-elevate: { nama: "Elevate", wiki: "https://beyblade.fandom.com/wiki/Bit_-_Elevate" }
+bit-free-ball: { nama: "Free Ball", wiki: "https://beyblade.fandom.com/wiki/Bit_-_Free_Ball" }
+bit-ball: { nama: "Ball", wiki: "https://beyblade.fandom.com/wiki/Bit_-_Ball" }

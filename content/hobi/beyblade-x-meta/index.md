@@ -32,7 +32,7 @@ Combo Beyblade X ditulis dengan format **Blade Ratchet Bit**, misalnya `Wizard R
 - **Ratchet**: angka pertama itu jumlah tonjolannya, angka kedua tingginya dalam sepersepuluh milimeter. Jadi `1-60` artinya satu tonjolan dengan tinggi 6,0 mm.
 - **Bit**: ujung bawah yang menyentuh stadium. Ini yang menentukan gerakannya: ngebut menyerang, diam di tengah, atau muter lama.
 
-![Ilustrasi anatomi combo Wizard Rod 1-60 Hexa: blade di atas, ratchet 1-60 setinggi 6,0 mm di tengah, bit Hexa di bawah yang menyentuh lantai stadium](assets/anatomi.webp)
+{{< beyblade-combo "blade-wizard-rod" "ratchet-1-60" "bit-hexa" >}}
 
 ## Jenis-jenis Beyblade X
 
@@ -46,62 +46,47 @@ Gambar part di atas adalah render resmi Takara Tomy yang saya ambil dari [Beybla
 
 Data dari ribuan top cut turnamen (BEYWATCH.GG) dan rangkuman meta dari BeyX Hub:
 
-Tiga combo teratas pakai foto koleksi saya sendiri: foto pertama sudah terpasang, foto kedua dibongkar jadi blade, ratchet, dan bit. Sisanya masih kartu ilustrasi buatan saya. Warna kartunya menandai peran: merah attack, biru stamina, hijau stamina yang cenderung bertahan, ungu counter. Panah putus-putus menunjukkan arah putaran.
+Tiap combo ditampilkan per part: blade, ratchet, lalu bit. Kalau ada dua pilihan ratchet atau bit, dua-duanya ikut ditampilkan. Semua gambarnya render resmi dari [Beyblade Wiki](https://beyblade.fandom.com/), dengan tautan sumber di bawah tiap gambar.
 
 ### Wizard Rod 1-60 Hexa
 
-<div class="foto-duo">
-
-![Foto Wizard Rod 1-60 Hexa milik saya, terpasang lengkap](assets/foto-wizard-rod.webp)
-![Foto bagian Wizard Rod 1-60 Hexa dibongkar: blade Wizard Rod, ratchet 1-60 hijau, dan bit Hexa merah](assets/foto-wizard-rod-part.webp)
-
-</div>
+{{< beyblade-combo "blade-wizard-rod" "ratchet-1-60" "bit-hexa" >}}
 
 Combo dengan volume terbesar: lebih dari 2.600 top cut dan sekitar 26% dari semua kemenangan di data BEYWATCH.GG. Tahan burst dan awet muternya.
 
 ### Shark Scale 1-70 Low Rush
 
-<div class="foto-duo">
-
-![Foto Shark Scale 1-70 Low Rush milik saya, terpasang lengkap](assets/foto-shark-scale.webp)
-![Foto bagian Shark Scale 1-70 Low Rush dibongkar: blade Shark Scale, ratchet 1-70 merah, dan bit Low Rush ungu](assets/foto-shark-scale-part.webp)
-
-</div>
+{{< beyblade-combo "blade-shark-scale" "ratchet-1-70" "bit-low-rush" >}}
 
 Paling ditakuti buat lawan stamina. Varian 3-60 atau 7-60 Rush juga sering juara.
 
 ### Aero Pegasus 1-60 / 3-60 Rush
 
-![Kartu combo Aero Pegasus, ratchet 1-60 atau 3-60, bit Rush, peran attack, putar kanan](assets/aero-pegasus-1-60-rush.webp)
+{{< beyblade-combo "blade-aero-pegasus" "ratchet-1-60" "ratchet-3-60" "bit-rush" >}}
 
 Alternatif attack yang lebih gampang dicari, persentase juaranya tinggi.
 
 ### Cobalt Dragoon 5-60 Elevate
 
-<div class="foto-duo">
-
-![Foto Cobalt Dragoon 5-60 Elevate milik saya, terpasang lengkap](assets/foto-cobalt-dragoon.webp)
-![Foto bagian Cobalt Dragoon 5-60 Elevate dibongkar: blade Cobalt Dragoon, ratchet 5-60 merah, dan bit Elevate ungu](assets/foto-cobalt-dragoon-part.webp)
-
-</div>
+{{< beyblade-combo "blade-cobalt-dragoon" "ratchet-5-60" "bit-elevate" >}}
 
 Satu-satunya blade putar kiri yang rutin muncul di meta. Enak buat ngelawan blade putar kanan dan tipe stamina.
 
 ### Silver Wolf 9-60 Free Ball
 
-![Kartu combo Silver Wolf, ratchet 9-60, bit Free Ball, peran stamina dan bertahan, putar kanan](assets/silver-wolf-9-60-free-ball.webp)
+{{< beyblade-combo "blade-silver-wolf" "ratchet-9-60" "bit-free-ball" >}}
 
 Orbitnya susah ditebak, merepotkan attack maupun stamina. Butuh jam terbang buat maksimal.
 
 ### Hover Wyvern 1-60 Rush
 
-![Kartu combo Hover Wyvern, ratchet 1-60, bit Rush, peran attack, putar kanan](assets/hover-wyvern-1-60-rush.webp)
+{{< beyblade-combo "blade-hover-wyvern" "ratchet-1-60" "bit-rush" >}}
 
 Serangannya pakai kontak menggesek. Sebagian data lama pakai 9-60 Kick, data 2026 lebih condong ke 1-60 atau 1-70 Rush.
 
 ### Wizard Rod 9-60 Ball / Free Ball
 
-![Kartu combo Wizard Rod, ratchet 9-60, bit Ball atau Free Ball, peran stamina, putar kanan](assets/wizard-rod-9-60-ball.webp)
+{{< beyblade-combo "blade-wizard-rod" "ratchet-9-60" "bit-ball" "bit-free-ball" >}}
 
 Varian Wizard Rod yang lebih tinggi, masih sering juara.
 
