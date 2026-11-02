@@ -109,6 +109,18 @@ Blade yang paling sering ada di combo juara minggu ini, lengkap dengan naik turu
 
 Sampelnya kecil, jadi naik turun satu-dua posisi belum tentu berarti banyak. Yang konsisten dari minggu ke minggu tetap duo Wizard Rod dan Shark Scale.
 
+## Deck juara 6 bulan terakhir
+
+Semua deck juara 1 di turnamen yang tercatat BEYWATCH.GG sejak 1 Mei 2026. Kotak bulanan menunjukkan combo yang paling sering ada di deck juara bulan itu. Di bawahnya ada combo dan blade yang paling sering juara selama 6 bulan, lalu daftar lengkap deck juaranya. Kamu bisa pilih bulan, dan daftarnya ditampilkan 10 turnamen per halaman, terbaru dulu.
+
+{{< beyblade-juara >}}
+
+Beberapa catatan biar kamu nggak salah baca:
+
+- Ada turnamen dengan format khusus (tim, Limited, CX only, atau tema lucu-lucuan), jadi jumlah combo per deck bisa lebih atau kurang dari tiga.
+- Data September dan Oktober masih lebih sedikit karena hasil turnamen biasanya baru masuk ke BEYWATCH.GG beberapa minggu setelah acaranya.
+- Turnamen yang tidak mencantumkan deck juaranya tidak saya masukkan ke daftar.
+
 ## Part yang paling sering dipakai
 
 **Blade**: Shark Scale, Wizard Rod, Hover Wyvern, Meteor Dragoon, Silver Wolf, Cobalt Dragoon, Aero Pegasus, dan yang lagi naik Hells Nether serta Glory Valkyrie.
@@ -142,7 +154,7 @@ Ini cuma titik awal. Kondisi stadium, gaya launch kamu, dan meta di komunitas lo
 - [BEYWATCH.GG: Best Beyblade X Combos](https://beywatch.gg/combos), statistik top cut turnamen sampai 26 Oktober 2026
 - [BBXHub: Meta Tier List & Best Combos](https://bbxhub.net/), peringkat mingguan 8 sampai 15 Oktober 2026 (data terbaru yang tersedia per 30 Oktober)
 - [BBXHub: Tournament Winners](https://bbxhub.net/tournaments), podium turnamen 8 sampai 15 Oktober 2026 buat peringkat 11 ke bawah
-- [BEYWATCH.GG: Tournaments](https://beywatch.gg/tournaments), deck juara turnamen 20 sampai 27 Oktober 2026
+- [BEYWATCH.GG: Tournaments](https://beywatch.gg/tournaments), deck juara turnamen 1 Mei sampai 27 Oktober 2026
 - [BeyX Hub: Best Beyblade X Combos 2026](https://beyxhub.org/en/guide/best-beyblade-x-combos-2026), panduan meta Juni 2026
 - [beybladewiki.com: Tournament Results](https://beybladewiki.com/competitive/results), daftar podium turnamen terbaru
 - [WBO: Winning Combinations at WBO Organized Events](https://worldbeyblade.org/Thread-Winning-Combinations-at-WBO-Organized-Events-Beyblade-X-BBX)

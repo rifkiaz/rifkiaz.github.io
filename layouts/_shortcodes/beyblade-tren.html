@@ -35,7 +35,7 @@
     </div>
     {{- end }}
   </div>
-  <ol class="bt-rank" aria-label="Peringkat blade minggu ini" data-per="10">
+  <ol class="bt-rank" aria-label="Peringkat blade minggu ini" data-per="10" data-pager-label="Halaman peringkat blade">
     {{- range $i, $b := $blades }}
     {{- $n := $b.naik | default 0 }}
     <li class="bt-row" title="{{ $b.nama }}{{ with $b.combo }} {{ . }}{{ end }}: {{ $b.pakai }}× juara">

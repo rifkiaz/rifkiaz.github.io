@@ -370,6 +370,28 @@ transition: opacity 0.15s ease; pointer-events: none;
 .bt-pager button:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
 .bt-pager button[aria-current="page"] { background: var(--accent); border-color: var(--accent); color: var(--theme); font-weight: 700; }
 .bt-pager button:disabled { opacity: 0.4; cursor: default; }
+.bt-pager__gap { align-self: center; padding: 0 2px; }
+.bt-juara { margin-top: 4px; }
+.bt-months { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 6px; }
+.bt-month { display: flex; flex-direction: column; gap: 2px; padding: 10px 14px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--entry); }
+.bt-month__name { font-weight: 700; color: var(--primary); line-height: 1.3; }
+.bt-month__name .bt-combo { display: inline; color: var(--accent-2); white-space: nowrap; }
+.bt-filter { display: flex; flex-wrap: wrap; gap: 6px; margin: 16px 0 8px; }
+.bt-filter button { height: 32px; padding: 0 12px; border: 1px solid var(--border); border-radius: 999px; background: var(--entry); color: var(--primary); font-family: var(--mono); font-size: 12.5px; cursor: pointer; }
+.bt-filter button:hover { border-color: var(--accent); color: var(--accent); }
+.bt-filter button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--theme); font-weight: 700; }
+.post-content ol.bt-decks, .post-content .bt-deck__combos { list-style: none; margin: 0; padding: 0; }
+.bt-decks { border: 1px solid var(--border); border-radius: var(--radius); background: var(--entry); }
+.post-content .bt-deck { margin: 0; padding: 10px 14px; border-top: 1px solid var(--border); }
+.post-content .bt-deck:first-child { border-top: 0; }
+.bt-deck[hidden] { display: none; }
+.bt-deck__head { display: flex; gap: 10px; align-items: baseline; margin-bottom: 4px; }
+.bt-deck__head time { flex: none; min-width: 3.6em; font-family: var(--mono); font-size: 12.5px; color: var(--secondary); }
+.bt-deck__event { font-size: 14px; color: var(--secondary); line-height: 1.35; overflow-wrap: anywhere; }
+.bt-deck__loc { font-size: 13px; }
+.bt-deck__combos { display: flex; flex-wrap: wrap; gap: 6px; padding-left: calc(3.6em + 10px) !important; }
+.post-content .bt-deck__combos li { margin: 0; padding: 3px 9px; border: 1px solid var(--border); border-radius: 6px; font-size: 14px; font-weight: 600; color: var(--primary); line-height: 1.35; }
+.bt-deck__combos .bt-combo { display: inline; font-size: 12px; color: var(--accent-2); }
 .bt-parts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
 .bt-part { padding: 10px 0 6px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--entry); }
 .bt-part__title { display: block; padding: 0 14px 4px; font-family: var(--mono); font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--secondary); }
@@ -382,6 +404,12 @@ transition: opacity 0.15s ease; pointer-events: none;
   .bt-part.bt-wins li { grid-template-columns: 8.6em 1fr 2.2em; gap: 7px; padding: 4px 10px; font-size: 14px; }
   .bt-row { grid-template-columns: 1.3em 8.6em 1fr 2.2em 3.2em; gap: 7px; padding: 5px 10px; font-size: 14px; }
   .bt-chg { padding: 1px 5px; }
+  .bt-months { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .bt-month { padding: 8px 10px; }
+  .bt-month__name { font-size: 15px; }
+  .post-content .bt-deck { padding: 10px; }
+  .bt-deck__combos { padding-left: 0 !important; }
+  .bt-juara .bt-part.bt-wins li { grid-template-columns: 8.6em 1fr 3.2em; }
 }
 
 /* ---------- ilustrasi kuis terminal ---------- */
