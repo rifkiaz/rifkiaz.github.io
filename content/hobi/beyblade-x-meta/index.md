@@ -34,6 +34,14 @@ Combo Beyblade X ditulis dengan format **Blade Ratchet Bit**, misalnya `Wizard R
 
 ![Ilustrasi anatomi combo Wizard Rod 1-60 Hexa: blade di atas, ratchet 1-60 setinggi 6,0 mm di tengah, bit Hexa di bawah yang menyentuh lantai stadium](assets/anatomi.webp)
 
+## Jenis-jenis Beyblade X
+
+Beyblade X punya tiga line produk. Kodenya kelihatan di nama produk (BX-01, UX-17, CX-01), dan tiap line beda di cara blade-nya disusun. Diagram di tiap kartu menunjukkan susunan part dari atas ke bawah.
+
+{{< beyblade-line >}}
+
+Gambar asli tiap blade, ratchet, dan bit akan saya tambahkan menyusul, lengkap dengan sumbernya.
+
 ## Combo yang lagi kuat
 
 Data dari ribuan top cut turnamen (BEYWATCH.GG) dan rangkuman meta dari BeyX Hub:
@@ -157,4 +165,5 @@ Ini cuma titik awal. Kondisi stadium, gaya launch kamu, dan meta di komunitas lo
 - [BEYWATCH.GG: Tournaments](https://beywatch.gg/tournaments), deck juara turnamen 1 Mei sampai 27 Oktober 2026
 - [BeyX Hub: Best Beyblade X Combos 2026](https://beyxhub.org/en/guide/best-beyblade-x-combos-2026), panduan meta Juni 2026
 - [beybladewiki.com: Tournament Results](https://beybladewiki.com/competitive/results), daftar podium turnamen terbaru
+- [monkeemods.com: panduan BX Basic Line](https://monkeemods.com/blog/beyblade-x-bx-line-guide) dan [Expand Blade](https://monkeemods.com/beyblade/blog/beyblade-x-expand-blade-guide), serta [Beyblade Wiki: Custom Line](https://beyblade.fandom.com/wiki/Custom_Line), buat penjelasan jenis line
 - [WBO: Winning Combinations at WBO Organized Events](https://worldbeyblade.org/Thread-Winning-Combinations-at-WBO-Organized-Events-Beyblade-X-BBX)
