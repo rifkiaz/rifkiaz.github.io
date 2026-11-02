@@ -12,3 +12,23 @@
 </nav>
 {{- end }}
 {{- end }}
+
+{{- /* Author box + related posts on blog posts: ties every post to the author
+     profile and adds internal links between posts on similar topics. */ -}}
+{{- if and (eq .Section "posts") .IsPage }}
+<aside class="author-box" aria-label="Tentang penulis">
+  <p>Ditulis oleh <a href="{{ "tentang/" | absLangURL }}" rel="author"><strong>{{ site.Params.author }}</strong></a>, DevOps engineer dan openSUSE Member. Saya menulis catatan teknis seputar infrastruktur, otomasi, dan open source dari kerjaan sehari-hari.</p>
+</aside>
+{{- if site.Params.ShowRelated }}
+{{- with first 3 (where (site.RegularPages.Related .) "Section" "posts") }}
+<nav class="related-posts" aria-label="Tulisan terkait">
+  <p class="related-title">Tulisan terkait</p>
+  <ul>
+    {{- range . }}
+    <li><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></li>
+    {{- end }}
+  </ul>
+</nav>
+{{- end }}
+{{- end }}
+{{- end }}

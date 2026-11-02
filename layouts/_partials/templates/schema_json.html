@@ -12,6 +12,9 @@
   "image" (absURL $sch.personImage)
   "knowsAbout" $sch.knowsAbout
   "sameAs" $sch.sameAs }}
+{{- with $sch.givenName }}{{ $person = merge $person (dict "givenName" .) }}{{ end }}
+{{- with $sch.familyName }}{{ $person = merge $person (dict "familyName" .) }}{{ end }}
+{{- with $sch.personAlternateName }}{{ $person = merge $person (dict "alternateName" .) }}{{ end }}
 {{- with $sch.email }}{{ $person = merge $person (dict "email" (printf "mailto:%s" .)) }}{{ end }}
 {{- $website := dict
   "@type" "WebSite"
@@ -32,109 +35,90 @@
 <script type="application/ld+json">
 {{ dict "@context" "https://schema.org" "@graph" (slice $website $profile) | jsonify | safeJS }}
 </script>
-{{- else if (or .IsPage .IsSection) }}
-{{/* BreadcrumbList */}}
-{{- $url := replace .Parent.Permalink ( printf "%s" site.Home.Permalink) "" }}
-{{- $lang_url := strings.TrimPrefix ( printf "%s/" .Lang) $url }}
-{{- $bc_list := (split $lang_url "/")}}
+{{- else if (or .IsPage .IsSection .IsNode) }}
+{{- /* Override: PaperMod's breadcrumb skipped Home and marked every page
+     (lab tools, /tentang/) as BlogPosting with an author that wasn't linked
+     to the Person on the homepage. Everything below points at the same
+     #person node so Google can tie the posts to "Rifki Affandi". */}}
+{{- $home := site.Home.Permalink }}
+{{- $personRef := dict "@type" "Person" "@id" (printf "%s#person" $home) "name" site.Params.author "url" $home }}
+{{- $websiteRef := dict "@id" (printf "%s#website" $home) }}
 
-{{- $scratch := newScratch }}
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-  {{- range $index, $element := $bc_list }}
+{{- /* BreadcrumbList: Home > ancestors > this page */}}
+{{- $crumbs := slice (dict "@type" "ListItem" "position" 1 "name" site.Title "item" $home) }}
+{{- range .Ancestors.Reverse }}
+{{- if not .IsHome }}
+{{- $crumbs = $crumbs | append (dict "@type" "ListItem" "position" (add (len $crumbs) 1) "name" (.LinkTitle | plainify) "item" .Permalink) }}
+{{- end }}
+{{- end }}
+{{- $crumbs = $crumbs | append (dict "@type" "ListItem" "position" (add (len $crumbs) 1) "name" (.LinkTitle | plainify) "item" .Permalink) }}
+{{- $graph := slice (dict "@type" "BreadcrumbList" "@id" (printf "%s#breadcrumb" .Permalink) "itemListElement" $crumbs) }}
 
-    {{- $scratch.Add "path" (printf "%s/" $element ) | safeJS }}
-    {{- $bc_pg := site.GetPage ($scratch.Get "path") -}}
+{{- $desc := (.Description | default .Summary | default site.Params.description) | plainify | htmlUnescape | strings.TrimSpace }}
+{{- $image := index site.Params.images 0 | absURL }}
+{{- with .Params.images }}{{ $image = index . 0 | absURL }}{{ end }}
+{{- if not .Params.images }}
+{{- with .Resources.ByType "image" }}
+{{- range first 1 (where . "MediaType.SubType" "in" (slice "png" "jpeg" "webp")) }}{{ $image = .Permalink }}{{ end }}
+{{- end }}
+{{- end }}
 
-    {{- if (and ($bc_pg) (gt (len . ) 0))}}
-    {{- if (and $index)}}, {{end }}
-    {
-      "@type": "ListItem",
-      "position": {{ add 1 $index  }},
-      "name": {{ $bc_pg.Name }},
-      "item": {{ $bc_pg.Permalink | safeHTML }}
-    }
-    {{- end }}
-
-  {{- end }}
-  {{- /*  self-page addition  */ -}}
-  {{- if (ge (len $bc_list) 2) }}, {{end }}
-    {
-      "@type": "ListItem",
-      "position": {{len $bc_list}},
-      "name": {{ .Name }},
-      "item": {{ .Permalink | safeHTML }}
-    }
-  ]
-}
-</script>
 {{- if .IsPage }}
+{{- if eq .RelPermalink "/tentang/" }}
+{{- $graph = $graph | append (dict
+  "@type" "ProfilePage"
+  "@id" (printf "%s#webpage" .Permalink)
+  "url" .Permalink
+  "name" .Title
+  "description" $desc
+  "inLanguage" site.Language.LanguageCode
+  "isPartOf" $websiteRef
+  "breadcrumb" (dict "@id" (printf "%s#breadcrumb" .Permalink))
+  "dateModified" (.Lastmod.Format "2006-01-02T15:04:05-07:00")
+  "mainEntity" (dict "@id" (printf "%s#person" $home))) }}
+{{- else if in (slice "posts" "cheatsheet") .Section }}
+{{- $kw := .Params.keywords | default .Params.tags }}
+{{- $article := dict
+  "@type" (cond (eq .Section "cheatsheet") "TechArticle" "BlogPosting")
+  "@id" (printf "%s#article" .Permalink)
+  "headline" (.Title | plainify)
+  "description" $desc
+  "url" .Permalink
+  "mainEntityOfPage" (dict "@type" "WebPage" "@id" .Permalink "breadcrumb" (dict "@id" (printf "%s#breadcrumb" .Permalink)))
+  "isPartOf" $websiteRef
+  "inLanguage" site.Language.LanguageCode
+  "image" $image
+  "datePublished" (.PublishDate.Format "2006-01-02T15:04:05-07:00")
+  "dateModified" (.Lastmod.Format "2006-01-02T15:04:05-07:00")
+  "wordCount" .WordCount
+  "author" $personRef
+  "publisher" $personRef }}
+{{- with $kw }}{{ $article = merge $article (dict "keywords" (delimit . ", ")) }}{{ end }}
+{{- with .Params.categories }}{{ $article = merge $article (dict "articleSection" (index . 0)) }}{{ end }}
+{{- $graph = $graph | append $article }}
+{{- else }}
+{{- $graph = $graph | append (dict
+  "@type" "WebPage"
+  "@id" (printf "%s#webpage" .Permalink)
+  "url" .Permalink
+  "name" (.Title | plainify)
+  "description" $desc
+  "inLanguage" site.Language.LanguageCode
+  "isPartOf" $websiteRef
+  "breadcrumb" (dict "@id" (printf "%s#breadcrumb" .Permalink))
+  "author" $personRef) }}
+{{- end }}
+{{- else }}
+{{- $graph = $graph | append (dict
+  "@type" "CollectionPage"
+  "@id" (printf "%s#webpage" .Permalink)
+  "url" .Permalink
+  "name" (.Title | plainify)
+  "inLanguage" site.Language.LanguageCode
+  "isPartOf" $websiteRef
+  "breadcrumb" (dict "@id" (printf "%s#breadcrumb" .Permalink))) }}
+{{- end }}
 <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": {{ .Title | plainify}},
-  "name": "{{ .Title | plainify }}",
-  "description": {{ with .Description | plainify }}{{ . }}{{ else }}{{ .Summary | plainify  }}{{ end -}},
-  "keywords": [
-    {{- if .Params.keywords }}
-    {{ range $i, $e := .Params.keywords }}{{ if $i }}, {{ end }}{{ $e }}{{ end }}
-    {{- else }}
-    {{ range $i, $e := .Params.tags }}{{ if $i }}, {{ end }}{{ $e }}{{ end }}
-    {{- end }}
-  ],
-  "articleBody": {{ .Content | safeJS | htmlUnescape | plainify }},
-  "wordCount" : "{{ .WordCount }}",
-  "inLanguage": {{ .Language.Lang | default "en-us" }},
-  {{ if .Params.cover.image -}}
-  "image":
-    {{- if (ne .Params.cover.relative true) -}}
-    {{ .Params.cover.image | absURL }},
-    {{- else -}}
-    {{ (path.Join .RelPermalink .Params.cover.image ) | absURL }},
-    {{- end}}
-  {{- else }}
-    {{- $images := partial "templates/_funcs/get-page-images" . -}}
-    {{- with index $images 0 -}}
-  "image": {{ .Permalink }},
-    {{- end }}
-  {{- end -}}
-  "datePublished": {{ .PublishDate }},
-  "dateModified": {{ .Lastmod }},
-  {{- with (.Params.author | default site.Params.author) }}
-  "author":
-    {{- if (or (eq (printf "%T" .) "[]string") (eq (printf "%T" .) "[]interface {}")) -}}
-  [{{- range $i, $v := . -}}
-  {{- if $i }}, {{end -}}
-  {
-    "@type": "Person",
-    "name": {{ $v }}
-  }
-  {{- end }}],
-    {{- else -}}
-  {
-    "@type": "Person",
-    "name": {{ . }}
-  },
-    {{- end -}}
-  {{- end }}
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": {{ .Permalink | safeHTML }}
-  },
-  "publisher": {
-    "@type": "{{- ( site.Params.schema.publisherType | default "Organization") | title -}}",
-    "name": {{ site.Title }},
-    "logo": {
-      "@type": "ImageObject",
-      "url": {{ site.Params.assets.favicon | default "favicon.ico" | absURL }}
-    }
-  }
-}
+{{ dict "@context" "https://schema.org" "@graph" $graph | jsonify | safeJS }}
 </script>
-{{- end }}{{/* .IsPage end */}}
-
 {{- end -}}
