@@ -46,6 +46,8 @@ enableGitInfo = true
   ShowRssButtonInSectionTermList = true
   comments = true
   mainSections = ["posts"]
+  # Tag pages with fewer posts than this get noindex and stay out of the sitemap.
+  minTagPagesToIndex = 3
   # Shown under each post; also links posts to each other (internal linking).
   ShowRelated = true
   DateFormat = "2 January 2006"
