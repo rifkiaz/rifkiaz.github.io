@@ -1,6 +1,8 @@
 # Jenis line Beyblade X di /hobi/beyblade-x-meta/ (shortcode beyblade-line).
 # `susun`: urutan part dari atas ke bawah; `jenis` menentukan warna di diagram
 # (blade, ratchet, bit, gabung = blade dan ratchet menyatu).
+# `gambar`: file di content/hobi/beyblade-x-meta/assets/part/<f>.webp (render resmi Takara Tomy,
+# diambil dari Beyblade Wiki di Fandom, dikecilkan ke WebP); `wiki` = halaman sumbernya.
 # Sumber: monkeemods.com (BX & Expand guide), beyblade.fandom.com/wiki/Custom_Line.
 line:
   - kode: BX
@@ -9,6 +11,8 @@ line:
     inti: "Line pertama dan paling umum. Blade satu bagian, besi beratnya ditaruh ke arah tengah supaya stabil."
     contoh: "BX-01 Dran Sword 3-60F, BX-23 Phoenix Wing, BX-34 Cobalt Dragoon"
     meta: "Cobalt Dragoon, Phoenix Wing, Dran Strike"
+    gambar:
+      - { f: blade-cobalt-dragoon, nama: "Blade Cobalt Dragoon", wiki: "https://beyblade.fandom.com/wiki/Blade_-_CobaltDragoon" }
     susun:
       - { nama: Blade, jenis: blade }
       - { nama: Ratchet, jenis: ratchet }
@@ -19,6 +23,8 @@ line:
     inti: "Susunannya masih Blade, Ratchet, Bit, tapi besinya dipindah ke pinggir blade dan tiap rilis punya gimmick sendiri."
     contoh: "UX-01 Dran Buster 1-60A, UX-17 Meteor Dragoon 3-70J"
     meta: "Meteor Dragoon, Hells Nether, Bullet Griffon"
+    gambar:
+      - { f: blade-meteor-dragoon, nama: "Blade Meteor Dragoon", wiki: "https://beyblade.fandom.com/wiki/Blade_-_MeteorDragoon" }
     susun:
       - { nama: Blade, jenis: blade }
       - { nama: Ratchet, jenis: ratchet }
@@ -29,6 +35,10 @@ line:
     inti: "Blade-nya dipecah jadi tiga bagian yang bisa dicampur: Lock Chip, Main Blade, dan Assist Blade. Huruf di depan ratchet (misalnya S di S6-60V) adalah Assist Blade-nya."
     contoh: "CX-01 Dran Brave S6-60V (Lock Chip Dran, Main Blade Brave, Assist Blade Slash)"
     meta: "Emperor Blast Heavy, Cerberus Flame Wheel, Emperor Might Wheel"
+    gambar:
+      - { f: lock-chip-dran, nama: "Lock Chip Dran", wiki: "https://beyblade.fandom.com/wiki/Lock_Chip_-_Dran" }
+      - { f: main-blade-brave, nama: "Main Blade Brave", wiki: "https://beyblade.fandom.com/wiki/Main_Blade_-_Brave" }
+      - { f: assist-blade-slash, nama: "Assist Blade Slash", wiki: "https://beyblade.fandom.com/wiki/Assist_Blade_-_Slash" }
     susun:
       - { nama: Lock Chip, jenis: blade }
       - { nama: Main Blade, jenis: blade }
@@ -42,6 +52,8 @@ expand:
       rilis: "Mei 2026"
       inti: "Besi blade tembus sampai tengah, bukan cuma jadi lingkaran di rangka plastik. Ratchet masih terpisah."
       contoh: "BX-49 Dran Strike"
+      gambar:
+        - { f: blade-dran-strike, nama: "Blade Dran Strike", wiki: "https://beyblade.fandom.com/wiki/Blade_-_DranStrike" }
       susun:
         - { nama: Blade, jenis: blade }
         - { nama: Ratchet, jenis: ratchet }
@@ -50,17 +62,36 @@ expand:
       rilis: "April 2026"
       inti: "Ratchet menyatu dengan blade, jadi cuma dua bagian. Itu sebabnya combo Hells Nether atau Glory Valkyrie ditulis tanpa ratchet, misalnya Glory Valkyrie Kick."
       contoh: "UX-19 Bullet Griffon, UX-21 Hells Nether"
+      gambar:
+        - { f: ratchet-blade-hells-nether, nama: "Hells Nether (blade + ratchet)", wiki: "https://beyblade.fandom.com/wiki/Ratchet-Integrated_Blade_-_HellsNether" }
       susun:
         - { nama: Blade + Ratchet, jenis: gabung }
         - { nama: Bit, jenis: bit }
     - kode: CX Expand
       rilis: "Maret 2026"
-      inti: "Ada tambahan Over Blade di atas Main Blade besi, jadi blade-nya empat bagian. Blast di combo Emperor Blast Heavy adalah Over Blade."
+      inti: "Main Blade diganti Metal Blade, dan ada tambahan Over Blade yang dipasang di atasnya, jadi blade-nya empat bagian. Di BK1-50I, B adalah Over Blade Break dan K adalah Assist Blade Knuckle."
       contoh: "CX-13 Bahamut Blitz BK1-50I"
+      gambar:
+        - { f: lock-chip-bahamut, nama: "Lock Chip Bahamut", wiki: "https://beyblade.fandom.com/wiki/Lock_Chip_-_Bahamut" }
+        - { f: over-blade-break, nama: "Over Blade Break", wiki: "https://beyblade.fandom.com/wiki/Over_Blade_-_Break" }
+        - { f: metal-blade-blitz, nama: "Metal Blade Blitz", wiki: "https://beyblade.fandom.com/wiki/Metal_Blade_-_Blitz" }
+        - { f: assist-blade-knuckle, nama: "Assist Blade Knuckle", wiki: "https://beyblade.fandom.com/wiki/Assist_Blade_-_Knuckle" }
       susun:
-        - { nama: Over Blade, jenis: blade }
         - { nama: Lock Chip, jenis: blade }
-        - { nama: Main Blade, jenis: blade }
+        - { nama: Over Blade, jenis: blade }
+        - { nama: Metal Blade, jenis: blade }
         - { nama: Assist Blade, jenis: blade }
         - { nama: Ratchet, jenis: ratchet }
         - { nama: Bit, jenis: bit }
+part:
+  intro: "Ratchet dan bit bisa dipakai di line mana pun. Ini yang paling sering muncul di deck juara."
+  ratchet:
+    - { f: ratchet-1-60, nama: "1-60", ket: "Satu tonjolan, tinggi 6 mm. Berat sebelah, aslinya dibuat untuk Dran Buster.", wiki: "https://beyblade.fandom.com/wiki/Ratchet_-_1-60" }
+    - { f: ratchet-3-60, nama: "3-60", ket: "Tiga tonjolan sama besar, tinggi 6 mm. Ratchet standar sejak BX-01.", wiki: "https://beyblade.fandom.com/wiki/Ratchet_-_3-60" }
+    - { f: ratchet-9-60, nama: "9-60", ket: "Sembilan tonjolan kecil yang tidak menonjol keluar, jadi paling jarang kena burst di antara ratchet tinggi 60.", wiki: "https://beyblade.fandom.com/wiki/Ratchet_-_9-60" }
+  bit:
+    - { f: bit-hexa, nama: "Hexa (H)", tipe: Balance, ket: "Ujung segi enam yang meruncing, cenderung menegakkan diri supaya putaran stabil.", wiki: "https://beyblade.fandom.com/wiki/Bit_-_Hexa" }
+    - { f: bit-kick, nama: "Kick (K)", tipe: Balance, ket: "Ujung datar dengan permukaan segi enam yang halus. Gerakannya agresif tapi stamina tetap awet.", wiki: "https://beyblade.fandom.com/wiki/Bit_-_Kick" }
+    - { f: bit-free-ball, nama: "Free Ball (FB)", tipe: Stamina, ket: "Ujung bola yang berputar bebas, betah di tengah stadium dan hemat stamina.", wiki: "https://beyblade.fandom.com/wiki/Bit_-_Free_Ball" }
+    - { f: bit-rush, nama: "Rush (R)", tipe: Attack, ket: "Ujung datar kecil dengan gear lebih sedikit, jadi lebih sering Xtreme Dash tanpa boros stamina.", wiki: "https://beyblade.fandom.com/wiki/Bit_-_Rush" }
+    - { f: bit-low-rush, nama: "Low Rush (LR)", tipe: Attack, ket: "Versi Rush yang sekitar 1 mm lebih pendek, lebih gampang melakukan upper attack.", wiki: "https://beyblade.fandom.com/wiki/Bit_-_Low_Rush" }
