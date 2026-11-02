@@ -1,0 +1,18 @@
+{{- /* Real part images for one combo: {{< beyblade-combo "blade-wizard-rod" "ratchet-1-60" "bit-hexa" >}}.
+       Each arg is a key in data/beyblade/part.yaml and a file at assets/part/<key>.webp in the page
+       bundle. Alternatives (e.g. 1-60 and 3-60) are just extra args. Every image links its source. */ -}}
+{{- $parts := site.Data.beyblade.part -}}
+{{- $labels := dict "blade" "Blade" "ratchet" "Ratchet" "bit" "Bit" -}}
+<div class="bl-combo">
+  {{- range .Params }}
+  {{- $p := index $parts . -}}
+  {{- if not $p }}{{ errorf "beyblade-combo: %q tidak ada di data/beyblade/part.yaml" . }}{{ end -}}
+  {{- $img := $.Page.Resources.Get (printf "assets/part/%s.webp" .) -}}
+  {{- if not $img }}{{ errorf "beyblade-combo: assets/part/%s.webp tidak ada" . }}{{ end -}}
+  {{- $jenis := index (split . "-") 0 }}
+  <figure class="bl-fig bl-fig--{{ $jenis }}">
+    <img src="{{ $img.RelPermalink }}" width="{{ $img.Width }}" height="{{ $img.Height }}" alt="{{ index $labels $jenis }} {{ $p.nama }}" loading="lazy" decoding="async">
+    <figcaption><span class="bl-fig__tipe">{{ index $labels $jenis }}</span><span class="bl-fig__name">{{ replace $p.nama "-" "‑" }}</span><a class="bl-src" href="{{ $p.wiki }}" target="_blank" rel="noopener nofollow">Sumber: Beyblade Wiki</a></figcaption>
+  </figure>
+  {{- end }}
+</div>
