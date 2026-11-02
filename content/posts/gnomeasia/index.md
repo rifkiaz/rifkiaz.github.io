@@ -5,7 +5,7 @@ categories: [journey]
 tags: [openSUSE, Tumbleweed, GNOME, Asia]
 description: "Catatan perjalanan menghadiri GNOME.Asia Summit 2022 di Kuala Lumpur, Malaysia."
 ---
-# Day 0
+## Day 0
 My day 0 is a travel to Malaysia, and this is first time for me. because I will try solo traveling to another country, and for trial I try going to Malaysia. 
 My flight with Air Asia depart from Bandara International Soekarno Hatta to Kuala Lumpur.
 ![on cabin Air Asia](assets/day0-1.webp "In Cabin Air Asia")
@@ -13,7 +13,7 @@ After landing on Kuala Lumpur International Airport at 2 AM.
 ![Breakfast at KL](assets/breakfast_my.webp "Breakfast afer arrived at KL")
 I ordered Grab Car from Airport to My [Hotel](https://goo.gl/maps/R6gA3KfagmZ5G64o7). After arrived at [hotel](https://goo.gl/maps/R6gA3KfagmZ5G64o7) I am taking a rest for the summit.
 
-# Day 1
+## Day 1
 In day 1, I order grab car from hotel to the [venue](https://goo.gl/maps/P25geXMorwDCXyxk7). 
 ![GNOME ASIA](assets/day_1_gnome.webp "GNOME.Asia Banner")
 I see some people who have been on Twitter like Kristi, Anisa Kuchi and others. 
@@ -29,7 +29,7 @@ After lunch We try a Soya, special food from Malaysia
 After Day 1, I walked to my hotel
 ![After day 1](assets/after-day1.webp "Walking to Hotel")
 
-# Day 2
+## Day 2
 Day 2 is a special day for Me, why? because My talk is on day 2. And for My talk I have brought My Keyboard for flexing to others :p
 ![My Ergo Keyboard](assets/mykeyboard.webp "My Ergo Keyboard")
 In My talk, I Talk about My Journey with [GNOME](https://gnome.org), [openSUSE](https://opensuse.org) and My Mechanical [Keyboard](https://mechanicalkeyboards.co.id/).
@@ -46,7 +46,7 @@ For GNOME.Asia on this year, many students have join GSOC present about they pro
 Final talk is Syazwan talk about Him Journey with Open Source. 
 ![syazwan](assets/syazwan.webp "syazwan talk about Him journey with open source")
 
-# Day 3
+## Day 3
 On day 3, I not join 1 day tour, because I have a plan on Malaysia :D. 
 ![solotrip](assets/solotrip.webp "My Solo Trip")
 

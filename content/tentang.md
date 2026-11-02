@@ -1,6 +1,6 @@
 ---
-title: "Tentang Saya"
-description: "Profil singkat Rifki Affandi, engineer infrastruktur dan DevOps."
+title: "Tentang Rifki Affandi"
+description: "Profil Rifki Affandi (rifkiaz), DevOps engineer dan openSUSE Member: pengalaman kerja, keahlian Ansible, Terraform, monitoring, dan cara menghubungi."
 url: "/tentang/"
 aliases: ["/about/"]
 ShowToc: false

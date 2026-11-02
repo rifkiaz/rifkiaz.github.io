@@ -232,6 +232,14 @@
 .series-box ol { margin: 0; padding-inline-start: 22px; }
 .series-box li { margin: 2px 0; }
 .series-box a { box-shadow: none; text-decoration: underline; text-underline-offset: 3px; }
+/* Author box + related posts (extend_post_content.html) */
+.author-box, .related-posts { margin: 24px 0 8px; padding: 14px 18px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--entry); font-size: 15px; }
+.author-box p { margin: 0; }
+.author-box a, .related-posts a { box-shadow: none; text-decoration: underline; text-underline-offset: 3px; }
+.related-posts .related-title { margin: 0 0 6px; font-family: "JetBrains Mono", monospace; font-size: 14px; color: var(--secondary); }
+.related-posts ul { margin: 0; padding-inline-start: 22px; }
+.related-posts li { margin: 2px 0; }
+.post-meta a.post-author { box-shadow: none; color: inherit; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--border); }
 /* ---------- image lightbox (assets/js/lightbox.js) ---------- */
 .post-content img.lb-zoomable { cursor: zoom-in; }
 .post-content img.lb-zoomable:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
