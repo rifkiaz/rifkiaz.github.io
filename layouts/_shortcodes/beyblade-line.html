@@ -1,0 +1,36 @@
+{{- /* Beyblade X product lines (BX, UX, CX) and the 2026 Expand construction from
+       data/beyblade/line.yaml, each with a part-stack diagram (top to bottom). */ -}}
+{{- $d := site.Data.beyblade.line -}}
+{{- /* Hyphens in product codes become non-breaking (U+2011) so 3-60F never wraps. */ -}}
+{{- define "_bl-stack" -}}
+<ol class="bl-stack" aria-label="Susunan part dari atas ke bawah">
+  {{- range . }}
+  <li class="bl-part bl-part--{{ .jenis }}">{{ .nama }}</li>
+  {{- end }}
+</ol>
+{{- end -}}
+<div class="bl">
+  <div class="bl-grid">
+    {{- range $d.line }}
+    <section class="bl-card" aria-label="{{ .kode }} {{ .nama }}">
+      <header class="bl-card__head"><span class="bl-code">{{ .kode }}</span> <span class="bl-name">{{ .nama }}</span> <span class="bl-date">sejak {{ .rilis }}</span></header>
+      {{- template "_bl-stack" .susun }}
+      <p>{{ replace .inti "-" "‑" }}</p>
+      <p class="bl-meta"><span>Contoh</span> {{ replace .contoh "-" "‑" }}</p>
+      {{- with .meta }}<p class="bl-meta"><span>Di meta</span> {{ . }}</p>{{ end }}
+    </section>
+    {{- end }}
+  </div>
+  <p class="bl-intro">{{ $d.expand.intro }}</p>
+  <div class="bl-grid">
+    {{- range $d.expand.daftar }}
+    <section class="bl-card bl-card--expand" aria-label="{{ .kode }}">
+      <header class="bl-card__head"><span class="bl-code">{{ .kode }}</span> <span class="bl-date">sejak {{ .rilis }}</span></header>
+      {{- template "_bl-stack" .susun }}
+      <p>{{ replace .inti "-" "‑" }}</p>
+      <p class="bl-meta"><span>Contoh</span> {{ replace .contoh "-" "‑" }}</p>
+    </section>
+    {{- end }}
+  </div>
+  <p class="bl-legend" aria-hidden="true"><span class="bl-part bl-part--blade">blade</span> <span class="bl-part bl-part--ratchet">ratchet</span> <span class="bl-part bl-part--bit">bit</span> <span class="bl-part bl-part--gabung">menyatu</span></p>
+</div>

@@ -1,0 +1,66 @@
+# Jenis line Beyblade X di /hobi/beyblade-x-meta/ (shortcode beyblade-line).
+# `susun`: urutan part dari atas ke bawah; `jenis` menentukan warna di diagram
+# (blade, ratchet, bit, gabung = blade dan ratchet menyatu).
+# Sumber: monkeemods.com (BX & Expand guide), beyblade.fandom.com/wiki/Custom_Line.
+line:
+  - kode: BX
+    nama: Basic Line
+    rilis: "Juli 2023"
+    inti: "Line pertama dan paling umum. Blade satu bagian, besi beratnya ditaruh ke arah tengah supaya stabil."
+    contoh: "BX-01 Dran Sword 3-60F, BX-23 Phoenix Wing, BX-34 Cobalt Dragoon"
+    meta: "Cobalt Dragoon, Phoenix Wing, Dran Strike"
+    susun:
+      - { nama: Blade, jenis: blade }
+      - { nama: Ratchet, jenis: ratchet }
+      - { nama: Bit, jenis: bit }
+  - kode: UX
+    nama: Unique Line
+    rilis: "2024"
+    inti: "Susunannya masih Blade, Ratchet, Bit, tapi besinya dipindah ke pinggir blade dan tiap rilis punya gimmick sendiri."
+    contoh: "UX-01 Dran Buster 1-60A, UX-17 Meteor Dragoon 3-70J"
+    meta: "Meteor Dragoon, Hells Nether, Bullet Griffon"
+    susun:
+      - { nama: Blade, jenis: blade }
+      - { nama: Ratchet, jenis: ratchet }
+      - { nama: Bit, jenis: bit }
+  - kode: CX
+    nama: Custom Line
+    rilis: "April 2025"
+    inti: "Blade-nya dipecah jadi tiga bagian yang bisa dicampur: Lock Chip, Main Blade, dan Assist Blade. Huruf di depan ratchet (misalnya S di S6-60V) adalah Assist Blade-nya."
+    contoh: "CX-01 Dran Brave S6-60V (Lock Chip Dran, Main Blade Brave, Assist Blade Slash)"
+    meta: "Emperor Blast Heavy, Cerberus Flame Wheel, Emperor Might Wheel"
+    susun:
+      - { nama: Lock Chip, jenis: blade }
+      - { nama: Main Blade, jenis: blade }
+      - { nama: Assist Blade, jenis: blade }
+      - { nama: Ratchet, jenis: ratchet }
+      - { nama: Bit, jenis: bit }
+expand:
+  intro: "Expand bukan line baru, tapi perubahan konstruksi yang masuk ke ketiga line mulai 2026. Kode produknya tetap BX, UX, atau CX. Bit tetap bisa ditukar antar line."
+  daftar:
+    - kode: BX Expand
+      rilis: "Mei 2026"
+      inti: "Besi blade tembus sampai tengah, bukan cuma jadi lingkaran di rangka plastik. Ratchet masih terpisah."
+      contoh: "BX-49 Dran Strike"
+      susun:
+        - { nama: Blade, jenis: blade }
+        - { nama: Ratchet, jenis: ratchet }
+        - { nama: Bit, jenis: bit }
+    - kode: UX Expand
+      rilis: "April 2026"
+      inti: "Ratchet menyatu dengan blade, jadi cuma dua bagian. Itu sebabnya combo Hells Nether atau Glory Valkyrie ditulis tanpa ratchet, misalnya Glory Valkyrie Kick."
+      contoh: "UX-19 Bullet Griffon, UX-21 Hells Nether"
+      susun:
+        - { nama: Blade + Ratchet, jenis: gabung }
+        - { nama: Bit, jenis: bit }
+    - kode: CX Expand
+      rilis: "Maret 2026"
+      inti: "Ada tambahan Over Blade di atas Main Blade besi, jadi blade-nya empat bagian. Blast di combo Emperor Blast Heavy adalah Over Blade."
+      contoh: "CX-13 Bahamut Blitz BK1-50I"
+      susun:
+        - { nama: Over Blade, jenis: blade }
+        - { nama: Lock Chip, jenis: blade }
+        - { nama: Main Blade, jenis: blade }
+        - { nama: Assist Blade, jenis: blade }
+        - { nama: Ratchet, jenis: ratchet }
+        - { nama: Bit, jenis: bit }
