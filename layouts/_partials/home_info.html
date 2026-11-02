@@ -10,7 +10,7 @@
             <h1 class="term-out term-name">{{ .Title | markdownify }}</h1>
             {{- with .Typed }}
             <p class="term-line" aria-hidden="true"><span class="term-prompt">$</span> echo $ROLE</p>
-            <p class="term-out home-typed" aria-label="{{ delimit . ", " }}">
+            <p class="term-out home-typed"><span class="sr-only">{{ delimit . ", " }}</span>
                 <span class="home-typed-text" aria-hidden="true" data-words="{{ . | jsonify }}">{{ index . 0 }}</span><span class="home-typed-cursor" aria-hidden="true"></span>
             </p>
             {{- end }}
