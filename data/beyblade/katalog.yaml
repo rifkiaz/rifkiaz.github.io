@@ -1,0 +1,323 @@
+# Katalog part Beyblade X untuk /hobi/beyblade-x-part/ (shortcode beyblade-katalog).
+# Dibuat dari navbox Basic/Unique/Custom Line Parts di beyblade.fandom.com oleh
+# /mnt/project-files/screenshots/beyblade/gen/katalog/gen.py. Gambar: img/<s>.webp di page bundle.
+# s = nama file, nama = nama part (bukan `n`: YAML membacanya sebagai false), t = tipe, k = kode produk debut, w = judul halaman wiki,
+# kiri = putar kiri, baru = belum rilis saat data diambil.
+diambil: "2 November 2026"
+kategori:
+  - id: blade
+    judul: "Blade"
+    grup:
+      - judul: "Basic Line (BX)"
+        part:
+          - {s: "blade-blackshell", nama: "Black Shell", w: "Blade_-_BlackShell", t: "Defense", k: "BX-35"}
+          - {s: "blade-cobaltdragoon", nama: "Cobalt Dragoon", w: "Blade_-_CobaltDragoon", t: "Attack", k: "BX-34", kiri: true}
+          - {s: "blade-cobaltdrake", nama: "Cobalt Drake", w: "Blade_-_CobaltDrake", t: "Attack", k: "BX-00"}
+          - {s: "blade-crimsongaruda", nama: "Crimson Garuda", w: "Blade_-_CrimsonGaruda", t: "Balance", k: "BX-38"}
+          - {s: "blade-drandagger", nama: "Dran Dagger", w: "Blade_-_DranDagger", t: "Attack", k: "BX-20"}
+          - {s: "blade-dranstrike", nama: "Dran Strike", w: "Blade_-_DranStrike", t: "Attack", k: "BX-49"}
+          - {s: "blade-dransword", nama: "Dran Sword", w: "Blade_-_DranSword", t: "Attack", k: "BX-01"}
+          - {s: "blade-heavensring", nama: "Heavens Ring", w: "Blade_-_HeavensRing", t: "Defense", k: "BX-50"}
+          - {s: "blade-hellschain", nama: "Hells Chain", w: "Blade_-_HellsChain", t: "Balance", k: "BX-21"}
+          - {s: "blade-hellsscythe", nama: "Hells Scythe", w: "Blade_-_HellsScythe", t: "Balance", k: "BX-02"}
+          - {s: "blade-knightlance", nama: "Knight Lance", w: "Blade_-_KnightLance", t: "Defense", k: "BX-13"}
+          - {s: "blade-knightshield", nama: "Knight Shield", w: "Blade_-_KnightShield", t: "Defense", k: "BX-04"}
+          - {s: "blade-leonclaw", nama: "Leon Claw", w: "Blade_-_LeonClaw", t: "Balance", k: "BX-15"}
+          - {s: "blade-phoenixfeather", nama: "Phoenix Feather", w: "Blade_-_PhoenixFeather", t: "Attack", k: "BX-00"}
+          - {s: "blade-phoenixwing", nama: "Phoenix Wing", w: "Blade_-_PhoenixWing", t: "Attack", k: "BX-23"}
+          - {s: "blade-rhinohorn", nama: "Rhino Horn", w: "Blade_-_RhinoHorn", t: "Defense", k: "BX-19"}
+          - {s: "blade-samuraicalibur", nama: "Samurai Calibur", w: "Blade_-_SamuraiCalibur", t: "Balance", k: "BX-45"}
+          - {s: "blade-sharkedge", nama: "Shark Edge", w: "Blade_-_SharkEdge", t: "Attack", k: "BX-14"}
+          - {s: "blade-shelterdrake", nama: "Shelter Drake", w: "Blade_-_ShelterDrake", t: "Balance", k: "BX-39"}
+          - {s: "blade-siegsuperion", nama: "Sieg Superion", w: "Blade_-_SiegSuperion", t: "Balance", k: "BX-54"}
+          - {s: "blade-sphinxcowl", nama: "Sphinx Cowl", w: "Blade_-_SphinxCowl", t: "Defense", k: "BX-27"}
+          - {s: "blade-tricerapress", nama: "Tricera Press", w: "Blade_-_TriceraPress", t: "Defense", k: "BX-44"}
+          - {s: "blade-tyrannobeat", nama: "Tyranno Beat", w: "Blade_-_TyrannoBeat", t: "Attack", k: "BX-31"}
+          - {s: "blade-unicornsting", nama: "Unicorn Sting", w: "Blade_-_UnicornSting", t: "Balance", k: "BX-26"}
+          - {s: "blade-vipertail", nama: "Viper Tail", w: "Blade_-_ViperTail", t: "Stamina", k: "BX-16"}
+          - {s: "blade-weisstiger", nama: "Weiss Tiger", w: "Blade_-_WeissTiger", t: "Balance", k: "BX-33"}
+          - {s: "blade-whalewave", nama: "Whale Wave", w: "Blade_-_WhaleWave", t: "Balance", k: "BX-36"}
+          - {s: "blade-wizardarrow", nama: "Wizard Arrow", w: "Blade_-_WizardArrow", t: "Stamina", k: "BX-03"}
+          - {s: "blade-wyverngale", nama: "Wyvern Gale", w: "Blade_-_WyvernGale", t: "Stamina", k: "BX-24"}
+      - judul: "Unique Line (UX)"
+        part:
+          - {s: "blade-aeropegasus", nama: "Aero Pegasus", w: "Blade_-_AeroPegasus", t: "Attack", k: "UX-00"}
+          - {s: "blade-clockmirage", nama: "Clock Mirage", w: "Blade_-_ClockMirage", t: "Stamina", k: "UX-16"}
+          - {s: "blade-dranbuster", nama: "Dran Buster", w: "Blade_-_DranBuster", t: "Attack", k: "UX-01"}
+          - {s: "blade-ghostcircle", nama: "Ghost Circle", w: "Blade_-_GhostCircle", t: "Stamina", k: "UX-12"}
+          - {s: "blade-golemrock", nama: "Golem Rock", w: "Blade_-_GolemRock", t: "Defense", k: "UX-13"}
+          - {s: "blade-hellshammer", nama: "Hells Hammer", w: "Blade_-_HellsHammer", t: "Balance", k: "UX-02"}
+          - {s: "blade-impactdrake", nama: "Impact Drake", w: "Blade_-_ImpactDrake", t: "Attack", k: "UX-11"}
+          - {s: "blade-knightmail", nama: "Knight Mail", w: "Blade_-_KnightMail", t: "Defense", k: "UX-10"}
+          - {s: "blade-leoncrest", nama: "Leon Crest", w: "Blade_-_LeonCrest", t: "Defense", k: "UX-06"}
+          - {s: "blade-meteordragoon", nama: "Meteor Dragoon", w: "Blade_-_MeteorDragoon", t: "Attack", k: "UX-17", kiri: true}
+          - {s: "blade-mummycurse", nama: "Mummy Curse", w: "Blade_-_MummyCurse", t: "Defense", k: "UX-18"}
+          - {s: "blade-orochicluster", nama: "Orochi Cluster", w: "Blade_-_OrochiCluster", t: "Attack", k: "UX-00"}
+          - {s: "blade-phoenixrudder", nama: "Phoenix Rudder", w: "Blade_-_PhoenixRudder", t: "Stamina", k: "UX-07"}
+          - {s: "blade-samuraisaber", nama: "Samurai Saber", w: "Blade_-_SamuraiSaber", t: "Attack", k: "UX-09"}
+          - {s: "blade-scorpiospear", nama: "Scorpio Spear", w: "Blade_-_ScorpioSpear", t: "Balance", k: "UX-14"}
+          - {s: "blade-sharkscale", nama: "Shark Scale", w: "Blade_-_SharkScale", t: "Attack", k: "UX-15"}
+          - {s: "blade-shinobishadow", nama: "Shinobi Shadow", w: "Blade_-_ShinobiShadow", t: "Defense", k: "UX-05"}
+          - {s: "blade-silverwolf", nama: "Silver Wolf", w: "Blade_-_SilverWolf", t: "Stamina", k: "UX-08"}
+          - {s: "blade-wizardrod", nama: "Wizard Rod", w: "Blade_-_WizardRod", t: "Stamina", k: "UX-03"}
+      - judul: "Blade + Ratchet menyatu (UX Expand)"
+        part:
+          - {s: "ratchet-integrated-blade-bulletgriffon", nama: "Bullet Griffon", w: "Ratchet-Integrated_Blade_-_BulletGriffon", t: "Balance", k: "UX-19"}
+          - {s: "ratchet-integrated-blade-gloryvalkyrie", nama: "Glory Valkyrie", w: "Ratchet-Integrated_Blade_-_GloryValkyrie", t: "Attack", k: "UX-20"}
+          - {s: "ratchet-integrated-blade-hellsnether", nama: "Hells Nether", w: "Ratchet-Integrated_Blade_-_HellsNether", t: "Balance", k: "UX-21"}
+          - {s: "ratchet-integrated-blade-cutter-shinobi", nama: "Cutter Shinobi", w: "Ratchet-Integrated_Blade_-_Cutter_Shinobi", t: "Balance", k: "G1940"}
+          - {s: "ratchet-integrated-blade-rampart-aegis", nama: "Rampart Aegis", w: "Ratchet-Integrated_Blade_-_Rampart_Aegis", t: "Defense", k: "G1940"}
+          - {s: "ratchet-integrated-blade-seize-jaguar", nama: "Seize Jaguar", w: "Ratchet-Integrated_Blade_-_Seize_Jaguar", t: "Defense", k: "G4570"}
+          - {s: "ratchet-integrated-blade-valor-bison", nama: "Valor Bison", w: "Ratchet-Integrated_Blade_-_Valor_Bison", t: "Stamina", k: "G3497"}
+      - judul: "Rilisan pertama Hasbro"
+        part:
+          - {s: "blade-bite-croc", nama: "Bite Croc", w: "Blade_-_Bite_Croc", t: "Attack", k: "G0199"}
+          - {s: "blade-clamp-crab", nama: "Clamp Crab", w: "Blade_-_Clamp_Crab", t: "Stamina", k: "G2759"}
+          - {s: "blade-gill-shark", nama: "Gill Shark", w: "Blade_-_Gill_Shark", t: "Stamina", k: "G1686"}
+          - {s: "blade-gust-bat", nama: "Gust Bat<!--", w: "Blade_-_Gust_Bat", t: "Balance", k: "G2733"}
+          - {s: "blade-knife-shinobi", nama: "Knife Shinobi", w: "Blade_-_Knife_Shinobi", t: "Defense", k: "G0190"}
+          - {s: "blade-roar-tyranno", nama: "Roar Tyranno", w: "Blade_-_Roar_Tyranno", t: "Attack", k: "G0284"}
+          - {s: "blade-savage-bear", nama: "Savage Bear", w: "Blade_-_Savage_Bear", t: "Defense", k: "G0286"}
+          - {s: "blade-shatter-horus", nama: "Shatter Horus", w: "Blade_-_Shatter_Horus", t: "Stamina", k: "G4567"}
+          - {s: "blade-steel-samurai", nama: "Steel Samurai", w: "Blade_-_Steel_Samurai", t: "Balance", k: "G0188"}
+          - {s: "blade-tackle-goat", nama: "Tackle Goat", w: "Blade_-_Tackle_Goat", t: "Defense", k: "G1688"}
+          - {s: "blade-talon-ptera", nama: "Talon Ptera", w: "Blade_-_Talon_Ptera", t: "Stamina", k: "G0195"}
+          - {s: "blade-triceraspiky", nama: "Tricera Spiky", w: "Blade_-_TriceraSpiky", t: "Defense", k: "G1898"}
+          - {s: "blade-tusk-mammoth", nama: "Tusk Mammoth", w: "Blade_-_Tusk_Mammoth", t: "Balance", k: "F9588"}
+          - {s: "blade-yell-kong", nama: "Yell Kong", w: "Blade_-_Yell_Kong", t: "Stamina", k: "G0198"}
+          - {s: "blade-hack-viking", nama: "Hack Viking", w: "Blade_-_Hack_Viking", t: "Balance", k: "G2755"}
+          - {s: "blade-hover-wyvern", nama: "Hover Wyvern", w: "Blade_-_Hover_Wyvern", t: "Defense", k: "UX-00"}
+          - {s: "blade-stun-medusa", nama: "Stun Medusa", w: "Blade_-_Stun_Medusa", t: "Stamina", k: "G2738"}
+      - judul: "X-Over (blade generasi lama versi X)"
+        part:
+          - {s: "blade-dracielshield", nama: "Draciel Shield", w: "Blade_-_DracielShield", t: "Defense", k: "BX-00"}
+          - {s: "blade-dragoonstorm", nama: "Dragoon Storm", w: "Blade_-_DragoonStorm", t: "Attack", k: "BX-00", kiri: true}
+          - {s: "blade-dranzerspiral", nama: "Dranzer Spiral", w: "Blade_-_DranzerSpiral", t: "Balance", k: "BX-00"}
+          - {s: "blade-drigerslash", nama: "Driger Slash", w: "Blade_-_DrigerSlash", t: "Balance", k: "BX-00"}
+          - {s: "blade-lightning-l-drago-rapid-hit-type", nama: "Lightning L-Drago (Rapid-Hit Type)", w: "Blade_-_Lightning_L-Drago_(Rapid-Hit_Type)", t: "Attack", k: "BX-00", kiri: true}
+          - {s: "blade-lightning-l-drago-upper-type", nama: "Lightning L-Drago (Upper Type)", w: "Blade_-_Lightning_L-Drago_(Upper_Type)", t: "Attack", k: "BX-00", kiri: true}
+          - {s: "blade-rock-leone", nama: "Rock Leone", w: "Blade_-_Rock_Leone", t: "Defense", k: "BX-00"}
+          - {s: "blade-trypio", nama: "Trypio", w: "Blade_-_Trypio", t: "Defense"}
+          - {s: "blade-stormpegasis", nama: "Storm Pegasis", w: "Blade_-_StormPegasis", t: "Attack", k: "BX-00"}
+          - {s: "blade-stormspriggan", nama: "Storm Spriggan", w: "Blade_-_StormSpriggan", t: "Balance", k: "BX-00"}
+          - {s: "blade-victoryvalkyrie", nama: "Victory Valkyrie", w: "Blade_-_VictoryValkyrie", t: "Attack", k: "BX-00"}
+          - {s: "blade-xenoxcalibur", nama: "Xeno Xcalibur", w: "Blade_-_XenoXcalibur", t: "Attack", k: "BX-00"}
+      - judul: "Kolaborasi Hasbro"
+        part:
+          - {s: "blade-bumblebee", nama: "Bumblebee", w: "Blade_-_Bumblebee", t: "Defense", k: "G1692"}
+          - {s: "blade-captain-america", nama: "Captain America", w: "Blade_-_Captain_America", t: "Attack", k: "G1690"}
+          - {s: "blade-chewbacca", nama: "Chewbacca", w: "Blade_-_Chewbacca", t: "Stamina", k: "G1695"}
+          - {s: "blade-darth-vader", nama: "Darth Vader", w: "Blade_-_Darth_Vader", t: "Defense", k: "G0290"}
+          - {s: "blade-general-grievous", nama: "General Grievous", w: "Blade_-_General_Grievous", t: "Defense", k: "G1694"}
+          - {s: "blade-green-goblin", nama: "Green Goblin", w: "Blade_-_Green_Goblin", t: "Stamina", k: "G1691"}
+          - {s: "blade-grogu", nama: "Grogu", w: "Blade_-_Grogu", t: "Defense", k: "G3061"}
+          - {s: "blade-hulk", nama: "Hulk", w: "Blade_-_Hulk", t: "Defense", k: "G3064"}
+          - {s: "blade-iron-man", nama: "Iron Man", w: "Blade_-_Iron_Man", t: "Defense", k: "G0287"}
+          - {s: "blade-luke-skywalker", nama: "Luke Skywalker", w: "Blade_-_Luke_Skywalker", t: "Defense", k: "G0290"}
+          - {s: "blade-megatron", nama: "Megatron", w: "Blade_-_Megatron", t: "Balance", k: "G0353"}
+          - {s: "blade-miles-morales", nama: "Miles Morales", w: "Blade_-_Miles_Morales", t: "Stamina", k: "G1691"}
+          - {s: "blade-moff-gideon", nama: "Moff Gideon", w: "Blade_-_Moff_Gideon", t: "Balance", k: "F9589"}
+          - {s: "blade-obi-wan-kenobi", nama: "Obi-Wan Kenobi", w: "Blade_-_Obi-Wan_Kenobi", t: "Defense", k: "G1694"}
+          - {s: "blade-optimus-primal", nama: "Optimus Primal", w: "Blade_-_Optimus_Primal", t: "Attack", k: "G0352"}
+          - {s: "blade-optimus-prime", nama: "Optimus Prime", w: "Blade_-_Optimus_Prime", t: "Balance", k: "G0353"}
+          - {s: "blade-red-hulk", nama: "Red Hulk", w: "Blade_-_Red_Hulk", t: "Attack", k: "G1690"}
+          - {s: "blade-shockwave", nama: "Shockwave", w: "Blade_-_Shockwave", t: "Stamina", k: "G1692"}
+          - {s: "blade-spider-man", nama: "Spider-Man", w: "Blade_-_Spider-Man", t: "Stamina", k: "G0288"}
+          - {s: "blade-starscream", nama: "Starscream", w: "Blade_-_Starscream", t: "Stamina", k: "G0352"}
+          - {s: "blade-stormtrooper", nama: "Stormtrooper", w: "Blade_-_Stormtrooper", t: "Defense", k: "G1695"}
+          - {s: "blade-thanos", nama: "Thanos", w: "Blade_-_Thanos", t: "Defense", k: "G0287"}
+          - {s: "blade-the-mandalorian", nama: "The Mandalorian", w: "Blade_-_The_Mandalorian", t: "Attack", k: "F9589"}
+          - {s: "blade-venom", nama: "Venom", w: "Blade_-_Venom", t: "Attack", k: "G0288"}
+  - id: cx
+    judul: "Part Custom Line (CX)"
+    grup:
+      - judul: "Lock Chip"
+        part:
+          - {s: "lock-chip-bahamut", nama: "Bahamut", w: "Lock_Chip_-_Bahamut", k: "CX-13"}
+          - {s: "lock-chip-brachio", nama: "Brachio", w: "Lock_Chip_-_Brachio", k: "CX-18"}
+          - {s: "lock-chip-cerberus", nama: "Cerberus", w: "Lock_Chip_-_Cerberus", k: "CX-08"}
+          - {s: "lock-chip-croco", nama: "Croco", w: "Lock_Chip_-_Croco", k: "CX-19"}
+          - {s: "lock-chip-drake", nama: "Drake", w: "Lock_Chip_-_Drake", k: "CX-00"}
+          - {s: "lock-chip-dran", nama: "Dran", w: "Lock_Chip_-_Dran", k: "CX-01"}
+          - {s: "lock-chip-emperor", nama: "Emperor", w: "Lock_Chip_-_Emperor", k: "CX-11"}
+          - {s: "lock-chip-enlil", nama: "Enlil", w: "Lock_Chip_-_Enlil", k: "G2750"}
+          - {s: "lock-chip-eva", nama: "Eva", w: "Lock_Chip_-_Eva", k: "CX-00"}
+          - {s: "lock-chip-fox", nama: "Fox", w: "Lock_Chip_-_Fox", k: "CX-06"}
+          - {s: "lock-chip-hells", nama: "Hells", w: "Lock_Chip_-_Hells", k: "CX-05"}
+          - {s: "lock-chip-hornet", nama: "Hornet", w: "Lock_Chip_-_Hornet", k: "G1682"}
+          - {s: "lock-chip-knight", nama: "Knight", w: "Lock_Chip_-_Knight", k: "CX-14"}
+          - {s: "lock-chip-kraken", nama: "Kraken", w: "Lock_Chip_-_Kraken", k: "G1683"}
+          - {s: "lock-chip-leon", nama: "Leon", w: "Lock_Chip_-_Leon", k: "CX-00"}
+          - {s: "lock-chip-pegasus", nama: "Pegasus", w: "Lock_Chip_-_Pegasus", k: "CX-07"}
+          - {s: "lock-chip-perseus", nama: "Perseus", w: "Lock_Chip_-_Perseus", k: "CX-03"}
+          - {s: "lock-chip-phoenix", nama: "Phoenix", w: "Lock_Chip_-_Phoenix", k: "CX-12"}
+          - {s: "lock-chip-ragna", nama: "Ragna", w: "Lock_Chip_-_Ragna", k: "CX-15"}
+          - {s: "lock-chip-rhino", nama: "Rhino", w: "Lock_Chip_-_Rhino", k: "CX-05"}
+          - {s: "lock-chip-sol", nama: "Sol", w: "Lock_Chip_-_Sol", k: "CX-09"}
+          - {s: "lock-chip-stag", nama: "Stag", w: "Lock_Chip_-_Stag", k: "G1684"}
+          - {s: "lock-chip-tiga", nama: "Tiga", w: "Lock_Chip_-_Tiga", k: "CX-00"}
+          - {s: "lock-chip-unicorn", nama: "Unicorn", w: "Lock_Chip_-_Unicorn", k: "CX-17"}
+          - {s: "lock-chip-valkyrie", nama: "Valkyrie", w: "Lock_Chip_-_Valkyrie", k: "CX-00"}
+          - {s: "lock-chip-whale", nama: "Whale", w: "Lock_Chip_-_Whale", k: "CX-08"}
+          - {s: "lock-chip-wizard", nama: "Wizard", w: "Lock_Chip_-_Wizard", k: "CX-02"}
+          - {s: "lock-chip-wolf", nama: "Wolf", w: "Lock_Chip_-_Wolf", k: "CX-10"}
+      - judul: "Main Blade"
+        part:
+          - {s: "main-blade-antler", nama: "Antler", w: "Main_Blade_-_Antler", t: "Stamina", k: "G1684"}
+          - {s: "main-blade-arc", nama: "Arc", w: "Main_Blade_-_Arc", t: "Stamina", k: "CX-02"}
+          - {s: "main-blade-blast", nama: "Blast", w: "Main_Blade_-_Blast", t: "Attack", k: "CX-07"}
+          - {s: "main-blade-brave", nama: "Brave", w: "Main_Blade_-_Brave", t: "Attack", k: "CX-01"}
+          - {s: "main-blade-brush", nama: "Brush", w: "Main_Blade_-_Brush", t: "Attack", k: "CX-06"}
+          - {s: "main-blade-dark", nama: "Dark", w: "Main_Blade_-_Dark", t: "Defense", k: "CX-03"}
+          - {s: "main-blade-eclipse", nama: "Eclipse", w: "Main_Blade_-_Eclipse", t: "Balance", k: "CX-09"}
+          - {s: "main-blade-fang", nama: "Fang", w: "Main_Blade_-_Fang", t: "Attack", k: "CX-00"}
+          - {s: "main-blade-flame", nama: "Flame", w: "Main_Blade_-_Flame", t: "Stamina", k: "CX-08"}
+          - {s: "main-blade-flare", nama: "Flare", w: "Main_Blade_-_Flare", t: "Defense", k: "CX-12"}
+          - {s: "main-blade-fort", nama: "Fort", w: "Main_Blade_-_Fort", t: "Balance", k: "G1682"}
+          - {s: "main-blade-hunt", nama: "Hunt", w: "Main_Blade_-_Hunt", t: "Stamina", k: "CX-10"}
+          - {s: "main-blade-might", nama: "Might", w: "Main_Blade_-_Might", t: "Balance", k: "CX-11"}
+          - {s: "main-blade-reaper", nama: "Reaper", w: "Main_Blade_-_Reaper", t: "Balance", k: "CX-05"}
+          - {s: "main-blade-volt", nama: "Volt", w: "Main_Blade_-_Volt", t: "Attack", k: "CX-00"}
+          - {s: "main-blade-wriggle", nama: "Wriggle", w: "Main_Blade_-_Wriggle", t: "Stamina", k: "G1683"}
+      - judul: "Over Blade"
+        part:
+          - {s: "over-blade-break", nama: "Break", w: "Over_Blade_-_Break", t: "Attack", k: "CX-13"}
+          - {s: "over-blade-flow", nama: "Flow", w: "Over_Blade_-_Flow", t: "Stamina", k: "CX-15"}
+          - {s: "over-blade-guard", nama: "Guard", w: "Over_Blade_-_Guard", t: "Defense", k: "CX-14"}
+          - {s: "over-blade-outer", nama: "Outer", w: "Over_Blade_-_Outer", t: "Stamina", k: "CX-18"}
+          - {s: "over-blade-peak", nama: "Peak", w: "Over_Blade_-_Peak", t: "Balance", k: "CX-17"}
+          - {s: "over-blade-tough", nama: "Tough", w: "Over_Blade_-_Tough", t: "Defense", k: "CX-19"}
+          - {s: "over-blade-weight", nama: "Weight", w: "Over_Blade_-_Weight", t: "Balance", k: "CX-20", baru: true}
+      - judul: "Metal Blade"
+        part:
+          - {s: "metal-blade-blitz", nama: "Blitz", w: "Metal_Blade_-_Blitz", t: "Attack", k: "CX-13"}
+          - {s: "metal-blade-delta", nama: "Delta", w: "Metal_Blade_-_Delta", t: "Balance", k: "CX-17"}
+          - {s: "metal-blade-force", nama: "Force", w: "Metal_Blade_-_Force", k: "CX-20", baru: true}
+          - {s: "metal-blade-fortress", nama: "Fortress", w: "Metal_Blade_-_Fortress", t: "Defense", k: "CX-14"}
+          - {s: "metal-blade-hurricane", nama: "Hurricane", w: "Metal_Blade_-_Hurricane", t: "Balance", k: "G2750"}
+          - {s: "metal-blade-rage", nama: "Rage", w: "Metal_Blade_-_Rage", t: "Stamina", k: "CX-15"}
+          - {s: "metal-blade-tread", nama: "Tread", w: "Metal_Blade_-_Tread", k: "CX-19"}
+          - {s: "metal-blade-whip", nama: "Whip", w: "Metal_Blade_-_Whip", t: "Stamina", k: "CX-18"}
+      - judul: "Assist Blade"
+        part:
+          - {s: "assist-blade-assault", nama: "Assault", w: "Assist_Blade_-_Assault", t: "Attack", k: "CX-07"}
+          - {s: "assist-blade-bumper", nama: "Bumper", w: "Assist_Blade_-_Bumper", t: "Defense", k: "CX-03"}
+          - {s: "assist-blade-charge", nama: "Charge", w: "Assist_Blade_-_Charge", t: "Defense", k: "CX-05"}
+          - {s: "assist-blade-dual", nama: "Dual", w: "Assist_Blade_-_Dual", t: "Balance", k: "CX-09"}
+          - {s: "assist-blade-erase", nama: "Erase", w: "Assist_Blade_-_Erase", t: "Stamina", k: "CX-15"}
+          - {s: "assist-blade-free", nama: "Free", w: "Assist_Blade_-_Free", t: "Stamina", k: "CX-10"}
+          - {s: "assist-blade-gravity", nama: "Gravity", w: "Assist_Blade_-_Gravity", t: "Attack", k: "CX-00"}
+          - {s: "assist-blade-heavy", nama: "Heavy", w: "Assist_Blade_-_Heavy", t: "Balance", k: "CX-11"}
+          - {s: "assist-blade-jaggy", nama: "Jaggy", w: "Assist_Blade_-_Jaggy", t: "Attack", k: "CX-06"}
+          - {s: "assist-blade-knuckle", nama: "Knuckle", w: "Assist_Blade_-_Knuckle", t: "Attack", k: "CX-13"}
+          - {s: "assist-blade-massive", nama: "Massive", w: "Assist_Blade_-_Massive", t: "Balance", k: "CX-08"}
+          - {s: "assist-blade-odd", nama: "Odd", w: "Assist_Blade_-_Odd", t: "Balance", k: "CX-17"}
+          - {s: "assist-blade-quell", nama: "Quell", w: "Assist_Blade_-_Quell", t: "Defense", k: "CX-19"}
+          - {s: "assist-blade-round", nama: "Round", w: "Assist_Blade_-_Round", t: "Stamina", k: "CX-02"}
+          - {s: "assist-blade-slash", nama: "Slash", w: "Assist_Blade_-_Slash", t: "Attack", k: "CX-01"}
+          - {s: "assist-blade-turn", nama: "Turn", w: "Assist_Blade_-_Turn", t: "Balance", k: "CX-05"}
+          - {s: "assist-blade-vertical", nama: "Vertical", w: "Assist_Blade_-_Vertical", t: "Defense", k: "CX-14"}
+          - {s: "assist-blade-wheel", nama: "Wheel", w: "Assist_Blade_-_Wheel", t: "Stamina", k: "CX-08"}
+          - {s: "assist-blade-zillion", nama: "Zillion", w: "Assist_Blade_-_Zillion", t: "Defense", k: "CX-12"}
+  - id: ratchet
+    judul: "Ratchet"
+    grup:
+      - judul: "Semua ratchet"
+        part:
+          - {s: "ratchet-0-60", nama: "0-60", w: "Ratchet_-_0-60", k: "CX-10"}
+          - {s: "ratchet-0-70", nama: "0-70", w: "Ratchet_-_0-70", k: "UX-14"}
+          - {s: "ratchet-0-80", nama: "0-80", w: "Ratchet_-_0-80", k: "UX-12"}
+          - {s: "ratchet-1-50", nama: "1-50", w: "Ratchet_-_1-50", k: "CX-13"}
+          - {s: "ratchet-1-60", nama: "1-60", w: "Ratchet_-_1-60", k: "UX-01"}
+          - {s: "ratchet-1-70", nama: "1-70", w: "Ratchet_-_1-70", k: "UX-15"}
+          - {s: "ratchet-1-80", nama: "1-80", w: "Ratchet_-_1-80", k: "UX-05"}
+          - {s: "ratchet-2-60", nama: "2-60", w: "Ratchet_-_2-60", k: "BX-34"}
+          - {s: "ratchet-2-70", nama: "2-70", w: "Ratchet_-_2-70", k: "UX-09"}
+          - {s: "ratchet-2-80", nama: "2-80", w: "Ratchet_-_2-80", k: "BX-00"}
+          - {s: "ratchet-3-60", nama: "3-60", w: "Ratchet_-_3-60", k: "BX-01"}
+          - {s: "ratchet-3-70", nama: "3-70", w: "Ratchet_-_3-70", k: "UX-02"}
+          - {s: "ratchet-3-80", nama: "3-80", w: "Ratchet_-_3-80", k: "BX-04"}
+          - {s: "ratchet-3-85", nama: "3-85", w: "Ratchet_-_3-85", k: "UX-10"}
+          - {s: "ratchet-4-50", nama: "4-50", w: "Ratchet_-_4-50", k: "UX-15"}
+          - {s: "ratchet-4-55", nama: "4-55", w: "Ratchet_-_4-55", k: "CX-02"}
+          - {s: "ratchet-4-60", nama: "4-60", w: "Ratchet_-_4-60", k: "BX-02"}
+          - {s: "ratchet-4-70", nama: "4-70", w: "Ratchet_-_4-70", k: "BX-31"}
+          - {s: "ratchet-4-80", nama: "4-80", w: "Ratchet_-_4-80", k: "BX-03"}
+          - {s: "ratchet-5-50", nama: "5-50", w: "Ratchet_-_5-50", k: "CX-19"}
+          - {s: "ratchet-5-60", nama: "5-60", w: "Ratchet_-_5-60", k: "BX-15"}
+          - {s: "ratchet-5-70", nama: "5-70", w: "Ratchet_-_5-70", k: "UX-03"}
+          - {s: "ratchet-5-80", nama: "5-80", w: "Ratchet_-_5-80", k: "BX-16"}
+          - {s: "ratchet-6-60", nama: "6-60", w: "Ratchet_-_6-60", k: "CX-01"}
+          - {s: "ratchet-6-70", nama: "6-70", w: "Ratchet_-_6-70", k: "BX-45"}
+          - {s: "ratchet-6-80", nama: "6-80", w: "Ratchet_-_6-80", k: "CX-03"}
+          - {s: "ratchet-7-55", nama: "7-55", w: "Ratchet_-_7-55", k: "UX-18"}
+          - {s: "ratchet-7-60", nama: "7-60", w: "Ratchet_-_7-60", k: "UX-06"}
+          - {s: "ratchet-7-70", nama: "7-70", w: "Ratchet_-_7-70", k: "UX-10"}
+          - {s: "ratchet-7-80", nama: "7-80", w: "Ratchet_-_7-80", k: "BX-39"}
+          - {s: "ratchet-8-70", nama: "8-70", w: "Ratchet_-_8-70", k: "CX-14"}
+          - {s: "ratchet-8-80", nama: "8-80", w: "Ratchet_-_8-80", k: "UX-21"}
+          - {s: "ratchet-9-60", nama: "9-60", w: "Ratchet_-_9-60", k: "BX-23"}
+          - {s: "ratchet-9-65", nama: "9-65", w: "Ratchet_-_9-65", k: "UX-16"}
+          - {s: "ratchet-9-70", nama: "9-70", w: "Ratchet_-_9-70", k: "UX-07"}
+          - {s: "ratchet-9-80", nama: "9-80", w: "Ratchet_-_9-80", k: "BX-27"}
+          - {s: "ratchet-m-65", nama: "M-65", w: "Ratchet_-_M-65", k: "CX-20", baru: true}
+          - {s: "ratchet-m-85", nama: "M-85", w: "Ratchet_-_M-85", k: "BX-44"}
+  - id: bit
+    judul: "Bit"
+    grup:
+      - judul: "Semua bit"
+        part:
+          - {s: "bit-accel", nama: "Accel", w: "Bit_-_Accel", t: "Attack", k: "UX-01"}
+          - {s: "bit-ball", nama: "Ball", w: "Bit_-_Ball", t: "Stamina", k: "BX-03"}
+          - {s: "bit-bound-spike", nama: "Bound Spike", w: "Bit_-_Bound_Spike", t: "Defense", k: "UX-10"}
+          - {s: "bit-cyclone", nama: "Cyclone", w: "Bit_-_Cyclone", t: "Attack", k: "BX-34"}
+          - {s: "bit-disk-ball", nama: "Disk Ball", w: "Bit_-_Disk_Ball", t: "Stamina", k: "UX-03"}
+          - {s: "bit-disk-spike", nama: "Disk Spike", w: "Bit_-_Disk_Spike", t: "Defense", k: "<!--"}
+          - {s: "bit-dot", nama: "Dot", w: "Bit_-_Dot", t: "Defense", k: "BX-35"}
+          - {s: "bit-elevate", nama: "Elevate", w: "Bit_-_Elevate", t: "Balance", k: "BX-36"}
+          - {s: "bit-flat", nama: "Flat", w: "Bit_-_Flat", t: "Attack", k: "BX-01"}
+          - {s: "bit-free-ball", nama: "Free Ball", w: "Bit_-_Free_Ball", t: "Stamina", k: "UX-08"}
+          - {s: "bit-free-flat", nama: "Free Flat", w: "Bit_-_Free_Flat", t: "Attack", k: "BX-49"}
+          - {s: "bit-gear-ball", nama: "Gear Ball", w: "Bit_-_Gear_Ball", t: "Stamina", k: "BX-24"}
+          - {s: "bit-gear-flat", nama: "Gear Flat", w: "Bit_-_Gear_Flat", t: "Attack", k: "BX-23"}
+          - {s: "bit-gear-needle", nama: "Gear Needle", w: "Bit_-_Gear_Needle", t: "Defense", k: "BX-27"}
+          - {s: "bit-gear-point", nama: "Gear Point", w: "Bit_-_Gear_Point", t: "Balance", k: "BX-26"}
+          - {s: "bit-gear-rush", nama: "Gear Rush", w: "Bit_-_Gear_Rush", t: "Attack", k: "CX-06"}
+          - {s: "bit-gear-unite", nama: "Gear Unite", w: "Bit_-_Gear_Unite", t: "Balance", k: "CX-17"}
+          - {s: "bit-glide", nama: "Glide", w: "Bit_-_Glide", t: "Stamina", k: "UX-07"}
+          - {s: "bit-hexa", nama: "Hexa", w: "Bit_-_Hexa", t: "Balance", k: "UX-02"}
+          - {s: "bit-high-needle", nama: "High Needle", w: "Bit_-_High_Needle", t: "Defense", k: "BX-13"}
+          - {s: "bit-high-taper", nama: "High Taper", w: "Bit_-_High_Taper", t: "Balance", k: "BX-21"}
+          - {s: "bit-ignition", nama: "Ignition", w: "Bit_-_Ignition", t: "Attack", k: "CX-13"}
+          - {s: "bit-jolt", nama: "Jolt", w: "Bit_-_Jolt", t: "Attack", k: "UX-17"}
+          - {s: "bit-kick", nama: "Kick", w: "Bit_-_Kick", t: "Balance", k: "CX-05"}
+          - {s: "bit-level", nama: "Level", w: "Bit_-_Level", t: "Attack", k: "UX-09"}
+          - {s: "bit-low-flat", nama: "Low Flat", w: "Bit_-_Low_Flat", t: "Attack", k: "BX-14"}
+          - {s: "bit-low-orb", nama: "Low Orb", w: "Bit_-_Low_Orb", t: "Stamina", k: "CX-02"}
+          - {s: "bit-low-point", nama: "Low Point", w: "Bit_-_Low_Point", t: "Balance", k: "BX-54"}
+          - {s: "bit-low-rush", nama: "Low Rush", w: "Bit_-_Low_Rush", t: "Attack", k: "UX-11"}
+          - {s: "bit-merge", nama: "Merge", w: "Bit_-_Merge", t: "Balance", k: "BX-45"}
+          - {s: "bit-metal-needle", nama: "Metal Needle", w: "Bit_-_Metal_Needle", t: "Defense", k: "UX-05"}
+          - {s: "bit-metal-taper", nama: "Metal Taper", w: "Bit_-_Metal_Taper", t: "Balance", k: "CX-20", baru: true}
+          - {s: "bit-narrow", nama: "Narrow", w: "Bit_-_Narrow", t: "Stamina", k: "CX-18"}
+          - {s: "bit-needle", nama: "Needle", w: "Bit_-_Needle", t: "Defense", k: "BX-04"}
+          - {s: "ratchet-integrated-bit-operate", nama: "Operate", w: "Ratchet-Integrated_Bit_-_Operate", t: "Balance", k: "CX-11"}
+          - {s: "bit-orb", nama: "Orb", w: "Bit_-_Orb", t: "Stamina", k: "BX-16"}
+          - {s: "bit-point", nama: "Point", w: "Bit_-_Point", t: "Balance", k: "BX-15"}
+          - {s: "bit-quake", nama: "Quake", w: "Bit_-_Quake", t: "Attack", k: "BX-31"}
+          - {s: "bit-rubber-accel", nama: "Rubber Accel", w: "Bit_-_Rubber_Accel", t: "Attack", k: "UX-10"}
+          - {s: "bit-rush", nama: "Rush", w: "Bit_-_Rush", t: "Attack", k: "BX-20"}
+          - {s: "bit-spike", nama: "Spike", w: "Bit_-_Spike", t: "Defense", k: "BX-19"}
+          - {s: "bit-taper", nama: "Taper", w: "Bit_-_Taper", t: "Balance", k: "BX-02"}
+          - {s: "bit-trans-kick", nama: "Trans Kick", w: "Bit_-_Trans_Kick", t: "Balance", k: "CX-09"}
+          - {s: "bit-trans-point", nama: "Trans Point", w: "Bit_-_Trans_Point", t: "Balance", k: "BX-38"}
+          - {s: "ratchet-integrated-bit-turbo", nama: "Turbo", w: "Ratchet-Integrated_Bit_-_Turbo", t: "Attack", k: "CX-07"}
+          - {s: "bit-under-flat", nama: "Under Flat", w: "Bit_-_Under_Flat", t: "Attack", k: "UX-15"}
+          - {s: "bit-under-needle", nama: "Under Needle", w: "Bit_-_Under_Needle", t: "Defense", k: "UX-13"}
+          - {s: "bit-unite", nama: "Unite", w: "Bit_-_Unite", t: "Balance", k: "BX-33"}
+          - {s: "bit-vortex", nama: "Vortex", w: "Bit_-_Vortex", t: "Attack", k: "CX-01"}
+          - {s: "bit-wall-ball", nama: "Wall Ball", w: "Bit_-_Wall_Ball", t: "Stamina", k: "CX-08"}
+          - {s: "bit-wall-wedge", nama: "Wall Wedge", w: "Bit_-_Wall_Wedge", t: "Defense", k: "CX-12"}
+          - {s: "bit-wedge", nama: "Wedge", w: "Bit_-_Wedge", t: "Defense", k: "CX-03"}
+          - {s: "bit-yielding", nama: "Yielding", w: "Bit_-_Yielding", t: "Stamina", k: "CX-15"}
+          - {s: "bit-zap", nama: "Zap", w: "Bit_-_Zap", t: "Balance", k: "UX-14"}

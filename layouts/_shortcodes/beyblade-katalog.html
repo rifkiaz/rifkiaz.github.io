@@ -1,0 +1,42 @@
+{{- /* Beyblade X part catalogue from data/beyblade/katalog.yaml.
+       {{< beyblade-katalog "filter" >}} renders the search/type filter (assets/js/katalog.js);
+       {{< beyblade-katalog "<kategori id>" >}} renders one category's groups. Images are page
+       resources at img/<s>.webp; each links to its Beyblade Wiki source page. */ -}}
+{{- $arg := .Get 0 -}}
+{{- if eq $arg "filter" }}
+<div class="kt-filter" role="search">
+  <input type="search" class="kt-q" placeholder="Cari part, misalnya Dran, 9-60, Rush" aria-label="Cari part">
+  <div class="kt-chips" role="group" aria-label="Filter tipe">
+    {{- range slice "Semua" "Attack" "Defense" "Stamina" "Balance" }}
+    <button type="button" class="kt-chip{{ if eq . "Semua" }} is-on{{ end }}" data-t="{{ if ne . "Semua" }}{{ . }}{{ end }}" aria-pressed="{{ eq . "Semua" }}">{{ . }}</button>
+    {{- end }}
+  </div>
+  <p class="kt-none" hidden>Tidak ada part yang cocok.</p>
+</div>
+{{- $js := resources.Get "js/katalog.js" | minify | fingerprint }}
+<script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
+{{- else }}
+{{- $k := index (where site.Data.beyblade.katalog.kategori "id" $arg) 0 -}}
+{{- if not $k }}{{ errorf "beyblade-katalog: kategori %q tidak ada" $arg }}{{ end -}}
+<div class="kt" data-kat="{{ $k.id }}">
+  {{- range $k.grup }}
+  <section class="kt-group">
+    <h3 class="kt-sub">{{ .judul }} <span class="kt-count">{{ len .part }}</span></h3>
+    <div class="kt-grid">
+      {{- range .part }}
+      {{- $img := $.Page.Resources.Get (printf "img/%s.webp" .s) -}}
+      {{- if not $img }}{{ errorf "beyblade-katalog: img/%s.webp tidak ada" .s }}{{ end }}
+      <figure class="kt-item" data-n="{{ lower .nama }} {{ lower (.k | default "") }}" data-t="{{ .t | default "" }}">
+        <img src="{{ $img.RelPermalink }}" width="{{ $img.Width }}" height="{{ $img.Height }}" alt="{{ .nama }}" loading="lazy" decoding="async">
+        <figcaption>
+          <span class="kt-name">{{ replace .nama "-" "‑" }}</span>
+          <span class="kt-meta">{{ with .k }}{{ replace . "-" "‑" }}{{ end }}{{ with .t }} · <span class="kt-t kt-t--{{ lower . }}">{{ . }}</span>{{ end }}{{ if .kiri }} · kiri{{ end }}{{ if .baru }} · <em>belum rilis</em>{{ end }}</span>
+          <a class="kt-src" href="https://beyblade.fandom.com/wiki/{{ .w }}" target="_blank" rel="noopener nofollow">Sumber</a>
+        </figcaption>
+      </figure>
+      {{- end }}
+    </div>
+  </section>
+  {{- end }}
+</div>
+{{- end -}}

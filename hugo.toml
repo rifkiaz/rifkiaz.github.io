@@ -163,6 +163,13 @@ Saya juga [member openSUSE](https://kudos.opensuse.org/user/Rifkiaz) dan aktif d
     weight = 10
 
   [[menu.main]]
+    identifier = "beyblade-x-part"
+    name = "Katalog Part Beyblade X"
+    url = "/hobi/beyblade-x-part/"
+    parent = "hobi"
+    weight = 20
+
+  [[menu.main]]
     identifier = "archives"
     name = "Arsip"
     url = "/archives/"
