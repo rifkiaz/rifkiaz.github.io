@@ -1,7 +1,13 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-{{- if hugo.IsProduction | or (eq site.Params.env "production") | and (ne .Params.robotsNoIndex true) }}
+{{- /* Tag pages with only one or two posts are thin copies of those posts;
+     Search Console reported them as "crawled, currently not indexed".
+     Keep them out of the index (links still followed) and out of the sitemap. */}}
+{{- $thinTag := and (eq .Kind "term") (eq .Data.Plural "tags") (lt (len .Pages) (site.Params.minTagPagesToIndex | default 3)) }}
+{{- if $thinTag }}
+<meta name="robots" content="noindex, follow">
+{{- else if hugo.IsProduction | or (eq site.Params.env "production") | and (ne .Params.robotsNoIndex true) }}
 <meta name="robots" content="index, follow">
 {{- else }}
 <meta name="robots" content="noindex, nofollow">
