@@ -17,6 +17,11 @@ enableGitInfo = true
   tag = "tags"
   series = "series"
 
+# GA4. Rendered by layouts/_partials/google_analytics.html, which only
+# loads it on the live domain (not Netlify previews or hugo server).
+[services.googleAnalytics]
+  id = "G-3VVK0R7V10"
+
 [services.disqus]
   shortname = "blog-rifkiaz-web-id"
 
