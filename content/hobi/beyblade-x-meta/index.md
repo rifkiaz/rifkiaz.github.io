@@ -116,6 +116,14 @@ Beberapa catatan biar kamu nggak salah baca:
 - Data September dan Oktober masih lebih sedikit karena hasil turnamen biasanya baru masuk ke BEYWATCH.GG beberapa minggu setelah acaranya.
 - Turnamen yang tidak mencantumkan deck juaranya tidak saya masukkan ke daftar.
 
+## Combo favorit tiap blade
+
+Satu blade bisa dipasang dengan banyak ratchet dan bit. Di sini kamu bisa lihat, untuk tiap blade yang sering juara, combo mana yang paling banyak dipakai di deck juara 6 bulan terakhir, diurutkan dari yang paling sering. Klik nama blade buat membuka daftarnya. Angka persen artinya porsi combo itu dari semua combo blade tersebut.
+
+{{< beyblade-combo-blade >}}
+
+Blade yang pakai ratchet menyatu, seperti Glory Valkyrie dan Bullet Griffon, combo-nya cuma ditulis nama bit-nya.
+
 ## Part yang paling sering dipakai
 
 **Blade**: Shark Scale, Wizard Rod, Hover Wyvern, Meteor Dragoon, Silver Wolf, Cobalt Dragoon, Aero Pegasus, dan yang lagi naik Hells Nether serta Glory Valkyrie.
