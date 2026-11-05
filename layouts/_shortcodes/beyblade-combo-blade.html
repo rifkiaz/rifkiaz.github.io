@@ -1,0 +1,33 @@
+{{- /* Most-used combos per blade in the last 6 months of winning decks, from
+       data/beyblade/juara.yaml `per_blade` (built by gen-juara.py). One <details>
+       per blade, ranked; blade thumbnails come from the part catalog bundle. */ -}}
+{{- $d := site.Data.beyblade.juara -}}
+{{- $katalog := site.GetPage "/hobi/beyblade-x-part" -}}
+{{- $override := dict "Emperor Blast Heavy" "main-blade-blast" -}}
+<div class="bt cb">
+  <p class="bt-meta">{{ $d.periode }} · {{ len $d.per_blade }} blade paling sering juara · data <a href="{{ $d.sumber.url }}">{{ $d.sumber.nama }}</a></p>
+  {{- range $i, $b := $d.per_blade }}
+  {{- $slug := lower (replace $b.nama " " "") }}
+  {{- $img := false }}
+  {{- with $katalog }}
+    {{- range slice (index $override $b.nama | default "x") (printf "blade-%s" $slug) (printf "blade-%s" (lower (replace $b.nama " " "-"))) (printf "ratchet-integrated-blade-%s" $slug) }}
+      {{- if not $img }}{{ with $katalog.Resources.Get (printf "img/%s.webp" .) }}{{ $img = . }}{{ end }}{{ end }}
+    {{- end }}
+  {{- end }}
+  {{- $top := index $b.combo 0 }}
+  <details class="cb-item"{{ if eq $i 0 }} open{{ end }}>
+    <summary>
+      <span class="cb-pos">{{ add $i 1 }}</span>
+      {{- with $img }}<img class="cb-img" src="{{ .RelPermalink }}" alt="" width="40" height="40" loading="lazy">{{ else }}<span class="cb-img" aria-hidden="true"></span>{{ end }}
+      <span class="cb-head"><span class="cb-name">{{ $b.nama }}</span><span class="cb-sub">ada di {{ $b.deck }} deck juara · {{ $b.variasi }} variasi combo</span></span>
+      <span class="cb-top">{{ $top.combo }}</span>
+    </summary>
+    <ol class="cb-list">
+      {{- range $j, $c := $b.combo }}
+      {{- $pct := div (mul $c.pakai 100.0) $b.combo_total }}
+      <li title="{{ $b.nama }} {{ $c.combo }}: {{ $c.pakai }}× ({{ math.Round $pct }}% dari combo {{ $b.nama }})"><span class="bt-pos">{{ add $j 1 }}</span><span class="bt-name">{{ $c.combo }}</span><span class="bt-bar" aria-hidden="true"><span style="width: {{ div (mul $c.pakai 100.0) $top.pakai }}%"></span></span><span class="bt-count">{{ $c.pakai }}×</span><span class="cb-pct">{{ math.Round $pct }}%</span></li>
+      {{- end }}
+    </ol>
+  </details>
+  {{- end }}
+</div>

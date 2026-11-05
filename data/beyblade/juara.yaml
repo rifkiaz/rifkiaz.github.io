@@ -33,6 +33,202 @@ bulan:
   - { id: "2026-07", nama: "Juli 2026", event: 172, top: { nama: "Wizard Rod", combo: "1-60 Hexa", pakai: 55 } }
   - { id: "2026-06", nama: "Juni 2026", event: 231, top: { nama: "Wizard Rod", combo: "1-60 Hexa", pakai: 85 } }
   - { id: "2026-05", nama: "Mei 2026", event: 252, top: { nama: "Wizard Rod", combo: "1-60 Hexa", pakai: 82 } }
+per_blade:
+  - nama: "Shark Scale"
+    deck: 686
+    combo_total: 708
+    variasi: 103
+    combo:
+      - { combo: "1-70 Low Rush", pakai: 133 }
+      - { combo: "9-60 Free Ball", pakai: 56 }
+      - { combo: "1-60 Low Rush", pakai: 37 }
+      - { combo: "3-60 Low Rush", pakai: 32 }
+      - { combo: "1-60 Rush", pakai: 30 }
+      - { combo: "3-60 Free Ball", pakai: 28 }
+      - { combo: "3-60 Rush", pakai: 26 }
+      - { combo: "7-60 Rush", pakai: 22 }
+  - nama: "Wizard Rod"
+    deck: 637
+    combo_total: 652
+    variasi: 56
+    combo:
+      - { combo: "1-60 Hexa", pakai: 343 }
+      - { combo: "1-60 Free Ball", pakai: 86 }
+      - { combo: "6-60 Hexa", pakai: 37 }
+      - { combo: "9-60 Free Ball", pakai: 30 }
+      - { combo: "1-60 Narrow", pakai: 15 }
+      - { combo: "9-60 Ball", pakai: 12 }
+      - { combo: "9-60 Hexa", pakai: 10 }
+      - { combo: "1-60 Ball", pakai: 9 }
+  - nama: "Aero Pegasus"
+    deck: 333
+    combo_total: 346
+    variasi: 63
+    combo:
+      - { combo: "1-60 Rush", pakai: 73 }
+      - { combo: "1-50 Rush", pakai: 62 }
+      - { combo: "7-60 Rush", pakai: 26 }
+      - { combo: "1-50 Kick", pakai: 17 }
+      - { combo: "1-70 Rush", pakai: 16 }
+      - { combo: "1-50 Low Rush", pakai: 13 }
+      - { combo: "1-60 Kick", pakai: 13 }
+      - { combo: "3-60 Rush", pakai: 12 }
+  - nama: "Cobalt Dragoon"
+    deck: 171
+    combo_total: 173
+    variasi: 22
+    combo:
+      - { combo: "9-60 Elevate", pakai: 80 }
+      - { combo: "5-60 Elevate", pakai: 64 }
+      - { combo: "5-50 Elevate", pakai: 4 }
+      - { combo: "1-50 Elevate", pakai: 3 }
+      - { combo: "6-70 Elevate", pakai: 3 }
+      - { combo: "9-70 Elevate", pakai: 2 }
+      - { combo: "6-60 Elevate", pakai: 2 }
+      - { combo: "5-60 Level", pakai: 1 }
+  - nama: "Meteor Dragoon"
+    deck: 147
+    combo_total: 150
+    variasi: 25
+    combo:
+      - { combo: "7-60 Level", pakai: 56 }
+      - { combo: "9-60 Elevate", pakai: 32 }
+      - { combo: "7-70 Level", pakai: 31 }
+      - { combo: "7-70 Elevate", pakai: 3 }
+      - { combo: "1-50 Level", pakai: 3 }
+      - { combo: "0-60 Level", pakai: 2 }
+      - { combo: "9-65 Elevate", pakai: 2 }
+      - { combo: "5-60 Elevate", pakai: 2 }
+  - nama: "Silver Wolf"
+    deck: 140
+    combo_total: 142
+    variasi: 28
+    combo:
+      - { combo: "9-60 Free Ball", pakai: 61 }
+      - { combo: "9-70 Free Ball", pakai: 15 }
+      - { combo: "9-60 Low Orb", pakai: 7 }
+      - { combo: "9-60 Ball", pakai: 7 }
+      - { combo: "9-60 Wedge", pakai: 5 }
+      - { combo: "9-60 Orb", pakai: 4 }
+      - { combo: "9-60 Narrow", pakai: 4 }
+      - { combo: "9-60 Hexa", pakai: 4 }
+  - nama: "Hover Wyvern"
+    deck: 129
+    combo_total: 130
+    variasi: 39
+    combo:
+      - { combo: "9-60 Kick", pakai: 39 }
+      - { combo: "9-60 Rush", pakai: 14 }
+      - { combo: "9-60 Jolt", pakai: 9 }
+      - { combo: "1-60 Kick", pakai: 9 }
+      - { combo: "1-60 Rush", pakai: 7 }
+      - { combo: "1-50 Kick", pakai: 6 }
+      - { combo: "3-60 Low Rush", pakai: 4 }
+      - { combo: "9-60 Low Rush", pakai: 3 }
+  - nama: "Dran Strike"
+    deck: 106
+    combo_total: 107
+    variasi: 54
+    combo:
+      - { combo: "9-60 Kick", pakai: 16 }
+      - { combo: "3-60 Kick", pakai: 7 }
+      - { combo: "7-60 Kick", pakai: 5 }
+      - { combo: "3-60 Rush", pakai: 4 }
+      - { combo: "3-60 Low Rush", pakai: 4 }
+      - { combo: "3-70 Jolt", pakai: 3 }
+      - { combo: "5-50 Kick", pakai: 3 }
+      - { combo: "3-70 Rush", pakai: 3 }
+  - nama: "Phoenix Wing"
+    deck: 101
+    combo_total: 102
+    variasi: 36
+    combo:
+      - { combo: "3-60 Rush", pakai: 20 }
+      - { combo: "3-60 Low Rush", pakai: 8 }
+      - { combo: "1-60 Rush", pakai: 8 }
+      - { combo: "1-50 Rush", pakai: 7 }
+      - { combo: "7-60 Rush", pakai: 6 }
+      - { combo: "1-60 Low Rush", pakai: 5 }
+      - { combo: "7-60 Level", pakai: 5 }
+      - { combo: "9-60 Rush", pakai: 4 }
+  - nama: "Glory Valkyrie"
+    deck: 78
+    combo_total: 85
+    variasi: 20
+    combo:
+      - { combo: "Kick", pakai: 24 }
+      - { combo: "Rush", pakai: 17 }
+      - { combo: "Low Rush", pakai: 8 }
+      - { combo: "Level", pakai: 7 }
+      - { combo: "Taper", pakai: 5 }
+      - { combo: "Point", pakai: 3 }
+      - { combo: "Free Flat", pakai: 2 }
+      - { combo: "Jolt", pakai: 2 }
+  - nama: "Bullet Griffon"
+    deck: 78
+    combo_total: 81
+    variasi: 15
+    combo:
+      - { combo: "Hexa", pakai: 28 }
+      - { combo: "Jolt", pakai: 12 }
+      - { combo: "Unite", pakai: 9 }
+      - { combo: "Level", pakai: 9 }
+      - { combo: "Merge", pakai: 9 }
+      - { combo: "Kick", pakai: 3 }
+      - { combo: "Taper", pakai: 2 }
+      - { combo: "Rubber Accel", pakai: 2 }
+  - nama: "Golem Rock"
+    deck: 49
+    combo_total: 49
+    variasi: 32
+    combo:
+      - { combo: "9-60 Free Ball", pakai: 7 }
+      - { combo: "1-60 Under Needle", pakai: 5 }
+      - { combo: "9-60 Low Orb", pakai: 3 }
+      - { combo: "3-60 Narrow", pakai: 2 }
+      - { combo: "1-60 Free Ball", pakai: 2 }
+      - { combo: "7-60 Hexa", pakai: 2 }
+      - { combo: "3-60 Free Ball", pakai: 2 }
+      - { combo: "9-60 Wedge", pakai: 2 }
+  - nama: "Emperor Blast Heavy"
+    deck: 36
+    combo_total: 36
+    variasi: 27
+    combo:
+      - { combo: "9-60 Kick", pakai: 4 }
+      - { combo: "1-60 Kick", pakai: 3 }
+      - { combo: "3-60 Rush", pakai: 2 }
+      - { combo: "3-60 Kick", pakai: 2 }
+      - { combo: "7-60 Kick", pakai: 2 }
+      - { combo: "9-60 Low Rush", pakai: 2 }
+      - { combo: "9-60 Jolt", pakai: 1 }
+      - { combo: "3-70 Low Rush", pakai: 1 }
+  - nama: "Tyranno Beat"
+    deck: 35
+    combo_total: 38
+    variasi: 29
+    combo:
+      - { combo: "1-70 Kick", pakai: 4 }
+      - { combo: "1-50 Rush", pakai: 3 }
+      - { combo: "5-70 Point", pakai: 2 }
+      - { combo: "7-70 Point", pakai: 2 }
+      - { combo: "7-60 Point", pakai: 2 }
+      - { combo: "3-60 Low Rush", pakai: 2 }
+      - { combo: "1-50 Zap", pakai: 1 }
+      - { combo: "9-70 Kick", pakai: 1 }
+  - nama: "Mummy Curse"
+    deck: 25
+    combo_total: 29
+    variasi: 22
+    combo:
+      - { combo: "9-60 Wedge", pakai: 3 }
+      - { combo: "3-60 Hexa", pakai: 2 }
+      - { combo: "9-60 Hexa", pakai: 2 }
+      - { combo: "9-60 Free Ball", pakai: 2 }
+      - { combo: "1-60 Wedge", pakai: 2 }
+      - { combo: "7-60 Low Orb", pakai: 2 }
+      - { combo: "1-60 Rubber Accel", pakai: 1 }
+      - { combo: "1-60 Rush", pakai: 1 }
 event:
   - { t: "2026-10-27", e: "Ai no Athlete Cup 2-1", l: "Japan", d: [{ b: "Shark Scale", c: "9-60 Free Ball" }, { b: "Wizard Rod", c: "1-70 Wedge" }, { b: "Phoenix Wing", c: "1-60 Low Rush" }] }
   - { t: "2026-10-27", e: "Ai no Athlete Cup 2-2", l: "Japan", d: [{ b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Shark Scale", c: "4-50 Jolt" }] }
