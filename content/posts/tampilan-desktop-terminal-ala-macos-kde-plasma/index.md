@@ -192,7 +192,11 @@ Kalau pakai **Konsole**: *Settings > Edit Current Profile > Appearance*, pilih s
 - **Wallpaper**: klik kanan desktop > *Configure Desktop and Wallpaper*. Pakai gambar yang sama untuk **Lock Screen** (*System Settings > Screen Locking > Appearance*).
 - Log out lalu login lagi supaya panel, font, dan dekorasi jendela tampil sempurna.
 
-Voila, desktop dan terminalnya sudah mirip punya saya. Selamat mencoba! 🎨
+Voila, desktop dan terminalnya sudah mirip punya saya. Ini hasil akhirnya di laptop saya: panel atas gelap dengan launcher, nama aplikasi aktif, jam di tengah, dan system tray (termasuk widget macOS Battery) di kanan, dengan wallpaper Gundam yang gelap.
+
+![Hasil akhir desktop KDE Plasma ala macOS dengan wallpaper Gundam](assets/hasil-akhir.webp "Hasil akhir: KDE Plasma 6 ala macOS di openSUSE Tumbleweed")
+
+Selamat mencoba! 🎨
 
 Sekian, semoga membantu.
 
