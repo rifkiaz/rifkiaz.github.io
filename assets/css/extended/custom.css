@@ -196,6 +196,65 @@
   20%, 60% { transform: translateX(-6px); } 40%, 80% { transform: translateX(6px); }
 }
 
+/* htop palsu: saat aktif, layar terminal cuma menampilkan htop (seperti alternate screen) */
+.term-htop-on #term-out > :not(.term-htop-row) { display: none; }
+.htop {
+  --ht-g: #1a7f37; --ht-r: #cf222e; --ht-b: #0969da; --ht-y: #9a6700; --ht-c: #0e7c86;
+  --ht-sel: #bfe8ec; --ht-sel-fg: #0d1117;
+  white-space: normal; font-size: 13px; line-height: 1.45; user-select: none;
+}
+:root[data-theme="dark"] .htop {
+  --ht-g: #3fb950; --ht-r: #f85149; --ht-b: #58a6ff; --ht-y: #d29922; --ht-c: #39c5cf;
+  --ht-sel: #1f6f78; --ht-sel-fg: #f0f6fc;
+}
+.ht-meters { display: grid; grid-template-columns: 1fr 1fr; gap: 0 3ch; }
+.ht-col { min-width: 0; }
+.ht-meter { display: flex; align-items: center; white-space: nowrap; }
+.ht-lbl { color: var(--ht-c); font-weight: 700; min-width: 3ch; }
+.ht-br { color: var(--primary); font-weight: 700; }
+.ht-track { position: relative; flex: 1; min-width: 0; display: flex; overflow: hidden; height: 1.45em; }
+.ht-seg { flex: none; overflow: hidden; font-weight: 700; transition: width 0.6s ease; }
+.ht-seg::before { content: "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"; }
+.ht-usr { color: var(--ht-g); } .ht-sys { color: var(--ht-r); } .ht-low { color: var(--ht-b); }
+.ht-buf { color: var(--ht-b); } .ht-cache { color: var(--ht-y); }
+.ht-val { position: absolute; right: 0; top: 0; padding-inline-start: 0.6ch; background: var(--entry); color: var(--secondary); }
+.ht-info { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ht-k { color: var(--ht-c); } .ht-v { color: var(--primary); font-weight: 700; }
+.ht-msg { color: var(--ht-y); min-height: 1.45em; margin: 4px 0; }
+.ht-body { overflow-y: auto; overscroll-behavior: contain; }
+.ht-table { overflow-x: auto; }
+.ht-row {
+  display: grid; white-space: nowrap; cursor: pointer;
+  grid-template-columns: 6ch 10ch 4ch 3ch 6ch 6ch 6ch 2ch 6ch 6ch 9ch minmax(24ch, 1fr);
+  column-gap: 1ch;
+}
+.ht-row > span { overflow: hidden; text-overflow: ellipsis; }
+.ht-c-pid, .ht-c-pri, .ht-c-ni, .ht-c-virt, .ht-c-res, .ht-c-shr, .ht-c-cpu, .ht-c-mem, .ht-c-time { text-align: right; }
+.ht-head { background: var(--ht-g); color: var(--entry); font-weight: 700; cursor: default; }
+.ht-head span { cursor: pointer; }
+.ht-head .is-sort { background: var(--ht-c); }
+.ht-body .ht-row:hover { background: var(--accent-soft); }
+.ht-body .ht-row.is-sel { background: var(--ht-sel); color: var(--ht-sel-fg); }
+.ht-root { color: var(--ht-r); } .ht-run { color: var(--ht-g); font-weight: 700; } .ht-hot { color: var(--ht-r); font-weight: 700; }
+.ht-row.is-sel .ht-root, .ht-row.is-sel .ht-run, .ht-row.is-sel .ht-hot { color: inherit; }
+.ht-row.is-new { animation: ht-new 1s ease; }
+@keyframes ht-new { from { background: var(--accent-soft); } }
+.ht-foot { display: flex; flex-wrap: wrap; gap: 2px 1ch; margin-top: 6px; }
+.ht-fkey { display: inline-flex; padding: 0; border: 0; background: none; font: inherit; cursor: pointer; }
+.ht-fk { color: var(--primary); font-weight: 700; padding-inline-end: 0.3ch; }
+.ht-fl { background: var(--ht-c); color: var(--entry); padding: 0 0.6ch; min-width: 6ch; text-align: start; }
+.ht-fkey:hover .ht-fl, .ht-fkey:focus-visible .ht-fl { background: var(--ht-g); }
+@media (max-width: 600px) {
+  .htop { font-size: 12px; }
+  .ht-meters { grid-template-columns: 1fr; }
+  .ht-row { grid-template-columns: 5ch 8ch 2ch 5ch 5ch minmax(0, 1fr); }
+  .ht-c-pri, .ht-c-ni, .ht-c-virt, .ht-c-shr, .ht-c-time, .ht-c-res { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ht-seg { transition: none; }
+  .ht-row.is-new { animation: none; }
+}
+
 @keyframes term-blink { 50% { opacity: 0; } }
 @media (prefers-reduced-motion: reduce) {
   .home-typed-cursor, .term-shake { animation: none; }

@@ -208,8 +208,10 @@
   }
 
   function stopGame(msg) {
-    if (msg) line(msg, 'term-dim');
+    var g = game;
     game = null;
+    if (g && g.stop) g.stop();
+    if (msg) line(msg, 'term-dim');
     setPrompt(ps1());
   }
 
@@ -639,6 +641,319 @@
     setPrompt(game.prompt);
   }
 
+  // ---------- htop (palsu, tapi animasinya beneran) ----------
+  function startHtop() {
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var CORES = 4;
+    var MEM_TOTAL = 15.5 * 1024; // MB
+    var nextPid = 4200;
+    var t0 = Date.now();
+    // [cmd, user, cpu dasar (% 1 core), RES MB, respawn?, catatan kill]
+    var BASE = [
+      ['/usr/lib/systemd/systemd --switched-root --system', 'root', 0.2, 14, 'pid1'],
+      ['/usr/sbin/sshd -D', 'root', 0.1, 9, true, 'Hati-hati, kalau ini server remote kamu barusan ngunci diri sendiri. 🔒'],
+      ['/usr/bin/containerd', 'root', 1.4, 62, true],
+      ['/usr/bin/dockerd -H fd://', 'root', 1.1, 98, true],
+      ['/usr/bin/kubelet --config=/var/lib/kubelet/config.yaml', 'root', 3.2, 140, true, 'kubelet mati, node jadi NotReady. Untung cuma sebentar.'],
+      ['/usr/bin/prometheus --storage.tsdb.retention=15d', 'prometheus', 4.5, 610, true, 'Prometheus mati = alert juga ikut diam. Itu justru yang paling serem. 👻'],
+      ['/usr/bin/node_exporter', 'prometheus', 0.6, 22, true],
+      ['/usr/sbin/grafana-server', 'grafana', 1.2, 180, true],
+      ['vault server -config=/etc/vault.d/vault.hcl', 'vault', 0.5, 95, true, 'Vault restart dalam keadaan sealed. Siapkan unseal key kamu. 🔐'],
+      ['postgres: checkpointer', 'postgres', 0.8, 240, true],
+      ['redis-server *:6379', 'redis', 0.7, 48, true],
+      ['nginx: worker process', 'nginx', 0.9, 16, true, 'nginx mati, pengunjung dapat 502. Untung systemd sigap.'],
+      ['hugo server -D --bind 0.0.0.0', 'rifki', 2.0, 130, false],
+      ['n8n start', 'rifki', 1.0, 210, false],
+      ['/opt/google/chrome/chrome --type=renderer (42 tab)', 'rifki', 9, 3170, 'chrome'],
+      ['kopi-daemon --dosis=secukupnya', 'rifki', 0.3, 7, 'kopi'],
+      ['-zsh', 'rifki', 0, 11, false],
+      ['htop', 'rifki', 1.5, 6, 'self']
+    ];
+    var JOBS = [
+      ['terraform apply -auto-approve', 85, 160],
+      ['ansible-playbook -i inventory site.yml', 60, 120],
+      ['kubectl get pods -A -w', 12, 45],
+      ['git push origin main', 25, 20],
+      ['zypper dup --no-confirm', 70, 90],
+      ['docker build -t web:latest .', 95, 300]
+    ];
+    function mk(b) {
+      return { pid: b[1] === 'root' && b[0].indexOf('systemd') !== -1 ? 1 : (nextPid += 3 + Math.floor(Math.random() * 40)),
+        cmd: b[0], user: b[1], base: b[2], res: b[3], kind: b[4], note: b[5], cpu: b[2], time: Math.random() * 90 };
+    }
+    var procs = BASE.map(mk);
+    var self = procs[procs.length - 1];
+    var sel = null;
+    var sortKeys = ['cpu', 'mem', 'pid', 'time'];
+    var sortLabel = { cpu: 'CPU%', mem: 'MEM%', pid: 'PID', time: 'TIME+' };
+    var sortBy = 'cpu';
+    var load = [0.62, 0.55, 0.48];
+    var nextJob = Date.now() + 3000;
+    var timers = [];
+    var msg = 'Tekan h buat bantuan, q buat keluar.';
+
+    // ---- DOM ----
+    function el(tag, cls, text) {
+      var e = document.createElement(tag);
+      if (cls) e.className = cls;
+      if (text !== undefined) e.textContent = text;
+      return e;
+    }
+    var root = el('div', 'htop');
+    root.setAttribute('aria-label', 'htop: daftar proses (simulasi)');
+    var meters = el('div', 'ht-meters');
+    var colL = el('div', 'ht-col');
+    var colR = el('div', 'ht-col');
+    meters.appendChild(colL); meters.appendChild(colR);
+    function meter(parent, label, segs) {
+      var m = el('div', 'ht-meter');
+      m.appendChild(el('span', 'ht-lbl', label));
+      m.appendChild(el('span', 'ht-br', '['));
+      var tr = el('span', 'ht-track');
+      var s = segs.map(function (c) { var x = el('span', 'ht-seg ' + c); tr.appendChild(x); return x; });
+      var v = el('span', 'ht-val');
+      tr.appendChild(v);
+      m.appendChild(tr);
+      m.appendChild(el('span', 'ht-br', ']'));
+      parent.appendChild(m);
+      return { segs: s, val: v };
+    }
+    var cpuM = [];
+    for (var c = 0; c < CORES; c++) cpuM.push(meter(colL, String(c + 1), ['ht-low', 'ht-usr', 'ht-sys']));
+    var memM = meter(colL, 'Mem', ['ht-usr', 'ht-buf', 'ht-cache']);
+    var swpM = meter(colL, 'Swp', ['ht-sys']);
+    var tasksEl = el('div', 'ht-info');
+    var loadEl = el('div', 'ht-info');
+    var upEl = el('div', 'ht-info');
+    colR.appendChild(tasksEl); colR.appendChild(loadEl); colR.appendChild(upEl);
+    var msgEl = el('div', 'ht-msg');
+    var table = el('div', 'ht-table');
+    var head = el('div', 'ht-row ht-head');
+    var COLS = [['pid', 'PID'], ['user', 'USER'], ['pri', 'PRI'], ['ni', 'NI'], ['virt', 'VIRT'], ['res', 'RES'], ['shr', 'SHR'],
+      ['s', 'S'], ['cpu', 'CPU%'], ['mem', 'MEM%'], ['time', 'TIME+'], ['cmd', 'Command']];
+    COLS.forEach(function (col) {
+      var h = el('span', 'ht-c-' + col[0], col[1]);
+      h.dataset.sort = col[0];
+      head.appendChild(h);
+    });
+    table.appendChild(head);
+    var body = el('div', 'ht-body');
+    table.appendChild(body);
+    var foot = el('div', 'ht-foot');
+    [['F1', 'Help', 'h'], ['F3', 'Search', '-'], ['F5', 'Tree', '-'], ['F6', 'SortBy', 's'], ['F9', 'Kill', 'k'], ['F10', 'Quit', 'q']].forEach(function (f) {
+      var b = el('button', 'ht-fkey');
+      b.type = 'button';
+      b.dataset.key = f[2];
+      b.appendChild(el('span', 'ht-fk', f[0]));
+      b.appendChild(el('span', 'ht-fl', f[1]));
+      foot.appendChild(b);
+    });
+    root.appendChild(meters); root.appendChild(msgEl); root.appendChild(table); root.appendChild(foot);
+
+    // ---- format ----
+    function mem(mb) {
+      if (mb >= 1024) return (mb / 1024).toFixed(mb >= 10240 ? 1 : 2) + 'G';
+      return Math.round(mb) + 'M';
+    }
+    function clock(s) {
+      var m = Math.floor(s / 60), r = s % 60;
+      return m + ':' + (r < 10 ? '0' : '') + r.toFixed(2);
+    }
+    function two(n) { return (n < 10 ? '0' : '') + n; }
+    function setBar(m, parts, text) {
+      var left = 100;
+      parts.forEach(function (p, i) {
+        var w = Math.max(0, Math.min(left, p));
+        left -= w;
+        m.segs[i].style.width = w.toFixed(1) + '%';
+      });
+      m.val.textContent = text;
+    }
+
+    // ---- simulasi ----
+    function step() {
+      var now = Date.now();
+      if (now > nextJob) {
+        var j = JOBS[Math.floor(Math.random() * JOBS.length)];
+        var p = mk([j[0], 'rifki', j[1], j[2], 'job']);
+        p.ttl = now + 3500 + Math.random() * 4000;
+        p.time = 0;
+        procs.push(p);
+        nextJob = now + 6000 + Math.random() * 6000;
+      }
+      procs = procs.filter(function (p) { return !p.ttl || p.ttl > now; });
+      var total = 0;
+      procs.forEach(function (p) {
+        var spike = Math.random() < 0.06 ? 3 + Math.random() * 6 : 1;
+        p.cpu = Math.max(0, p.base * (0.55 + Math.random() * 0.9) * spike);
+        if (p.kind === 'job') p.cpu = Math.min(100, p.cpu);
+        p.time += p.cpu / 100;
+        p.res = Math.max(4, p.res * (0.995 + Math.random() * 0.01));
+        total += p.cpu;
+      });
+      var w = [], ws = 0;
+      for (var i = 0; i < CORES; i++) { w.push(0.4 + Math.random()); ws += w[i]; }
+      cpuM.forEach(function (m, i) {
+        var u = Math.min(98, total * w[i] / ws + Math.random() * 2);
+        var low = u * 0.08, sys = u * 0.22, usr = u - low - sys;
+        setBar(m, [low, usr, sys], u.toFixed(1) + '%');
+      });
+      var used = 1200 + procs.reduce(function (a, p) { return a + p.res; }, 0);
+      var buf = 310, cache = 2900 + Math.sin(now / 9000) * 300;
+      setBar(memM, [used / MEM_TOTAL * 100, buf / MEM_TOTAL * 100, cache / MEM_TOTAL * 100], mem(used) + '/' + mem(MEM_TOTAL));
+      setBar(swpM, [1.2], '24.0M/2.00G');
+      var running = procs.filter(function (p) { return p.cpu > 8 || p === self; }).length;
+      tasksEl.textContent = '';
+      tasksEl.appendChild(frag(span('Tasks: ', 'ht-k'), span(String(procs.length + 117), 'ht-v'), span(', ' + (480 + procs.length * 3) + ' thr; ', 'ht-k'), span(running + ' running', 'ht-v')));
+      var L = total / 100;
+      load = [load[0] * 0.8 + L * 0.2, load[1] * 0.95 + L * 0.05, load[2] * 0.985 + L * 0.015];
+      loadEl.textContent = '';
+      loadEl.appendChild(frag(span('Load average: ', 'ht-k'), span(load[0].toFixed(2) + ' ', 'ht-v'), span(load[1].toFixed(2) + ' ' + load[2].toFixed(2), 'ht-k')));
+      var s = Math.floor((now - started) / 1000) + 3 * 86400 + 4 * 3600 + 17 * 60;
+      upEl.textContent = '';
+      upEl.appendChild(frag(span('Uptime: ', 'ht-k'), span(Math.floor(s / 86400) + ' days, ' + two(Math.floor(s / 3600) % 24) + ':' + two(Math.floor(s / 60) % 60) + ':' + two(s % 60), 'ht-v')));
+      draw();
+    }
+
+    function sorted() {
+      return procs.slice().sort(function (a, b) {
+        if (sortBy === 'pid') return a.pid - b.pid;
+        if (sortBy === 'mem') return b.res - a.res;
+        if (sortBy === 'time') return b.time - a.time;
+        return b.cpu - a.cpu;
+      });
+    }
+
+    function draw() {
+      if (!procs.some(function (p) { return p.pid === sel; })) sel = sorted()[0].pid;
+      Array.prototype.forEach.call(head.children, function (h) { h.classList.toggle('is-sort', h.dataset.sort === sortBy); });
+      body.textContent = '';
+      sorted().forEach(function (p) {
+        var r = el('div', 'ht-row' + (p.pid === sel ? ' is-sel' : '') + (p.kind === 'job' ? ' is-new' : ''));
+        r.dataset.pid = p.pid;
+        var st = p === self || p.cpu > 8 ? 'R' : 'S';
+        var vals = {
+          pid: p.pid, user: p.user, pri: 20, ni: 0, virt: mem(p.res * 3.4 + 180), res: mem(p.res), shr: mem(Math.min(p.res * 0.3, 90)),
+          s: st, cpu: p.cpu.toFixed(1), mem: (p.res / MEM_TOTAL * 100).toFixed(1), time: clock(p.time), cmd: p.cmd
+        };
+        COLS.forEach(function (col) {
+          var cls = 'ht-c-' + col[0];
+          if (col[0] === 'user' && p.user === 'root') cls += ' ht-root';
+          if (col[0] === 's' && st === 'R') cls += ' ht-run';
+          if (col[0] === 'cpu' && p.cpu > 50) cls += ' ht-hot';
+          r.appendChild(el('span', cls, String(vals[col[0]])));
+        });
+        body.appendChild(r);
+      });
+      msgEl.textContent = msg;
+      fit();
+    }
+
+    // daftar proses di-scroll sendiri supaya meter, F-key, dan prompt selalu kelihatan
+    function fit() {
+      var cs = getComputedStyle(screen);
+      var avail = screen.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom) - form.offsetHeight - 12;
+      body.style.maxHeight = Math.max(90, avail - (root.offsetHeight - body.offsetHeight)) + 'px';
+    }
+
+    function say(t) { msg = t; msgEl.textContent = t; fit(); }
+    function later(fn, ms) { timers.push(setTimeout(fn, ms)); }
+
+    function move(d) {
+      var list = sorted();
+      var i = list.findIndex(function (p) { return p.pid === sel; });
+      i = Math.max(0, Math.min(list.length - 1, i + d));
+      sel = list[i].pid;
+      draw();
+      var r = body.querySelector('.is-sel');
+      if (!r) return;
+      if (r.offsetTop < body.scrollTop) body.scrollTop = r.offsetTop;
+      else if (r.offsetTop + r.offsetHeight > body.scrollTop + body.clientHeight) body.scrollTop = r.offsetTop + r.offsetHeight - body.clientHeight;
+    }
+
+    function kill(p) {
+      if (!p) return;
+      if (p.kind === 'pid1') {
+        say('Nice try. PID 1 nggak bisa di-kill, kernel-nya bisa ngambek. 😅');
+        screen.classList.add('term-shake');
+        later(function () { screen.classList.remove('term-shake'); }, 500);
+        return;
+      }
+      if (p.kind === 'self') { stopGame('htop: dibunuh oleh dirinya sendiri. Filosofis. 🤔'); return; }
+      procs = procs.filter(function (x) { return x !== p; });
+      var name = p.cmd.split(' ')[0].split('/').pop().replace(/:$/, '');
+      if (p.kind === 'chrome') say('Chrome ditutup, RAM lega ' + mem(p.res) + '. 42 tab itu sebenarnya mau dibaca kapan? 🎉');
+      else if (p.kind === 'kopi') {
+        say('☕ kopi-daemon mati. Produktivitas turun 80%...');
+        later(function () { if (game && game.htop) { procs.push(mk(BASE[15])); say('☕ systemd: kopi-daemon.service dinyalakan lagi. Fiuh.'); draw(); } }, 3000);
+      } else if (p.kind === true) {
+        say('SIGTERM ke ' + p.pid + ' (' + name + '). ' + (p.note || 'Tenang, ada systemd.'));
+        var b = BASE.filter(function (x) { return x[0] === p.cmd; })[0];
+        later(function () {
+          if (!game || !game.htop) return;
+          var n = mk(b); procs.push(n);
+          say('systemd: ' + name + '.service restart otomatis jadi PID ' + n.pid + ' (Restart=always).');
+          draw();
+        }, 2500);
+      } else say('SIGTERM ke ' + p.pid + ' (' + name + '). Proses selesai.');
+      draw();
+    }
+
+    function act(k) {
+      if (k === 'up' || k === '↑') return move(-1);
+      if (k === 'down' || k === '↓') return move(1);
+      if (k === 's' || k === 'f6' || k === '>') {
+        sortBy = sortKeys[(sortKeys.indexOf(sortBy) + 1) % sortKeys.length];
+        say('Diurutkan berdasarkan ' + sortLabel[sortBy] + '.');
+        return draw();
+      }
+      if (k === 'k' || k === 'f9') return kill(procs.filter(function (p) { return p.pid === sel; })[0]);
+      if (k === 'h' || k === 'f1' || k === '?') return say('↑/↓ pilih proses · k/F9 kill · s/F6 urutkan · q/F10 keluar. Di HP tinggal tap baris prosesnya.');
+      if (k === '-') return say('Fitur ini belum ada di versi web. Pakai htop beneran ya. 😉');
+      if (k === 'q' || k === 'f10') return stopGame();
+      var m = /^(?:k|kill)\s+(\d+)$/.exec(k);
+      if (m) {
+        var p = procs.filter(function (x) { return x.pid === +m[1]; })[0];
+        return p ? kill(p) : say('kill: PID ' + m[1] + ' nggak ada.');
+      }
+      say('Tombol "' + k + '" nggak dikenal. Tekan h buat bantuan.');
+    }
+
+    root.addEventListener('click', function (e) {
+      // di desktop fokus tetap di input supaya tombol keyboard (q, k, panah) jalan terus
+      if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) input.focus({ preventScroll: true });
+      var f = e.target.closest('.ht-fkey');
+      if (f) return act(f.dataset.key);
+      var h = e.target.closest('.ht-head span');
+      if (h && sortLabel[h.dataset.sort]) { sortBy = h.dataset.sort; say('Diurutkan berdasarkan ' + sortLabel[sortBy] + '.'); return draw(); }
+      var r = e.target.closest('.ht-row[data-pid]');
+      if (r) { sel = +r.dataset.pid; draw(); }
+    });
+
+    var row = line(root, 'term-htop-row');
+    screen.classList.add('term-htop-on');
+    step();
+    var iv = setInterval(step, reduce ? 2500 : 1200);
+    window.addEventListener('resize', fit);
+
+    return {
+      htop: true,
+      prompt: 'htop>',
+      silent: true,
+      hotkeys: true,
+      chips: ['↑', '↓', 'k', 's', 'h', 'q'],
+      input: act,
+      stop: function () {
+        clearInterval(iv);
+        window.removeEventListener('resize', fit);
+        timers.forEach(clearTimeout);
+        screen.classList.remove('term-htop-on');
+        if (row.parentNode) row.parentNode.removeChild(row);
+        line('htop selesai. Server aman, kopi masih ada. ☕', 'term-dim');
+      }
+    };
+  }
+
   // ---------- commands ----------
   var FORTUNES = [
     'It works on my machine. ¯\\_(ツ)_/¯',
@@ -814,6 +1129,10 @@ __________/`;
         line(pre);
       }
     },
+    htop: {
+      desc: 'pantau proses ala htop 📊 (q buat keluar)',
+      run: function () { game = startHtop(); }
+    },
     game: { desc: 'main game 🎮 (port, http, cmd, angka, ketik)', run: function (args) { gameStart(args); } },
     quiz: { desc: 'kuis hands-on 🧪 (terraform, ansible, kubernetes)', run: function (args) { quizCmd(args); } },
     fortune: { desc: 'kutipan acak', run: function () { line(FORTUNES[Math.floor(Math.random() * FORTUNES.length)]); } },
@@ -901,6 +1220,8 @@ __________/`;
         })();
       }
     },
+    top: { hidden: true, run: function () { line('top? Pakai htop aja, lebih berwarna. 😎', 'term-dim'); COMMANDS.htop.run(); } },
+    btop: { hidden: true, run: function () { line('btop belum terpasang. Sementara htop dulu ya.', 'term-dim'); COMMANDS.htop.run(); } },
     uname: { hidden: true, run: function () { line('Linux ' + HOST + ' 6.x-tumbleweed #1 SMP PREEMPT_DYNAMIC x86_64 GNU/Linux'); } },
     hello: { hidden: true, run: function () { line('Halo juga! 👋 Ketik help kalau bingung.'); } },
     halo: { hidden: true, run: function () { COMMANDS.hello.run(); } },
@@ -932,7 +1253,7 @@ __________/`;
   function run(raw) {
     var cmd = raw.trim();
     if (game) {
-      echoCommand(raw, game.prompt);
+      if (!game.silent) echoCommand(raw, game.prompt);
       gameInput(raw);
       return;
     }
@@ -989,6 +1310,15 @@ __________/`;
     }
   }
 
+  // htop: tombol langsung jalan tanpa Enter, seperti aslinya
+  var HOTKEYS = { ArrowUp: 'up', ArrowDown: 'down', F1: 'f1', F6: 'f6', F9: 'f9', F10: 'f10', q: 'q', Q: 'q', k: 'k', s: 's', h: 'h', '?': '?', '>': '>' };
+  document.addEventListener('keydown', function (e) {
+    if (!game || !game.hotkeys || !HOTKEYS[e.key] || e.ctrlKey || e.metaKey || e.altKey) return;
+    if (e.target === input ? input.value : /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) return;
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    if (HOTKEYS[e.key] === 'q' || HOTKEYS[e.key] === 'f10') stopGame(); else game.input(HOTKEYS[e.key]);
+  }, true);
   input.addEventListener('keydown', function (e) {
     if (e.key === 'Tab') {
       e.preventDefault();
@@ -1034,7 +1364,7 @@ __________/`;
 
   // focus input when tapping the terminal (but keep text selection working)
   screen.addEventListener('click', function (e) {
-    if (e.target.closest('a, .term-click')) return;
+    if (e.target.closest('a, .term-click, .htop')) return;
     if (window.getSelection().toString()) return;
     input.focus({ preventScroll: true });
   });
