@@ -1,0 +1,44 @@
+{{- /* Override of PaperMod's image hook: same output, plus width/height for
+     raster page/global resources. Without them lazy images have no height
+     until they load, so the page grows while the reader scrolls and table of
+     contents links land in the wrong place. */ -}}
+{{- $u := urls.Parse .Destination -}}
+{{- $src := $u.String -}}
+{{- $w := 0 }}{{ $h := 0 -}}
+{{- if not $u.IsAbs -}}
+  {{- $path := strings.TrimPrefix "./" $u.Path }}
+  {{- with or (.PageInner.Resources.Get $path) (resources.Get (strings.TrimPrefix "/" $path)) -}}
+    {{- $src = .RelPermalink -}}
+    {{- if and (eq .ResourceType "image") (ne .MediaType.SubType "svg") -}}
+      {{- $w = .Width }}{{ $h = .Height -}}
+    {{- else if eq .MediaType.SubType "svg" -}}
+      {{- /* SVG: take the ratio from the root viewBox. */ -}}
+      {{- with index (findRESubmatch `<svg[^>]*?viewBox="\s*[-\d.]+[\s,]+[-\d.]+[\s,]+([\d.]+)[\s,]+([\d.]+)` .Content 1) 0 -}}
+        {{- $w = int (math.Round (float (index . 1))) }}{{ $h = int (math.Round (float (index . 2))) -}}
+      {{- end -}}
+    {{- end -}}
+    {{- with $u.RawQuery -}}
+      {{- $src = printf "%s?%s" $src . -}}
+    {{- end -}}
+    {{- with $u.Fragment -}}
+      {{- $src = printf "%s#%s" $src . -}}
+    {{- end -}}
+  {{- else -}}
+    {{- /* Files in static/ (e.g. /img/...): read size from the source file. */ -}}
+    {{- $file := path.Join "static" $u.Path -}}
+    {{- if and (fileExists $file) (not (strings.HasSuffix $u.Path ".svg")) -}}
+      {{- with images.Config $file }}{{ $w = .Width }}{{ $h = .Height }}{{ end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- $attributes := merge .Attributes (dict "alt" .Text "src" $src "title" (.Title | transform.HTMLEscape) "loading" "lazy") -}}
+{{- if and $w $h (not (isset .Attributes "width")) -}}
+  {{- $attributes = merge $attributes (dict "width" (string $w) "height" (string $h)) -}}
+{{- end -}}
+<img
+  {{- range $k, $v := $attributes -}}
+    {{- if $v -}}
+      {{- printf " %s=%q" $k $v | safeHTMLAttr -}}
+    {{- end -}}
+  {{- end -}}>
+{{- /**/ -}}

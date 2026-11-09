@@ -50,9 +50,9 @@
   </div>
   {{- with $d.part }}
   <p class="bl-intro">{{ .intro }}</p>
-  <h3 class="bl-sub">Ratchet populer</h3>
+  <h3 id="ratchet-populer" class="bl-sub">Ratchet populer</h3>
   <div class="bl-parts">{{ range .ratchet }}{{ template "_bl-img" (dict "page" $page "g" .) }}{{ end }}</div>
-  <h3 class="bl-sub">Bit populer</h3>
+  <h3 id="bit-populer" class="bl-sub">Bit populer</h3>
   <div class="bl-parts">{{ range .bit }}{{ template "_bl-img" (dict "page" $page "g" .) }}{{ end }}</div>
   {{- end }}
   <p class="bl-legend" aria-hidden="true"><span class="bl-part bl-part--blade">blade</span> <span class="bl-part bl-part--ratchet">ratchet</span> <span class="bl-part bl-part--bit">bit</span> <span class="bl-part bl-part--gabung">menyatu</span></p>

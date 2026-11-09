@@ -295,6 +295,11 @@
 .related-posts ul { margin: 0; padding-inline-start: 22px; }
 .related-posts li { margin: 2px 0; }
 .post-meta a.post-author { box-shadow: none; color: inherit; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--border); }
+/* Post images carry width/height (layouts/_markup/render-image.html) so lazy
+   images reserve their space; height:auto keeps the ratio when max-width shrinks them. */
+.post-content img[width][height] { height: auto; }
+/* Daftar isi: sedikit jarak di atas heading tujuan. */
+.post-content :is(h1, h2, h3, h4, h5, h6)[id] { scroll-margin-top: 16px; }
 /* ---------- image lightbox (assets/js/lightbox.js) ---------- */
 .post-content img.lb-zoomable { cursor: zoom-in; }
 .post-content img.lb-zoomable:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
@@ -2014,7 +2019,7 @@ transition: opacity 0.15s ease; pointer-events: none;
 .post-content p.kt-none { flex-basis: 100%; margin: 0; font-size: 14px; color: var(--secondary); }
 .kt-group[hidden], .kt-item[hidden] { display: none !important; }
 .post-content h3.kt-sub { margin: 18px 0 10px; font-size: 16px; font-family: var(--mono); }
-.kt-count { font-size: 12px; font-weight: 400; color: var(--secondary); }
+.kt-sub[data-count]::after { content: " " attr(data-count); font-size: 12px; font-weight: 400; color: var(--secondary); }
 .kt-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 10px; }
 .post-content .kt-item { margin: 0; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 8px 6px; text-align: center; border: 1px solid var(--border); border-radius: var(--radius); background: var(--entry); }
 .post-content .kt-item img { width: 100%; max-width: 100px; height: auto; aspect-ratio: 1; object-fit: contain; margin: 0; padding: 4px; border-radius: 8px; background: radial-gradient(circle at 50% 45%, #fff 0%, #eef0f3 70%); }

@@ -1,6 +1,9 @@
 {{- if .IsPage }}
 {{- $js := resources.Get "js/lightbox.js" | minify | fingerprint }}
 <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
+{{- /* toc.js exits early on pages without a daftar isi. Footer is partialCached per Kind, so no per-page condition here. */}}
+{{- $toc := resources.Get "js/toc.js" | minify | fingerprint }}
+<script src="{{ $toc.RelPermalink }}" integrity="{{ $toc.Data.Integrity }}" defer></script>
 {{- end }}
 {{- $sub := resources.Get "js/submenu.js" | minify | fingerprint }}
 <script src="{{ $sub.RelPermalink }}" integrity="{{ $sub.Data.Integrity }}" defer></script>
