@@ -21,7 +21,8 @@
 <div class="kt" data-kat="{{ $k.id }}">
   {{- range $k.grup }}
   <section class="kt-group">
-    <h3 class="kt-sub">{{ .judul }} <span class="kt-count">{{ len .part }}</span></h3>
+    {{- /* id so the daftar isi can link here; the count sits in data-count (shown via CSS) so it stays out of the TOC label. */}}
+    <h3 id="{{ printf "%s-%s" $k.id .judul | anchorize }}" class="kt-sub" data-count="{{ len .part }}">{{ .judul }}</h3>
     <div class="kt-grid">
       {{- range .part }}
       {{- $img := $.Page.Resources.Get (printf "img/%s.webp" .s) -}}
