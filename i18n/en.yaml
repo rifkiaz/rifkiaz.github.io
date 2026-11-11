@@ -1,0 +1,37 @@
+# Site strings on top of PaperMod's own i18n/en.yaml.
+- id: all_labs
+  translation: "all labs"
+- id: shortcuts
+  translation: "Shortcuts"
+- id: terminal_flag
+  translation: "--interactive"
+- id: series
+  translation: "Series"
+- id: reading_now
+  translation: "you are here"
+- id: about_author
+  translation: "About the author"
+- id: author_box
+  translation: 'Written by <a href="{{ .url }}" rel="author"><strong>{{ .name }}</strong></a>, DevOps engineer and openSUSE Member. I write technical notes on infrastructure, automation, and open source from my day-to-day work.'
+- id: related_posts
+  translation: "Related posts"
+- id: desc_series
+  translation: 'The "{{ .title }}" series by {{ .author }}: {{ .n }} parts, best read in order.'
+- id: desc_category
+  translation: "Posts in the {{ .title }} category by {{ .author }}, DevOps engineer. {{ .n }} posts on DevOps, Linux, and open source."
+- id: desc_tag
+  translation: "Posts by {{ .author }} about {{ .title }}: {{ .n }} technical notes, tutorials, and hands-on experience from a DevOps engineer."
+- id: desc_taxonomy
+  translation: "All {{ .title }} on {{ .author }}'s blog. Pick one to see the related posts."
+- id: xp_label
+  translation: "Work experience"
+- id: xp_years
+  translation: "{{ .Count }} yr"
+- id: xp_months
+  translation: "{{ .Count }} mo"
+- id: xp_now
+  translation: "present"
+- id: id_only_note
+  translation: "Most of my older posts are only in Indonesian for now."
+- id: id_only_link
+  translation: "Browse all posts in Indonesian"

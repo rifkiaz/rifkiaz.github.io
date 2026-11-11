@@ -1,0 +1,33 @@
+# Site strings on top of PaperMod's own i18n/id.yaml.
+- id: all_labs
+  translation: "semua lab"
+- id: shortcuts
+  translation: "Pintasan"
+- id: terminal_flag
+  translation: "--interaktif"
+- id: series
+  translation: "Seri"
+- id: reading_now
+  translation: "sedang dibaca"
+- id: about_author
+  translation: "Tentang penulis"
+- id: author_box
+  translation: 'Ditulis oleh <a href="{{ .url }}" rel="author"><strong>{{ .name }}</strong></a>, DevOps engineer dan openSUSE Member. Saya menulis catatan teknis seputar infrastruktur, otomasi, dan open source dari kerjaan sehari-hari.'
+- id: related_posts
+  translation: "Tulisan terkait"
+- id: desc_series
+  translation: 'Seri tulisan "{{ .title }}" oleh {{ .author }}: {{ .n }} bagian, dibaca berurutan dari awal.'
+- id: desc_category
+  translation: "Kumpulan tulisan kategori {{ .title }} oleh {{ .author }}, DevOps engineer. {{ .n }} tulisan seputar DevOps, Linux, dan open source."
+- id: desc_tag
+  translation: "Tulisan {{ .author }} tentang {{ .title }}: {{ .n }} catatan teknis, tutorial, dan pengalaman langsung dari DevOps engineer."
+- id: desc_taxonomy
+  translation: "Daftar semua {{ .title }} di blog {{ .author }}, DevOps engineer. Pilih salah satu untuk melihat tulisan terkait."
+- id: xp_label
+  translation: "Riwayat pengalaman kerja"
+- id: xp_years
+  translation: "{{ .Count }} thn"
+- id: xp_months
+  translation: "{{ .Count }} bln"
+- id: xp_now
+  translation: "sekarang"

@@ -2,8 +2,10 @@ baseURL = "https://rifkiaz.my.id/"
 title = "Rifki Affandi"
 theme = "PaperMod"
 
+# Indonesian stays at the root (existing URLs unchanged); English lives under /en/.
+# Translations pair up by file name: index.md + index.en.md, tentang.md + tentang.en.md.
 defaultContentLanguage = "id"
-languageCode = "id-ID"
+defaultContentLanguageInSubdir = false
 
 enableEmoji = true
 enableRobotsTXT = true
@@ -51,11 +53,14 @@ enableGitInfo = true
   ShowRssButtonInSectionTermList = true
   comments = true
   mainSections = ["posts"]
+  # Author links (post meta, author box); per language.
+  aboutURL = "tentang/"
   # Tag pages with fewer posts than this get noindex and stay out of the sitemap.
   minTagPagesToIndex = 3
   # Shown under each post; also links posts to each other (internal linking).
   ShowRelated = true
   DateFormat = "2 January 2006"
+  displayFullLangName = true
 
   [params.schema]
     siteName = "Rifki Affandi"
@@ -132,69 +137,74 @@ Saya juga [member openSUSE](https://kudos.opensuse.org/user/Rifkiaz) dan aktif d
     threshold = 0.4
     keys = ["title", "permalink", "summary", "content"]
 
-[menu]
-  [[menu.main]]
+[languages.id]
+  languageName = "Bahasa Indonesia"
+  languageCode = "id-ID"
+  weight = 1
+
+[languages.id.menus]
+  [[languages.id.menus.main]]
     identifier = "posts"
     name = "Tulisan"
     url = "/posts/"
     weight = 10
 
-  [[menu.main]]
+  [[languages.id.menus.main]]
     identifier = "proyek"
     name = "Proyek"
     url = "/proyek/"
     weight = 20
 
-  [[menu.main]]
+  [[languages.id.menus.main]]
     identifier = "cheatsheet"
     name = "Cheatsheet"
     url = "/cheatsheet/"
     weight = 25
 
-  [[menu.main]]
+  [[languages.id.menus.main]]
     identifier = "lab"
     name = "Lab"
     url = "/lab/"
     weight = 27
 
-  [[menu.main]]
+  [[languages.id.menus.main]]
     identifier = "hobi"
     name = "Hobi"
     weight = 28
 
-  [[menu.main]]
+  [[languages.id.menus.main]]
     identifier = "beyblade-x-meta"
     name = "Meta Beyblade X"
     url = "/hobi/beyblade-x-meta/"
     parent = "hobi"
     weight = 10
 
-  [[menu.main]]
+  [[languages.id.menus.main]]
     identifier = "beyblade-x-part"
     name = "Katalog Part Beyblade X"
     url = "/hobi/beyblade-x-part/"
     parent = "hobi"
     weight = 20
 
-  [[menu.main]]
+  [[languages.id.menus.main]]
     identifier = "archives"
     name = "Arsip"
     url = "/archives/"
     weight = 30
 
-  [[menu.main]]
+  [[languages.id.menus.main]]
     identifier = "tags"
     name = "Tag"
     url = "/tags/"
     weight = 40
 
-  [[menu.main]]
+  [[languages.id.menus.main]]
     identifier = "search"
     name = "Cari"
     url = "/search/"
     weight = 50
 
-  [[menu.main]]
+  [[languages.id.menus.main]]
     identifier = "tentang"
     name = "Tentang"
     url = "/tentang/"
@@ -225,3 +235,82 @@ Saya juga [member openSUSE](https://kudos.opensuse.org/user/Rifkiaz) dan aktif d
     noClasses = false
     codeFences = true
     guessSyntax = true
+
+# English. Pages and posts with an .en.md file get an English version under /en/.
+# The interactive labs, /terminal/ and the Beyblade pages are Indonesian only,
+# so the English menu links to them with nolang (no /en/ prefix).
+[languages.en]
+  languageName = "English"
+  languageCode = "en-US"
+  weight = 2
+
+  [languages.en.params]
+    homeTitle = "Rifki Affandi · DevOps Engineer, Blog & Portfolio"
+    description = "Blog and portfolio of Rifki Affandi, DevOps engineer and openSUSE Member. Hands-on notes on Ansible, Terraform, Prometheus monitoring, Linux, and open source."
+    DateFormat = "January 2, 2006"
+    aboutURL = "about/"
+
+    [languages.en.params.schema]
+      personDescription = "DevOps engineer working on infrastructure, Ansible and Terraform automation, and monitoring. openSUSE Member, active in the open source community."
+
+    [languages.en.params.homeInfoParams]
+      Content = """
+Day to day I work on infrastructure and DevOps: automating servers with Ansible, running databases, setting up monitoring, and building internal tooling. This is where I keep technical notes from work and from tinkering with the open source community.
+
+I'm also an [openSUSE Member](https://kudos.opensuse.org/user/Rifkiaz) and active in its community.
+"""
+      Buttons = [
+        { name = "projects", url = "/projects/" },
+        { name = "about", url = "/about/" },
+        { name = "lab", url = "/lab/", nolang = true },
+        { name = "terminal", url = "/terminal/", nolang = true },
+      ]
+
+    [languages.en.params.editPost]
+      Text = "Suggest a change"
+
+  [languages.en.menus]
+    [[languages.en.menus.main]]
+      identifier = "posts"
+      name = "Posts"
+      url = "/posts/"
+      weight = 10
+
+    [[languages.en.menus.main]]
+      identifier = "projects"
+      name = "Projects"
+      url = "/projects/"
+      weight = 20
+
+    [[languages.en.menus.main]]
+      identifier = "lab-id"
+      name = "Lab"
+      title = "Interactive DevOps labs (in Indonesian)"
+      url = "/lab/"
+      weight = 27
+      [languages.en.menus.main.params]
+        nolang = true
+
+    [[languages.en.menus.main]]
+      identifier = "archives"
+      name = "Archive"
+      url = "/archives/"
+      weight = 30
+
+    [[languages.en.menus.main]]
+      identifier = "tags"
+      name = "Tags"
+      url = "/tags/"
+      weight = 40
+
+    [[languages.en.menus.main]]
+      identifier = "search"
+      name = "Search"
+      url = "/search/"
+      weight = 50
+
+    [[languages.en.menus.main]]
+      identifier = "about"
+      name = "About"
+      url = "/about/"
+      weight = 60

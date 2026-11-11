@@ -2,6 +2,10 @@
 // drag to pan, swipe for prev/next, swipe down / Esc / backdrop to close.
 (function () {
   "use strict";
+  var EN = (document.documentElement.lang || "").indexOf("en") === 0;
+  var T = EN
+    ? { zoom: "Enlarge image", preview: "Image preview", close: "Close", prev: "Previous image", next: "Next image" }
+    : { zoom: T.zoom, preview: T.preview, close: T.close, prev: T.prev, next: T.next };
   var content = document.querySelector(".post-content");
   if (!content) return;
 
@@ -14,7 +18,7 @@
     img.classList.add("lb-zoomable");
     img.setAttribute("tabindex", "0");
     img.setAttribute("role", "button");
-    img.setAttribute("aria-label", "Perbesar gambar" + (img.alt ? ": " + img.alt : ""));
+    img.setAttribute("aria-label", T.zoom + (img.alt ? ": " + img.alt : ""));
   });
 
   var MAX = 5, root, stage, pic, caption, counter, btnPrev, btnNext, opener;
@@ -32,7 +36,7 @@
     root = el("div", "lb");
     root.setAttribute("role", "dialog");
     root.setAttribute("aria-modal", "true");
-    root.setAttribute("aria-label", "Pratinjau gambar");
+    root.setAttribute("aria-label", T.preview);
     stage = el("div", "lb-stage");
     pic = el("img", "lb-img");
     pic.draggable = false;
@@ -42,15 +46,15 @@
     counter = el("span", "lb-count");
     var close = el("button", "lb-btn lb-close", "&times;");
     close.type = "button";
-    close.setAttribute("aria-label", "Tutup");
+    close.setAttribute("aria-label", T.close);
     close.addEventListener("click", hide);
     bar.appendChild(counter);
     bar.appendChild(close);
     btnPrev = el("button", "lb-btn lb-nav lb-prev", "&#8249;");
     btnNext = el("button", "lb-btn lb-nav lb-next", "&#8250;");
     btnPrev.type = btnNext.type = "button";
-    btnPrev.setAttribute("aria-label", "Gambar sebelumnya");
-    btnNext.setAttribute("aria-label", "Gambar berikutnya");
+    btnPrev.setAttribute("aria-label", T.prev);
+    btnNext.setAttribute("aria-label", T.next);
     btnPrev.addEventListener("click", function () { go(-1); });
     btnNext.addEventListener("click", function () { go(1); });
     caption = el("p", "lb-caption");

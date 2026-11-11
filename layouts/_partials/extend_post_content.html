@@ -2,11 +2,11 @@
 {{- with .GetTerms "series" }}
 {{- range . }}
 {{- $pages := .Pages.ByDate }}
-<nav class="series-box" aria-label="Seri {{ .LinkTitle }}">
-  <p class="series-title">Seri <a href="{{ .Permalink }}">{{ .LinkTitle }}</a></p>
+<nav class="series-box" aria-label="{{ i18n "series" }} {{ .LinkTitle }}">
+  <p class="series-title">{{ i18n "series" }} <a href="{{ .Permalink }}">{{ .LinkTitle }}</a></p>
   <ol>
     {{- range $pages }}
-    <li>{{ if eq .RelPermalink $.RelPermalink }}<strong>{{ .LinkTitle }}</strong> (sedang dibaca){{ else }}<a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>{{ end }}</li>
+    <li>{{ if eq .RelPermalink $.RelPermalink }}<strong>{{ .LinkTitle }}</strong> ({{ i18n "reading_now" }}){{ else }}<a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>{{ end }}</li>
     {{- end }}
   </ol>
 </nav>
@@ -16,13 +16,13 @@
 {{- /* Author box + related posts on blog posts: ties every post to the author
      profile and adds internal links between posts on similar topics. */ -}}
 {{- if and (eq .Section "posts") .IsPage }}
-<aside class="author-box" aria-label="Tentang penulis">
-  <p>Ditulis oleh <a href="{{ "tentang/" | absLangURL }}" rel="author"><strong>{{ site.Params.author }}</strong></a>, DevOps engineer dan openSUSE Member. Saya menulis catatan teknis seputar infrastruktur, otomasi, dan open source dari kerjaan sehari-hari.</p>
+<aside class="author-box" aria-label="{{ i18n "about_author" }}">
+  <p>{{ i18n "author_box" (dict "url" (site.Params.aboutURL | default "tentang/" | absLangURL) "name" site.Params.author) | safeHTML }}</p>
 </aside>
 {{- if site.Params.ShowRelated }}
 {{- with first 3 (where (site.RegularPages.Related .) "Section" "posts") }}
-<nav class="related-posts" aria-label="Tulisan terkait">
-  <p class="related-title">Tulisan terkait</p>
+<nav class="related-posts" aria-label="{{ i18n "related_posts" }}">
+  <p class="related-title">{{ i18n "related_posts" }}</p>
   <ul>
     {{- range . }}
     <li><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></li>

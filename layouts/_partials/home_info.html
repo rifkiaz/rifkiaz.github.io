@@ -20,7 +20,7 @@
                 {{- range . }}<li>{{ . }}</li>{{ end -}}
             </ul>
             {{- end }}
-            <p class="term-line term-hint"><span class="term-prompt" aria-hidden="true">$</span><a href="{{ "terminal/" | absLangURL }}">./terminal --interaktif</a></p>
+            <p class="term-line term-hint"><span class="term-prompt" aria-hidden="true">$</span><a href="{{ "terminal/" | absURL }}">./terminal {{ i18n "terminal_flag" }}</a></p>
         </div>
     </div>
     <div class="entry-content md-content">
@@ -28,9 +28,9 @@
         {{ .Content | $.Page.RenderString $opts }}
     </div>
     {{- with .Buttons }}
-    <nav class="home-buttons" aria-label="Pintasan">
+    <nav class="home-buttons" aria-label="{{ i18n "shortcuts" }}">
         {{- range . }}
-        <a href="{{ .url | absLangURL }}"><span aria-hidden="true">→</span> {{ .name }}</a>
+        <a href="{{ partial "lang-url.html" . }}"><span aria-hidden="true">→</span> {{ .name }}</a>
         {{- end }}
     </nav>
     {{- end }}

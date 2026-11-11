@@ -1,5 +1,5 @@
 {{- /* Riwayat kerja dari data/pengalaman.yaml, gaya timeline terminal. */ -}}
-<div class="xp" aria-label="Riwayat pengalaman kerja">
+<div class="xp" aria-label="{{ i18n "xp_label" }}">
   <p class="xp__cmd"><span class="xp__prompt">$</span> git log --career --oneline</p>
   <ol class="xp__list">
   {{- range $i, $x := site.Data.pengalaman }}
@@ -13,8 +13,8 @@
         <h3 class="xp__role">{{ $x.role }}</h3>
         <p class="xp__company">{{ $x.company }}{{ with $x.type }} · {{ . }}{{ end }}</p>
         <p class="xp__meta">
-          <span class="xp__period">{{ $x.period }}</span>
-          <span class="xp__dur">{{ if $y }}{{ $y }} thn{{ end }}{{ if and $y $mo }} {{ end }}{{ if $mo }}{{ $mo }} bln{{ end }}</span>
+          <span class="xp__period">{{ if eq site.Language.Lang "id" }}{{ $x.period }}{{ else }}{{ $s | time.Format "Jan 2006" }} – {{ with $x.end }}{{ time.AsTime (printf "%s-01" .) | time.Format "Jan 2006" }}{{ else }}{{ i18n "xp_now" }}{{ end }}{{ end }}</span>
+          <span class="xp__dur">{{ if $y }}{{ i18n "xp_years" $y }}{{ end }}{{ if and $y $mo }} {{ end }}{{ if $mo }}{{ i18n "xp_months" $mo }}{{ end }}</span>
         </p>
         <p class="xp__loc">{{ $x.location }}</p>
         {{ partial "xp-art.html" ($x.art | default "terminal") }}

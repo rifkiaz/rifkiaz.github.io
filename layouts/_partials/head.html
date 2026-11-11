@@ -31,10 +31,11 @@
 {{- if .Description }}{{ $desc = .Description }}
 {{- else if eq .Kind "term" }}
 {{- $n := len .Pages }}
-{{- if eq .Data.Plural "series" }}{{ $desc = printf "Seri tulisan \"%s\" oleh %s: %d bagian, dibaca berurutan dari awal." .Title site.Params.author $n }}
-{{- else if eq .Data.Plural "categories" }}{{ $desc = printf "Kumpulan tulisan kategori %s oleh %s, DevOps engineer. %d tulisan seputar DevOps, Linux, dan open source." .Title site.Params.author $n }}
-{{- else }}{{ $desc = printf "Tulisan %s tentang %s: %d catatan teknis, tutorial, dan pengalaman langsung dari %s." site.Params.author .Title $n "DevOps engineer" }}{{ end }}
-{{- else if eq .Kind "taxonomy" }}{{ $desc = printf "Daftar semua %s di blog %s, DevOps engineer. Pilih salah satu untuk melihat tulisan terkait." (lower .Title) site.Params.author }}
+{{- $args := dict "title" .Title "author" site.Params.author "n" $n }}
+{{- if eq .Data.Plural "series" }}{{ $desc = i18n "desc_series" $args }}
+{{- else if eq .Data.Plural "categories" }}{{ $desc = i18n "desc_category" $args }}
+{{- else }}{{ $desc = i18n "desc_tag" $args }}{{ end }}
+{{- else if eq .Kind "taxonomy" }}{{ $desc = i18n "desc_taxonomy" (dict "title" (lower .Title) "author" site.Params.author) }}
 {{- else if or .IsPage .IsSection }}{{ $desc = .Summary | default (printf "%s - %s" .Title site.Title) }}
 {{- else }}{{ $desc = site.Params.description }}{{ end }}
 <meta name="description" content="{{ $desc | plainify | htmlUnescape | strings.TrimSpace }}">
@@ -131,9 +132,13 @@
 {{ range .AlternativeOutputFormats -}}
 <link rel="{{ .Rel }}" type="{{ .MediaType.Type | html }}" href="{{ .Permalink | safeURL }}" title="{{ .Name }}">
 {{ end -}}
+{{- if .IsTranslated }}
 {{- range .AllTranslations -}}
 <link rel="alternate" hreflang="{{ .Lang }}" href="{{ .Permalink }}">
-{{ end -}}
+{{ if eq .Lang site.Sites.Default.Language.Lang }}<link rel="alternate" hreflang="x-default" href="{{ .Permalink }}">
+{{ end }}
+{{- end -}}
+{{- end }}
 
 <noscript>
     <style>
