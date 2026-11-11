@@ -8,13 +8,13 @@ ShowBreadCrumbs: false
 comments: false
 ---
 
-Here are some of the infrastructure, automation, and Linux desktop projects I've worked on. Workplace-specific details are left out on purpose. What I write about is the approach and the lessons learned. Write-ups marked *(Indonesian)* haven't been translated yet.
+Here are some of the infrastructure, automation, and Linux desktop projects I've worked on. Workplace-specific details are left out on purpose. What I write about is the approach and the lessons learned.
 
 ## Skema (ddl-drawing)
 
 An open source database design tool in the spirit of dbdiagram.io, except it handles SQL tables and MongoDB collections (including nested objects and arrays of objects) in one diagram. Edit through code or directly on the canvas, then export to PostgreSQL/MySQL DDL, a MongoDB `$jsonSchema` validator, PNG, and SVG.
 
-**Stack:** TypeScript, React, CodeMirror, React Flow, ELK.js, Vercel · [Read the write-up →](/posts/skema-desain-database-sql-nosql/) *(Indonesian)*
+**Stack:** TypeScript, React, CodeMirror, React Flow, ELK.js, Vercel · [Read the write-up →](/en/posts/skema-database-design-sql-mongodb/)
 
 ## PhoneShare
 
@@ -32,13 +32,13 @@ A macOS-style battery widget for KDE Plasma 6, pure QML: the percentage inside, 
 
 An Ansible role that installs ClickHouse LTS on EC2 Ubuntu 24.04: a separate EBS volume for data that's safe to re-run, OS tuning, config through overrides that are validated before restarting, users from Ansible Vault, and monitoring in Grafana.
 
-**Stack:** Ansible, ClickHouse, AWS EC2/EBS, Ansible Vault, Grafana · [Read the write-up →](/posts/ansible-clickhouse-single-node/) *(Indonesian)*
+**Stack:** Ansible, ClickHouse, AWS EC2/EBS, Ansible Vault, Grafana · [Read the write-up →](/en/posts/ansible-clickhouse-single-node/)
 
 ## Elasticsearch Cluster in Docker with Ansible
 
 An Ansible role that builds a three-node, container-based Elasticsearch cluster: host kernel tuning, TLS between nodes with its own CA, passwords from Ansible Vault, a cluster bootstrap that's safe to re-run, and rolling upgrades one node at a time.
 
-**Stack:** Ansible, Elasticsearch, Docker, Ansible Vault · [Read the write-up →](/posts/ansible-elasticsearch-cluster-docker/) *(Indonesian)*
+**Stack:** Ansible, Elasticsearch, Docker, Ansible Vault · [Read the write-up →](/en/posts/ansible-elasticsearch-cluster-docker/)
 
 ## Automating a MongoDB Replica Set with Ansible
 
