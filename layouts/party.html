@@ -1,0 +1,20 @@
+{{- define "main" }}
+<header class="page-header">
+    <h1>{{ .Title }}</h1>
+    {{- with .Description }}
+    <div class="post-description">{{ . }}</div>
+    {{- end }}
+</header>
+
+<div class="pg" id="pg" data-game="{{ .Params.game }}">
+    <p class="pg-loading">memuat game…</p>
+</div>
+<p class="pg-foot">Semua data (nama pemain, peran, dan progres) cuma disimpan di browser HP ini, ga dikirim ke mana pun. Halaman ke-refresh atau layar terkunci? Game lanjut dari posisi terakhir.
+{{- with site.GetPage "/lab" }} Game lain ada di <a href="{{ .RelPermalink }}#lab-party">Lab</a>.{{ end }}</p>
+<noscript><p class="term-noscript">Game ini butuh JavaScript.</p></noscript>
+
+{{- $kit := resources.Get "js/party.js" | minify | fingerprint }}
+<script src="{{ $kit.RelPermalink }}" integrity="{{ $kit.Data.Integrity }}" defer></script>
+{{- $js := resources.Get (printf "js/%s.js" .Params.game) | minify | fingerprint }}
+<script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
+{{- end }}

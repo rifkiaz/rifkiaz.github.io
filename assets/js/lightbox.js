@@ -5,7 +5,7 @@
   var EN = (document.documentElement.lang || "").indexOf("en") === 0;
   var T = EN
     ? { zoom: "Enlarge image", preview: "Image preview", close: "Close", prev: "Previous image", next: "Next image" }
-    : { zoom: T.zoom, preview: T.preview, close: T.close, prev: T.prev, next: T.next };
+    : { zoom: "Perbesar gambar", preview: "Pratinjau gambar", close: "Tutup", prev: "Gambar sebelumnya", next: "Gambar berikutnya" };
   var content = document.querySelector(".post-content");
   if (!content) return;
 

@@ -21,6 +21,13 @@ groups:
     items:
       - { url: /topologi/, name: Topologi, icon: topologi, desc: "Susun diagram infra AWS, GCP, dan Kubernetes, lalu ekspor gambarnya." }
       - { url: /kalkulator/, name: Kalkulator Cloud, icon: kalkulator, desc: "Bandingkan estimasi biaya bulanan AWS dan GCP berdampingan." }
+  - id: party
+    name: Game Party
+    desc: Game rame-rame pakai satu HP yang dioper keliling. Daftar pemain dan progres disimpan di browser kamu, jadi aman kalau halaman ke-refresh.
+    items:
+      - { url: /werewolf/, name: Werewolf, icon: werewolf, desc: "Siapa serigalanya? Malam memangsa, siang voting. Bisa pakai moderator atau HP dioper." }
+      - { url: /mata-mata/, name: Mata-mata, icon: mata-mata, desc: "Semua tahu tempatnya kecuali mata-mata. Tanya jawab, lalu tangkap dia." }
+      - { url: /kata-rahasia/, name: Kata Rahasia, icon: kata-rahasia, desc: "Kata kamu sama dengan yang lain, atau justru kamu penyusupnya?" }
   - id: fun
     name: Fun
     desc: Buat iseng.
