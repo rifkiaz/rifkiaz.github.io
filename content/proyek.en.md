@@ -20,13 +20,13 @@ An open source database design tool in the spirit of dbdiagram.io, except it han
 
 A desktop app (Windows and Linux) plus an Android app for sending files and folders both ways over Wi-Fi: the phone is detected automatically, pairing uses a PIN, transfers run in parallel, they resume when Wi-Fi drops, and identical files are skipped when you send again.
 
-**Stack:** .NET 8, Avalonia, Android, GitHub Actions · [Read the write-up →](/posts/phoneshare-kirim-file-pc-android/) *(Indonesian)*
+**Stack:** .NET 8, Avalonia, Android, GitHub Actions · [Read the write-up →](/en/posts/phoneshare-send-files-pc-android/)
 
 ## macOS Battery for KDE Plasma 6
 
 A macOS-style battery widget for KDE Plasma 6, pure QML: the percentage inside, left, or right of the battery, adjustable size, a lightning icon while charging, and a popup with other devices' batteries. Released as a `.plasmoid` through GitHub Actions.
 
-**Stack:** QML, KDE Plasma 6, GitHub Actions · [Read the write-up →](/posts/widget-baterai-ala-macos-kde-plasma-6/) *(Indonesian)*
+**Stack:** QML, KDE Plasma 6, GitHub Actions · [Read the write-up →](/en/posts/macos-battery-widget-kde-plasma-6/)
 
 ## Single-Node ClickHouse with Ansible
 
