@@ -9,7 +9,7 @@ description: "macOS Battery, a macOS-style battery widget for KDE Plasma 6 with 
 ShowToc: true
 ---
 ### Introduction
-After making Plasma on my laptop look like macOS (the story is in [KDE Plasma, macOS style, on openSUSE Tumbleweed](/posts/kde-plasma-ala-macos-opensuse-tumbleweed/), in Indonesian), one small thing kept bugging me every time I glanced at the top panel: the battery icon. Plasma's built-in battery widget works, but it looks nothing like the slim macOS battery with the percentage inside it.
+After making Plasma on my laptop look like macOS (the story is in [A macOS-Style KDE Plasma on openSUSE Tumbleweed](/en/posts/kde-plasma-macos-style-opensuse-tumbleweed/)), one small thing kept bugging me every time I glanced at the top panel: the battery icon. Plasma's built-in battery widget works, but it looks nothing like the slim macOS battery with the percentage inside it.
 
 Rather than keep being bugged by it, I just built my own. The result is **[macOS Battery](https://github.com/rifkiaz/macos-battery-kde)**, a battery widget for KDE Plasma 6 that mimics the macOS look.
 
