@@ -59,27 +59,24 @@
                 {{- end }}
                 
                 {{- if (not site.Params.disableLangToggle) }}
-                    {{- $lang := .Lang}}
-                    {{- with site.Home.Translations }}
-                    {{- $separator := or $label_text (not site.Params.disableThemeToggle)}}
-                    {{- if $separator }}<span class="nav-sep">|</span>{{ end }}
-                    <ul class="lang-menu">
-                        {{- range . -}}
-                        {{- if ne $lang .Lang }}
-                        <li>
-                            <a href="{{- .Permalink -}}" title="{{ .Language.Params.languageAltTitle | default (.Language.LanguageName | emojify) | default (.Lang | title) }}"
-                                aria-label="{{ .Language.LanguageName | default (.Lang | title) }}">
-                                {{- if (and site.Params.displayFullLangName (.Language.LanguageName)) }}
-                                {{- .Language.LanguageName | emojify -}}
-                                {{- else }}
-                                {{- .Lang | title -}}
-                                {{- end -}}
-                            </a>
-                        </li>
-                        {{- end -}}
-                        {{- end}}
-                    </ul>
-                    {{- end }}
+                {{- /* Language switch: goes to this page's translation when there is
+                     one, otherwise to the other language's homepage. */}}
+                {{- $page := . }}
+                {{- $sep := or $label_text (not site.Params.disableThemeToggle) }}
+                {{- range site.Sites }}
+                {{- if ne .Language.Lang $page.Lang }}
+                {{- $lang := .Language.Lang }}
+                {{- $target := .Home }}
+                {{- range $page.Translations }}{{ if eq .Lang $lang }}{{ $target = . }}{{ end }}{{ end }}
+                {{- if $sep }}<span class="nav-sep">|</span>{{ end }}
+                <ul class="lang-menu">
+                    <li>
+                        <a href="{{ $target.Permalink }}" hreflang="{{ $lang }}" lang="{{ $lang }}"
+                            title="{{ cond (eq $lang "en") "Read in English" "Baca dalam Bahasa Indonesia" }}">{{ upper $lang }}</a>
+                    </li>
+                </ul>
+                {{- end }}
+                {{- end }}
                 {{- end }}
             </div>
             {{- end }}
@@ -106,7 +103,7 @@
                     <span {{- if $active }} class="active" {{- end }}>{{ .Name }}</span><span class="sub-caret" aria-hidden="true">▾</span>
                 </button>
                 <ul class="submenu" id="sub-lab" hidden>
-                    <li><a href="{{ $hub }}" {{- if eq $hub $page_url }} aria-current="page"{{ end }}>semua lab</a></li>
+                    <li><a href="{{ $hub }}" {{- if eq $hub $page_url }} aria-current="page"{{ end }}>{{ i18n "all_labs" }}</a></li>
                     {{- range $groups }}
                     <li class="sub-group">
                         <button type="button" class="group-toggle" aria-expanded="{{ .open }}" aria-controls="sub-lab-{{ .id }}">{{ .name }}<span class="sub-caret" aria-hidden="true">▸</span></button>
@@ -128,13 +125,14 @@
                 </button>
                 <ul class="submenu" id="sub-{{ .Identifier }}" hidden>
                     {{- range .Children }}
-                    <li><a href="{{ .URL | absLangURL }}" {{- if eq (.URL | absLangURL) $page_url }} aria-current="page"{{ end }}>{{ .Name }}</a></li>
+                    {{- $href := partial "lang-url.html" . }}
+                    <li><a href="{{ $href }}" {{- if eq $href $page_url }} aria-current="page"{{ end }}>{{ .Name }}</a></li>
                     {{- end }}
                 </ul>
             </li>
             {{- else }}
             <li>
-                <a href="{{ .URL | absLangURL }}" title="{{ .Title | default .Name }} {{- cond $is_search (" (Alt + /)" | safeHTMLAttr) ("" | safeHTMLAttr ) }}"
+                <a href="{{ partial "lang-url.html" . }}" title="{{ .Title | default .Name }} {{- cond $is_search (" (Alt + /)" | safeHTMLAttr) ("" | safeHTMLAttr ) }}"
                 {{- cond $is_search (" accesskey=/" | safeHTMLAttr) ("" | safeHTMLAttr ) }}>
                     <span {{- if eq $menu_item_url $page_url }} class="active" {{- end }}>
                         {{- .Pre }}

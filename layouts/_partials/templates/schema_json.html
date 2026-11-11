@@ -1,12 +1,15 @@
+{{- /* One Person and one WebSite for both languages: their @id always uses the
+     Indonesian (default) homepage, so English pages point at the same nodes. */}}
+{{- $root := site.Sites.Default.Home.Permalink }}
 {{ if .IsHome }}
 {{- /* Override: WebSite (site name for Google) + ProfilePage/Person instead of
      PaperMod's Organization, whose sameAs also picked up the relative RSS link. */}}
 {{- $sch := site.Params.schema }}
 {{- $person := dict
   "@type" "Person"
-  "@id" (printf "%s#person" site.Home.Permalink)
+  "@id" (printf "%s#person" $root)
   "name" site.Params.author
-  "url" site.Home.Permalink
+  "url" $root
   "jobTitle" $sch.jobTitle
   "description" $sch.personDescription
   "image" (absURL $sch.personImage)
@@ -18,19 +21,19 @@
 {{- with $sch.email }}{{ $person = merge $person (dict "email" (printf "mailto:%s" .)) }}{{ end }}
 {{- $website := dict
   "@type" "WebSite"
-  "@id" (printf "%s#website" site.Home.Permalink)
+  "@id" (printf "%s#website" $root)
   "name" $sch.siteName
   "alternateName" $sch.alternateName
-  "url" site.Home.Permalink
+  "url" $root
   "description" site.Params.description
   "inLanguage" site.Language.LanguageCode
-  "publisher" (dict "@id" (printf "%s#person" site.Home.Permalink)) }}
+  "publisher" (dict "@id" (printf "%s#person" $root)) }}
 {{- $profile := dict
   "@type" "ProfilePage"
   "@id" (printf "%s#profilepage" site.Home.Permalink)
   "url" site.Home.Permalink
   "name" (site.Params.homeTitle | default site.Title)
-  "isPartOf" (dict "@id" (printf "%s#website" site.Home.Permalink))
+  "isPartOf" (dict "@id" (printf "%s#website" $root))
   "mainEntity" $person }}
 <script type="application/ld+json">
 {{ dict "@context" "https://schema.org" "@graph" (slice $website $profile) | jsonify | safeJS }}
@@ -40,12 +43,12 @@
      (lab tools, /tentang/) as BlogPosting with an author that wasn't linked
      to the Person on the homepage. Everything below points at the same
      #person node so Google can tie the posts to "Rifki Affandi". */}}
-{{- $home := site.Home.Permalink }}
+{{- $home := $root }}
 {{- $personRef := dict "@type" "Person" "@id" (printf "%s#person" $home) "name" site.Params.author "url" $home }}
 {{- $websiteRef := dict "@id" (printf "%s#website" $home) }}
 
 {{- /* BreadcrumbList: Home > ancestors > this page */}}
-{{- $crumbs := slice (dict "@type" "ListItem" "position" 1 "name" site.Title "item" $home) }}
+{{- $crumbs := slice (dict "@type" "ListItem" "position" 1 "name" site.Title "item" site.Home.Permalink) }}
 {{- range .Ancestors.Reverse }}
 {{- if not .IsHome }}
 {{- $crumbs = $crumbs | append (dict "@type" "ListItem" "position" (add (len $crumbs) 1) "name" (.LinkTitle | plainify) "item" .Permalink) }}
@@ -64,7 +67,7 @@
 {{- end }}
 
 {{- if .IsPage }}
-{{- if eq .RelPermalink "/tentang/" }}
+{{- if in (slice "/tentang/" "/en/about/") .RelPermalink }}
 {{- $graph = $graph | append (dict
   "@type" "ProfilePage"
   "@id" (printf "%s#webpage" .Permalink)

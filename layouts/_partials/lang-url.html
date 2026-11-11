@@ -1,0 +1,6 @@
+{{- /* Link for a menu entry or a home button. Entries marked nolang point at the
+     Indonesian-only pages (labs, /terminal/) without the /en/ prefix. */ -}}
+{{- $url := "" }}{{ $nolang := false -}}
+{{- if reflect.IsMap . }}{{ $url = .url }}{{ $nolang = .nolang | default false -}}
+{{- else }}{{ $url = .URL }}{{ with .Params }}{{ $nolang = .nolang | default false }}{{ end }}{{ end -}}
+{{- return (cond (eq $nolang true) ($url | absURL) ($url | absLangURL)) -}}

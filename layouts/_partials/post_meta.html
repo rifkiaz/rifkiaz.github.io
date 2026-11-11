@@ -17,7 +17,7 @@
 {{- if not (.Param "hideAuthor") -}}
     {{- with (partial "author.html" .) }}
         {{- if and $.IsPage (eq . site.Params.author) }}
-        {{- $scratch.Add "meta" (slice (printf "<span><a class=\"post-author\" href=\"%s\" rel=\"author\">%s</a></span>" ("tentang/" | absLangURL) .)) }}
+        {{- $scratch.Add "meta" (slice (printf "<span><a class=\"post-author\" href=\"%s\" rel=\"author\">%s</a></span>" (site.Params.aboutURL | default "tentang/" | absLangURL) .)) }}
         {{- else }}
         {{- $scratch.Add "meta" (slice (printf "<span>%s</span>" .)) }}
         {{- end }}
