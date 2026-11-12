@@ -1,0 +1,22 @@
+{{- /* Resolves one data/lab.yaml group to the items that have a page, in the
+     current language when there is one. On the English site a lab that has no
+     English page yet falls back to the Indonesian page and is flagged "id". */ -}}
+{{- $en := eq site.Language.Lang "en" }}
+{{- $out := slice }}
+{{- range .items }}
+{{- $item := . }}
+{{- $p := site.GetPage .url }}
+{{- $id := false }}
+{{- if and (not $p) $en }}
+{{- range where site.Sites "Language.Lang" "id" }}{{ with .GetPage $item.url }}{{ $p = . }}{{ $id = true }}{{ end }}{{ end }}
+{{- end }}
+{{- with $p }}
+{{- $out = $out | append (dict
+    "href" .Permalink
+    "icon" $item.icon
+    "name" (cond (and $en (isset $item "name_en")) ($item.name_en | default $item.name) $item.name)
+    "desc" (cond (and $en (isset $item "desc_en")) ($item.desc_en | default $item.desc) $item.desc)
+    "id" $id) }}
+{{- end }}
+{{- end }}
+{{- return $out }}

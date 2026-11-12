@@ -7,20 +7,20 @@
 </header>
 
 <div class="lab-hub">
+    {{- $en := eq site.Language.Lang "en" }}
     {{- range site.Data.lab.groups }}
-    {{- $items := slice }}
-    {{- range .items }}{{ if site.GetPage .url }}{{ $items = $items | append . }}{{ end }}{{ end }}
+    {{- $items := partial "lab-items.html" . }}
     {{- if $items }}
     <section class="lab-group" aria-labelledby="lab-{{ .id }}">
-        <h2 id="lab-{{ .id }}" class="lab-group-title">{{ .name }}</h2>
-        {{- with .desc }}<p class="lab-group-desc">{{ . }}</p>{{ end }}
+        <h2 id="lab-{{ .id }}" class="lab-group-title">{{ cond $en (.name_en | default .name) .name }}</h2>
+        {{- with cond $en (.desc_en | default .desc) .desc }}<p class="lab-group-desc">{{ . }}</p>{{ end }}
         <ul class="lab-grid">
             {{- range $items }}
             <li>
-                <a class="lab-card" href="{{ .url | absLangURL }}">
+                <a class="lab-card" href="{{ .href }}" {{- if .id }} hreflang="id"{{ end }}>
                     <span class="lab-tile lab-c-{{ .icon }}">{{ partial "lab-icon.html" .icon }}</span>
                     <span class="lab-name">{{ .name }}</span>
-                    <span class="lab-desc">{{ .desc }}</span>
+                    <span class="lab-desc">{{ .desc }}{{ if .id }} <em>(Indonesian only for now)</em>{{ end }}</span>
                 </a>
             </li>
             {{- end }}

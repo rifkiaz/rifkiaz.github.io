@@ -5,6 +5,7 @@
   'use strict';
 
   var K = window.SimKit;
+  var tr = K.tr;
   var app = document.getElementById('an');
   if (!app || !K) return;
   var esc = K.esc, setHTML = K.setHTML, setText = K.setText;
@@ -50,11 +51,11 @@
       ''
     ].join('\n'),
     'site.yml': [
-      '- name: Siapkan web server',
+      tr('- name: Siapkan web server', '- name: Set up web servers'),
       '  hosts: web',
       '  become: true',
       '  vars:',
-      '    pesan: "Halo dari Ansible"',
+      tr('    pesan: "Halo dari Ansible"', '    message: "Hello from Ansible"'),
       '',
       '  tasks:',
       '    - name: Install nginx',
@@ -62,16 +63,16 @@
       '        name: nginx',
       '        state: present',
       '',
-      '    - name: Pasang halaman index',
+      tr('    - name: Pasang halaman index', '    - name: Deploy the index page'),
       '      template:',
       '        src: index.html.j2',
       '        dest: /var/www/html/index.html',
       '      notify: restart nginx',
       '',
-      '    - name: Catat waktu deploy',
+      tr('    - name: Catat waktu deploy', '    - name: Record deploy time'),
       '      shell: date > /etc/deploy-time',
       '',
-      '    - name: Pastikan nginx jalan',
+      tr('    - name: Pastikan nginx jalan', '    - name: Make sure nginx is running'),
       '      service:',
       '        name: nginx',
       '        state: started',
@@ -83,7 +84,7 @@
       '        name: nginx',
       '        state: restarted',
       '',
-      '- name: Siapkan database',
+      tr('- name: Siapkan database', '- name: Set up databases'),
       '  hosts: db',
       '  become: true',
       '  tasks:',
@@ -92,7 +93,7 @@
       '        name: postgresql',
       '        state: present',
       '',
-      '    - name: Pastikan postgresql jalan',
+      tr('    - name: Pastikan postgresql jalan', '    - name: Make sure postgresql is running'),
       '      service:',
       '        name: postgresql',
       '        state: started',
@@ -100,8 +101,8 @@
     ].join('\n'),
     'index.html.j2': [
       '<!doctype html>',
-      '<h1>{{ pesan }}</h1>',
-      '<p>Disajikan oleh {{ ansible_hostname }} ({{ ansible_distribution }})</p>',
+      tr('<h1>{{ pesan }}</h1>', '<h1>{{ message }}</h1>'),
+      tr('<p>Disajikan oleh {{ ansible_hostname }} ({{ ansible_distribution }})</p>', '<p>Served by {{ ansible_hostname }} ({{ ansible_distribution }})</p>'),
       ''
     ].join('\n')
   };
@@ -112,12 +113,12 @@
   ];
 
   var MISSIONS = [
-    { id: 'ping', text: 'Cek koneksi ke semua host: <b>ansible all -m ping</b>.' },
-    { id: 'run', text: 'Jalankan playbook <b>site.yml</b> dan lihat nginx terpasang.' },
-    { id: 'idem', text: 'Jalankan lagi sampai <i>changed=0</i> di semua host. Ada satu task yang bandel.' },
-    { id: 'check', text: 'Ganti <b>pesan</b>, intip dulu pakai <i>--check --diff</i>, lalu jalankan beneran.' },
-    { id: 'limit', text: 'Tambah <b>web3</b> ke grup web, lalu jalankan khusus web3 pakai <i>--limit</i>.' },
-    { id: 'rocky', text: 'web3 pakai Rocky Linux. Benerin playbook-nya sampai nginx jalan di sana.' }
+    { id: 'ping', text: tr('Cek koneksi ke semua host: <b>ansible all -m ping</b>.', 'Check the connection to every host: <b>ansible all -m ping</b>.') },
+    { id: 'run', text: tr('Jalankan playbook <b>site.yml</b> dan lihat nginx terpasang.', 'Run the <b>site.yml</b> playbook and watch nginx get installed.') },
+    { id: 'idem', text: tr('Jalankan lagi sampai <i>changed=0</i> di semua host. Ada satu task yang bandel.', 'Run it again until every host shows <i>changed=0</i>. One task won\'t behave.') },
+    { id: 'check', text: tr('Ganti <b>pesan</b>, intip dulu pakai <i>--check --diff</i>, lalu jalankan beneran.', 'Change <b>message</b>, preview it with <i>--check --diff</i> first, then run it for real.') },
+    { id: 'limit', text: tr('Tambah <b>web3</b> ke grup web, lalu jalankan khusus web3 pakai <i>--limit</i>.', 'Add <b>web3</b> to the web group, then run only on web3 with <i>--limit</i>.') },
+    { id: 'rocky', text: tr('web3 pakai Rocky Linux. Benerin playbook-nya sampai nginx jalan di sana.', 'web3 runs Rocky Linux. Fix the playbook until nginx runs there.') }
   ];
 
   // ---------- YAML (subset, shared in SimKit) ----------
@@ -131,7 +132,7 @@
     function kv(parts, into, n) {
       parts.forEach(function (p) {
         var m = /^([\w.-]+)=(.*)$/.exec(p);
-        if (!m) { inv.errs.push({ line: n, msg: '"' + p + '" bukan format kunci=nilai.' }); return; }
+        if (!m) { inv.errs.push({ line: n, msg: '"' + p + tr('" bukan format kunci=nilai.', '" is not in key=value format.') }); return; }
         into[m[1]] = m[2].replace(/^(["'])(.*)\1$/, '$2');
       });
     }
@@ -142,14 +143,14 @@
       if (g) {
         var p = g[1].split(':');
         if (!/^[\w-]+$/.test(p[0]) || (p[1] && p[1] !== 'vars' && p[1] !== 'children')) {
-          inv.errs.push({ line: n, msg: 'Nama grup "[' + g[1] + ']" ga valid. Contoh yang benar: [web], [web:vars], [prod:children].' });
+          inv.errs.push({ line: n, msg: tr('Nama grup "[', 'Group name "[') + g[1] + tr(']" ga valid. Contoh yang benar: [web], [web:vars], [prod:children].', ']" is not valid. Valid examples: [web], [web:vars], [prod:children].') });
           cur = null; return;
         }
         cur = p[0]; mode = p[1] || 'hosts';
         grp(cur);
         return;
       }
-      if (/^\[/.test(t)) { inv.errs.push({ line: n, msg: 'Header grup belum ditutup dengan ].' }); cur = null; return; }
+      if (/^\[/.test(t)) { inv.errs.push({ line: n, msg: tr('Header grup belum ditutup dengan ].', 'Group header is not closed with ].') }); cur = null; return; }
       if (!cur) return;
       var parts = t.split(/\s+/);
       if (mode === 'vars') { kv(parts, inv.groups[cur].vars, n); return; }
@@ -229,11 +230,11 @@
   function tokens(s) {
     var re = /\s*(==|!=|>=|<=|>|<|\(|\)|\[|\]|,|\||"[^"]*"|'[^']*'|-?\d+(?:\.\d+)?|[A-Za-z_][\w.]*)/g, out = [], m, last = 0;
     while ((m = re.exec(s))) {
-      if (m.index !== last && s.slice(last, m.index).trim()) throw new Error('ga paham bagian "' + s.slice(last, m.index).trim() + '"');
+      if (m.index !== last && s.slice(last, m.index).trim()) throw new Error(tr('ga paham bagian "', 'can\'t make sense of "') + s.slice(last, m.index).trim() + '"');
       out.push(m[1]);
       last = re.lastIndex;
     }
-    if (s.slice(last).trim()) throw new Error('ga paham bagian "' + s.slice(last).trim() + '"');
+    if (s.slice(last).trim()) throw new Error(tr('ga paham bagian "', 'can\'t make sense of "') + s.slice(last).trim() + '"');
     return out;
   }
   function evalExpr(src, vars) {
@@ -258,7 +259,7 @@
         else if (test === 'undefined') r = v instanceof Undef;
         else if (v instanceof Undef) throw v;
         else if (test === 'none') r = v === null;
-        else throw new Error('test "' + test + '" belum didukung');
+        else throw new Error('test "' + test + tr('" belum didukung', '" is not supported yet'));
         return neg ? !r : r;
       }
       if (v instanceof Undef) throw v;
@@ -297,13 +298,13 @@
         else if (f === 'int') v = parseInt(v, 10) || 0;
         else if (f === 'string') v = String(v);
         else if (f === 'bool') v = truthy(v);
-        else throw new Error('filter "' + f + '" belum didukung di simulasi ini');
+        else throw new Error('filter "' + f + tr('" belum didukung di simulasi ini', '" is not supported in this simulation'));
       }
       return v;
     }
     function prim() {
       var x = t[i++];
-      if (x === undefined) throw new Error('ekspresinya kepotong');
+      if (x === undefined) throw new Error(tr('ekspresinya kepotong', 'the expression is cut off'));
       if (x === '(') { var v = or(); eat(')'); return v; }
       if (x === '[') {
         var l = [];
@@ -321,7 +322,7 @@
       return lv;
     }
     var out = or();
-    if (i < t.length) throw new Error('ada sisa "' + t.slice(i).join(' ') + '"');
+    if (i < t.length) throw new Error(tr('ada sisa "', 'leftover "') + t.slice(i).join(' ') + '"');
     return out;
   }
   function truthy(v) {
@@ -381,10 +382,10 @@
     return out;
   }
   function compileTask(t, file, isHandler) {
-    if (!t || typeof t !== 'object' || Array.isArray(t)) throw PErr(lineOf(t), (isHandler ? 'Handler' : 'Task') + ' harus berupa map (name, modul, dan argumennya).', file);
+    if (!t || typeof t !== 'object' || Array.isArray(t)) throw PErr(lineOf(t), (isHandler ? 'Handler' : 'Task') + tr(' harus berupa map (name, modul, dan argumennya).', ' must be a map (name, module, and its arguments).'), file);
     var mods = Object.keys(t).filter(function (k) { return TASK_KW.indexOf(k) < 0 && k !== 'args'; });
     if (!mods.length) throw PErr(lineOf(t), 'ERROR! no module/action detected in task.', file);
-    if (mods.length > 1) throw PErr(lineOf(t, mods[1]), 'ERROR! conflicting action statements: ' + mods.join(', ') + '. Satu task cuma boleh satu modul.', file);
+    if (mods.length > 1) throw PErr(lineOf(t, mods[1]), 'ERROR! conflicting action statements: ' + mods.join(', ') + tr('. Satu task cuma boleh satu modul.', '. A task can only have one module.'), file);
     var mk = mods[0], mod = modName(mk);
     if (!MODS[mod]) {
       var best = Object.keys(MODS).filter(function (m) { return m[0] === mod[0] && Math.abs(m.length - mod.length) < 3; })[0];
@@ -395,7 +396,7 @@
     if (a === null || a === undefined) args = {};
     else if (typeof a === 'string') args = freeArgs(a, mod);
     else if (typeof a === 'object' && !Array.isArray(a)) { args = {}; Object.keys(a).forEach(function (k) { args[k] = a[k]; }); }
-    else throw PErr(lineOf(t, mk), 'Argumen modul ' + mk + ' harus berupa map atau teks kunci=nilai.', file);
+    else throw PErr(lineOf(t, mk), tr('Argumen modul ', 'Arguments for module ') + mk + tr(' harus berupa map atau teks kunci=nilai.', ' must be a map or key=value text.'), file);
     if (t.args && typeof t.args === 'object') Object.keys(t.args).forEach(function (k) { args[k] = t.args[k]; });
     var notify = t.notify === undefined || t.notify === null ? [] : Array.isArray(t.notify) ? t.notify : [t.notify];
     return {
@@ -406,19 +407,19 @@
   }
   function compile(src) {
     var doc = parseYAML(src);
-    if (!Array.isArray(doc)) throw PErr(doc ? lineOf(doc) : 1, 'ERROR! A playbook must be a list of plays. Awali tiap play dengan "- name: ...".');
+    if (!Array.isArray(doc)) throw PErr(doc ? lineOf(doc) : 1, tr('ERROR! A playbook must be a list of plays. Awali tiap play dengan "- name: ...".', 'ERROR! A playbook must be a list of plays. Start each play with "- name: ...".'));
     return doc.map(function (p) {
       if (!p || typeof p !== 'object' || Array.isArray(p)) throw PErr(lineOf(p) || 1, 'ERROR! Each play must be a dictionary (map).');
       Object.keys(p).forEach(function (k) {
         if (PLAY_KW.indexOf(k) < 0) {
-          var hint = MODS[modName(k)] ? ' Sepertinya ini task yang lupa ditaruh di bawah "tasks:".' : '';
+          var hint = MODS[modName(k)] ? tr(' Sepertinya ini task yang lupa ditaruh di bawah "tasks:".', ' Looks like a task that should go under "tasks:".') : '';
           throw PErr(lineOf(p, k), "ERROR! '" + k + "' is not a valid attribute for a Play." + hint);
         }
       });
-      if (p.roles) throw PErr(lineOf(p, 'roles'), 'Roles belum didukung di simulasi ini. Tulis task-nya langsung di "tasks:".');
+      if (p.roles) throw PErr(lineOf(p, 'roles'), tr('Roles belum didukung di simulasi ini. Tulis task-nya langsung di "tasks:".', 'Roles aren\'t supported in this simulation. Write the tasks directly under "tasks:".'));
       if (p.hosts === undefined || p.hosts === null || p.hosts === '') throw PErr(lineOf(p), "ERROR! the field 'hosts' is required but was not set");
       ['tasks', 'handlers', 'pre_tasks', 'post_tasks'].forEach(function (k) {
-        if (p[k] !== undefined && p[k] !== null && !Array.isArray(p[k])) throw PErr(lineOf(p, k), "ERROR! A malformed block was encountered while loading " + k + ". Isinya harus list, tiap item diawali \"- \".");
+        if (p[k] !== undefined && p[k] !== null && !Array.isArray(p[k])) throw PErr(lineOf(p, k), "ERROR! A malformed block was encountered while loading " + k + tr(". Isinya harus list, tiap item diawali \"- \".", ". It must be a list, each item starting with \"- \"."));
       });
       var tasks = [].concat(p.pre_tasks || [], p.tasks || [], p.post_tasks || []).map(function (t) { return compileTask(t); });
       var handlers = (p.handlers || []).map(function (t) { return compileTask(t, 'site.yml', true); });
@@ -498,7 +499,7 @@
     if (unknown.length) return fail('Unsupported parameters for (' + mod + ') module: ' + unknown.join(', ') + '. Supported parameters include: ' + spec.args.filter(function (k) { return k[0] !== '_'; }).join(', ') + '.');
     var miss = (spec.req || []).filter(function (k) { return A[k] === undefined || A[k] === null || A[k] === ''; });
     if (miss.length) return fail('missing required arguments: ' + miss.join(', '));
-    var noRoot = 'Missing sudo password atau permission denied. Task ini butuh root, tambahkan "become: true".';
+    var noRoot = tr('Missing sudo password atau permission denied. Task ini butuh root, tambahkan "become: true".', 'Missing sudo password or permission denied. This task needs root, add "become: true".');
 
     if (mod === 'ping') { res.ping = A.data || 'pong'; return res; }
     if (mod === 'setup') { res.ansible_facts = facts(H.name); return res; }
@@ -519,8 +520,8 @@
     }
     if (mod === 'apt' || mod === 'dnf' || mod === 'yum' || mod === 'package') {
       var names = pkgList(A.name !== undefined ? A.name : A.pkg);
-      if (mod === 'apt' && !deb) return fail('Failed to find required executable "apt-get" in paths: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin. Host ini ' + L0.os + ' (keluarga RedHat), jadi pakai dnf atau modul package.');
-      if ((mod === 'dnf' || mod === 'yum') && deb) return fail('Could not find a matching action for the "' + mod + '" package manager on this host. Host ini ' + L0.os + ', pakai apt atau modul package.');
+      if (mod === 'apt' && !deb) return fail(tr('Failed to find required executable "apt-get" in paths: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin. Host ini ', 'Failed to find required executable "apt-get" in paths: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin. This host is ') + L0.os + tr(' (keluarga RedHat), jadi pakai dnf atau modul package.', ' (RedHat family), so use dnf or the package module.'));
+      if ((mod === 'dnf' || mod === 'yum') && deb) return fail('Could not find a matching action for the "' + mod + tr('" package manager on this host. Host ini ', '" package manager on this host. This host is ') + L0.os + tr(', pakai apt atau modul package.', ', use apt or the package module.'));
       if (!names.length) {
         if (A.update_cache) { res.changed = mod === 'apt'; res.cache_updated = true; return res; }
         return fail('one of the following is required: name, pkg' + (mod === 'apt' ? ', upgrade, update_cache' : ''));
@@ -532,7 +533,7 @@
         var n = names[i], p = PKG[n];
         if (state === 'absent' || state === 'removed') { if (H.pkgs[n]) del.push(n); continue; }
         if (!p || p.on.indexOf(deb ? 'd' : 'r') < 0) {
-          var alt = n === 'postgresql' && !deb ? ' Di Rocky namanya postgresql-server.' : n === 'redis-server' && !deb ? ' Di Rocky namanya redis.' : n === 'redis' && deb ? ' Di Ubuntu/Debian namanya redis-server.' : n === 'postgresql-server' && deb ? ' Di Ubuntu/Debian namanya postgresql.' : '';
+          var alt = n === 'postgresql' && !deb ? tr(' Di Rocky namanya postgresql-server.', ' On Rocky it is called postgresql-server.') : n === 'redis-server' && !deb ? tr(' Di Rocky namanya redis.', ' On Rocky it is called redis.') : n === 'redis' && deb ? tr(' Di Ubuntu/Debian namanya redis-server.', ' On Ubuntu/Debian it is called redis-server.') : n === 'postgresql-server' && deb ? tr(' Di Ubuntu/Debian namanya postgresql.', ' On Ubuntu/Debian it is called postgresql.') : '';
           return fail('No package matching \'' + n + '\' is available.' + alt);
         }
         if (!H.pkgs[n]) add.push(n);
@@ -567,7 +568,7 @@
     if (mod === 'service' || mod === 'systemd') {
       var sn = String(A.name || ''), sv = H.svcs[sn];
       if (!sn) return fail('missing required arguments: name');
-      if (!sv) return fail('Could not find the requested service ' + sn + ': host' + (PKG[sn] ? '. Paketnya belum terpasang.' : ''));
+      if (!sv) return fail('Could not find the requested service ' + sn + ': host' + (PKG[sn] ? tr('. Paketnya belum terpasang.', '. The package isn\'t installed yet.') : ''));
       var want = A.state, nr = sv.running, ne = sv.enabled;
       if (want && ['started', 'stopped', 'restarted', 'reloaded'].indexOf(want) < 0) return fail('value of state must be one of: reloaded, restarted, started, stopped, got: ' + want);
       if (want === 'started') nr = true;
@@ -575,7 +576,7 @@
       if (want === 'restarted' || want === 'reloaded') { nr = true; res.changed = true; }
       if (A.enabled !== undefined) ne = truthy(A.enabled);
       if (nr !== sv.running || ne !== sv.enabled) res.changed = true;
-      if (res.changed && !ctx.root) return fail('Unable to ' + (want === 'stopped' ? 'stop' : 'start') + ' service ' + sn + ': Interactive authentication required. Tambahkan "become: true".');
+      if (res.changed && !ctx.root) return fail('Unable to ' + (want === 'stopped' ? 'stop' : 'start') + ' service ' + sn + tr(': Interactive authentication required. Tambahkan "become: true".', ': Interactive authentication required. Add "become: true".'));
       res.name = sn; res.state = nr ? 'started' : 'stopped'; res.enabled = ne;
       if (!ctx.check) { sv.running = nr; sv.enabled = ne; if (want === 'restarted') H.restarts = (H.restarts || 0) + 1; }
       return res;
@@ -584,12 +585,12 @@
       var dest = String(A.dest), content;
       if (mod === 'template') {
         var src = String(A.src).replace(/^templates\//, '');
-        if (W.files[src] === undefined) return fail('Could not find or access \'' + A.src + '\'. Template yang ada: templates/index.html.j2.');
+        if (W.files[src] === undefined) return fail('Could not find or access \'' + A.src + tr('\'. Template yang ada: templates/index.html.j2.', '\'. Available template: templates/index.html.j2.'));
         try { content = render(W.files[src], ctx.vars); }
         catch (e) { return fail(e instanceof Undef ? "AnsibleUndefinedVariable: '" + e.name + "' is undefined" : 'template error while templating string: ' + e.message); }
         if (typeof content !== 'string') content = String(content);
       } else {
-        if (A.src !== undefined && A.content === undefined) return fail('Could not find or access \'' + A.src + '\'. Di simulasi ini pakai content: buat isi filenya.');
+        if (A.src !== undefined && A.content === undefined) return fail('Could not find or access \'' + A.src + tr('\'. Di simulasi ini pakai content: buat isi filenya.', '\'. In this simulation use content: for the file contents.'));
         content = A.content === undefined || A.content === null ? '' : String(A.content);
       }
       if (/\/$/.test(dest)) dest += src || 'file';
@@ -597,7 +598,7 @@
       var cur = H.files[dest];
       var mode = A.mode !== undefined ? String(A.mode).replace(/^(\d{3})$/, '0$1') : cur ? cur.mode : '0644';
       if (cur && cur.content === content && cur.mode === mode) { res.dest = dest; return res; }
-      if (!ctx.root && needRoot(dest)) return fail('Destination ' + dirOf(dest) + ' not writable. Butuh root, tambahkan "become: true".');
+      if (!ctx.root && needRoot(dest)) return fail('Destination ' + dirOf(dest) + tr(' not writable. Butuh root, tambahkan "become: true".', ' not writable. Needs root, add "become: true".'));
       res.changed = true; res.dest = dest;
       if (ctx.diff && (!cur || cur.content !== content)) res.diffLines = lineDiff(dest, cur ? cur.content : null, content);
       if (!ctx.check) { H.files[dest] = { type: 'file', content: content, mode: mode }; H.touched[dest] = true; }
@@ -610,7 +611,7 @@
       var exists = H.files[path] || H.dirs[path];
       if (st === 'directory') {
         if (H.dirs[path]) return res;
-        if (H.files[path]) return fail('there was an issue creating ' + path + ' as requested: ' + path + ' sudah ada sebagai file biasa');
+        if (H.files[path]) return fail('there was an issue creating ' + path + ' as requested: ' + path + tr(' sudah ada sebagai file biasa', ' already exists as a regular file'));
         if (!ctx.root && needRoot(path)) return fail('There was an issue creating ' + path + ' as requested: [Errno 13] Permission denied');
         res.changed = true;
         if (!ctx.check) { var parts = path.split('/'); for (var x = 2; x <= parts.length; x++) H.dirs[parts.slice(0, x).join('/')] = 1; H.touched[path] = true; }
@@ -651,7 +652,7 @@
       }
       var after = lines.join('\n');
       if (after === before && f) return res;
-      if (!ctx.root && needRoot(lp)) return fail('Destination ' + lp + ' not writable. Butuh root, tambahkan "become: true".');
+      if (!ctx.root && needRoot(lp)) return fail('Destination ' + lp + tr(' not writable. Butuh root, tambahkan "become: true".', ' not writable. Needs root, add "become: true".'));
       res.changed = true;
       res.msg = A.state === 'absent' ? 'line removed' : 'line added';
       if (ctx.diff) res.diffLines = lineDiff(lp, f ? f.content : null, after + '\n');
@@ -663,7 +664,7 @@
       if (mod === 'group') {
         H.groups = H.groups || {};
         if (H.groups[un] || A.state === 'absent' && !H.groups[un]) return res;
-        if (!ctx.root) return fail('groupadd: Permission denied. Tambahkan "become: true".');
+        if (!ctx.root) return fail(tr('groupadd: Permission denied. Tambahkan "become: true".', 'groupadd: Permission denied. Add "become: true".'));
         res.changed = true;
         if (!ctx.check) H.groups[un] = true;
         return res;
@@ -672,14 +673,14 @@
       var gs = pkgList(A.groups);
       if (A.state === 'absent') {
         if (!u) return res;
-        if (!ctx.root) return fail('userdel: Permission denied. Tambahkan "become: true".');
+        if (!ctx.root) return fail(tr('userdel: Permission denied. Tambahkan "become: true".', 'userdel: Permission denied. Add "become: true".'));
         res.changed = true;
         if (!ctx.check) delete H.users[un];
         return res;
       }
       var ng = u ? (truthy(A.append) ? u.groups.concat(gs.filter(function (g) { return u.groups.indexOf(g) < 0; })) : (A.groups !== undefined ? gs : u.groups)) : gs;
       if (u && JSON.stringify(ng) === JSON.stringify(u.groups)) { res.name = un; return res; }
-      if (!ctx.root) return fail((u ? 'usermod' : 'useradd') + ': Permission denied. Tambahkan "become: true".');
+      if (!ctx.root) return fail((u ? 'usermod' : 'useradd') + tr(': Permission denied. Tambahkan "become: true".', ': Permission denied. Add "become: true".'));
       res.changed = true; res.name = un;
       if (!ctx.check) { H.users[un] = { groups: ng }; if (A.create_home !== false) H.dirs['/home/' + un] = 1; }
       return res;
@@ -693,7 +694,7 @@
       if (mod === 'command' && /[|>;&]|\$\(/.test(cmd)) {
         // command does not go through a shell, so redirects are just arguments
         res.rc = 1; res.stderr = 'date: extra operand ‘>’'; res.changed = true;
-        return fail('non-zero return code. Modul command ga lewat shell, jadi ">" dan "|" ga jalan. Pakai modul shell.', { rc: 1, changed: true });
+        return fail(tr('non-zero return code. Modul command ga lewat shell, jadi ">" dan "|" ga jalan. Pakai modul shell.', 'non-zero return code. The command module doesn\'t go through a shell, so ">" and "|" don\'t work. Use the shell module.'), { rc: 1, changed: true });
       }
       res.changed = true; res.rc = 0;
       var out = '';
@@ -739,17 +740,17 @@
       res.cmd = cmd;
       return res;
     }
-    return fail('module ' + mod + ' belum dibuat di simulasi ini');
+    return fail('module ' + mod + tr(' belum dibuat di simulasi ini', ' is not built into this simulation yet'));
   }
 
   // ---------- UI shell ----------
   var term = new K.Term($('an-out'), $('an-in'), { onCmd: runLine });
   var toast = K.makeToast($('an-toast'));
-  var M = new K.Missions($('an-m-list'), $('an-m-count'), MISSIONS, toast, '🎉 Semua misi beres. Kamu udah paham dasar Ansible!');
+  var M = new K.Missions($('an-m-list'), $('an-m-count'), MISSIONS, toast, tr('🎉 Semua misi beres. Kamu udah paham dasar Ansible!', '🎉 All missions done. You\'ve got the Ansible basics down!'));
   var PS = 'deploy@control:~/lab$';
   var curTab = 'site.yml';
   var ed = new K.Editor($('an-ed'), {
-    value: '', label: 'Isi file', highlight: K.hlYAML,
+    value: '', label: tr('Isi file', 'File contents'), highlight: K.hlYAML,
     onChange: function (v) { W.files[curTab] = v; W.errs[curTab] = []; renderAll(); }
   });
   function openTab(f) {
@@ -758,7 +759,7 @@
     ed.highlight = t.hl;
     ed.ta.value = W.files[f];
     ed.mark(W.errs[f] || []);
-    ed.ta.setAttribute('aria-label', 'Isi file ' + (t.label || f));
+    ed.ta.setAttribute('aria-label', tr('Isi file ', 'File contents: ') + (t.label || f));
     renderTabs();
   }
   function renderTabs() {
@@ -821,26 +822,26 @@
       return;
     }
     if (cmd === 'curl') { curl(words.filter(function (w) { return w[0] !== '-'; })[0]); return; }
-    if (cmd === 'ssh') { term.line('Simulasi ini ga punya shell interaktif. Coba: ansible ' + esc(words[0] || 'web1') + ' -a "uptime"', 'sx-warn'); return; }
-    if (W.busy) { term.line('Playbook sebelumnya masih jalan. Tunggu sebentar ya.', 'sx-warn'); return; }
+    if (cmd === 'ssh') { term.line(tr('Simulasi ini ga punya shell interaktif. Coba: ansible ', 'This simulation has no interactive shell. Try: ansible ') + esc(words[0] || 'web1') + ' -a "uptime"', 'sx-warn'); return; }
+    if (W.busy) { term.line(tr('Playbook sebelumnya masih jalan. Tunggu sebentar ya.', 'The previous playbook is still running. Hang on a moment.'), 'sx-warn'); return; }
     if (cmd === 'ansible-playbook') { playbookCmd(words); return; }
     if (cmd === 'ansible') { adhoc(words); return; }
     if (cmd === 'ansible-inventory') { invCmd(words); return; }
     term.line('bash: ' + esc(cmd) + ': command not found', 'sx-err');
-    term.line('<span class="sx-dim">Ketik <b>help</b> buat lihat perintah yang ada.</span>');
+    term.line(tr('<span class="sx-dim">Ketik <b>help</b> buat lihat perintah yang ada.</span>', '<span class="sx-dim">Type <b>help</b> to see the available commands.</span>'));
   }
   function help() {
     term.lines([
-      '<span class="sx-b">Perintah yang bisa dicoba:</span>',
-      '  ansible all -m ping                    cek koneksi SSH ke semua host',
-      '  ansible web -a "uptime"                perintah ad-hoc (modul command)',
-      '  ansible db -m apt -a "name=htop" -b    ad-hoc pakai modul lain, -b = become',
+      tr('<span class="sx-b">Perintah yang bisa dicoba:</span>', '<span class="sx-b">Commands you can try:</span>'),
+      tr('  ansible all -m ping                    cek koneksi SSH ke semua host', '  ansible all -m ping                    check SSH to every host'),
+      tr('  ansible web -a "uptime"                perintah ad-hoc (modul command)', '  ansible web -a "uptime"                ad-hoc command (command module)'),
+      tr('  ansible db -m apt -a "name=htop" -b    ad-hoc pakai modul lain, -b = become', '  ansible db -m apt -a "name=htop" -b    ad-hoc with another module, -b = become'),
       '  ansible-playbook site.yml [--check] [--diff] [--limit web1]',
       '  ansible-playbook site.yml --syntax-check | --list-hosts | --list-tasks',
       '  ansible-inventory --graph',
-      '  curl web1                              lihat halaman yang disajikan nginx',
+      tr('  curl web1                              lihat halaman yang disajikan nginx', '  curl web1                              see the page nginx serves'),
       '  ls, cat FILE, clear',
-      '<span class="sx-dim">Panah atas/bawah buat ambil perintah sebelumnya.</span>'
+      tr('<span class="sx-dim">Panah atas/bawah buat ambil perintah sebelumnya.</span>', '<span class="sx-dim">Up/down arrows bring back earlier commands.</span>')
     ]);
   }
   function loadInv() {
@@ -848,7 +849,7 @@
     if (inv.errs.length) {
       var e = inv.errs[0];
       term.line('<span class="sx-warn">[WARNING]: Unable to parse /home/deploy/lab/inventory.ini as an inventory source</span>');
-      term.line('<span class="sx-err">ERROR! inventory.ini baris ' + e.line + ': ' + esc(e.msg) + '</span>');
+      term.line(tr('<span class="sx-err">ERROR! inventory.ini baris ', '<span class="sx-err">ERROR! inventory.ini line ') + e.line + ': ' + esc(e.msg) + '</span>');
       markErr('inventory.ini', e.line);
       return null;
     }
@@ -920,7 +921,7 @@
       var el = document.createElement('div');
       el.className = 'an-host';
       el.innerHTML = '<div class="an-hh"><i class="an-dot" aria-hidden="true"></i><b>' + h + '</b><span class="an-os"></span>' +
-        '<label class="gx-sw an-pw" title="Nyalakan atau matikan server"><input type="checkbox" checked data-act="power" data-h="' + h + '"><span aria-hidden="true"></span><em class="sr">power ' + h + '</em></label></div>' +
+        tr('<label class="gx-sw an-pw" title="Nyalakan atau matikan server"><input type="checkbox" checked data-act="power" data-h="', '<label class="gx-sw an-pw" title="Turn the server on or off"><input type="checkbox" checked data-act="power" data-h="') + h + '"><span aria-hidden="true"></span><em class="sr">power ' + h + '</em></label></div>' +
         '<div class="an-groups"></div><div class="an-task"></div><div class="an-body"></div><div class="an-recap"></div>';
       wrap.appendChild(el);
       cards[h] = { el: el, os: el.querySelector('.an-os'), groups: el.querySelector('.an-groups'), task: el.querySelector('.an-task'), body: el.querySelector('.an-body'), recap: el.querySelector('.an-recap'), pw: el.querySelector('input') };
@@ -942,16 +943,16 @@
       setText(c.os, LAB[h].os);
       if (c.pw.checked !== H.up) c.pw.checked = H.up;
       var gs = inv && inInv ? groupsOf(inv, h).filter(function (g) { return g !== 'ungrouped'; }) : [];
-      setHTML(c.groups, inInv ? (gs.length ? gs.map(function (g) { return '<span class="an-g">' + esc(g) + '</span>'; }).join('') : '<span class="an-g">ungrouped</span>') : '<span class="an-out">belum ada di inventory</span>');
+      setHTML(c.groups, inInv ? (gs.length ? gs.map(function (g) { return '<span class="an-g">' + esc(g) + '</span>'; }).join('') : '<span class="an-g">ungrouped</span>') : tr('<span class="an-out">belum ada di inventory</span>', '<span class="an-out">not in inventory yet</span>'));
       setText(c.task, H.task);
       var pk = Object.keys(H.pkgs).filter(function (p) { return p !== 'python3' && p !== 'openssh-server'; });
       var sv = Object.keys(H.svcs).filter(function (s) { return s !== 'ssh' && s !== 'sshd' && s !== 'cron'; });
       var fl = Object.keys(H.touched).filter(function (f) { return H.files[f] || H.dirs[f]; });
       var body = '';
       if (sv.length) body += '<div class="an-row"><small>service</small>' + sv.map(function (s) { var on = H.svcs[s].running; return '<span class="an-svc' + (on ? ' is-on' : '') + '" title="' + (on ? 'running' : 'stopped') + '">' + esc(s) + '</span>'; }).join('') + '</div>';
-      if (pk.length) body += '<div class="an-row"><small>paket</small>' + pk.map(function (p) { return '<span class="an-pkg">' + esc(p) + '</span>'; }).join('') + '</div>';
+      if (pk.length) body += tr('<div class="an-row"><small>paket</small>', '<div class="an-row"><small>packages</small>') + pk.map(function (p) { return '<span class="an-pkg">' + esc(p) + '</span>'; }).join('') + '</div>';
       if (fl.length) body += '<div class="an-row"><small>file</small>' + fl.slice(-3).map(function (f) { return '<span class="an-file" title="' + esc(f) + '">' + esc(f) + '</span>'; }).join('') + (fl.length > 3 ? '<span class="an-more">+' + (fl.length - 3) + '</span>' : '') + '</div>';
-      if (!body) body = '<div class="an-row an-blank">server baru, belum diapa-apain</div>';
+      if (!body) body = tr('<div class="an-row an-blank">server baru, belum diapa-apain</div>', '<div class="an-row an-blank">fresh server, nothing done yet</div>');
       setHTML(c.body, body);
       var r = H.last;
       setHTML(c.recap, r ? ['ok', 'changed', 'failed', 'unreachable', 'skipped'].filter(function (k) { return r[k] || k === 'ok' || k === 'changed'; }).map(function (k) { return '<span class="an-rc an-rc-' + k + '">' + k + '=' + r[k] + '</span>'; }).join('') : '');
@@ -960,24 +961,24 @@
   function renderAll() {
     var inv = parseInv(W.files['inventory.ini']);
     var nHosts = inv.errs.length ? 0 : inv.order.length;
-    setText($('an-f-inv'), inv.errs.length ? 'ada error' : nHosts + ' host');
+    setText($('an-f-inv'), inv.errs.length ? tr('ada error', 'has errors') : nHosts + ' host');
     $('an-f-inv').dataset.s = inv.errs.length ? 'bad' : '';
     var pb = null, perr = null;
     try { pb = compile(W.files['site.yml']); } catch (e) { perr = e; }
     var nt = pb ? pb.reduce(function (a, p) { return a + p.tasks.length; }, 0) : 0;
-    setText($('an-f-pb'), perr ? 'ada error' : pb.length + ' play · ' + nt + ' task');
+    setText($('an-f-pb'), perr ? tr('ada error', 'has errors') : pb.length + ' play · ' + nt + ' task');
     $('an-f-pb').dataset.s = perr ? 'bad' : '';
     var up = HOSTS.filter(function (h) { return !inv.errs.length && inv.hosts[h] && S[h].up; }).length;
     var down = HOSTS.filter(function (h) { return !inv.errs.length && inv.hosts[h] && !S[h].up; }).length;
-    setText($('an-f-srv'), W.busy ? 'sedang dikonfigurasi…' : up + ' nyala' + (down ? ', ' + down + ' mati' : ''));
+    setText($('an-f-srv'), W.busy ? tr('sedang dikonfigurasi…', 'configuring…') : up + tr(' nyala', ' up') + (down ? ', ' + down + tr(' mati', ' down') : ''));
     $('an-f-srv').dataset.s = W.busy ? 'info' : down ? 'warn' : '';
     var rc = W.recap;
-    setText($('an-f-rc'), rc ? (rc.failed + rc.unreachable ? rc.failed + rc.unreachable + ' gagal' : rc.changed ? rc.changed + ' changed' : 'semua ok') : 'belum jalan');
+    setText($('an-f-rc'), rc ? (rc.failed + rc.unreachable ? rc.failed + rc.unreachable + tr(' gagal', ' failed') : rc.changed ? rc.changed + ' changed' : tr('semua ok', 'all ok')) : tr('belum jalan', 'not run yet'));
     $('an-f-rc').dataset.s = rc ? (rc.failed + rc.unreachable ? 'bad' : rc.changed ? 'warn' : 'ok') : '';
     // limit picker follows the inventory
     var sel = $('an-limit'), cur = sel.value;
-    var optsH = '<option value="">semua host</option>' + (inv.errs.length ? '' :
-      Object.keys(inv.groups).filter(function (g) { return g !== 'all' && g !== 'ungrouped'; }).map(function (g) { return '<option value="' + esc(g) + '">grup ' + esc(g) + '</option>'; }).join('') +
+    var optsH = tr('<option value="">semua host</option>', '<option value="">all hosts</option>') + (inv.errs.length ? '' :
+      Object.keys(inv.groups).filter(function (g) { return g !== 'all' && g !== 'ungrouped'; }).map(function (g) { return '<option value="' + esc(g) + tr('">grup ', '">group ') + esc(g) + '</option>'; }).join('') +
       inv.order.map(function (h) { return '<option value="' + esc(h) + '">' + esc(h) + '</option>'; }).join(''));
     if (sel._h !== optsH) { sel.innerHTML = optsH; sel._h = optsH; sel.value = cur; if (sel.value !== cur) sel.value = ''; }
     $('an-quick').classList.toggle('is-busy', W.busy);
@@ -1033,7 +1034,7 @@
     if (run !== W.run) return;
     W.busy = false;
     if (mod === 'ping' && pinged && pinged === hosts.length) M.hit('ping');
-    else if (mod === 'ping' && pinged) toast('Ada host yang ga bisa dihubungi. Cek kartunya di bawah.');
+    else if (mod === 'ping' && pinged) toast(tr('Ada host yang ga bisa dihubungi. Cek kartunya di bawah.', 'Some hosts can\'t be reached. Check their cards below.'));
     renderAll();
   }
 
@@ -1087,7 +1088,7 @@
     var dead = {};
     HOSTS.forEach(function (h) { S[h].status = 'idle'; S[h].task = ''; });
     renderAll();
-    if (o.check) term.line('<span class="sx-dim"># --check: cuma simulasi, server ga diubah</span>');
+    if (o.check) term.line(tr('<span class="sx-dim"># --check: cuma simulasi, server ga diubah</span>', '<span class="sx-dim"># --check: dry run, servers are not changed</span>'));
     var anyHosts = false;
     for (var pi = 0; pi < plays.length; pi++) {
       var p = plays[pi];
@@ -1242,7 +1243,7 @@
     function setHost(h, st) {
       if (!S[h]) return;
       S[h].status = st;
-      S[h].task = st === 'unreachable' ? 'ga bisa SSH' : '';
+      S[h].task = st === 'unreachable' ? tr('ga bisa SSH', 'can\'t SSH') : '';
       hit(h);
       renderAll();
     }
@@ -1302,7 +1303,7 @@
       W.errs[curTab] = [];
       openTab(curTab);
       renderAll();
-      toast(curTab + ' balik ke versi awal');
+      toast(curTab + tr(' balik ke versi awal', ' reset to the original'));
     } else if (act === 'reset') reset();
   });
   app.addEventListener('change', function (e) {
@@ -1311,8 +1312,8 @@
       var h = t.dataset.h;
       S[h].up = t.checked;
       S[h].status = 'idle';
-      S[h].task = t.checked ? '' : 'mati';
-      term.line('<span class="sx-dim"># ' + h + ' ' + (t.checked ? 'dinyalakan lagi' : 'dimatikan. Coba jalankan playbook dan lihat hasilnya.') + '</span>');
+      S[h].task = t.checked ? '' : tr('mati', 'off');
+      term.line('<span class="sx-dim"># ' + h + ' ' + (t.checked ? tr('dinyalakan lagi', 'turned back on') : tr('dimatikan. Coba jalankan playbook dan lihat hasilnya.', 'turned off. Run the playbook and see what happens.')) + '</span>');
       renderAll();
     }
   });
@@ -1326,8 +1327,8 @@
     openTab('site.yml');
     W.recap = null;
     term.lines([
-      '<span class="sx-dim"># Control node ini terhubung ke 5 server lab: web1, web2, web3, db1, db2.</span>',
-      '<span class="sx-dim"># Mulai dengan </span><b>ansible all -m ping</b><span class="sx-dim">. Ketik </span><b>help</b><span class="sx-dim"> buat daftar perintah.</span>'
+      tr('<span class="sx-dim"># Control node ini terhubung ke 5 server lab: web1, web2, web3, db1, db2.</span>', '<span class="sx-dim"># This control node is connected to 5 lab servers: web1, web2, web3, db1, db2.</span>'),
+      tr('<span class="sx-dim"># Mulai dengan </span><b>ansible all -m ping</b><span class="sx-dim">. Ketik </span><b>help</b><span class="sx-dim"> buat daftar perintah.</span>', '<span class="sx-dim"># Start with </span><b>ansible all -m ping</b><span class="sx-dim">. Type </span><b>help</b><span class="sx-dim"> for the command list.</span>')
     ]);
     renderAll();
   }

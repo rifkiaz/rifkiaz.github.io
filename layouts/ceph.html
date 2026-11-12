@@ -1,4 +1,5 @@
 {{- define "main" }}
+{{- $en := eq site.Language.Lang "en" }}
 <header class="page-header">
     <h1>{{ .Title }}</h1>
     {{- with .Description }}
@@ -7,12 +8,12 @@
 </header>
 
 <div class="gx sx cp" id="cp">
-    <div class="gx-flow" aria-label="Alur data Ceph">
+    <div class="gx-flow" aria-label="{{ cond $en `Ceph data flow` `Alur data Ceph` }}">
         <div class="gx-node" data-node="cli">
             <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>
-            <b>klien</b><span id="cp-f-cli"></span>
+            <b>{{ cond $en `client` `klien` }}</b><span id="cp-f-cli"></span>
         </div>
-        <div class="gx-link" data-link="write"><span>tulis</span></div>
+        <div class="gx-link" data-link="write"><span>{{ cond $en `write` `tulis` }}</span></div>
         <div class="gx-node" data-node="pool">
             <svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/></svg>
             <b>pool</b><span id="cp-f-pool"></span>
@@ -30,7 +31,7 @@
     </div>
 
     <details class="gx-missions" open>
-        <summary>misi <span id="cp-m-count">0/7</span></summary>
+        <summary>{{ cond $en `missions ` `misi ` }}<span id="cp-m-count">0/7</span></summary>
         <ol id="cp-m-list"></ol>
     </details>
 
@@ -40,13 +41,13 @@
                 <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3M12 15h5"/></svg>
                 <h2 id="cp-sh-title">terminal</h2>
                 <span class="gx-chip">cephadm shell</span>
-                <button type="button" class="gx-reset" data-act="reset">reset simulasi</button>
+                <button type="button" class="gx-reset" data-act="reset">{{ cond $en `reset simulation` `reset simulasi` }}</button>
             </header>
             <div class="sx-tbox">
                 <div class="sx-out" id="cp-out" role="log" aria-live="off"></div>
                 <div class="sx-prompt">
                     <label for="cp-in">root@node1:/#</label>
-                    <input id="cp-in" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="ketik perintah, misal ceph -s">
+                    <input id="cp-in" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="{{ cond $en `type a command, e.g. ceph -s` `ketik perintah, misal ceph -s` }}">
                 </div>
             </div>
             <div class="sx-quick" id="cp-quick">
@@ -73,14 +74,14 @@
             <div class="cp-pgbar" id="cp-pgbar" aria-hidden="true"></div>
             <p class="cp-pgtxt" id="cp-pgtxt"></p>
             <div class="cp-hosts" id="cp-hosts"></div>
-            <p class="gx-kube-note cp-tip">Klik kotak OSD buat merusak disk-nya (klik lagi buat menyalakan ulang). Tombol di pojok kartu mematikan seluruh node.</p>
+            <p class="gx-kube-note cp-tip">{{ cond $en `Click an OSD box to break its disk (click again to restart it). The switch in a card's corner turns off the whole node.` `Klik kotak OSD buat merusak disk-nya (klik lagi buat menyalakan ulang). Tombol di pojok kartu mematikan seluruh node.` }}</p>
         </section>
     </div>
 
     <section class="gx-panel cp-pools-panel" aria-labelledby="cp-pool-title">
         <header class="gx-ph">
             <svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/></svg>
-            <h2 id="cp-pool-title">pool &amp; klien</h2>
+            <h2 id="cp-pool-title">{{ cond $en `pool &amp; client` `pool &amp; klien` }}</h2>
             <span class="gx-chip" id="cp-cap">0 / 600 GiB</span>
         </header>
         <div class="cp-pools" id="cp-pools"></div>
@@ -88,21 +89,21 @@
     </section>
 
     <details class="gx-help">
-        <summary>apa itu OSD, pool, PG, dan CRUSH?</summary>
+        <summary>{{ cond $en `what are OSDs, pools, PGs, and CRUSH?` `apa itu OSD, pool, PG, dan CRUSH?` }}</summary>
         <ul>
-            <li><b>OSD</b> itu satu daemon yang mengurus satu disk. Cluster ini punya 3 node, masing-masing 2 disk 100 GiB. <b>Monitor</b> (mon) menyimpan peta cluster dan butuh mayoritas (quorum) supaya cluster bisa jalan.</li>
-            <li>Data disimpan di <b>pool</b>. Tiap objek di-hash ke salah satu <b>placement group</b> (PG), lalu algoritma <b>CRUSH</b> menentukan OSD mana yang memegang PG itu. Ga ada tabel lokasi; semua klien bisa menghitungnya sendiri.</li>
-            <li><code>size 3</code> artinya tiap data punya 3 salinan di 3 node berbeda. <code>min_size 2</code> artinya PG masih mau dibaca dan ditulis kalau tinggal 2 salinan. Kalau tinggal 1, I/O ke PG itu berhenti demi keamanan data.</li>
-            <li>OSD yang mati ditandai <b>down</b>. Setelah beberapa waktu (aslinya 10 menit, di sini dipercepat) dia ditandai <b>out</b>, dan CRUSH memindahkan salinannya ke OSD lain. Itu <b>recovery</b> atau <b>backfill</b>.</li>
-            <li><code>ceph osd set noout</code> dipakai saat maintenance terencana, supaya node yang dimatikan sebentar ga memicu pemindahan data besar-besaran.</li>
-            <li>OSD yang terisi 85% memicu <b>nearfull</b>, 95% <b>full</b> dan tulisan diblokir. Satu OSD penuh sudah cukup untuk menghentikan tulisan ke pool, jadi tambah kapasitas sebelum itu terjadi.</li>
+            <li>{{ cond $en `An <b>OSD</b> is a daemon that looks after one disk. This cluster has 3 nodes, each with 2 × 100 GiB disks. <b>Monitors</b> (mon) keep the cluster map and need a majority (quorum) for the cluster to run.` `<b>OSD</b> itu satu daemon yang mengurus satu disk. Cluster ini punya 3 node, masing-masing 2 disk 100 GiB. <b>Monitor</b> (mon) menyimpan peta cluster dan butuh mayoritas (quorum) supaya cluster bisa jalan.` | safeHTML }}</li>
+            <li>{{ cond $en `Data is stored in a ` `Data disimpan di ` }}<b>pool</b>{{ cond $en `. Each object is hashed to a ` `. Tiap objek di-hash ke salah satu ` }}<b>placement group</b>{{ cond $en ` (PG), then the ` ` (PG), lalu algoritma ` }}<b>CRUSH</b>{{ cond $en ` algorithm decides which OSDs hold that PG. There's no location table; every client can work it out on its own.` ` menentukan OSD mana yang memegang PG itu. Ga ada tabel lokasi; semua klien bisa menghitungnya sendiri.` }}</li>
+            <li><code>size 3</code>{{ cond $en ` means every piece of data has 3 copies on 3 different nodes. ` ` artinya tiap data punya 3 salinan di 3 node berbeda. ` }}<code>min_size 2</code>{{ cond $en ` means a PG still accepts reads and writes with only 2 copies left. With just 1 left, I/O to that PG stops to keep the data safe.` ` artinya PG masih mau dibaca dan ditulis kalau tinggal 2 salinan. Kalau tinggal 1, I/O ke PG itu berhenti demi keamanan data.` }}</li>
+            <li>{{ cond $en `A dead OSD is marked ` `OSD yang mati ditandai ` }}<b>down</b>{{ cond $en `. After a while (10 minutes for real, sped up here) it's marked ` `. Setelah beberapa waktu (aslinya 10 menit, di sini dipercepat) dia ditandai ` }}<b>out</b>{{ cond $en `, and CRUSH moves its copies to other OSDs. That's ` `, dan CRUSH memindahkan salinannya ke OSD lain. Itu ` }}<b>recovery</b>{{ cond $en ` or ` ` atau ` }}<b>backfill</b>.</li>
+            <li><code>ceph osd set noout</code>{{ cond $en ` is used for planned maintenance, so a node that's off for a bit doesn't trigger a huge data move.` ` dipakai saat maintenance terencana, supaya node yang dimatikan sebentar ga memicu pemindahan data besar-besaran.` }}</li>
+            <li>{{ cond $en `An OSD at 85% triggers ` `OSD yang terisi 85% memicu ` }}<b>nearfull</b>{{ cond $en `, at 95% ` `, 95% ` }}<b>full</b>{{ cond $en ` and writes are blocked. One full OSD is enough to stop writes to a pool, so add capacity before that happens.` ` dan tulisan diblokir. Satu OSD penuh sudah cukup untuk menghentikan tulisan ke pool, jadi tambah kapasitas sebelum itu terjadi.` }}</li>
         </ul>
     </details>
-    <p class="gx-note">Ini simulasi, bukan Ceph beneran. Disk-nya bohongan, CRUSH-nya versi sederhana, waktunya dipercepat, dan perintahnya cuma sebagian. Semua cuma ada di browser kamu dan ga disimpan di mana pun.</p>
+    <p class="gx-note">{{ cond $en `This is a simulation, not real Ceph. The disks are pretend, CRUSH is a simplified version, time is sped up, and only some commands exist. Everything lives only in your browser and isn't saved anywhere.` `Ini simulasi, bukan Ceph beneran. Disk-nya bohongan, CRUSH-nya versi sederhana, waktunya dipercepat, dan perintahnya cuma sebagian. Semua cuma ada di browser kamu dan ga disimpan di mana pun.` }}</p>
 
     <div class="gx-toast" id="cp-toast" role="status" aria-live="polite"></div>
 </div>
-<noscript><p class="term-noscript">Simulasi ini butuh JavaScript.</p></noscript>
+<noscript><p class="term-noscript">{{ cond $en `This simulation needs JavaScript.` `Simulasi ini butuh JavaScript.` }}</p></noscript>
 
 {{- $kit := resources.Get "js/simkit.js" | minify | fingerprint }}
 <script src="{{ $kit.RelPermalink }}" integrity="{{ $kit.Data.Integrity }}" defer></script>

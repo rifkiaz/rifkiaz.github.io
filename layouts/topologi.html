@@ -1,4 +1,5 @@
 {{- define "main" }}
+{{- $en := eq site.Language.Lang "en" }}
 <header class="page-header">
     <h1>{{ .Title }}</h1>
     {{- with .Description }}
@@ -7,34 +8,34 @@
 </header>
 
 <div class="topo" id="topo" data-url="{{ .Permalink }}" data-font="{{ "fonts/jetbrains-mono-latin.woff2" | relURL }}">
-    <div class="topo-bar" role="toolbar" aria-label="Alat kanvas">
+    <div class="topo-bar" role="toolbar" aria-label="{{ cond $en `Canvas tools` `Alat kanvas` }}">
         <label class="topo-tpl">
-            <span>contoh</span>
-            <select id="topo-tpl" aria-label="Muat contoh topologi">
-                <option value="">pilih…</option>
+            <span>{{ cond $en `example` `contoh` }}</span>
+            <select id="topo-tpl" aria-label="{{ cond $en `Load an example topology` `Muat contoh topologi` }}">
+                <option value="">{{ cond $en `pick…` `pilih…` }}</option>
                 <option value="aws">AWS 3-tier</option>
                 <option value="gcp">GCP serverless</option>
                 <option value="k8s">Kubernetes app</option>
-                <option value="tf">Alur Terraform</option>
+                <option value="tf">{{ cond $en `Terraform flow` `Alur Terraform` }}</option>
                 <option value="ans">Ansible playbook</option>
             </select>
         </label>
-        <button type="button" data-act="undo" title="Urungkan (Ctrl+Z)">↶ urungkan</button>
-        <button type="button" data-act="redo" title="Ulangi (Ctrl+Shift+Z)">↷ ulangi</button>
-        <button type="button" data-act="clear">kosongkan</button>
-        <button type="button" data-act="flow" class="topo-flow-btn" aria-pressed="true" title="Nyalakan/matikan animasi trafik di garis">trafik</button>
+        <button type="button" data-act="undo" title="{{ cond $en `Undo (Ctrl+Z)` `Urungkan (Ctrl+Z)` }}">{{ cond $en `↶ undo` `↶ urungkan` }}</button>
+        <button type="button" data-act="redo" title="{{ cond $en `Redo (Ctrl+Shift+Z)` `Ulangi (Ctrl+Shift+Z)` }}">{{ cond $en `↷ redo` `↷ ulangi` }}</button>
+        <button type="button" data-act="clear">{{ cond $en `clear` `kosongkan` }}</button>
+        <button type="button" data-act="flow" class="topo-flow-btn" aria-pressed="true" title="{{ cond $en `Turn the traffic animation on the lines on or off` `Nyalakan/matikan animasi trafik di garis` }}">{{ cond $en `traffic` `trafik` }}</button>
         <span class="topo-spacer"></span>
-        <button type="button" class="topo-primary" data-act="share">bagikan ↗</button>
+        <button type="button" class="topo-primary" data-act="share">{{ cond $en `share ↗` `bagikan ↗` }}</button>
     </div>
 
     <div class="topo-wrap">
-        <aside class="topo-pal" aria-label="Komponen">
+        <aside class="topo-pal" aria-label="{{ cond $en `Components` `Komponen` }}">
             <div class="topo-tabs" id="topo-tabs" role="tablist"></div>
             <div class="topo-items" id="topo-items"></div>
         </aside>
 
         <div class="topo-stage" id="topo-stage">
-            <svg id="topo-svg" class="topo-svg" role="application" aria-label="Kanvas topologi">
+            <svg id="topo-svg" class="topo-svg" role="application" aria-label="{{ cond $en `Topology canvas` `Kanvas topologi` }}">
                 <defs>
                     <pattern id="topo-grid" width="20" height="20" patternUnits="userSpaceOnUse">
                         <circle cx="1" cy="1" r="1" class="topo-dot"></circle>
@@ -46,22 +47,22 @@
 
             <div class="topo-insp" id="topo-insp" hidden>
                 <input id="topo-label" type="text" maxlength="60" autocomplete="off" spellcheck="false" aria-label="Label">
-                <button type="button" data-act="link" data-for="node group">sambungkan</button>
-                <button type="button" data-act="dup" data-for="node group">duplikat</button>
-                <button type="button" data-act="arrow" data-for="edge">panah →</button>
-                <button type="button" data-act="dash" data-for="edge">garis ──</button>
-                <button type="button" data-act="flip" data-for="edge">balik arah</button>
-                <button type="button" data-act="del" class="topo-danger">hapus</button>
+                <button type="button" data-act="link" data-for="node group">{{ cond $en `connect` `sambungkan` }}</button>
+                <button type="button" data-act="dup" data-for="node group">{{ cond $en `duplicate` `duplikat` }}</button>
+                <button type="button" data-act="arrow" data-for="edge">{{ cond $en `arrow →` `panah →` }}</button>
+                <button type="button" data-act="dash" data-for="edge">{{ cond $en `line ──` `garis ──` }}</button>
+                <button type="button" data-act="flip" data-for="edge">{{ cond $en `reverse` `balik arah` }}</button>
+                <button type="button" data-act="del" class="topo-danger">{{ cond $en `delete` `hapus` }}</button>
             </div>
 
             <div class="topo-hint" id="topo-hint" hidden>
-                Ketuk komponen tujuan untuk menyambung.
-                <button type="button" data-act="cancel-link">batal</button>
+                {{ cond $en `Tap the target component to connect.` `Ketuk komponen tujuan untuk menyambung.` }}
+                <button type="button" data-act="cancel-link">{{ cond $en `cancel` `batal` }}</button>
             </div>
 
             <div class="topo-empty" id="topo-empty">
-                <p class="topo-empty-title"><span>❯</span> kanvas masih kosong</p>
-                <p>Seret komponen ke sini (atau ketuk saja), lalu tarik tombol <b>→</b> di sebelahnya ke komponen lain untuk menyambung. Mau langsung lihat contoh?</p>
+                <p class="topo-empty-title"><span>❯</span> {{ cond $en `the canvas is empty` `kanvas masih kosong` }}</p>
+                <p>{{ cond $en `Drag components here (or just tap them), then drag the ` `Seret komponen ke sini (atau ketuk saja), lalu tarik tombol ` }}<b>→</b>{{ cond $en ` handle next to one onto another component to connect them. Want to see an example right away?` ` di sebelahnya ke komponen lain untuk menyambung. Mau langsung lihat contoh?` }}</p>
                 <p class="topo-empty-btns">
                     <button type="button" data-tpl="aws">aws</button>
                     <button type="button" data-tpl="gcp">gcp</button>
@@ -72,42 +73,42 @@
             </div>
 
             <div class="topo-zoom" aria-label="Zoom">
-                <button type="button" data-act="zout" aria-label="Perkecil">−</button>
+                <button type="button" data-act="zout" aria-label="{{ cond $en `Zoom out` `Perkecil` }}">−</button>
                 <span id="topo-zoom-val">100%</span>
-                <button type="button" data-act="zin" aria-label="Perbesar">+</button>
-                <button type="button" data-act="fit" aria-label="Pas ke layar">⤢</button>
+                <button type="button" data-act="zin" aria-label="{{ cond $en `Zoom in` `Perbesar` }}">+</button>
+                <button type="button" data-act="fit" aria-label="{{ cond $en `Fit to screen` `Pas ke layar` }}">⤢</button>
             </div>
         </div>
     </div>
 
     <details class="topo-help">
-        <summary>cara pakai</summary>
+        <summary>{{ cond $en `how to use` `cara pakai` }}</summary>
         <ul>
-            <li><b>Tambah:</b> seret komponen dari panel ke kanvas, atau ketuk untuk menaruhnya di tengah. Komponen bergaris putus-putus (VPC, Subnet, Namespace, dll.) itu area untuk mengelompokkan.</li>
-            <li><b>Sambung:</b> pilih komponen, lalu tarik tombol hijau <b>→</b> ke komponen lain. Di HP, ketuk tombol itu (atau <i>sambungkan</i>) lalu ketuk tujuannya.</li>
-            <li><b>Ubah:</b> ketuk dua kali untuk ganti nama. Garis juga bisa dikasih label, dibikin putus-putus, atau dibalik arahnya. Titik hijau yang jalan di garis itu simulasi trafik; matikan lewat tombol <i>trafik</i> kalau bikin pusing.</li>
-            <li><b>Geser kanvas:</b> seret area kosong. Zoom pakai tombol di pojok, Ctrl + scroll, atau cubit dua jari.</li>
-            <li><b>Pintasan:</b> Delete untuk hapus, Ctrl+Z / Ctrl+Shift+Z untuk urungkan dan ulangi, Ctrl+D duplikat, panah untuk geser.</li>
+            <li><b>{{ cond $en `Add:` `Tambah:` }}</b>{{ cond $en ` drag a component from the panel onto the canvas, or tap it to drop it in the middle. Dashed components (VPC, Subnet, Namespace, etc.) are areas for grouping.` ` seret komponen dari panel ke kanvas, atau ketuk untuk menaruhnya di tengah. Komponen bergaris putus-putus (VPC, Subnet, Namespace, dll.) itu area untuk mengelompokkan.` }}</li>
+            <li><b>{{ cond $en `Connect:` `Sambung:` }}</b>{{ cond $en ` select a component, then drag the green ` ` pilih komponen, lalu tarik tombol hijau ` }}<b>→</b>{{ cond $en ` handle onto another component. On a phone, tap that handle (or ` ` ke komponen lain. Di HP, ketuk tombol itu (atau ` }}<i>{{ cond $en `connect` `sambungkan` }}</i>{{ cond $en `) and then tap the target.` `) lalu ketuk tujuannya.` }}</li>
+            <li><b>{{ cond $en `Edit:` `Ubah:` }}</b>{{ cond $en ` double-tap to rename. Lines can get a label too, be made dashed, or have their direction reversed. The green dots moving along the lines simulate traffic; turn them off with the ` ` ketuk dua kali untuk ganti nama. Garis juga bisa dikasih label, dibikin putus-putus, atau dibalik arahnya. Titik hijau yang jalan di garis itu simulasi trafik; matikan lewat tombol ` }}<i>{{ cond $en `traffic` `trafik` }}</i>{{ cond $en ` button if they make you dizzy.` ` kalau bikin pusing.` }}</li>
+            <li><b>{{ cond $en `Pan:` `Geser kanvas:` }}</b>{{ cond $en ` drag an empty area. Zoom with the corner buttons, Ctrl + scroll, or a two-finger pinch.` ` seret area kosong. Zoom pakai tombol di pojok, Ctrl + scroll, atau cubit dua jari.` }}</li>
+            <li><b>{{ cond $en `Shortcuts:` `Pintasan:` }}</b>{{ cond $en ` Delete to delete, Ctrl+Z / Ctrl+Shift+Z to undo and redo, Ctrl+D to duplicate, arrow keys to move.` ` Delete untuk hapus, Ctrl+Z / Ctrl+Shift+Z untuk urungkan dan ulangi, Ctrl+D duplikat, panah untuk geser.` }}</li>
         </ul>
     </details>
-    <p class="topo-note">Semua gambar cuma ada di browser kamu dan ga disimpan di mana pun. Refresh atau tutup tab, gambarnya hilang. Kalau mau disimpan, bagikan atau unduh jadi gambar lewat tombol <b>bagikan</b>.</p>
+    <p class="topo-note">{{ cond $en `Your drawing only lives in your browser and isn't saved anywhere. Refresh or close the tab and it's gone. To keep it, share it or download it as an image with the ` `Semua gambar cuma ada di browser kamu dan ga disimpan di mana pun. Refresh atau tutup tab, gambarnya hilang. Kalau mau disimpan, bagikan atau unduh jadi gambar lewat tombol ` }}<b>{{ cond $en `share` `bagikan` }}</b>{{ cond $en ` button.` `.` }}</p>
 
     <dialog class="topo-dialog" id="topo-share" aria-labelledby="topo-share-title">
         <div class="topo-dialog-head">
-            <h2 id="topo-share-title">bagikan topologi</h2>
-            <button type="button" data-act="close-share" aria-label="Tutup">✕</button>
+            <h2 id="topo-share-title">{{ cond $en `share topology` `bagikan topologi` }}</h2>
+            <button type="button" data-act="close-share" aria-label="{{ cond $en `Close` `Tutup` }}">✕</button>
         </div>
         <label class="topo-field">
-            <span>judul (opsional)</span>
-            <input id="topo-title" type="text" maxlength="60" placeholder="misal: Arsitektur toko online" autocomplete="off">
+            <span>{{ cond $en `title (optional)` `judul (opsional)` }}</span>
+            <input id="topo-title" type="text" maxlength="60" placeholder="{{ cond $en `e.g. Online shop architecture` `misal: Arsitektur toko online` }}" autocomplete="off">
         </label>
-        <div class="topo-preview-wrap"><img id="topo-preview" alt="Pratinjau gambar topologi"></div>
+        <div class="topo-preview-wrap"><img id="topo-preview" alt="{{ cond $en `Topology image preview` `Pratinjau gambar topologi` }}"></div>
         <div class="topo-share-main">
-            <button type="button" class="topo-primary" data-share="native" hidden>bagikan…</button>
-            <button type="button" data-share="download">unduh png</button>
-            <button type="button" data-share="copy" hidden>salin gambar</button>
+            <button type="button" class="topo-primary" data-share="native" hidden>{{ cond $en `share…` `bagikan…` }}</button>
+            <button type="button" data-share="download">{{ cond $en `download png` `unduh png` }}</button>
+            <button type="button" data-share="copy" hidden>{{ cond $en `copy image` `salin gambar` }}</button>
         </div>
-        <p class="topo-share-label">atau buka di:</p>
+        <p class="topo-share-label">{{ cond $en `or open in:` `atau buka di:` }}</p>
         <div class="topo-nets">
             <a data-net="x" target="_blank" rel="noopener">X</a>
             <a data-net="facebook" target="_blank" rel="noopener">Facebook</a>
@@ -115,12 +116,12 @@
             <a data-net="whatsapp" target="_blank" rel="noopener">WhatsApp</a>
             <a data-net="telegram" target="_blank" rel="noopener">Telegram</a>
         </div>
-        <p class="topo-share-note">Gambar dibuat langsung di browser kamu, ga diunggah ke server. Sosmed cuma bisa menerima tautan, jadi gambarnya otomatis diunduh dulu biar tinggal kamu lampirkan.</p>
+        <p class="topo-share-note">{{ cond $en `The image is made right in your browser and never uploaded to a server. Social networks only accept links, so the image is downloaded first and you just attach it.` `Gambar dibuat langsung di browser kamu, ga diunggah ke server. Sosmed cuma bisa menerima tautan, jadi gambarnya otomatis diunduh dulu biar tinggal kamu lampirkan.` }}</p>
     </dialog>
 
     <div class="topo-toast" id="topo-toast" role="status" aria-live="polite"></div>
 </div>
-<noscript><p class="term-noscript">Simulator ini butuh JavaScript.</p></noscript>
+<noscript><p class="term-noscript">{{ cond $en `This simulator needs JavaScript.` `Simulator ini butuh JavaScript.` }}</p></noscript>
 
 {{- $js := resources.Get "js/topologi.js" | minify | fingerprint }}
 <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>

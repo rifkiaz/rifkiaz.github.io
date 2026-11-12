@@ -8,6 +8,7 @@
   'use strict';
 
   var K = window.SimKit;
+  var tr = K.tr;
   var app = document.getElementById('os');
   if (!app || !K) return;
   var esc = K.esc, setHTML = K.setHTML, setText = K.setText, words = K.words, digest = K.digest, pad = K.pad;
@@ -41,15 +42,15 @@
   };
 
   var MISSIONS = [
-    { id: 'login', text: 'Login ke Keystone: <b>source demo-openrc</b>, lalu <i>openstack token issue</i>.' },
-    { id: 'net', text: 'Bikin network privat dan subnet-nya, misal <b>10.0.0.0/24</b>.' },
-    { id: 'router', text: 'Bikin router, pasang gateway ke <b>public</b>, lalu sambungkan ke subnetmu.' },
-    { id: 'akses', text: 'Siapkan akses: security group yang membuka <b>port 22</b> dan sebuah <b>keypair</b>.' },
-    { id: 'server', text: 'Luncurkan server pakai keypair itu sampai statusnya <b>ACTIVE</b>.' },
-    { id: 'ssh', text: 'Pasang <b>floating IP</b> ke server, lalu <i>ssh</i> masuk dari laptop.' },
-    { id: 'volume', text: 'Tempel volume Cinder ke server, lalu cek dari dalam pakai <b>lsblk</b>.' },
-    { id: 'quota', text: 'Kena <b>quota</b> vCPU project demo, lalu naikkan quota-nya sebagai admin.' },
-    { id: 'cleanup', text: 'Bersih-bersih: hapus server, floating IP, volume, router, dan network tanpa sisa.' }
+    { id: 'login', text: tr('Login ke Keystone: <b>source demo-openrc</b>, lalu <i>openstack token issue</i>.', 'Log in to Keystone: <b>source demo-openrc</b>, then <i>openstack token issue</i>.') },
+    { id: 'net', text: tr('Bikin network privat dan subnet-nya, misal <b>10.0.0.0/24</b>.', 'Create a private network and its subnet, e.g. <b>10.0.0.0/24</b>.') },
+    { id: 'router', text: tr('Bikin router, pasang gateway ke <b>public</b>, lalu sambungkan ke subnetmu.', 'Create a router, set its gateway to <b>public</b>, then connect it to your subnet.') },
+    { id: 'akses', text: tr('Siapkan akses: security group yang membuka <b>port 22</b> dan sebuah <b>keypair</b>.', 'Set up access: a security group that opens <b>port 22</b> and a <b>keypair</b>.') },
+    { id: 'server', text: tr('Luncurkan server pakai keypair itu sampai statusnya <b>ACTIVE</b>.', 'Launch a server with that keypair until its status is <b>ACTIVE</b>.') },
+    { id: 'ssh', text: tr('Pasang <b>floating IP</b> ke server, lalu <i>ssh</i> masuk dari laptop.', 'Attach a <b>floating IP</b> to the server, then <i>ssh</i> in from your laptop.') },
+    { id: 'volume', text: tr('Tempel volume Cinder ke server, lalu cek dari dalam pakai <b>lsblk</b>.', 'Attach a Cinder volume to the server, then check it from inside with <b>lsblk</b>.') },
+    { id: 'quota', text: tr('Kena <b>quota</b> vCPU project demo, lalu naikkan quota-nya sebagai admin.', 'Hit the demo project\'s vCPU <b>quota</b>, then raise it as admin.') },
+    { id: 'cleanup', text: tr('Bersih-bersih: hapus server, floating IP, volume, router, dan network tanpa sisa.', 'Clean up: delete the servers, floating IPs, volumes, routers, and networks, leaving nothing behind.') }
   ];
 
   // ---------- small helpers ----------
@@ -140,7 +141,7 @@
     var byId = list.filter(function (x) { return x.id === ref; });
     if (byId.length) return byId[0];
     var byName = list.filter(function (x) { return x.name === ref; });
-    if (byName.length > 1) throw E('More than one ' + kind + ' exists with the name \'' + ref + '\'.', '# nama di OpenStack boleh kembar. Pakai ID-nya biar jelas.');
+    if (byName.length > 1) throw E('More than one ' + kind + ' exists with the name \'' + ref + '\'.', tr('# nama di OpenStack boleh kembar. Pakai ID-nya biar jelas.', '# names in OpenStack can repeat. Use the ID to be clear.'));
     if (!byName.length) throw E('No ' + (label || kind) + ' found for ' + ref);
     return byName[0];
   }
@@ -216,14 +217,14 @@
   // ---------- terminal ----------
   var term = new K.Term($('os-out'), $('os-in'), { onCmd: onCmd });
   var toast = K.makeToast($('os-toast'));
-  var M = new K.Missions($('os-m-list'), $('os-m-count'), MISSIONS, toast, '☁️ Semua misi OpenStack beres. Cloud kamu sendiri, nih!');
+  var M = new K.Missions($('os-m-list'), $('os-m-count'), MISSIONS, toast, tr('☁️ Semua misi OpenStack beres. Cloud kamu sendiri, nih!', '☁️ All OpenStack missions done. Your very own cloud!'));
   function err(t) { term.line('<span class="sx-err">' + esc(t) + '</span>'); }
   function dim(t) { term.line('<span class="sx-dim">' + esc(t) + '</span>'); }
   function hint(t) { term.line('<span class="sx-warn">' + esc(t) + '</span>'); }
   function out(t) { term.line(esc(t)); }
   function prompt() {
     if (W.ssh) { var s = srvById(W.ssh.srv); return W.ssh.user + '@' + (s ? s.name : 'server') + ':~$'; }
-    return 'kamu@laptop:~$';
+    return tr('kamu', 'you') + '@laptop:~$';
   }
 
   // OpenStack-client style ASCII table; cells may hold several lines
@@ -293,14 +294,14 @@
   function onCmd(line) {
     term.echo(prompt(), line);
     if (!line) return;
-    if (W.busy) { dim('# tunggu perintah sebelumnya selesai dulu'); return; }
+    if (W.busy) { dim(tr('# tunggu perintah sebelumnya selesai dulu', '# wait for the previous command to finish first')); return; }
     var w = words(line);
     try {
       if (W.ssh) inServer(w, line);
       else laptop(w, line);
     } catch (e) {
       if (e && e.cli) { err(e.message); if (e.hint) hint(e.hint); }
-      else { err('simulasi error: ' + (e && e.message || e)); if (window.console) console.error(e); }
+      else { err(tr('simulasi error: ', 'simulation error: ') + (e && e.message || e)); if (window.console) console.error(e); }
     }
     tick();
   }
@@ -313,47 +314,47 @@
     if (c === 'source' || c === '.') { source(w[1]); return; }
     if (c === 'ls') { ls(w.slice(1)); return; }
     if (c === 'cat') { cat(w[1]); return; }
-    if (c === 'env' || c === 'printenv' || /^env\s*\|/.test(line)) { envVars().forEach(out); if (!W.project) dim('# belum ada variabel OS_*. Jalankan source demo-openrc dulu.'); return; }
+    if (c === 'env' || c === 'printenv' || /^env\s*\|/.test(line)) { envVars().forEach(out); if (!W.project) dim(tr('# belum ada variabel OS_*. Jalankan source demo-openrc dulu.', '# no OS_* variables yet. Run source demo-openrc first.')); return; }
     if (c === 'echo') { out(w.slice(1).join(' ').replace(/\$\{?(OS_[A-Z_]+)\}?/g, function (m, k) { var v = envMap()[k]; return v === undefined ? '' : v; })); return; }
-    if (c === 'unset') { if (w.some(function (x) { return /^OS_/.test(x); })) { W.project = null; dim('# variabel OS_* dihapus. Kamu logout dari OpenStack.'); } return; }
+    if (c === 'unset') { if (w.some(function (x) { return /^OS_/.test(x); })) { W.project = null; dim(tr('# variabel OS_* dihapus. Kamu logout dari OpenStack.', '# OS_* variables removed. You\'re logged out of OpenStack.')); } return; }
     if (c === 'chmod') { chmod(w[1], w[2]); return; }
     if (c === 'ssh') { ssh(w.slice(1)); return; }
     if (c === 'ping') { pingFromLaptop(w.slice(1)); return; }
-    if (c === 'whoami') { out('kamu'); return; }
+    if (c === 'whoami') { out(tr('kamu', 'you')); return; }
     if (c === 'hostname') { out('laptop'); return; }
     if (c === 'curl' || c === 'wget') { curlLaptop(line); return; }
-    if (c === 'exit' || c === 'logout') { dim('# ini terminal laptop kamu. Ga ada yang perlu di-exit.'); return; }
-    if (c === 'ssh-keygen') { dim('# kunci ~/.ssh/id_ed25519 sudah ada. Pakai: openstack keypair create --public-key ~/.ssh/id_ed25519.pub kunci'); return; }
+    if (c === 'exit' || c === 'logout') { dim(tr('# ini terminal laptop kamu. Ga ada yang perlu di-exit.', '# this is your laptop\'s terminal. There\'s nothing to exit.')); return; }
+    if (c === 'ssh-keygen') { dim(tr('# kunci ~/.ssh/id_ed25519 sudah ada. Pakai: openstack keypair create --public-key ~/.ssh/id_ed25519.pub kunci', '# the key ~/.ssh/id_ed25519 already exists. Use: openstack keypair create --public-key ~/.ssh/id_ed25519.pub mykey')); return; }
     if (['nova', 'neutron', 'glance', 'cinder', 'keystone'].indexOf(c) >= 0) {
       err('bash: ' + c + ': command not found');
-      hint('# CLI per-service (' + c + ') sudah lama digantikan satu perintah: openstack. Contoh: openstack server list');
+      hint(tr('# CLI per-service (', '# the per-service CLIs (') + c + tr(') sudah lama digantikan satu perintah: openstack. Contoh: openstack server list', ') were replaced long ago by one command: openstack. Example: openstack server list'));
       return;
     }
-    if (c === 'sudo') { dim('# ga perlu sudo buat openstack CLI'); return; }
+    if (c === 'sudo') { dim(tr('# ga perlu sudo buat openstack CLI', '# no sudo needed for the openstack CLI')); return; }
     err('bash: ' + c + ': command not found');
   }
 
   function help() {
     if (W.ssh) {
-      term.lines(['<b>Kamu ada di dalam server.</b> Perintah yang bisa dicoba:', '  lsblk  ·  df -h  ·  ip a  ·  hostname  ·  uptime  ·  cat /etc/os-release', '  curl ifconfig.me  ·  ping -c 3 8.8.8.8  ·  sudo apt update', '  sudo mkfs.ext4 /dev/vdb  ·  sudo mount /dev/vdb /mnt  ·  exit']);
+      term.lines([tr('<b>Kamu ada di dalam server.</b> Perintah yang bisa dicoba:', '<b>You\'re inside the server.</b> Commands you can try:'), '  lsblk  ·  df -h  ·  ip a  ·  hostname  ·  uptime  ·  cat /etc/os-release', '  curl ifconfig.me  ·  ping -c 3 8.8.8.8  ·  sudo apt update', '  sudo mkfs.ext4 /dev/vdb  ·  sudo mount /dev/vdb /mnt  ·  exit']);
       return;
     }
     term.lines([
-      '<b>Perintah yang bisa dicoba</b> (di laptop)',
+      tr('<b>Perintah yang bisa dicoba</b> (di laptop)', '<b>Commands you can try</b> (on the laptop)'),
       '  source demo-openrc | admin-openrc  ·  ls  ·  cat demo-openrc  ·  env',
       '  openstack token issue  ·  openstack catalog list  ·  openstack quota show  ·  openstack limits show --absolute',
       '  openstack flavor list  ·  openstack image list  ·  openstack server list',
       '  openstack network create NET  ·  openstack subnet create --network NET --subnet-range 10.0.0.0/24 SUB',
       '  openstack router create R  ·  router set --external-gateway public R  ·  router add subnet R SUB',
       '  openstack security group create SG  ·  security group rule create --protocol tcp --dst-port 22 SG',
-      '  openstack keypair create --public-key ~/.ssh/id_ed25519.pub KUNCI  ·  keypair create KUNCI > kunci.pem',
-      '  openstack server create --flavor m1.small --image ubuntu-24.04 --network NET --key-name KUNCI --security-group SG NAMA',
-      '  openstack server show|stop|start|reboot|delete NAMA  ·  openstack console log show NAMA',
-      '  openstack floating ip create public  ·  openstack server add floating ip NAMA IP',
-      '  openstack volume create --size 10 VOL  ·  openstack server add volume NAMA VOL',
+      tr('  openstack keypair create --public-key ~/.ssh/id_ed25519.pub KUNCI  ·  keypair create KUNCI > kunci.pem', '  openstack keypair create --public-key ~/.ssh/id_ed25519.pub KEY  ·  keypair create KEY > mykey.pem'),
+      tr('  openstack server create --flavor m1.small --image ubuntu-24.04 --network NET --key-name KUNCI --security-group SG NAMA', '  openstack server create --flavor m1.small --image ubuntu-24.04 --network NET --key-name KEY --security-group SG NAME'),
+      tr('  openstack server show|stop|start|reboot|delete NAMA  ·  openstack console log show NAMA', '  openstack server show|stop|start|reboot|delete NAME  ·  openstack console log show NAME'),
+      tr('  openstack floating ip create public  ·  openstack server add floating ip NAMA IP', '  openstack floating ip create public  ·  openstack server add floating ip NAME IP'),
+      tr('  openstack volume create --size 10 VOL  ·  openstack server add volume NAMA VOL', '  openstack volume create --size 10 VOL  ·  openstack server add volume NAME VOL'),
       '  openstack port list  ·  openstack security group rule list SG  ·  ... delete',
       '  admin: openstack project list  ·  hypervisor list  ·  quota set --cores 16 demo  ·  server list --all-projects',
-      '  ssh [-i kunci.pem] ubuntu@FLOATING_IP  ·  ping IP  ·  chmod 600 FILE  ·  clear'
+      tr('  ssh [-i kunci.pem] ubuntu@FLOATING_IP  ·  ping IP  ·  chmod 600 FILE  ·  clear', '  ssh [-i mykey.pem] ubuntu@FLOATING_IP  ·  ping IP  ·  chmod 600 FILE  ·  clear')
     ]);
   }
 
@@ -370,7 +371,7 @@
     if (!p) { err('bash: ' + f + ': No such file or directory'); return; }
     W.project = p;
     W.tokenAt = 0;
-    dim('# variabel OS_* terpasang. Perintah openstack sekarang jalan sebagai user ' + p + ' di project ' + p + '.');
+    dim(tr('# variabel OS_* terpasang. Perintah openstack sekarang jalan sebagai user ', '# OS_* variables set. openstack commands now run as user ') + p + ' di project ' + p + '.');
     K.flash(app, 'keystone');
   }
   function ls(a) {
@@ -379,8 +380,8 @@
     var names = ['admin-openrc', 'demo-openrc'].concat(Object.keys(W.files));
     if (a.some(function (x) { return /^-\w*l/.test(x); })) {
       out('total ' + (names.length * 4));
-      if (all) out('drwx------ 2 kamu kamu 4096 ' + lsDate() + ' .ssh');
-      names.forEach(function (n) { var f = W.files[n]; out((f ? modeStr(f.mode) : '-rw-r--r--') + ' 1 kamu kamu ' + (f ? ' 387' : ' 412') + ' ' + lsDate() + ' ' + n); });
+      if (all) out(tr('drwx------ 2 kamu kamu 4096 ', 'drwx------ 2 you you 4096 ') + lsDate() + ' .ssh');
+      names.forEach(function (n) { var f = W.files[n]; out((f ? modeStr(f.mode) : '-rw-r--r--') + tr(' 1 kamu kamu ', ' 1 you you ') + (f ? ' 387' : ' 412') + ' ' + lsDate() + ' ' + n); });
       return;
     }
     out((all ? '.ssh  ' : '') + names.join('  '));
@@ -390,21 +391,21 @@
     return '-' + String(m).split('').map(function (d) { d = +d; return (d & 4 ? 'r' : '-') + (d & 2 ? 'w' : '-') + (d & 1 ? 'x' : '-'); }).join('');
   }
   function cat(f) {
-    if (!f) { dim('# cat NAMA_FILE'); return; }
+    if (!f) { dim(tr('# cat NAMA_FILE', '# cat FILE_NAME')); return; }
     var n = f.replace(/^(\.\/)/, '');
     if (/^(demo|admin)-openrc(\.sh)?$/.test(n)) {
       var r = OPENRC[n.split('-')[0]];
       ['export OS_AUTH_URL=http://controller:5000/v3', 'export OS_PROJECT_NAME=' + r.project, 'export OS_USERNAME=' + r.user, 'export OS_PASSWORD=' + r.pass, 'export OS_USER_DOMAIN_NAME=Default', 'export OS_PROJECT_DOMAIN_NAME=Default', 'export OS_REGION_NAME=RegionOne', 'export OS_IDENTITY_API_VERSION=3'].forEach(out);
       return;
     }
-    if (/id_ed25519\.pub$/.test(n)) { out('ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAI' + digest('laptop key').slice(0, 43) + ' kamu@laptop'); return; }
+    if (/id_ed25519\.pub$/.test(n)) { out('ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAI' + digest('laptop key').slice(0, 43) + tr(' kamu@laptop', ' you@laptop')); return; }
     if (W.files[n]) { pem().forEach(out); return; }
-    if (/id_ed25519$/.test(n)) { dim('# itu private key kamu. Jangan dipamerkan, bahkan di simulasi :)'); return; }
+    if (/id_ed25519$/.test(n)) { dim(tr('# itu private key kamu. Jangan dipamerkan, bahkan di simulasi :)', '# that\'s your private key. Don\'t show it off, not even in a simulation :)')); return; }
     err('cat: ' + f + ': No such file or directory');
   }
   function pem() {
     var d = digest('pem' + W.run) + digest('pem2' + W.run);
-    return ['-----BEGIN OPENSSH PRIVATE KEY-----', 'b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW', d.slice(0, 70), d.slice(70, 128) + '… (dipotong, ini kunci bohongan)', '-----END OPENSSH PRIVATE KEY-----'];
+    return ['-----BEGIN OPENSSH PRIVATE KEY-----', 'b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW', d.slice(0, 70), d.slice(70, 128) + tr('… (dipotong, ini kunci bohongan)', '… (truncated, this is a fake key)'), '-----END OPENSSH PRIVATE KEY-----'];
   }
   function chmod(mode, f) {
     if (!mode || !f) { err('chmod: missing operand'); return; }
@@ -422,7 +423,7 @@
   function osc(a) {
     if (!a.length || a[0] === 'help' || a[0] === '--help' || a[0] === '-h') { help(); return; }
     if (a[0] === '--version') { out('openstack 7.2.1'); return; }
-    if (!W.project) throw E('Missing value auth-url required for auth plugin password', '# OpenStack belum tahu kamu siapa. Jalankan dulu: source demo-openrc');
+    if (!W.project) throw E('Missing value auth-url required for auth plugin password', tr('# OpenStack belum tahu kamu siapa. Jalankan dulu: source demo-openrc', '# OpenStack doesn\'t know who you are yet. Run this first: source demo-openrc'));
     var r = null;
     for (var i = 0; i < RES.length; i++) {
       var p = RES[i].split(' ');
@@ -442,7 +443,7 @@
   }
   function bad(r, act) { throw E("openstack: '" + r + ' ' + (act || '') + "' is not an openstack command. See 'openstack --help'."); }
   function adminOnly(rule) {
-    if (W.project !== 'admin') throw H('Policy doesn\'t allow ' + rule + ' to be performed.', 403, '# perintah ini cuma buat admin. Coba source admin-openrc.');
+    if (W.project !== 'admin') throw H('Policy doesn\'t allow ' + rule + ' to be performed.', 403, tr('# perintah ini cuma buat admin. Coba source admin-openrc.', '# this command is admin only. Try source admin-openrc.'));
   }
 
   function cToken(act, P) {
@@ -451,7 +452,7 @@
     fv([['expires', iso(Date.now() + 3600e3)], ['id', 'gAAAAAB' + digest('tok' + Date.now()).slice(0, 40) + '…'], ['project_id', PROJ_ID[W.project]], ['user_id', USER_ID[W.project]]], P);
     K.flash(app, 'keystone');
     if (W.project === 'demo') M.hit('login');
-    else hint('# kamu login sebagai admin. Misi login dihitung kalau pakai project demo.');
+    else hint(tr('# kamu login sebagai admin. Misi login dihitung kalau pakai project demo.', '# you\'re logged in as admin. The login mission counts with the demo project.'));
   }
   var SERVICES = [['keystone', 'identity', 'http://controller:5000/v3/'], ['nova', 'compute', 'http://controller:8774/v2.1'], ['neutron', 'network', 'http://controller:9696'], ['glance', 'image', 'http://controller:9292'], ['cinderv3', 'volumev3', 'http://controller:8776/v3/' + 'PROJ'], ['placement', 'placement', 'http://controller:8778']];
   function cCatalog(act, P) {
@@ -460,7 +461,7 @@
       var u = s[2].replace('PROJ', PROJ_ID[W.project]);
       return [s[0], s[1], 'RegionOne\n  public: ' + u + '\nRegionOne\n  internal: ' + u + '\nRegionOne\n  admin: ' + u];
     })), P);
-    dim('# tiap service punya endpoint sendiri. Perintah openstack mencari alamatnya di katalog ini, lalu memanggil API-nya pakai token.');
+    dim(tr('# tiap service punya endpoint sendiri. Perintah openstack mencari alamatnya di katalog ini, lalu memanggil API-nya pakai token.', '# each service has its own endpoint. The openstack command looks up the address in this catalog, then calls the API with the token.'));
   }
   function cEndpoint(act, P) {
     if (act !== 'list') bad('endpoint', act);
@@ -471,7 +472,7 @@
   }
   function cProject(act, P) {
     if (act === 'list') {
-      if (W.project !== 'admin') throw H('You are not authorized to perform the requested action: identity:list_projects.', 403, '# user demo cuma boleh lihat project-nya sendiri. Coba source admin-openrc.');
+      if (W.project !== 'admin') throw H('You are not authorized to perform the requested action: identity:list_projects.', 403, tr('# user demo cuma boleh lihat project-nya sendiri. Coba source admin-openrc.', '# the demo user can only see its own project. Try source admin-openrc.'));
       table([['ID', 'Name'], [PROJ_ID.admin, 'admin'], [PROJ_ID.demo, 'demo'], [hexid('service'), 'service']], P);
       return;
     }
@@ -479,10 +480,10 @@
       var n = P.pos[0] || W.project;
       if (n !== W.project && W.project !== 'admin') throw H('You are not authorized to perform the requested action: identity:get_project.', 403);
       if (!PROJ_ID[n]) throw E('No project with a name or ID of \'' + n + '\' exists.');
-      fv([['description', n === 'demo' ? 'Project buat latihan' : 'Bootstrap project for initializing the cloud.'], ['domain_id', 'default'], ['enabled', 'True'], ['id', PROJ_ID[n]], ['is_domain', 'False'], ['name', n], ['options', '{}'], ['parent_id', 'default'], ['tags', '[]']], P);
+      fv([['description', n === 'demo' ? tr('Project buat latihan', 'Practice project') : 'Bootstrap project for initializing the cloud.'], ['domain_id', 'default'], ['enabled', 'True'], ['id', PROJ_ID[n]], ['is_domain', 'False'], ['name', n], ['options', '{}'], ['parent_id', 'default'], ['tags', '[]']], P);
       return;
     }
-    if (act === 'create') { adminOnly('identity:create_project'); dim('# simulasi ini cuma punya project demo dan admin'); return; }
+    if (act === 'create') { adminOnly('identity:create_project'); dim(tr('# simulasi ini cuma punya project demo dan admin', '# this simulation only has the demo and admin projects')); return; }
     bad('project', act);
   }
   function cUser(act, P) {
@@ -506,7 +507,7 @@
       fv([['OS-FLV-DISABLED:disabled', 'False'], ['OS-FLV-EXT-DATA:ephemeral', '0'], ['disk', f.disk], ['id', f.id], ['name', f.name], ['os-flavor-access:is_public', 'True'], ['ram', f.ram], ['rxtx_factor', '1.0'], ['swap', '0'], ['vcpus', f.vcpu]], P);
       return;
     }
-    if (act === 'create' || act === 'delete') { adminOnly('os_compute_api:os-flavor-manage:' + act); dim('# flavor di simulasi ini tetap lima itu saja'); return; }
+    if (act === 'create' || act === 'delete') { adminOnly('os_compute_api:os-flavor-manage:' + act); dim(tr('# flavor di simulasi ini tetap lima itu saja', '# the flavors in this simulation are fixed to those five')); return; }
     bad('flavor', act);
   }
   function cImage(act, P) {
@@ -514,10 +515,10 @@
     if (act === 'show') {
       var i = find(W.images, P.pos[0], 'Image', 'image');
       fv([['container_format', 'bare'], ['created_at', iso(Date.now() - 86400e3 * 9)], ['disk_format', i.fmt], ['id', i.id], ['min_disk', i.minDisk], ['min_ram', '0'], ['name', i.name], ['os_distro', i.user], ['owner', PROJ_ID.admin], ['protected', 'False'], ['size', Math.round(i.size * 1073741824)], ['status', 'active'], ['visibility', 'public']], P);
-      if (i.minDisk > 1) dim('# min_disk ' + i.minDisk + ' GB: flavor dengan disk lebih kecil (m1.tiny) bakal ditolak untuk image ini.');
+      if (i.minDisk > 1) dim('# min_disk ' + i.minDisk + tr(' GB: flavor dengan disk lebih kecil (m1.tiny) bakal ditolak untuk image ini.', ' GB: flavors with a smaller disk (m1.tiny) will be rejected for this image.'));
       return;
     }
-    if (act === 'create') { dim('# upload image belum didukung di simulasi. Pakai salah satu dari openstack image list.'); return; }
+    if (act === 'create') { dim(tr('# upload image belum didukung di simulasi. Pakai salah satu dari openstack image list.', '# image upload isn\'t supported in the simulation. Use one from openstack image list.')); return; }
     bad('image', act);
   }
 
@@ -547,7 +548,7 @@
         if (P.has('long')) r = r.concat([s.host || '', PROJ_ID[s.project]]);
         rows.push(r);
       });
-      table(rows, P, all ? '# belum ada server di project mana pun' : '# belum ada server di project ' + W.project);
+      table(rows, P, all ? tr('# belum ada server di project mana pun', '# no servers in any project yet') : tr('# belum ada server di project ', '# no servers yet in project ') + W.project);
       return;
     }
     if (act === 'create') { serverCreate(P); return; }
@@ -580,11 +581,11 @@
       if (what === 'floating ip') { fipServer(act, parse(raw.slice(2))); return; }
       if (what === 'security group') { sgServer(act, parse(raw.slice(2))); return; }
       if (raw[0] === 'volume') { volServer(act, parse(raw.slice(1))); return; }
-      if (raw[0] === 'port' || raw[0] === 'network') { dim('# hot-plug NIC belum didukung. Pilih network-nya waktu server create.'); return; }
+      if (raw[0] === 'port' || raw[0] === 'network') { dim(tr('# hot-plug NIC belum didukung. Pilih network-nya waktu server create.', '# NIC hot-plug isn\'t supported. Pick the network at server create.')); return; }
       bad('server ' + act, raw[0]);
     }
-    if (act === 'rebuild' || act === 'resize') { dim('# server ' + act + ' belum didukung di simulasi. Hapus lalu bikin ulang servernya.'); return; }
-    if (act === 'ssh') { dim('# openstack server ssh ada, tapi di sini pakai ssh biasa ke floating IP-nya'); return; }
+    if (act === 'rebuild' || act === 'resize') { dim('# server ' + act + tr(' belum didukung di simulasi. Hapus lalu bikin ulang servernya.', ' isn\'t supported in the simulation. Delete and recreate the server.')); return; }
+    if (act === 'ssh') { dim(tr('# openstack server ssh ada, tapi di sini pakai ssh biasa ke floating IP-nya', '# openstack server ssh exists, but here use plain ssh to the floating IP')); return; }
     bad('server', act);
   }
   function serverCreate(P) {
@@ -592,11 +593,11 @@
     if (!name) throw argErr('server create', '<server-name>');
     if (!P.get('flavor')) throw E('openstack server create: error: the following arguments are required: --flavor');
     if (!P.get('image') && !P.get('volume')) throw E('An image (--image, --image-property) or bootable volume (--volume, --snapshot) is required');
-    if (P.get('volume')) throw E('boot dari volume belum didukung di simulasi', '# pakai --image ubuntu-24.04');
+    if (P.get('volume')) throw E(tr('boot dari volume belum didukung di simulasi', 'boot from volume isn\'t supported in the simulation'), tr('# pakai --image ubuntu-24.04', '# use --image ubuntu-24.04'));
     var fl = flavorBy(P.get('flavor'));
-    if (!fl) throw E('No Flavor found for ' + P.get('flavor'), '# lihat pilihan: openstack flavor list');
+    if (!fl) throw E('No Flavor found for ' + P.get('flavor'), tr('# lihat pilihan: openstack flavor list', '# see the options: openstack flavor list'));
     var im = W.images.filter(function (i) { return i.name === P.get('image') || i.id === P.get('image'); })[0];
-    if (!im) throw E('No Image found for ' + P.get('image'), '# lihat pilihan: openstack image list');
+    if (!im) throw E('No Image found for ' + P.get('image'), tr('# lihat pilihan: openstack image list', '# see the options: openstack image list'));
     var refs = P.all('network').slice();
     P.all('nic').forEach(function (v) {
       if (v === 'none' || v === 'auto') return;
@@ -607,18 +608,18 @@
     var nets = refs.map(function (r) { return find(visibleNets(), r, 'Network', 'network'); });
     if (!nets.length && P.get('nic') !== 'none') {
       var cand = visibleNets().filter(function (n) { return !n.ext; });
-      if (cand.length > 1) throw H('Multiple possible networks found, use a Network ID to be more specific.', 409, '# project kamu punya lebih dari satu network. Tambahkan --network NAMA.');
-      if (!cand.length) throw H('It is not allowed to create an interface on external network ' + pub().id, 403, '# network yang kelihatan cuma public (eksternal). Bikin network privat dulu: openstack network create net-app');
+      if (cand.length > 1) throw H('Multiple possible networks found, use a Network ID to be more specific.', 409, tr('# project kamu punya lebih dari satu network. Tambahkan --network NAMA.', '# your project has more than one network. Add --network NAME.'));
+      if (!cand.length) throw H('It is not allowed to create an interface on external network ' + pub().id, 403, tr('# network yang kelihatan cuma public (eksternal). Bikin network privat dulu: openstack network create net-app', '# the only visible network is public (external). Create a private network first: openstack network create net-app'));
       nets = cand;
     }
     nets.forEach(function (n) {
-      if (n.ext && W.project !== 'admin') throw H('It is not allowed to create an interface on external network ' + n.id, 403, '# server ga dipasang langsung ke public. Pasang ke network privat, lalu kasih floating IP.');
-      if (!subnetsOf(n).length) throw H('Network ' + n.id + ' requires a subnet in order to boot instances on.', 400, '# network ' + n.name + ' belum punya subnet. Bikin dulu: openstack subnet create --network ' + n.name + ' --subnet-range 10.0.0.0/24 sub-app');
+      if (n.ext && W.project !== 'admin') throw H('It is not allowed to create an interface on external network ' + n.id, 403, tr('# server ga dipasang langsung ke public. Pasang ke network privat, lalu kasih floating IP.', '# servers don\'t attach directly to public. Attach to a private network, then give it a floating IP.'));
+      if (!subnetsOf(n).length) throw H('Network ' + n.id + ' requires a subnet in order to boot instances on.', 400, '# network ' + n.name + tr(' belum punya subnet. Bikin dulu: openstack subnet create --network ', ' has no subnet yet. Create one first: openstack subnet create --network ') + n.name + ' --subnet-range 10.0.0.0/24 sub-app');
     });
     var key = null;
     if (P.get('key-name')) {
       key = mine(W.keys).filter(function (k) { return k.name === P.get('key-name'); })[0];
-      if (!key) throw H('Invalid key_name provided.', 400, '# keypair ' + P.get('key-name') + ' belum ada. Cek: openstack keypair list');
+      if (!key) throw H('Invalid key_name provided.', 400, tr('# keypair ', '# keypair ') + P.get('key-name') + tr(' belum ada. Cek: openstack keypair list', ' doesn\'t exist. Check: openstack keypair list'));
     }
     var sgs = P.all('security-group').length ? P.all('security-group') : ['default'];
     var sgObjs = sgs.map(function (g) {
@@ -626,16 +627,16 @@
       if (!o.length) throw H('Security group ' + g + ' not found for project ' + PROJ_ID[W.project] + '.', 400);
       return o[0];
     });
-    if (fl.disk < im.minDisk) throw H('Flavor\'s disk is too small for requested image. Flavor disk is ' + fl.disk * 1073741824 + ' bytes, image is ' + im.minDisk * 1073741824 + ' bytes.', 400, '# image ' + im.name + ' butuh disk minimal ' + im.minDisk + ' GB. Pilih flavor yang lebih besar, misal m1.small.');
+    if (fl.disk < im.minDisk) throw H('Flavor\'s disk is too small for requested image. Flavor disk is ' + fl.disk * 1073741824 + ' bytes, image is ' + im.minDisk * 1073741824 + ' bytes.', 400, '# image ' + im.name + tr(' butuh disk minimal ', ' needs a disk of at least ') + im.minDisk + tr(' GB. Pilih flavor yang lebih besar, misal m1.small.', ' GB. Pick a bigger flavor, e.g. m1.small.'));
     var q = W.quota[W.project], u = usage(W.project);
     if (u.instances + 1 > q.instances) throw H('Quota exceeded for instances: Requested 1, but already used ' + u.instances + ' of ' + q.instances + ' instances', 403);
     if (u.cores + fl.vcpu > q.cores) {
       if (W.project === 'demo') W.sawQuota = true;
-      throw H('Quota exceeded for cores: Requested ' + fl.vcpu + ', but already used ' + u.cores + ' of ' + q.cores + ' cores', 403, '# quota vCPU project ' + W.project + ' cuma ' + q.cores + '. Hapus server lain, pakai flavor lebih kecil, atau minta admin menaikkan quota (openstack quota set --cores 16 ' + W.project + ').');
+      throw H('Quota exceeded for cores: Requested ' + fl.vcpu + ', but already used ' + u.cores + ' of ' + q.cores + ' cores', 403, tr('# quota vCPU project ', '# vCPU quota for project ') + W.project + tr(' cuma ', ' is only ') + q.cores + tr('. Hapus server lain, pakai flavor lebih kecil, atau minta admin menaikkan quota (openstack quota set --cores 16 ', '. Delete another server, use a smaller flavor, or ask an admin to raise the quota (openstack quota set --cores 16 ') + W.project + ').');
     }
     if (u.ram + fl.ram > q.ram) {
       if (W.project === 'demo') W.sawQuota = true;
-      throw H('Quota exceeded for ram: Requested ' + fl.ram + ', but already used ' + u.ram + ' of ' + q.ram + ' ram', 403, '# quota RAM habis. Minta admin: openstack quota set --ram 32768 ' + W.project);
+      throw H('Quota exceeded for ram: Requested ' + fl.ram + ', but already used ' + u.ram + ' of ' + q.ram + ' ram', 403, tr('# quota RAM habis. Minta admin: openstack quota set --ram 32768 ', '# RAM quota is used up. Ask an admin: openstack quota set --ram 32768 ') + W.project);
     }
     // the scheduler picks the compute node with the most free RAM that fits
     var host = HYPERS.map(function (h) { var x = hyperUse(h); return { h: h, free: h.ram * 1.5 - x.ram }; }).filter(function (c) { return c.free >= fl.ram; }).sort(function (a, b) { return b.free - a.free; })[0];
@@ -657,9 +658,9 @@
       fv([['OS-DCF:diskConfig', 'MANUAL'], ['OS-EXT-AZ:availability_zone', ''], ['OS-EXT-STS:power_state', 'NOSTATE'], ['OS-EXT-STS:task_state', s.task || ''], ['OS-EXT-STS:vm_state', s.status === 'ERROR' ? 'error' : s.status === 'ACTIVE' ? 'active' : 'building'],
         ['accessIPv4', ''], ['addresses', s.status === 'ACTIVE' ? addrs(s) : ''], ['adminPass', s.pass], ['created', iso(s.created)], ['flavor', fl.name + ' (' + fl.id + ')'], ['id', s.id], ['image', im.name + ' (' + im.id + ')'],
         ['key_name', s.key || 'None'], ['name', s.name], ['progress', s.status === 'ACTIVE' ? '0' : '0'], ['project_id', PROJ_ID[W.project]], ['security_groups', sgObjs.map(function (g) { return "name='" + g.name + "'"; }).join('\n')], ['status', s.status], ['updated', iso()], ['user_id', USER_ID[W.project]], ['volumes_attached', '']], P);
-      if (s.status === 'ERROR') { err('# ' + s.fault); hint('# compute node penuh. Hapus server lain atau pakai flavor lebih kecil.'); }
-      else if (s.status === 'BUILD') dim('# server lagi dibangun di ' + s.host + ' (status BUILD). Pantau dengan openstack server list.');
-      if (!s.key && s.status !== 'ERROR') hint('# server ini dibuat tanpa --key-name. Nanti SSH pakai kunci bakal ditolak.');
+      if (s.status === 'ERROR') { err('# ' + s.fault); hint(tr('# compute node penuh. Hapus server lain atau pakai flavor lebih kecil.', '# the compute nodes are full. Delete another server or use a smaller flavor.')); }
+      else if (s.status === 'BUILD') dim(tr('# server lagi dibangun di ', '# server is being built on ') + s.host + tr(' (status BUILD). Pantau dengan openstack server list.', ' (status BUILD). Watch it with openstack server list.'));
+      if (!s.key && s.status !== 'ERROR') hint(tr('# server ini dibuat tanpa --key-name. Nanti SSH pakai kunci bakal ditolak.', '# this server was created without --key-name. SSH with a key will be refused later.'));
     };
     if (P.has('wait') && s.status === 'BUILD') {
       W.busy = true;
@@ -683,7 +684,7 @@
       ['security_groups', s.sgs.map(function (id) { var g = W.sgs.filter(function (x) { return x.id === id; })[0]; return "name='" + (g ? g.name : id) + "'"; }).join('\n')], ['status', s.status], ['user_id', USER_ID[s.project]],
       ['volumes_attached', s.vols.map(function (id) { return "delete_on_termination='False', id='" + id + "'"; }).join('\n')]);
     fv(pairs, P);
-    if (!admin) dim('# kolom host (compute node) cuma kelihatan oleh admin');
+    if (!admin) dim(tr('# kolom host (compute node) cuma kelihatan oleh admin', '# the host (compute node) column is only visible to admins'));
   }
 
   // ---------- networks ----------
@@ -703,7 +704,7 @@
       W.nets.push(n);
       netShow(n, P);
       K.flash(app, 'neutron');
-      dim('# network ini masih kosong. Kasih subnet supaya server bisa dapat IP.');
+      dim(tr('# network ini masih kosong. Kasih subnet supaya server bisa dapat IP.', '# this network is still empty. Give it a subnet so servers can get an IP.'));
       return;
     }
     if (act === 'show') { netShow(find(visibleNets(), P.pos[0], 'Network', 'network'), P); return; }
@@ -714,7 +715,7 @@
         if (n.project !== W.project) throw E('Failed to delete network with name or ID \'' + r + '\': ForbiddenException: 403: Client Error for url: http://controller:9696/v2.0/networks/' + n.id + ', (rule:delete_network) is disallowed by policy');
         var subs = subnetsOf(n);
         if (subs.some(function (s) { return blockingPorts(s).length; })) {
-          throw E('Failed to delete network with name or ID \'' + r + '\': ConflictException: 409: Client Error for url: http://controller:9696/v2.0/networks/' + n.id + ', Unable to complete operation on network ' + n.id + '. There are one or more ports still in use on the network.', '# masih ada port di network ini: ' + whoUses(subs) + '. Hapus server-nya dan lepas subnet dari router dulu.');
+          throw E('Failed to delete network with name or ID \'' + r + '\': ConflictException: 409: Client Error for url: http://controller:9696/v2.0/networks/' + n.id + ', Unable to complete operation on network ' + n.id + '. There are one or more ports still in use on the network.', tr('# masih ada port di network ini: ', '# there are still ports on this network: ') + whoUses(subs) + tr('. Hapus server-nya dan lepas subnet dari router dulu.', '. Delete the servers and detach the subnet from the router first.'));
         }
         W.subnets = W.subnets.filter(function (s) { return s.net !== n.id; });
         W.nets = W.nets.filter(function (x) { return x !== n; });
@@ -739,12 +740,12 @@
       if (!name) throw argErr('subnet create', '<name>');
       if (!P.get('network')) throw E('openstack subnet create: error: the following arguments are required: --network');
       var n = find(visibleNets(), P.get('network'), 'Network', 'network');
-      if (n.project !== W.project) throw H('(rule:create_subnet and rule:create_subnet:network) is disallowed by policy', 403, '# network ' + n.name + ' milik project lain. Bikin network sendiri.');
-      if (!P.get('subnet-range')) throw H('Bad subnets request: a subnetpool must be specified in the absence of a cidr.', 400, '# tambahkan --subnet-range, misal --subnet-range 10.0.0.0/24');
+      if (n.project !== W.project) throw H('(rule:create_subnet and rule:create_subnet:network) is disallowed by policy', 403, '# network ' + n.name + tr(' milik project lain. Bikin network sendiri.', ' belongs to another project. Create your own network.'));
+      if (!P.get('subnet-range')) throw H('Bad subnets request: a subnetpool must be specified in the absence of a cidr.', 400, tr('# tambahkan --subnet-range, misal --subnet-range 10.0.0.0/24', '# add --subnet-range, e.g. --subnet-range 10.0.0.0/24'));
       var c = parseCidr(P.get('subnet-range'));
       if (!c) throw H('Invalid input for cidr. Reason: \'' + P.get('subnet-range') + '\' is not a valid IP subnet.', 400);
-      if (c.pre < 16 || c.pre > 29) throw E('subnet /' + c.pre + ' ga didukung di simulasi', '# pakai prefix /16 sampai /29, misal 10.0.0.0/24');
-      if (c.str !== P.get('subnet-range')) hint('# ' + P.get('subnet-range') + ' dinormalkan jadi ' + c.str);
+      if (c.pre < 16 || c.pre > 29) throw E('subnet /' + c.pre + tr(' ga didukung di simulasi', ' is not supported in the simulation'), tr('# pakai prefix /16 sampai /29, misal 10.0.0.0/24', '# use a /16 to /29 prefix, e.g. 10.0.0.0/24'));
+      if (c.str !== P.get('subnet-range')) hint('# ' + P.get('subnet-range') + tr(' dinormalkan jadi ', ' normalized to ') + c.str);
       subnetsOf(n).forEach(function (s) { if (overlaps(s.cidr, c)) throw H('Invalid input for operation: Requested subnet with cidr: ' + c.str + ' for network: ' + n.id + ' overlaps with another subnet.', 400); });
       var gw = c.base + 1;
       if (P.get('gateway') === 'none') gw = null;
@@ -756,8 +757,8 @@
       W.subnets.push(s);
       subShow(s, P);
       K.flash(app, 'neutron');
-      if (isPrivate(intToIp(c.base))) dim('# subnet privat. Server di sini dapat IP ' + intToIp(c.base + 2).replace(/\.\d+$/, '.x') + ', tapi belum bisa ke internet sampai disambung ke router.');
-      else hint('# ' + c.str + ' bukan rentang privat. Untuk network project biasanya pakai 10.x, 172.16-31.x, atau 192.168.x.');
+      if (isPrivate(intToIp(c.base))) dim(tr('# subnet privat. Server di sini dapat IP ', '# private subnet. Servers here get IP ') + intToIp(c.base + 2).replace(/\.\d+$/, '.x') + tr(', tapi belum bisa ke internet sampai disambung ke router.', ', but can\'t reach the internet until it\'s connected to a router.'));
+      else hint('# ' + c.str + tr(' bukan rentang privat. Untuk network project biasanya pakai 10.x, 172.16-31.x, atau 192.168.x.', ' is not a private range. Project networks usually use 10.x, 172.16-31.x, or 192.168.x.'));
       return;
     }
     if (act === 'show') { subShow(find(vis, P.pos[0], 'Subnet', 'subnet'), P); return; }
@@ -766,7 +767,7 @@
       P.pos.forEach(function (r) {
         var s = find(vis, r, 'Subnet', 'subnet');
         if (s.project !== W.project) throw H('(rule:delete_subnet) is disallowed by policy', 403);
-        if (blockingPorts(s).length) throw E('Failed to delete subnet with name or ID \'' + r + '\': ConflictException: 409: Client Error for url: http://controller:9696/v2.0/subnets/' + s.id + ', Unable to complete operation on subnet ' + s.id + ': One or more ports have an IP allocation from this subnet.', '# subnet ini masih dipakai: ' + whoUses([s]) + '.');
+        if (blockingPorts(s).length) throw E('Failed to delete subnet with name or ID \'' + r + '\': ConflictException: 409: Client Error for url: http://controller:9696/v2.0/subnets/' + s.id + ', Unable to complete operation on subnet ' + s.id + ': One or more ports have an IP allocation from this subnet.', tr('# subnet ini masih dipakai: ', '# this subnet is still in use: ') + whoUses([s]) + '.');
         W.subnets = W.subnets.filter(function (x) { return x !== s; });
       });
       return;
@@ -791,7 +792,7 @@
       if (P.get('external-gateway')) setGw(r, P.get('external-gateway'));
       routerShow(r, P);
       K.flash(app, 'neutron');
-      if (!r.gw) dim('# router ini belum punya gateway ke internet. Lanjut: openstack router set --external-gateway public ' + name);
+      if (!r.gw) dim(tr('# router ini belum punya gateway ke internet. Lanjut: openstack router set --external-gateway public ', '# this router has no gateway to the internet yet. Next: openstack router set --external-gateway public ') + name);
       return;
     }
     if (act === 'show') { routerShow(find(list, P.pos[0], 'Router', 'router'), P); return; }
@@ -799,38 +800,38 @@
       var r2 = find(list, P.pos[0], 'Router', 'router');
       if (P.get('external-gateway')) { setGw(r2, P.get('external-gateway')); K.pulse(app, 'fip'); }
       else if (P.get('name')) r2.name = P.get('name');
-      else dim('# ga ada yang diubah. Contoh: openstack router set --external-gateway public ' + r2.name);
+      else dim(tr('# ga ada yang diubah. Contoh: openstack router set --external-gateway public ', '# nothing changed. Example: openstack router set --external-gateway public ') + r2.name);
       return;
     }
     if (act === 'unset') {
       var r3 = find(list, P.pos[0], 'Router', 'router');
-      if (!P.has('external-gateway')) { dim('# contoh: openstack router unset --external-gateway ' + r3.name); return; }
+      if (!P.has('external-gateway')) { dim(tr('# contoh: openstack router unset --external-gateway ', '# e.g. openstack router unset --external-gateway ') + r3.name); return; }
       if (r3.gw && W.fips.some(function (f) { return f.port && r3.ifs.some(function (i) { return i.sub === f.sub; }); })) {
-        throw H('Gateway cannot be updated for router ' + r3.id + ', since a gateway to external network ' + pub().id + ' is required by one or more floating IPs.', 409, '# lepas dulu floating IP dari server di belakang router ini.');
+        throw H('Gateway cannot be updated for router ' + r3.id + ', since a gateway to external network ' + pub().id + ' is required by one or more floating IPs.', 409, tr('# lepas dulu floating IP dari server di belakang router ini.', '# first detach the floating IPs from servers behind this router.'));
       }
       r3.gw = null;
       return;
     }
     if (act === 'add' || act === 'remove') {
       if (raw[0] !== 'subnet' && raw[0] !== 'port') bad('router ' + act, raw[0]);
-      if (raw[0] === 'port') { dim('# di simulasi ini pakai: openstack router ' + act + ' subnet ROUTER SUBNET'); return; }
+      if (raw[0] === 'port') { dim(tr('# di simulasi ini pakai: openstack router ', '# in this simulation use: openstack router ') + act + ' subnet ROUTER SUBNET'); return; }
       var Q = parse(raw.slice(1));
       if (Q.pos.length < 2) throw argErr('router ' + act + ' subnet', '<router>, <subnet>');
       var rr = find(list, Q.pos[0], 'Router', 'router');
       var sb = find(mine(W.subnets), Q.pos[1], 'Subnet', 'subnet');
       if (act === 'add') {
         if (rr.ifs.some(function (f) { return f.sub === sb.id; })) throw H('Bad router request: Router already has a port on subnet ' + sb.id + '.', 400);
-        rr.ifs.forEach(function (f) { var o = subById(f.sub); if (o && overlaps(o.cidr, sb.cidr)) throw H('Bad router request: Cidr ' + sb.cidr.str + ' of subnet ' + sb.id + ' overlaps with cidr ' + o.cidr.str + ' of subnet ' + o.id + '.', 400, '# dua subnet di router yang sama ga boleh tumpang tindih. Pakai rentang lain, misal 10.0.1.0/24.'); });
+        rr.ifs.forEach(function (f) { var o = subById(f.sub); if (o && overlaps(o.cidr, sb.cidr)) throw H('Bad router request: Cidr ' + sb.cidr.str + ' of subnet ' + sb.id + ' overlaps with cidr ' + o.cidr.str + ' of subnet ' + o.id + '.', 400, tr('# dua subnet di router yang sama ga boleh tumpang tindih. Pakai rentang lain, misal 10.0.1.0/24.', '# two subnets on the same router can\'t overlap. Use another range, e.g. 10.0.1.0/24.')); });
         if (sb.gw === null) throw H('Bad router request: Subnet ' + sb.id + ' does not have a gateway IP.', 400);
         if (allPorts().some(function (p) { return p.sub === sb && p.ip === intToIp(sb.gw); })) throw H('IP address ' + intToIp(sb.gw) + ' already allocated in subnet ' + sb.id, 409);
         rr.ifs.push({ sub: sb.id, ip: intToIp(sb.gw), mac: mac(), port: uuid() });
         K.pulse(app, 'port');
-        dim('# router ' + rr.name + ' sekarang punya kaki di ' + sb.cidr.str + ' (IP ' + intToIp(sb.gw) + ', jadi gateway server di subnet itu).');
+        dim('# router ' + rr.name + tr(' sekarang punya kaki di ', ' now has a leg in ') + sb.cidr.str + ' (IP ' + intToIp(sb.gw) + tr(', jadi gateway server di subnet itu).', ', the gateway for servers in that subnet).'));
       } else {
         var idx = -1;
         rr.ifs.forEach(function (f, i) { if (f.sub === sb.id) idx = i; });
         if (idx < 0) throw H('Router ' + rr.id + ' has no interface on subnet ' + sb.id, 404);
-        if (W.fips.some(function (f) { return f.port && f.sub === sb.id; })) throw H('Router interface for subnet ' + sb.id + ' on router ' + rr.id + ' cannot be deleted, as it is required by one or more floating IPs.', 409, '# lepas dulu floating IP dari server di subnet ini.');
+        if (W.fips.some(function (f) { return f.port && f.sub === sb.id; })) throw H('Router interface for subnet ' + sb.id + ' on router ' + rr.id + ' cannot be deleted, as it is required by one or more floating IPs.', 409, tr('# lepas dulu floating IP dari server di subnet ini.', '# first detach the floating IPs from servers in this subnet.'));
         rr.ifs.splice(idx, 1);
       }
       return;
@@ -839,7 +840,7 @@
       if (!P.pos.length) throw argErr('router delete', '<router>');
       P.pos.forEach(function (x) {
         var r4 = find(list, x, 'Router', 'router');
-        if (r4.ifs.length) throw E('Failed to delete router with name or ID \'' + x + '\': ConflictException: 409: Client Error for url: http://controller:9696/v2.0/routers/' + r4.id + ', Router ' + r4.id + ' still has ports', '# lepas subnet-nya dulu: openstack router remove subnet ' + r4.name + ' ' + subById(r4.ifs[0].sub).name);
+        if (r4.ifs.length) throw E('Failed to delete router with name or ID \'' + x + '\': ConflictException: 409: Client Error for url: http://controller:9696/v2.0/routers/' + r4.id + ', Router ' + r4.id + ' still has ports', tr('# lepas subnet-nya dulu: openstack router remove subnet ', '# detach its subnet first: openstack router remove subnet ') + r4.name + ' ' + subById(r4.ifs[0].sub).name);
         W.routers = W.routers.filter(function (y) { return y !== r4; });
       });
       return;
@@ -848,10 +849,10 @@
   }
   function setGw(r, netRef) {
     var n = find(visibleNets(), netRef, 'Network', 'network');
-    if (!n.ext) throw H('Bad router request: Network ' + n.id + ' is not an external network.', 400, '# gateway router harus ke network eksternal: public');
+    if (!n.ext) throw H('Bad router request: Network ' + n.id + ' is not an external network.', 400, tr('# gateway router harus ke network eksternal: public', '# a router\'s gateway must be on the external network: public'));
     if (r.gw) return;
     r.gw = { net: n.id, ip: nextFip(), mac: mac(), port: uuid() };
-    dim('# router ' + r.name + ' dapat IP ' + r.gw.ip + ' di network public. Trafik keluar dari subnet di belakangnya di-SNAT lewat IP ini.');
+    dim('# router ' + r.name + tr(' dapat IP ', ' gets IP ') + r.gw.ip + tr(' di network public. Trafik keluar dari subnet di belakangnya di-SNAT lewat IP ini.', ' on the public network. Outbound traffic from the subnets behind it is SNATed through this IP.'));
   }
   function routerShow(r, P) {
     var info = r.gw ? '{"network_id": "' + r.gw.net + '", "external_fixed_ips": [{"ip_address": "' + r.gw.ip + '"}], "enable_snat": true}' : 'null';
@@ -868,27 +869,27 @@
     var rows = [['ID', 'Name', 'MAC Address', 'Fixed IP Addresses', 'Status']];
     if (P.has('long')) rows[0].push('Device Owner');
     ps.forEach(function (p) { var r = [p.id, '', p.mac, "ip_address='" + p.ip + "', subnet_id='" + p.sub.id + "'", p.status]; if (P.has('long')) r.push(p.owner); rows.push(r); });
-    table(rows, P, '# belum ada port');
-    if (rows.length > 1 && !P.has('long')) dim('# tambah --long buat lihat pemilik tiap port (dhcp, router, atau server)');
+    table(rows, P, tr('# belum ada port', '# no ports yet'));
+    if (rows.length > 1 && !P.has('long')) dim(tr('# tambah --long buat lihat pemilik tiap port (dhcp, router, atau server)', '# add --long to see who owns each port (dhcp, router, or server)'));
   }
 
   // ---------- floating IPs ----------
   function cFip(act, P) {
     var list = mine(W.fips);
     if (act === 'list') {
-      table([['ID', 'Floating IP Address', 'Fixed IP Address', 'Port', 'Floating Network', 'Project']].concat(list.map(function (f) { return [f.id, f.ip, f.fixed || 'None', f.port || 'None', pub().id, PROJ_ID[f.project]]; })), P, '# belum ada floating IP di project ini');
+      table([['ID', 'Floating IP Address', 'Fixed IP Address', 'Port', 'Floating Network', 'Project']].concat(list.map(function (f) { return [f.id, f.ip, f.fixed || 'None', f.port || 'None', pub().id, PROJ_ID[f.project]]; })), P, tr('# belum ada floating IP di project ini', '# no floating IPs in this project yet'));
       return;
     }
     if (act === 'create') {
       if (!P.pos[0]) throw argErr('floating ip create', '<network>');
       var n = find(visibleNets(), P.pos[0], 'Network', 'network');
-      if (!n.ext) throw H('Bad floatingip request: Network ' + n.id + ' is not a valid external network.', 400, '# floating IP diambil dari network eksternal: openstack floating ip create public');
+      if (!n.ext) throw H('Bad floatingip request: Network ' + n.id + ' is not a valid external network.', 400, tr('# floating IP diambil dari network eksternal: openstack floating ip create public', '# floating IPs come from the external network: openstack floating ip create public'));
       var q = W.quota[W.project], u = usage(W.project);
-      if (u['floating-ips'] + 1 > q['floating-ips']) throw H('Quota exceeded for resources: [\'floatingip\'].', 409, '# quota floating IP project ini ' + q['floating-ips'] + '. Hapus yang ga dipakai: openstack floating ip delete IP');
+      if (u['floating-ips'] + 1 > q['floating-ips']) throw H('Quota exceeded for resources: [\'floatingip\'].', 409, tr('# quota floating IP project ini ', '# the floating IP quota for this project is ') + q['floating-ips'] + tr('. Hapus yang ga dipakai: openstack floating ip delete IP', '. Delete the ones you don\'t use: openstack floating ip delete IP'));
       var f = { id: uuid(), ip: nextFip(), project: W.project, port: null, fixed: null, sub: null, created: Date.now() };
       W.fips.push(f);
       fv([['created_at', iso()], ['fixed_ip_address', 'None'], ['floating_ip_address', f.ip], ['floating_network_id', n.id], ['id', f.id], ['port_id', 'None'], ['project_id', PROJ_ID[W.project]], ['router_id', 'None'], ['status', 'DOWN']], P);
-      dim('# IP publik ' + f.ip + ' sudah jadi milik project ' + W.project + ' (ngitung quota walau belum dipakai). Pasang ke server: openstack server add floating ip NAMA ' + f.ip);
+      dim(tr('# IP publik ', '# public IP ') + f.ip + tr(' sudah jadi milik project ', ' now belongs to project ') + W.project + tr(' (ngitung quota walau belum dipakai). Pasang ke server: openstack server add floating ip NAMA ', ' (it counts toward quota even while unused). Attach it to a server: openstack server add floating ip NAME ') + f.ip);
       return;
     }
     if (act === 'delete') {
@@ -906,41 +907,41 @@
       fv([['fixed_ip_address', y.fixed || 'None'], ['floating_ip_address', y.ip], ['id', y.id], ['port_id', y.port || 'None'], ['status', y.port ? 'ACTIVE' : 'DOWN']], P);
       return;
     }
-    if (act === 'set' || act === 'unset') { dim('# di simulasi ini pakai openstack server add/remove floating ip NAMA IP'); return; }
+    if (act === 'set' || act === 'unset') { dim(tr('# di simulasi ini pakai openstack server add/remove floating ip NAMA IP', '# in this simulation use openstack server add/remove floating ip NAME IP')); return; }
     bad('floating ip', act);
   }
   function fipServer(act, P) {
     if (P.pos.length < 2) throw argErr('server ' + act + ' floating ip', '<server>, <ip-address>');
     var s = findServer(P.pos[0]);
     var f = mine(W.fips).filter(function (x) { return x.ip === P.pos[1] || x.id === P.pos[1]; })[0];
-    if (!f) throw E('No FloatingIP found for ' + P.pos[1], '# alokasikan dulu: openstack floating ip create public');
+    if (!f) throw E('No FloatingIP found for ' + P.pos[1], tr('# alokasikan dulu: openstack floating ip create public', '# allocate one first: openstack floating ip create public'));
     if (act === 'remove') {
-      if (!s.nics.some(function (n) { return n.port === f.port; })) throw E('Floating IP ' + f.ip + ' ga terpasang di server ' + s.name);
+      if (!s.nics.some(function (n) { return n.port === f.port; })) throw E('Floating IP ' + f.ip + tr(' ga terpasang di server ', ' is not attached to server ') + s.name);
       f.port = null; f.fixed = null; f.sub = null;
       return;
     }
     if (!s.nics.length) throw H('Instance network is not ready yet', 400);
     if (f.port) {
-      if (s.nics.some(function (n) { return n.port === f.port; })) { dim('# floating IP itu sudah terpasang di ' + s.name); return; }
-      throw H('Floating IP ' + f.id + ' is associated with port ' + f.port + '.', 409, '# IP itu sedang dipakai server lain. Lepas dulu atau alokasikan IP baru.');
+      if (s.nics.some(function (n) { return n.port === f.port; })) { dim(tr('# floating IP itu sudah terpasang di ', '# that floating IP is already attached to ') + s.name); return; }
+      throw H('Floating IP ' + f.id + ' is associated with port ' + f.port + '.', 409, tr('# IP itu sedang dipakai server lain. Lepas dulu atau alokasikan IP baru.', '# that IP is in use by another server. Detach it first or allocate a new IP.'));
     }
     var nic = s.nics.filter(function (n) { return P.get('fixed-ip-address') ? n.ip === P.get('fixed-ip-address') : true; })[0];
-    if (!nic) throw E('server ga punya fixed IP ' + P.get('fixed-ip-address'));
+    if (!nic) throw E(tr('server ga punya fixed IP ', 'server doesn\'t have fixed IP ') + P.get('fixed-ip-address'));
     if (fipOfPort(nic.port)) throw H('Cannot associate floating IP ' + f.ip + ' (' + f.id + ') with port ' + nic.port + ' using fixed IP ' + nic.ip + ', as that fixed IP already has a floating IP on external network ' + pub().id + '.', 409);
     var sub = subById(nic.sub);
     if (!routerFor(sub)) {
-      throw H('External network ' + pub().id + ' is not reachable from subnet ' + sub.id + '.  Therefore, cannot associate Port ' + nic.port + ' with a Floating IP.', 404, '# floating IP butuh router: subnet ' + sub.name + ' harus tersambung ke router yang punya gateway ke public.');
+      throw H('External network ' + pub().id + ' is not reachable from subnet ' + sub.id + '.  Therefore, cannot associate Port ' + nic.port + ' with a Floating IP.', 404, tr('# floating IP butuh router: subnet ', '# a floating IP needs a router: subnet ') + sub.name + tr(' harus tersambung ke router yang punya gateway ke public.', ' must be connected to a router with a gateway to public.'));
     }
     f.port = nic.port; f.fixed = nic.ip; f.sub = sub.id;
     K.pulse(app, 'fip');
-    dim('# ' + f.ip + ' sekarang di-NAT router ' + routerFor(sub).name + ' ke ' + nic.ip + ' milik ' + s.name + '.');
+    dim('# ' + f.ip + tr(' sekarang di-NAT router ', ' is now NATed by router ') + routerFor(sub).name + tr(' ke ', ' to ') + nic.ip + tr(' milik ', ' of ') + s.name + '.');
   }
 
   // ---------- security groups ----------
   function findSg(r) { return find(mine(W.sgs), r, 'SecurityGroup', 'SecurityGroup'); }
   function ruleTxt(r) {
     var p = r.proto || 'any';
-    return r.dir + ' ' + p + (r.port ? ' ' + (r.port[0] === r.port[1] ? r.port[0] : r.port[0] + ':' + r.port[1]) : '') + (r.remote ? ' dari ' + r.remote : r.group ? ' dari grup ' + r.group : '');
+    return r.dir + ' ' + p + (r.port ? ' ' + (r.port[0] === r.port[1] ? r.port[0] : r.port[0] + ':' + r.port[1]) : '') + (r.remote ? tr(' dari ', ' from ') + r.remote : r.group ? tr(' dari grup ', ' from group ') + r.group : '');
   }
   function cSg(act, P) {
     var list = mine(W.sgs);
@@ -955,7 +956,7 @@
         { id: uuid(), dir: 'egress', eth: 'IPv6', proto: null, port: null, remote: null, group: null }] };
       W.sgs.push(g);
       sgShow(g, P);
-      dim('# grup baru cuma mengizinkan trafik keluar. Buka port yang perlu: openstack security group rule create --protocol tcp --dst-port 22 ' + name);
+      dim(tr('# grup baru cuma mengizinkan trafik keluar. Buka port yang perlu: openstack security group rule create --protocol tcp --dst-port 22 ', '# a new group only allows outbound traffic. Open the ports you need: openstack security group rule create --protocol tcp --dst-port 22 ') + name);
       return;
     }
     if (act === 'show') { sgShow(findSg(P.pos[0]), P); return; }
@@ -964,7 +965,7 @@
       P.pos.forEach(function (r) {
         var g = findSg(r);
         if (g.name === 'default') throw H('Insufficient rights for removing default security group.', 409);
-        if (W.servers.some(function (s) { return s.sgs.indexOf(g.id) >= 0; })) throw H('Security Group ' + g.id + ' in use.', 409, '# masih dipakai server. Lepas dulu: openstack server remove security group SERVER ' + g.name);
+        if (W.servers.some(function (s) { return s.sgs.indexOf(g.id) >= 0; })) throw H('Security Group ' + g.id + ' in use.', 409, tr('# masih dipakai server. Lepas dulu: openstack server remove security group SERVER ', '# still used by a server. Detach it first: openstack server remove security group SERVER ') + g.name);
         W.sgs = W.sgs.filter(function (x) { return x !== g; });
       });
       return;
@@ -997,9 +998,9 @@
       var port = null;
       if (P.get('dst-port')) {
         var m = /^(\d+)(?::(\d+))?$/.exec(P.get('dst-port'));
-        if (!m) throw E('argument --dst-port: Port range harus berbentuk 22 atau 8000:8080');
-        if (!proto) throw H('Must also specify protocol if port range is given.', 400, '# tambahkan --protocol tcp');
-        if (proto === 'icmp') throw E('--dst-port ga berlaku buat icmp');
+        if (!m) throw E(tr('argument --dst-port: Port range harus berbentuk 22 atau 8000:8080', 'argument --dst-port: Port range must look like 22 or 8000:8080'));
+        if (!proto) throw H('Must also specify protocol if port range is given.', 400, tr('# tambahkan --protocol tcp', '# add --protocol tcp'));
+        if (proto === 'icmp') throw E(tr('--dst-port ga berlaku buat icmp', '--dst-port doesn\'t apply to icmp'));
         port = [+m[1], +(m[2] || m[1])];
       }
       var dir = P.has('egress') ? 'egress' : 'ingress';
@@ -1011,7 +1012,7 @@
       var nr = { id: uuid(), dir: dir, eth: 'IPv4', proto: proto, port: port, remote: remote, group: grp };
       g.rules.push(nr);
       fv([['direction', dir], ['ethertype', 'IPv4'], ['id', nr.id], ['port_range_max', port ? port[1] : 'None'], ['port_range_min', port ? port[0] : 'None'], ['protocol', proto || 'None'], ['remote_group_id', grp || 'None'], ['remote_ip_prefix', remote || 'None'], ['security_group_id', g.id]], P);
-      dim('# rule berlaku langsung ke semua server yang memakai grup ' + g.name + ', tanpa restart.');
+      dim(tr('# rule berlaku langsung ke semua server yang memakai grup ', '# the rule applies right away to every server using group ') + g.name + tr(', tanpa restart.', ', no restart needed.'));
       return;
     }
     if (act === 'delete') {
@@ -1029,7 +1030,7 @@
     if (P.pos.length < 2) throw argErr('server ' + act + ' security group', '<server>, <group>');
     var s = findServer(P.pos[0]), g = findSg(P.pos[1]);
     if (act === 'add') {
-      if (s.sgs.indexOf(g.id) >= 0) { dim('# ' + s.name + ' sudah pakai grup ' + g.name); return; }
+      if (s.sgs.indexOf(g.id) >= 0) { dim('# ' + s.name + tr(' sudah pakai grup ', ' already uses group ') + g.name); return; }
       s.sgs.push(g.id);
     } else {
       if (s.sgs.indexOf(g.id) < 0) throw H('Security group ' + g.name + ' not associated with the instance ' + s.id, 404);
@@ -1052,30 +1053,30 @@
   // ---------- keypairs ----------
   function cKey(act, P) {
     var list = mine(W.keys);
-    if (act === 'list') { table([['Name', 'Fingerprint', 'Type']].concat(list.map(function (k) { return [k.name, k.fp, 'ssh']; })), P, '# belum ada keypair'); return; }
+    if (act === 'list') { table([['Name', 'Fingerprint', 'Type']].concat(list.map(function (k) { return [k.name, k.fp, 'ssh']; })), P, tr('# belum ada keypair', '# no keypairs yet')); return; }
     if (act === 'create') {
       var name = P.pos[0];
       if (!name) throw argErr('keypair create', '<name>');
       if (list.some(function (k) { return k.name === name; })) throw H('Key pair \'' + name + '\' already exists.', 409);
       var pubf = P.get('public-key'), k = { id: name, name: name, project: W.project, fp: '', pub: false, created: Date.now() };
       if (pubf) {
-        if (!/^(~\/\.ssh\/|\/home\/kamu\/\.ssh\/|\.ssh\/)?id_ed25519\.pub$/.test(pubf)) throw E('Key file ' + pubf + ' not found', '# public key kamu ada di ~/.ssh/id_ed25519.pub');
+        if (!/^(~\/\.ssh\/|\/home\/kamu\/\.ssh\/|\.ssh\/)?id_ed25519\.pub$/.test(pubf)) throw E('Key file ' + pubf + ' not found', tr('# public key kamu ada di ~/.ssh/id_ed25519.pub', '# your public key is at ~/.ssh/id_ed25519.pub'));
         k.pub = true;
         k.fp = digest('laptop key').slice(0, 32).replace(/(..)(?!$)/g, '$1:');
         W.keys.push(k);
         fv([['created_at', iso()], ['fingerprint', k.fp], ['id', name], ['is_deleted', 'False'], ['name', name], ['type', 'ssh'], ['user_id', USER_ID[W.project]]], P);
-        dim('# public key laptop kamu tersimpan di Nova. Private key-nya tetap cuma di laptop.');
+        dim(tr('# public key laptop kamu tersimpan di Nova. Private key-nya tetap cuma di laptop.', '# your laptop\'s public key is stored in Nova. The private key stays only on your laptop.'));
       } else {
         k.fp = digest('gen' + name + Date.now()).slice(0, 32).replace(/(..)(?!$)/g, '$1:');
         W.keys.push(k);
         var dest = P.get('>');
         if (dest) {
           W.files[dest.replace(/^\.\//, '')] = { mode: '644', key: name, fp: k.fp };
-          dim('# private key disimpan ke ' + dest + '. Ingat: OpenStack ga menyimpan salinannya. Hilang ya hilang.');
-          hint('# izin file-nya masih 644. SSH bakal menolak kunci yang bisa dibaca orang lain: chmod 600 ' + dest);
+          dim(tr('# private key disimpan ke ', '# private key saved to ') + dest + tr('. Ingat: OpenStack ga menyimpan salinannya. Hilang ya hilang.', '. Remember: OpenStack doesn\'t keep a copy. Lose it and it\'s gone.'));
+          hint(tr('# izin file-nya masih 644. SSH bakal menolak kunci yang bisa dibaca orang lain: chmod 600 ', '# the file permissions are still 644. SSH refuses keys others can read: chmod 600 ') + dest);
         } else {
           pem().forEach(out);
-          hint('# private key cuma ditampilkan sekali dan ga disimpan ke file. Biasanya: openstack keypair create ' + name + '2 > ' + name + '.pem');
+          hint(tr('# private key cuma ditampilkan sekali dan ga disimpan ke file. Biasanya: openstack keypair create ', '# the private key is shown only once and not saved to a file. Usually: openstack keypair create ') + name + '2 > ' + name + '.pem');
         }
       }
       return;
@@ -1084,7 +1085,7 @@
     if (act === 'delete') {
       if (!P.pos.length) throw argErr('keypair delete', '<key>');
       P.pos.forEach(function (r) { var k3 = find(list, r, 'Keypair', 'keypair'); W.keys = W.keys.filter(function (x) { return x !== k3; }); });
-      dim('# server yang sudah jalan tetap menyimpan kuncinya. Keypair cuma dipakai saat boot.');
+      dim(tr('# server yang sudah jalan tetap menyimpan kuncinya. Keypair cuma dipakai saat boot.', '# running servers keep their key. A keypair is only used at boot.'));
       return;
     }
     bad('keypair', act);
@@ -1095,7 +1096,7 @@
   function cVolume(act, P) {
     var list = mine(W.vols);
     if (act === 'list') {
-      table([['ID', 'Name', 'Status', 'Size', 'Attached to']].concat(list.slice().reverse().map(function (v) { var s = srvById(v.server); return [v.id, v.name, v.status, v.size, s && v.status === 'in-use' ? 'Attached to ' + s.name + ' on ' + v.dev + ' ' : '']; })), P, '# belum ada volume');
+      table([['ID', 'Name', 'Status', 'Size', 'Attached to']].concat(list.slice().reverse().map(function (v) { var s = srvById(v.server); return [v.id, v.name, v.status, v.size, s && v.status === 'in-use' ? 'Attached to ' + s.name + ' on ' + v.dev + ' ' : '']; })), P, tr('# belum ada volume', '# no volumes yet'));
       return;
     }
     if (act === 'create') {
@@ -1121,12 +1122,12 @@
       if (!P.pos.length) throw argErr('volume delete', '<volume>');
       P.pos.forEach(function (r) {
         var y = findVol(r);
-        if (y.status !== 'available' && y.status !== 'error') throw E('Failed to delete volume with name or ID \'' + r + '\': Invalid volume: Volume status must be available or error or error_restoring or error_extending or error_managing and must not be migrating, attached, belong to a group, have snapshots or be disassociated from snapshots after volume transfer. (HTTP 400) (Request-ID: req-' + uuid() + ')', y.status === 'in-use' ? '# volume masih terpasang. Lepas dulu: openstack server remove volume ' + srvById(y.server).name + ' ' + y.name : null);
+        if (y.status !== 'available' && y.status !== 'error') throw E('Failed to delete volume with name or ID \'' + r + '\': Invalid volume: Volume status must be available or error or error_restoring or error_extending or error_managing and must not be migrating, attached, belong to a group, have snapshots or be disassociated from snapshots after volume transfer. (HTTP 400) (Request-ID: req-' + uuid() + ')', y.status === 'in-use' ? tr('# volume masih terpasang. Lepas dulu: openstack server remove volume ', '# the volume is still attached. Detach it first: openstack server remove volume ') + srvById(y.server).name + ' ' + y.name : null);
         y.status = 'deleting'; y.until = Date.now() + VOL_MS;
       });
       return;
     }
-    if (act === 'set' || act === 'extend') { dim('# resize volume belum didukung di simulasi'); return; }
+    if (act === 'set' || act === 'extend') { dim(tr('# resize volume belum didukung di simulasi', '# volume resize isn\'t supported in the simulation')); return; }
     bad('volume', act);
   }
   function volServer(act, P) {
@@ -1134,7 +1135,7 @@
     var s = findServer(P.pos[0]), v = findVol(P.pos[1]);
     if (act === 'add') {
       if (v.status === 'in-use') throw H('Invalid volume: volume ' + v.id + ' is already attached', 400);
-      if (v.status !== 'available') throw H('Invalid volume: Volume ' + v.id + ' status must be available or downloading, but current status is: ' + v.status + '.', 400, v.status === 'creating' ? '# volume-nya masih dibuat. Tunggu sebentar.' : null);
+      if (v.status !== 'available') throw H('Invalid volume: Volume ' + v.id + ' status must be available or downloading, but current status is: ' + v.status + '.', 400, v.status === 'creating' ? tr('# volume-nya masih dibuat. Tunggu sebentar.', '# the volume is still being created. Hang on a moment.') : null);
       if (s.status !== 'ACTIVE' && s.status !== 'SHUTOFF') throw H('Cannot \'attach_volume\' instance ' + s.id + ' while it is in vm_state ' + s.status.toLowerCase(), 409);
       var used = { vda: 1 };
       s.vols.forEach(function (id) { var o = volById(id); if (o && o.dev) used[o.dev.slice(5)] = 1; });
@@ -1142,10 +1143,10 @@
       v.status = 'attaching'; v.until = Date.now() + ATTACH_MS; v.server = s.id; v.dev = '/dev/' + dev;
       s.vols.push(v.id);
       fv([['ID', v.id], ['Server ID', s.id], ['Volume ID', v.id], ['Device', v.dev], ['Tag', 'None'], ['Delete On Termination', 'False']], P);
-      dim('# volume dipasang sebagai ' + v.dev + '. Di dalam server, cek dengan lsblk. Belum ada filesystem-nya, jadi perlu mkfs dulu sebelum di-mount.');
+      dim(tr('# volume dipasang sebagai ', '# volume attached as ') + v.dev + tr('. Di dalam server, cek dengan lsblk. Belum ada filesystem-nya, jadi perlu mkfs dulu sebelum di-mount.', '. Inside the server, check with lsblk. It has no filesystem yet, so it needs mkfs before mounting.'));
     } else {
       if (v.server !== s.id) throw H('Volume ' + v.id + ' is not attached to server ' + s.id, 400);
-      if (s.mounts[v.dev]) hint('# ' + v.dev + ' masih ter-mount di ' + s.mounts[v.dev] + '. Di server beneran, umount dulu biar data ga rusak.');
+      if (s.mounts[v.dev]) hint('# ' + v.dev + tr(' masih ter-mount di ', ' is still mounted at ') + s.mounts[v.dev] + tr('. Di server beneran, umount dulu biar data ga rusak.', '. On a real server, umount first so the data stays intact.'));
       delete s.mounts[v.dev];
       v.status = 'detaching'; v.until = Date.now() + ATTACH_MS;
     }
@@ -1159,11 +1160,11 @@
       if (p !== W.project && W.project !== 'admin') throw H('Policy doesn\'t allow os_compute_api:os-quota-sets:show to be performed.', 403);
       var q = W.quota[p];
       table([['Resource', 'Limit'], ['cores', q.cores], ['instances', q.instances], ['ram', q.ram], ['volumes', q.volumes], ['gigabytes', q.gigabytes], ['floating-ips', q['floating-ips']], ['networks', q.networks], ['routers', q.routers], ['secgroups', q.secgroups], ['ports', 500], ['subnets', 100], ['key-pairs', 100]], P);
-      if (P.has('usage')) dim('# pemakaian: lihat openstack limits show --absolute');
+      if (P.has('usage')) dim(tr('# pemakaian: lihat openstack limits show --absolute', '# usage: see openstack limits show --absolute'));
       return;
     }
     if (act === 'set') {
-      if (W.project !== 'admin') throw H('Policy doesn\'t allow os_compute_api:os-quota-sets:update to be performed.', 403, '# cuma admin yang boleh mengubah quota. Coba source admin-openrc.');
+      if (W.project !== 'admin') throw H('Policy doesn\'t allow os_compute_api:os-quota-sets:update to be performed.', 403, tr('# cuma admin yang boleh mengubah quota. Coba source admin-openrc.', '# only admins can change quotas. Try source admin-openrc.'));
       var t = P.pos[0];
       if (!t) throw argErr('quota set', '<project>');
       if (!W.quota[t]) throw E('No project with a name or ID of \'' + t + '\' exists.');
@@ -1177,8 +1178,8 @@
         W.quota[t][k] = v === -1 ? 99999 : v;
         any = true;
       });
-      if (!any) { dim('# contoh: openstack quota set --cores 16 demo'); return; }
-      dim('# quota project ' + t + ' diubah. Berlaku langsung' + (t !== W.project ? '. Balik ke user demo: source demo-openrc' : '') + '.');
+      if (!any) { dim(tr('# contoh: openstack quota set --cores 16 demo', '# e.g. openstack quota set --cores 16 demo')); return; }
+      dim(tr('# quota project ', '# quota for project ') + t + tr(' diubah. Berlaku langsung', ' changed. It applies right away') + (t !== W.project ? tr('. Balik ke user demo: source demo-openrc', '. Switch back to the demo user: source demo-openrc') : '') + '.');
       return;
     }
     bad('quota', act);
@@ -1214,7 +1215,7 @@
   function cConsole(act, P) {
     if (act !== 'show') bad('console log', act);
     var s = findServer(P.pos[0]);
-    if (s.status === 'BUILD') { dim('# server masih booting, log-nya belum ada'); return; }
+    if (s.status === 'BUILD') { dim(tr('# server masih booting, log-nya belum ada', '# the server is still booting, there\'s no log yet')); return; }
     if (s.status === 'ERROR') { err('# server ERROR: ' + s.fault); return; }
     var n = s.nics[0];
     var L = ['[    0.000000] Linux version ' + s.image.kernel + ' (buildd@lcy02-amd64) #1 SMP', '[    0.000000] Command line: BOOT_IMAGE=/vmlinuz root=LABEL=cloudimg-rootfs ro console=tty1 console=ttyS0', '[    1.204411] virtio_net virtio0 ens3: renamed from eth0'];
@@ -1227,13 +1228,13 @@
     L.push('<14>' + s.name + ' cloud-init: #############################################################', '-----BEGIN SSH HOST KEY FINGERPRINTS-----', '256 SHA256:' + digest(s.id).slice(0, 43) + ' root@' + s.name + ' (ED25519)', '-----END SSH HOST KEY FINGERPRINTS-----');
     L.push('Cloud-init v. 24.3.1 finished. Datasource DataSourceOpenStackLocal [net,ver=2].', '', s.image.os + ' ' + s.name + ' ttyS0', '', s.name + ' login:');
     L.forEach(out);
-    dim('# console log berguna kalau SSH gagal: kelihatan apakah server dapat IP dan kuncinya ikut terpasang.');
+    dim(tr('# console log berguna kalau SSH gagal: kelihatan apakah server dapat IP dan kuncinya ikut terpasang.', '# the console log helps when SSH fails: you can see whether the server got an IP and whether its key was installed.'));
   }
   function cConsoleUrl(act, P) {
     if (act !== 'show') bad('console url', act);
     var s = findServer(P.pos[0]);
     fv([['protocol', 'vnc'], ['type', 'novnc'], ['url', 'http://controller:6080/vnc_lite.html?path=%3Ftoken%3D' + digest(s.id + 'vnc').slice(0, 36)]], P);
-    dim('# di cloud beneran, URL ini membuka layar server di browser. Di simulasi cuma pajangan.');
+    dim(tr('# di cloud beneran, URL ini membuka layar server di browser. Di simulasi cuma pajangan.', '# on a real cloud, this URL opens the server\'s screen in the browser. In the simulation it\'s just for show.'));
   }
 
   // ---------- ssh ----------
@@ -1246,9 +1247,9 @@
       else if (!target) target = a[i];
     }
     if (!target) { out('usage: ssh [-46AaCfGgKkMNnqsTtVvXxYy] [-i identity_file] [user@]hostname [command]'); return; }
-    var user = 'kamu', host = target;
+    var user = tr('kamu', 'you'), host = target;
     if (target.indexOf('@') >= 0) { user = target.split('@')[0]; host = target.split('@')[1]; }
-    if (ipToInt(host) === null) { err('ssh: Could not resolve hostname ' + host + ': Name or service not known'); hint('# pakai IP-nya, misal ssh ubuntu@203.0.113.x (floating IP server)'); return; }
+    if (ipToInt(host) === null) { err('ssh: Could not resolve hostname ' + host + ': Name or service not known'); hint(tr('# pakai IP-nya, misal ssh ubuntu@203.0.113.x (floating IP server)', '# use the IP, e.g. ssh ubuntu@203.0.113.x (the server\'s floating IP)')); return; }
     var run = W.run;
     W.busy = true;
     function done(fn, ms) {
@@ -1260,32 +1261,32 @@
       }]]);
     }
     function timeout(h) { done(function () { err('ssh: connect to host ' + host + ' port 22: Connection timed out'); hint(h); }, 2400); }
-    if (isPrivate(host)) { timeout('# ' + host + ' itu IP privat di network project. Dari laptop ga bisa dijangkau. Pasang floating IP ke server, lalu ssh ke IP itu.'); return; }
+    if (isPrivate(host)) { timeout('# ' + host + tr(' itu IP privat di network project. Dari laptop ga bisa dijangkau. Pasang floating IP ke server, lalu ssh ke IP itu.', ' is a private IP on the project network. It can\'t be reached from your laptop. Attach a floating IP to the server, then ssh to that IP.')); return; }
     var f = W.fips.filter(function (x) { return x.ip === host; })[0];
     var rt = W.routers.filter(function (r) { return r.gw && r.gw.ip === host; })[0];
-    if (rt) { done(function () { err('ssh: connect to host ' + host + ' port 22: Connection refused'); hint('# ' + host + ' itu IP gateway router ' + rt.name + ', bukan server.'); }); return; }
-    if (!f) { timeout('# ga ada apa-apa di ' + host + '. Cek floating IP-mu: openstack floating ip list'); return; }
+    if (rt) { done(function () { err('ssh: connect to host ' + host + ' port 22: Connection refused'); hint('# ' + host + tr(' itu IP gateway router ', ' is the gateway IP of router ') + rt.name + tr(', bukan server.', ', not a server.')); }); return; }
+    if (!f) { timeout(tr('# ga ada apa-apa di ', '# there\'s nothing at ') + host + tr('. Cek floating IP-mu: openstack floating ip list', '. Check your floating IPs: openstack floating ip list')); return; }
     var s = W.servers.filter(function (x) { return x.nics.some(function (n) { return n.port === f.port; }); })[0];
-    if (!s) { timeout('# floating IP ' + host + ' belum dipasang ke server mana pun. Pasang: openstack server add floating ip NAMA ' + host); return; }
+    if (!s) { timeout('# floating IP ' + host + tr(' belum dipasang ke server mana pun. Pasang: openstack server add floating ip NAMA ', ' is not attached to any server. Attach it: openstack server add floating ip NAME ') + host); return; }
     K.pulse(app, 'fip');
-    if (s.status === 'BUILD' || s.task === 'rebooting' || s.task === 'powering-on') { done(function () { err('ssh: connect to host ' + host + ' port 22: Connection refused'); hint('# ' + s.name + ' masih booting. Tunggu sampai ACTIVE, lalu coba lagi.'); }); return; }
-    if (s.status !== 'ACTIVE') { timeout('# ' + s.name + ' lagi ' + s.status + '. Nyalakan dulu: openstack server start ' + s.name); return; }
-    if (!allows(s, 'tcp', 22, LAPTOP_IP)) { timeout('# paket SSH dibuang security group. ' + s.name + ' cuma pakai grup ' + s.sgs.map(sgName).join(', ') + ', yang belum membuka tcp 22 dari ' + LAPTOP_IP + ' (IP laptopmu). Tambah rule atau pasang grup yang benar.'); return; }
+    if (s.status === 'BUILD' || s.task === 'rebooting' || s.task === 'powering-on') { done(function () { err('ssh: connect to host ' + host + ' port 22: Connection refused'); hint('# ' + s.name + tr(' masih booting. Tunggu sampai ACTIVE, lalu coba lagi.', ' is still booting. Wait until ACTIVE, then try again.')); }); return; }
+    if (s.status !== 'ACTIVE') { timeout('# ' + s.name + tr(' lagi ', ' is ') + s.status + tr('. Nyalakan dulu: openstack server start ', '. Start it first: openstack server start ') + s.name); return; }
+    if (!allows(s, 'tcp', 22, LAPTOP_IP)) { timeout(tr('# paket SSH dibuang security group. ', '# the security group dropped the SSH packets. ') + s.name + tr(' cuma pakai grup ', ' only uses group ') + s.sgs.map(sgName).join(', ') + tr(', yang belum membuka tcp 22 dari ', ', which doesn\'t open tcp 22 from ') + LAPTOP_IP + tr(' (IP laptopmu). Tambah rule atau pasang grup yang benar.', ' (your laptop IP). Add a rule or attach the right group.')); return; }
     done(function () {
       var known = W.hostsKnown[host];
       if (known && known !== s.id) {
         term.lines(['@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@', '@    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @', '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@'].map(function (l) { return '<span class="sx-err">' + l + '</span>'; }));
-        dim('# floating IP ini dulu dipakai server lain, jadi host key-nya beda. Di simulasi, known_hosts diperbarui otomatis.');
+        dim(tr('# floating IP ini dulu dipakai server lain, jadi host key-nya beda. Di simulasi, known_hosts diperbarui otomatis.', '# this floating IP used to belong to another server, so the host key is different. In the simulation, known_hosts is updated automatically.'));
       } else if (!known) out("Warning: Permanently added '" + host + "' (ED25519) to the list of known hosts.");
       W.hostsKnown[host] = s.id;
       function denied(h) { err(user + '@' + host + ': Permission denied (publickey).'); if (h) hint(h); }
-      if (!s.key) { denied('# ' + s.name + ' dibuat tanpa --key-name, jadi ga ada kunci yang dipercaya di dalamnya. Kunci ga bisa ditambah setelah boot: hapus dan bikin ulang servernya dengan --key-name.'); return; }
+      if (!s.key) { denied('# ' + s.name + tr(' dibuat tanpa --key-name, jadi ga ada kunci yang dipercaya di dalamnya. Kunci ga bisa ditambah setelah boot: hapus dan bikin ulang servernya dengan --key-name.', ' was created without --key-name, so it trusts no key. Keys can\'t be added after boot: delete and recreate the server with --key-name.')); return; }
       var fname = idf ? idf.replace(/^\.\//, '') : null;
       if (idf && !W.files[fname] && !/id_ed25519$/.test(idf)) out('Warning: Identity file ' + idf + ' not accessible: No such file or directory.');
       if (!s.keyPub) {
         var mineFile = Object.keys(W.files).filter(function (n) { return W.files[n].fp === s.keyFp; })[0];
-        if (!mineFile) { denied('# private key untuk keypair ' + s.key + ' ga pernah disimpan ke file (atau sudah ditimpa). Server ini ga bisa dimasuki. Bikin keypair baru dengan > kunci.pem, lalu bikin ulang servernya.'); return; }
-        if (!idf || !W.files[fname]) { denied('# ' + s.name + ' pakai keypair ' + s.key + ', bukan ~/.ssh/id_ed25519. Tunjuk file private key-nya: ssh -i ' + mineFile + ' ' + target); return; }
+        if (!mineFile) { denied(tr('# private key untuk keypair ', '# the private key for keypair ') + s.key + tr(' ga pernah disimpan ke file (atau sudah ditimpa). Server ini ga bisa dimasuki. Bikin keypair baru dengan > kunci.pem, lalu bikin ulang servernya.', ' was never saved to a file (or was overwritten). This server can\'t be entered. Create a new keypair with > mykey.pem, then recreate the server.')); return; }
+        if (!idf || !W.files[fname]) { denied('# ' + s.name + tr(' pakai keypair ', ' uses keypair ') + s.key + tr(', bukan ~/.ssh/id_ed25519. Tunjuk file private key-nya: ssh -i ', ', not ~/.ssh/id_ed25519. Point to its private key file: ssh -i ') + mineFile + ' ' + target); return; }
         var fo = W.files[fname];
         if (/[1-7]/.test(fo.mode.slice(1))) {
           term.lines(['@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@', '@         WARNING: UNPROTECTED PRIVATE KEY FILE!          @', '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@'].map(function (l) { return '<span class="sx-err">' + l + '</span>'; }));
@@ -1293,15 +1294,15 @@
           out('It is required that your private key files are NOT accessible by others.');
           out('This private key will be ignored.');
           out('Load key "' + idf + '": bad permissions');
-          denied('# rapikan izinnya dulu: chmod 600 ' + idf);
+          denied(tr('# rapikan izinnya dulu: chmod 600 ', '# fix its permissions first: chmod 600 ') + idf);
           return;
         }
-        if (fo.fp !== s.keyFp) { denied('# ' + idf + ' itu private key untuk keypair lain, bukan ' + s.key + '. Coba: ssh -i ' + mineFile + ' ' + target); return; }
+        if (fo.fp !== s.keyFp) { denied('# ' + idf + tr(' itu private key untuk keypair lain, bukan ', ' is the private key for another keypair, not ') + s.key + tr('. Coba: ssh -i ', '. Try: ssh -i ') + mineFile + ' ' + target); return; }
       }
-      if (user !== s.image.user) { denied('# image ' + s.image.name + ' memasang kunci untuk user ' + s.image.user + ', bukan ' + user + '. Coba: ssh ' + (idf ? '-i ' + idf + ' ' : '') + s.image.user + '@' + host); return; }
+      if (user !== s.image.user) { denied('# image ' + s.image.name + tr(' memasang kunci untuk user ', ' installs the key for user ') + s.image.user + tr(', bukan ', ', not ') + user + tr('. Coba: ssh ', '. Try: ssh ') + (idf ? '-i ' + idf + ' ' : '') + s.image.user + '@' + host); return; }
       W.ssh = { srv: s.id, user: user, host: host };
       term.lines(['Welcome to ' + s.image.os + ' (GNU/Linux ' + s.image.kernel + ' x86_64)', '', '  System information as of ' + new Date().toUTCString(), '', '  System load:  0.08      Processes:     ' + rnd(98, 120), '  Usage of /:   ' + rnd(8, 14) + '.' + rnd(1, 9) + '% of ' + (s.flavor.disk - 1) + 'GB   Users logged in: 0', '  IPv4 address for ens3: ' + s.nics[0].ip, '']);
-      dim('# kamu sekarang di dalam ' + s.name + '. Coba lsblk, ip a, curl ifconfig.me. Ketik exit buat balik ke laptop.');
+      dim(tr('# kamu sekarang di dalam ', '# you\'re now inside ') + s.name + tr('. Coba lsblk, ip a, curl ifconfig.me. Ketik exit buat balik ke laptop.', '. Try lsblk, ip a, curl ifconfig.me. Type exit to go back to the laptop.'));
       M.hit('ssh');
       K.flash(app, 'internet');
     }, 1100);
@@ -1313,9 +1314,9 @@
     var port = +(m[2] || (/https:/.test(line) ? 443 : 80));
     var f = W.fips.filter(function (x) { return x.ip === m[1]; })[0];
     var s = f && W.servers.filter(function (x) { return x.nics.some(function (n) { return n.port === f.port; }); })[0];
-    if (s && s.status === 'ACTIVE' && allows(s, 'tcp', port, LAPTOP_IP)) { err('curl: (7) Failed to connect to ' + m[1] + ' port ' + port + ' after 4 ms: Connection refused'); hint('# paketnya sampai ke ' + s.name + ' (security group oke), tapi belum ada web server yang jalan di port ' + port + '.'); return; }
+    if (s && s.status === 'ACTIVE' && allows(s, 'tcp', port, LAPTOP_IP)) { err('curl: (7) Failed to connect to ' + m[1] + ' port ' + port + ' after 4 ms: Connection refused'); hint(tr('# paketnya sampai ke ', '# the packets reach ') + s.name + tr(' (security group oke), tapi belum ada web server yang jalan di port ', ' (security group is fine), but no web server is running on port ') + port + '.'); return; }
     err('curl: (28) Failed to connect to ' + m[1] + ' port ' + port + ' after 10002 ms: Timeout was reached');
-    if (s) hint('# security group ' + s.name + ' belum membuka tcp ' + port + '.');
+    if (s) hint('# security group ' + s.name + tr(' belum membuka tcp ', " doesn't open tcp ") + port + '.');
   }
   function sgName(id) { var g = W.sgs.filter(function (x) { return x.id === id; })[0]; return g ? g.name : id; }
   function pingFromLaptop(a) {
@@ -1327,9 +1328,9 @@
     var s = f && W.servers.filter(function (x) { return x.nics.some(function (n) { return n.port === f.port; }); })[0];
     var rt = W.routers.filter(function (r) { return r.gw && r.gw.ip === host; })[0];
     if (rt) ok = true;
-    else if (s) { ok = s.status === 'ACTIVE' && allows(s, 'icmp', 0, LAPTOP_IP); if (!ok) why = s.status !== 'ACTIVE' ? '# ' + s.name + ' lagi ' + s.status : '# security group ' + s.name + ' belum mengizinkan icmp. Tambah: openstack security group rule create --protocol icmp ' + sgName(s.sgs[0]); }
-    else if (isPrivate(host)) why = '# ' + host + ' IP privat, ga kelihatan dari laptop';
-    else if (inCidr(host, PUB_CIDR)) why = '# ga ada server di balik ' + host;
+    else if (s) { ok = s.status === 'ACTIVE' && allows(s, 'icmp', 0, LAPTOP_IP); if (!ok) why = s.status !== 'ACTIVE' ? '# ' + s.name + tr(' lagi ', ' is ') + s.status : '# security group ' + s.name + tr(' belum mengizinkan icmp. Tambah: openstack security group rule create --protocol icmp ', ' doesn\'t allow icmp yet. Add: openstack security group rule create --protocol icmp ') + sgName(s.sgs[0]); }
+    else if (isPrivate(host)) why = '# ' + host + tr(' IP privat, ga kelihatan dari laptop', ' is a private IP, not visible from the laptop');
+    else if (inCidr(host, PUB_CIDR)) why = tr('# ga ada server di balik ', '# no server behind ') + host;
     else ok = true;
     W.busy = true;
     var run = W.run, rows = [[0, 'PING ' + esc(host) + ' (' + esc(host) + ') 56(84) bytes of data.']];
@@ -1366,7 +1367,7 @@
         out('    inet ' + n.ip + '/' + (sub ? sub.cidr.pre : 24) + ' metric 100 brd ' + (sub ? intToIp(sub.cidr.base + sub.cidr.size - 1) : '') + ' scope global dynamic ens' + (3 + i));
       });
       var f = fipsOf(s)[0];
-      if (f) dim('# floating IP ' + f.ip + ' ga muncul di sini. NAT-nya terjadi di router, server cuma tahu IP privatnya.');
+      if (f) dim('# floating IP ' + f.ip + tr(' ga muncul di sini. NAT-nya terjadi di router, server cuma tahu IP privatnya.', ' doesn\'t show up here. The NAT happens on the router, the server only knows its private IP.'));
       return;
     }
     if (c === 'lsblk') {
@@ -1374,9 +1375,9 @@
       var vs = s.vols.map(volById).filter(function (v) { return v && v.status === 'in-use'; });
       vs.forEach(function (v, i) { rows.push([v.dev.slice(5), '253:' + (16 * (i + 1)), '0', v.size + 'G', '0', 'disk', s.mounts[v.dev] || '']); });
       term.table(rows);
-      if (vs.length) { dim('# ' + vs.map(function (v) { return v.dev + ' = volume ' + v.name; }).join(', ') + '. Disk dari Cinder, nyambung lewat jaringan storage.'); M.hit('volume'); }
-      else if (s.vols.length) dim('# volume masih dipasang, tunggu statusnya in-use');
-      else dim('# cuma ada vda (disk root dari flavor). Tempel volume: openstack server add volume ' + s.name + ' NAMA_VOLUME (dari laptop)');
+      if (vs.length) { dim('# ' + vs.map(function (v) { return v.dev + ' = volume ' + v.name; }).join(', ') + tr('. Disk dari Cinder, nyambung lewat jaringan storage.', '. Disks from Cinder, connected over the storage network.')); M.hit('volume'); }
+      else if (s.vols.length) dim(tr('# volume masih dipasang, tunggu statusnya in-use', '# the volume is still attaching, wait for in-use'));
+      else dim(tr('# cuma ada vda (disk root dari flavor). Tempel volume: openstack server add volume ', '# only vda (the root disk from the flavor). Attach a volume: openstack server add volume ') + s.name + tr(' NAMA_VOLUME (dari laptop)', ' VOLUME_NAME (from the laptop)'));
       return;
     }
     if (c === 'mkfs.ext4' || c === 'mkfs') {
@@ -1390,7 +1391,7 @@
       if (w.length < 3) { s.vols.forEach(function (id) { var v2 = volById(id); if (v2 && s.mounts[v2.dev]) out(v2.dev + ' on ' + s.mounts[v2.dev] + ' type ext4 (rw,relatime)'); }); return; }
       var v3 = s.vols.map(volById).filter(function (x) { return x && x.dev === w[1] && x.status === 'in-use'; })[0];
       if (!v3) { err('mount: ' + w[2] + ': special device ' + w[1] + ' does not exist.'); return; }
-      if (!s.fs[v3.id]) { err('mount: ' + w[2] + ': wrong fs type, bad option, bad superblock on ' + w[1] + ', missing codepage or helper program, or other error.'); hint('# volume baru masih kosong tanpa filesystem. Format dulu: sudo mkfs.ext4 ' + w[1]); return; }
+      if (!s.fs[v3.id]) { err('mount: ' + w[2] + ': wrong fs type, bad option, bad superblock on ' + w[1] + ', missing codepage or helper program, or other error.'); hint(tr('# volume baru masih kosong tanpa filesystem. Format dulu: sudo mkfs.ext4 ', '# a new volume is empty with no filesystem. Format it first: sudo mkfs.ext4 ') + w[1]); return; }
       s.mounts[w[1]] = w[2];
       return;
     }
@@ -1404,10 +1405,10 @@
     var sub0 = s.nics.length ? subById(s.nics[0].sub) : null;
     var online = sub0 && routerFor(sub0);
     if (c === 'curl' || c === 'wget') {
-      if (!online) { err('curl: (7) Failed to connect to ifconfig.me port 80 after 3 ms: Couldn\'t connect to server'); hint('# subnet server ini ga tersambung ke router yang punya gateway. Ga ada jalan keluar ke internet.'); return; }
+      if (!online) { err('curl: (7) Failed to connect to ifconfig.me port 80 after 3 ms: Couldn\'t connect to server'); hint(tr('# subnet server ini ga tersambung ke router yang punya gateway. Ga ada jalan keluar ke internet.', '# this server\'s subnet isn\'t connected to a router with a gateway. There\'s no way out to the internet.')); return; }
       var f2 = fipsOf(s)[0];
       out(f2 ? f2.ip : routerFor(sub0).gw.ip);
-      dim(f2 ? '# dunia luar melihat server ini sebagai floating IP-nya.' : '# tanpa floating IP, trafik keluar di-SNAT pakai IP gateway router.');
+      dim(f2 ? tr('# dunia luar melihat server ini sebagai floating IP-nya.', '# the outside world sees this server as its floating IP.') : tr('# tanpa floating IP, trafik keluar di-SNAT pakai IP gateway router.', '# without a floating IP, outbound traffic is SNATed with the router\'s gateway IP.'));
       return;
     }
     if (c === 'ping') {
@@ -1417,18 +1418,18 @@
       var run = W.run;
       W.busy = true;
       var steps = [[0, 'PING ' + esc(host) + ' 56(84) bytes of data.']];
-      if (!ok && !inside) { W.busy = false; err('ping: connect: Network is unreachable'); hint('# subnet ini belum disambung ke router dengan gateway public.'); return; }
+      if (!ok && !inside) { W.busy = false; err('ping: connect: Network is unreachable'); hint(tr('# subnet ini belum disambung ke router dengan gateway public.', '# this subnet isn\'t connected to a router with a public gateway yet.')); return; }
       for (var i = 1; i <= 3; i++) steps.push([ok ? 380 : 900, ok ? '64 bytes from ' + esc(host) + ': icmp_seq=' + i + ' ttl=' + (inside ? 64 : 116) + ' time=' + (inside ? '0.' + rnd(3, 9) : rnd(8, 25) + '.' + rnd(1, 9)) + ' ms' : 'From ' + s.nics[0].ip + ' icmp_seq=' + i + ' Destination Host Unreachable']);
       steps.push([200, function () { W.busy = false; if (run !== W.run) return; out('--- ' + host + ' ping statistics ---'); out('3 packets transmitted, ' + (ok ? 3 : 0) + ' received, ' + (ok ? 0 : 100) + '% packet loss'); }]);
       term.play(steps);
       return;
     }
     if (c === 'apt' || c === 'apt-get') {
-      if (!online) { err('Err:1 http://archive.ubuntu.com/ubuntu noble InRelease'); err('  Temporary failure resolving \'archive.ubuntu.com\''); hint('# ga ada akses internet dari subnet ini. Cek router dan gateway-nya.'); return; }
+      if (!online) { err('Err:1 http://archive.ubuntu.com/ubuntu noble InRelease'); err('  Temporary failure resolving \'archive.ubuntu.com\''); hint(tr('# ga ada akses internet dari subnet ini. Cek router dan gateway-nya.', '# no internet access from this subnet. Check the router and its gateway.')); return; }
       ['Hit:1 http://archive.ubuntu.com/ubuntu noble InRelease', 'Get:2 http://security.ubuntu.com/ubuntu noble-security InRelease [126 kB]', 'Fetched 126 kB in 1s (148 kB/s)', 'Reading package lists... Done'].forEach(out);
       return;
     }
-    if (c === 'openstack') { err('Command \'openstack\' not found, but can be installed with:'); out('sudo apt install python3-openstackclient'); hint('# CLI-nya ada di laptop. Ketik exit dulu.'); return; }
+    if (c === 'openstack') { err('Command \'openstack\' not found, but can be installed with:'); out('sudo apt install python3-openstackclient'); hint(tr('# CLI-nya ada di laptop. Ketik exit dulu.', '# the CLI is on the laptop. Type exit first.')); return; }
     if (c === 'ls') { out(''); return; }
     err(c + ': command not found');
   }
@@ -1439,7 +1440,7 @@
     W.servers.slice().forEach(function (s) {
       if (!s.until || now < s.until) return;
       s.until = 0; changed = true;
-      if (s.task === 'spawning') { s.status = 'ACTIVE'; s.task = null; s.bootAt = now; if (!W.ssh) dim('# ' + s.name + ' sekarang ACTIVE'); }
+      if (s.task === 'spawning') { s.status = 'ACTIVE'; s.task = null; s.bootAt = now; if (!W.ssh) dim('# ' + s.name + tr(' sekarang ACTIVE', ' is now ACTIVE')); }
       else if (s.task === 'powering-off') { s.status = 'SHUTOFF'; s.task = null; }
       else if (s.task === 'powering-on' || s.task === 'rebooting') { s.status = 'ACTIVE'; s.task = null; s.bootAt = now; }
       else if (s.task === 'deleting') {
@@ -1452,7 +1453,7 @@
     if (W.ssh) {
       var cs = srvById(W.ssh.srv);
       if (!cs || cs.status !== 'ACTIVE') { out('Connection to ' + W.ssh.host + ' closed by remote host.'); W.ssh = null; }
-      else if (!fipsOf(cs).some(function (f) { return f.ip === W.ssh.host; })) { out('client_loop: send disconnect: Broken pipe'); dim('# floating IP-nya dilepas, sesi SSH putus.'); W.ssh = null; }
+      else if (!fipsOf(cs).some(function (f) { return f.ip === W.ssh.host; })) { out('client_loop: send disconnect: Broken pipe'); dim(tr('# floating IP-nya dilepas, sesi SSH putus.', '# the floating IP was detached, the SSH session dropped.')); W.ssh = null; }
     }
     W.vols.slice().forEach(function (v) {
       if (!v.until || now < v.until) return;
@@ -1490,7 +1491,7 @@
     setText($('os-where'), W.ssh ? 'ssh · ' + (srvById(W.ssh.srv) || {}).name : 'laptop');
     $('os-where').classList.toggle('is-ssh', !!W.ssh);
     var pj = $('os-proj');
-    setText(pj, p ? 'project ' + p + ' · user ' + p : 'belum login');
+    setText(pj, p ? 'project ' + p + ' · user ' + p : tr('belum login', 'not logged in'));
     pj.classList.toggle('is-on', !!p);
     $('os-gate').hidden = !!p;
     app.querySelectorAll('.os-view').forEach(function (v) { v.hidden = !p || v.dataset.view !== W.tab; });
@@ -1509,12 +1510,12 @@
   function renderFlow() {
     var p = W.project;
     var fk = $('os-f-key');
-    setText(fk, !p ? 'belum login' : W.tokenAt ? p + ' · token' : p);
+    setText(fk, !p ? tr('belum login', 'not logged in') : W.tokenAt ? p + ' · token' : p);
     fk.dataset.s = p ? 'ok' : 'warn';
     var srv = p ? myServers() : [];
     var act = srv.filter(function (s) { return s.status === 'ACTIVE'; }).length;
     var fn = $('os-f-nova');
-    setText(fn, !p ? '-' : srv.length ? srv.length + ' server · ' + act + ' aktif' : 'belum ada server');
+    setText(fn, !p ? '-' : srv.length ? srv.length + ' server · ' + act + tr(' aktif', ' active') : tr('belum ada server', 'no servers yet'));
     fn.dataset.s = srv.some(function (s) { return s.status === 'ERROR'; }) ? 'bad' : srv.some(function (s) { return s.status === 'BUILD'; }) ? 'info' : act ? 'ok' : '';
     var nets = p ? mine(W.nets).filter(function (n) { return !n.ext; }) : [], rts = p ? mine(W.routers) : [];
     var fnet = $('os-f-net');
@@ -1522,7 +1523,7 @@
     fnet.dataset.s = rts.some(function (r) { return r.gw && r.ifs.length; }) ? 'ok' : nets.length ? 'warn' : '';
     var fips = p ? mine(W.fips) : [], used = fips.filter(function (f) { return f.port; }).length;
     var fi = $('os-f-inet');
-    setText(fi, W.ssh ? 'SSH tersambung' : !p ? '-' : fips.length ? used + '/' + fips.length + ' floating IP' : 'tertutup');
+    setText(fi, W.ssh ? tr('SSH tersambung', 'SSH connected') : !p ? '-' : fips.length ? used + '/' + fips.length + ' floating IP' : tr('tertutup', 'closed'));
     fi.dataset.s = W.ssh ? 'ok' : used ? 'info' : '';
   }
   function cmdBtn(cmd, label, cls) { return '<button type="button" data-act="cmd" data-cmd="' + esc(cmd) + '"' + (cls ? ' class="' + cls + '"' : '') + '>' + esc(label || cmd) + '</button>'; }
@@ -1559,7 +1560,7 @@
     if (!sg) q.push('openstack security group create web');
     else if (!sg.rules.some(function (r) { return r.port && r.port[0] <= 22 && r.port[1] >= 22; })) q.push('openstack security group rule create --protocol tcp --dst-port 22 ' + sg.name);
     else if (!sg.rules.some(function (r) { return r.proto === 'icmp'; })) q.push('openstack security group rule create --protocol icmp ' + sg.name);
-    if (!key) q.push('openstack keypair create --public-key ~/.ssh/id_ed25519.pub kunci');
+    if (!key) q.push(tr('openstack keypair create --public-key ~/.ssh/id_ed25519.pub kunci', 'openstack keypair create --public-key ~/.ssh/id_ed25519.pub mykey'));
     if (sub && !srv.length) q.push('openstack server create --flavor m1.small --image ubuntu-24.04 --network ' + net.name + (key ? ' --key-name ' + key.name : '') + (sg ? ' --security-group ' + sg.name : '') + ' web1');
     var a = srv.filter(function (s) { return s.status === 'ACTIVE'; })[0];
     if (a) {
@@ -1590,19 +1591,19 @@
   }
   function renderSummary() {
     var p = W.project, q = W.quota[p], u = usage(p);
-    var h = '<p class="os-sub">pemakaian quota project <b>' + p + '</b></p><div class="os-qs">' +
+    var h = tr('<p class="os-sub">pemakaian quota project <b>', '<p class="os-sub">quota usage for project <b>') + p + '</b></p><div class="os-qs">' +
       meter('instance', u.instances, q.instances) + meter('vCPU', u.cores, q.cores) + meter('RAM', Math.round(u.ram / 1024 * 10) / 10, Math.round(q.ram / 1024), ' GB') +
       meter('volume', u.volumes, q.volumes) + meter('storage volume', u.gigabytes, q.gigabytes, ' GB') + meter('floating IP', u['floating-ips'], q['floating-ips']) +
       meter('security group', u.secgroups, q.secgroups) + meter('network', u.networks, q.networks) + '</div>';
     var sgs = mine(W.sgs), keys = mine(W.keys);
     h += '<p class="os-sub">security group</p><div class="os-chips">' + sgs.map(function (g) {
       var ing = g.rules.filter(function (r) { return r.dir === 'ingress'; });
-      return '<span class="os-chip"><b>' + esc(g.name) + '</b> ' + (ing.length ? ing.map(function (r) { return esc(r.group ? 'dari grup ' + r.group : (r.proto || 'semua') + (r.port ? ' ' + (r.port[0] === r.port[1] ? r.port[0] : r.port[0] + '-' + r.port[1]) : '') + (r.remote && r.remote !== '0.0.0.0/0' ? ' dari ' + r.remote : '')); }).filter(function (t, i, all) { return all.indexOf(t) === i; }).join(', ') : 'masuk ditolak semua') + '</span>';
+      return '<span class="os-chip"><b>' + esc(g.name) + '</b> ' + (ing.length ? ing.map(function (r) { return esc(r.group ? tr('dari grup ', 'from group ') + r.group : (r.proto || tr('semua', 'all')) + (r.port ? ' ' + (r.port[0] === r.port[1] ? r.port[0] : r.port[0] + '-' + r.port[1]) : '') + (r.remote && r.remote !== '0.0.0.0/0' ? tr(' dari ', ' from ') + r.remote : '')); }).filter(function (t, i, all) { return all.indexOf(t) === i; }).join(', ') : tr('masuk ditolak semua', 'all inbound denied')) + '</span>';
     }).join('') + '</div>';
-    h += '<p class="os-sub">keypair</p><div class="os-chips">' + (keys.length ? keys.map(function (k) { return '<span class="os-chip"><b>' + esc(k.name) + '</b> ' + (k.pub ? '~/.ssh/id_ed25519' : (Object.keys(W.files).filter(function (n) { return W.files[n].key === k.name; })[0] || 'private key ga disimpan')) + '</span>'; }).join('') : '<span class="os-none">belum ada. ' + cmdBtn('openstack keypair create --public-key ~/.ssh/id_ed25519.pub kunci', 'bikin keypair') + '</span>') + '</div>';
+    h += '<p class="os-sub">keypair</p><div class="os-chips">' + (keys.length ? keys.map(function (k) { return '<span class="os-chip"><b>' + esc(k.name) + '</b> ' + (k.pub ? '~/.ssh/id_ed25519' : (Object.keys(W.files).filter(function (n) { return W.files[n].key === k.name; })[0] || tr('private key ga disimpan', 'private key not saved'))) + '</span>'; }).join('') : tr('<span class="os-none">belum ada. ', '<span class="os-none">none yet. ') + cmdBtn(tr('openstack keypair create --public-key ~/.ssh/id_ed25519.pub kunci', 'openstack keypair create --public-key ~/.ssh/id_ed25519.pub mykey'), tr('bikin keypair', 'create keypair')) + '</span>') + '</div>';
     h += '<p class="os-sub">image &amp; flavor</p><div class="os-chips">' + W.images.map(function (i) { return '<span class="os-chip"><b>' + esc(i.name) + '</b> min ' + i.minDisk + ' GB · user ' + i.user + '</span>'; }).join('') + FLAVORS.map(function (f) { return '<span class="os-chip"><b>' + f.name + '</b> ' + f.vcpu + ' vCPU · ' + (f.ram >= 1024 ? f.ram / 1024 + ' GB' : f.ram + ' MB') + ' · ' + f.disk + ' GB</span>'; }).join('') + '</div>';
     if (p === 'admin') {
-      h += '<p class="os-sub">compute node (cuma kelihatan admin)</p><div class="os-hvs">' + HYPERS.map(function (hv) {
+      h += tr('<p class="os-sub">compute node (cuma kelihatan admin)</p><div class="os-hvs">', '<p class="os-sub">compute nodes (admin only)</p><div class="os-hvs">') + HYPERS.map(function (hv) {
         var x = hyperUse(hv);
         return '<div class="os-hv"><b>' + hv.name + '</b><span>' + x.n + ' server</span>' + meter('vCPU', x.vcpu, hv.vcpu) + meter('RAM', x.ram / 1024, hv.ram / 1024, ' GB') + '</div>';
       }).join('') + '</div>';
@@ -1612,7 +1613,7 @@
   function renderServers(srv) {
     var u = usage(W.project), q = W.quota[W.project];
     setText($('os-inst-sum'), srv.length + ' server · ' + u.cores + '/' + q.cores + ' vCPU');
-    if (!srv.length) { setHTML($('os-vms'), '<p class="os-none">Belum ada server. Pakai tombol di atas atau <code>openstack server create</code>.</p>'); return; }
+    if (!srv.length) { setHTML($('os-vms'), tr('<p class="os-none">Belum ada server. Pakai tombol di atas atau <code>openstack server create</code>.</p>', '<p class="os-none">No servers yet. Use the buttons above or <code>openstack server create</code>.</p>')); return; }
     var free = mine(W.fips).filter(function (x) { return !x.port; })[0];
     setHTML($('os-vms'), srv.map(function (s) {
       var r = ref(s, W.servers), st = s.task === 'deleting' ? 'deleting' : s.task === 'powering-off' ? 'stopping' : s.task === 'powering-on' ? 'starting' : s.status;
@@ -1624,8 +1625,8 @@
       else {
         if (s.status === 'ACTIVE') acts.push(cmdBtn('openstack server stop ' + r, 'stop'));
         if (s.status === 'SHUTOFF') acts.push(cmdBtn('openstack server start ' + r, 'start'));
-        if (s.status === 'ACTIVE' && !f) acts.push(free ? cmdBtn('openstack server add floating ip ' + r + ' ' + free.ip, 'pasang ' + free.ip) : cmdBtn('openstack floating ip create public', 'alokasi floating IP'));
-        if (f) acts.push(cmdBtn('openstack server remove floating ip ' + r + ' ' + f.ip, 'lepas FIP'));
+        if (s.status === 'ACTIVE' && !f) acts.push(free ? cmdBtn('openstack server add floating ip ' + r + ' ' + free.ip, tr('pasang ', 'attach ') + free.ip) : cmdBtn('openstack floating ip create public', tr('alokasi floating IP', 'allocate floating IP')));
+        if (f) acts.push(cmdBtn('openstack server remove floating ip ' + r + ' ' + f.ip, tr('lepas FIP', 'detach FIP')));
         if (s.status !== 'BUILD' && s.status !== 'ERROR') acts.push(cmdBtn('openstack console log show ' + r, 'log'));
         acts.push(cmdBtn('openstack server delete ' + r, 'hapus', 'os-del'));
       }
@@ -1634,7 +1635,7 @@
         '<div class="os-meta">' + s.flavor.name + ' · ' + s.image.name + (W.project === 'admin' && s.host ? ' · ' + s.host : '') + '</div>' +
         (s.fault ? '<div class="dk-log">' + esc(s.fault) + '</div>' : '') +
         '<div class="os-row"><small>IP</small>' + (ips || '<span class="os-none">-</span>') + '</div>' +
-        '<div class="os-row"><small>akses</small><span class="os-ip">' + (s.key ? '🔑 ' + esc(s.key) : 'tanpa keypair') + '</span>' + s.sgs.map(function (id) { return '<span class="os-ip is-sg">' + esc(sgName(id)) + '</span>'; }).join('') + '</div>' +
+        tr('<div class="os-row"><small>akses</small><span class="os-ip">', '<div class="os-row"><small>access</small><span class="os-ip">') + (s.key ? '🔑 ' + esc(s.key) : tr('tanpa keypair', 'no keypair')) + '</span>' + s.sgs.map(function (id) { return '<span class="os-ip is-sg">' + esc(sgName(id)) + '</span>'; }).join('') + '</div>' +
         (vols ? '<div class="os-row"><small>volume</small>' + vols + '</div>' : '') +
         (acts.length ? '<div class="sw-act">' + acts.join('') + '</div>' : '') + '</div>';
     }).join(''));
@@ -1649,9 +1650,9 @@
     setOpts($('os-fm-image'), W.images.map(function (i) { return [i.name, i.name]; }));
     setOpts($('os-fm-flavor'), FLAVORS.map(function (f) { return [f.name, f.name + ' (' + f.vcpu + ' vCPU, ' + (f.ram >= 1024 ? f.ram / 1024 + ' GB' : f.ram + ' MB') + ', ' + f.disk + ' GB)']; }));
     var nets = visibleNets();
-    var nopt = nets.filter(function (n) { return !n.ext; }).map(function (n) { return [n.name, n.name + (subnetsOf(n).length ? ' (' + subnetsOf(n)[0].cidr.str + ')' : ' (tanpa subnet)')]; });
+    var nopt = nets.filter(function (n) { return !n.ext; }).map(function (n) { return [n.name, n.name + (subnetsOf(n).length ? ' (' + subnetsOf(n)[0].cidr.str + ')' : tr(' (tanpa subnet)', ' (no subnet)'))]; });
     setOpts($('os-fm-net'), nopt.concat([['public', 'public (eksternal)']]));
-    setOpts($('os-fm-key'), [['', '(tanpa keypair)']].concat(mine(W.keys).map(function (k) { return [k.name, k.name]; })));
+    setOpts($('os-fm-key'), [['', tr('(tanpa keypair)', '(no keypair)')]].concat(mine(W.keys).map(function (k) { return [k.name, k.name]; })));
     setOpts($('os-fm-sg'), mine(W.sgs).map(function (g) { return [g.name, g.name]; }));
   }
   function renderTopo() {
@@ -1664,23 +1665,23 @@
     void pb;
     if (rts.length) {
       h += '<div class="os-rts">' + rts.map(function (r) {
-        return '<div class="os-rt' + (r.gw ? ' is-gw' : '') + '"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M8.5 12h7M13 9.5l2.5 2.5-2.5 2.5M12 4v3M12 17v3"/></svg><div><b>' + esc(r.name) + '</b><span>' + (r.gw ? 'gateway ' + r.gw.ip : 'belum ada gateway') + '</span><span>' + (r.ifs.length ? r.ifs.map(function (f) { var s = subById(f.sub); return (s ? esc(s.name) : '?') + ' ' + f.ip; }).join(', ') : 'belum ada interface') + '</span></div>' +
-          (!r.gw ? cmdBtn('openstack router set --external-gateway public ' + r.name, 'pasang gateway') : '') + '</div>';
+        return '<div class="os-rt' + (r.gw ? ' is-gw' : '') + '"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M8.5 12h7M13 9.5l2.5 2.5-2.5 2.5M12 4v3M12 17v3"/></svg><div><b>' + esc(r.name) + '</b><span>' + (r.gw ? 'gateway ' + r.gw.ip : tr('belum ada gateway', 'no gateway yet')) + '</span><span>' + (r.ifs.length ? r.ifs.map(function (f) { var s = subById(f.sub); return (s ? esc(s.name) : '?') + ' ' + f.ip; }).join(', ') : tr('belum ada interface', 'no interfaces yet')) + '</span></div>' +
+          (!r.gw ? cmdBtn('openstack router set --external-gateway public ' + r.name, tr('pasang gateway', 'set gateway')) : '') + '</div>';
       }).join('') + '</div>';
     }
-    if (!nets.length) h += '<p class="os-none">Project ' + p + ' belum punya network sendiri. ' + cmdBtn('openstack network create net-app', 'bikin net-app') + '</p>';
+    if (!nets.length) h += '<p class="os-none">Project ' + p + tr(' belum punya network sendiri. ', ' has no network of its own yet. ') + cmdBtn('openstack network create net-app', tr('bikin net-app', 'create net-app')) + '</p>';
     nets.forEach(function (n, i) {
       var subs = subnetsOf(n);
       var rt = subs.map(routerFor).filter(Boolean)[0];
       var anyRt = rts.filter(function (r) { return r.ifs.some(function (f) { return subs.some(function (s) { return s.id === f.sub; }); }); })[0];
       var vms = W.servers.filter(function (s) { return s.nics.some(function (x) { return x.net === n.id; }); });
-      h += '<div class="os-net" data-hue="' + 'abcd'[i % 4] + '"><div class="os-nh"><b>' + esc(n.name) + '</b><span>' + (subs.length ? subs.map(function (s) { return s.cidr.str; }).join(', ') : 'tanpa subnet') + '</span>' +
-        '<em data-s="' + (rt ? 'ok' : anyRt ? 'warn' : 'bad') + '">' + (rt ? 'ke internet via ' + esc(rt.name) : anyRt ? esc(anyRt.name) + ' tanpa gateway' : 'terisolasi') + '</em></div><div class="os-att">' +
+      h += '<div class="os-net" data-hue="' + 'abcd'[i % 4] + '"><div class="os-nh"><b>' + esc(n.name) + '</b><span>' + (subs.length ? subs.map(function (s) { return s.cidr.str; }).join(', ') : tr('tanpa subnet', 'no subnet')) + '</span>' +
+        '<em data-s="' + (rt ? 'ok' : anyRt ? 'warn' : 'bad') + '">' + (rt ? tr('ke internet via ', 'to the internet via ') + esc(rt.name) : anyRt ? esc(anyRt.name) + tr(' tanpa gateway', ' without a gateway') : tr('terisolasi', 'isolated')) + '</em></div><div class="os-att">' +
         vms.map(function (s) {
           var nic = s.nics.filter(function (x) { return x.net === n.id; })[0], f = fipOfPort(nic.port);
           return '<span class="os-tvm" data-s="' + (STATUS_S[s.status] || '') + '"><i class="os-dot" aria-hidden="true"></i><b>' + esc(s.name) + '</b> ' + nic.ip + (f ? ' <span class="os-fipt">⇄ ' + f.ip + '</span>' : '') + '</span>';
-        }).join('') + (vms.length ? '' : '<span class="os-none">belum ada server</span>') + '</div>' +
-        (!subs.length ? '<div class="sw-act">' + cmdBtn('openstack subnet create --network ' + n.name + ' --subnet-range 10.0.' + i + '.0/24 sub-' + n.name.replace(/^net-/, ''), 'tambah subnet') + '</div>' : !anyRt && rts.length ? '<div class="sw-act">' + cmdBtn('openstack router add subnet ' + rts[0].name + ' ' + subs[0].name, 'sambung ke ' + rts[0].name) + '</div>' : '') +
+        }).join('') + (vms.length ? '' : tr('<span class="os-none">belum ada server</span>', '<span class="os-none">no servers yet</span>')) + '</div>' +
+        (!subs.length ? '<div class="sw-act">' + cmdBtn('openstack subnet create --network ' + n.name + ' --subnet-range 10.0.' + i + '.0/24 sub-' + n.name.replace(/^net-/, ''), tr('tambah subnet', 'add subnet')) + '</div>' : !anyRt && rts.length ? '<div class="sw-act">' + cmdBtn('openstack router add subnet ' + rts[0].name + ' ' + subs[0].name, 'sambung ke ' + rts[0].name) + '</div>' : '') +
         '</div>';
     });
     setHTML($('os-topo'), h);
@@ -1688,18 +1689,18 @@
   function renderVols(vols) {
     var u = usage(W.project), q = W.quota[W.project];
     setText($('os-vol-sum'), vols.length + ' volume · ' + u.gigabytes + '/' + q.gigabytes + ' GB');
-    if (!vols.length) { setHTML($('os-vols'), '<p class="os-none">Belum ada volume. Volume Cinder itu disk tambahan yang bisa dicopot-pasang ke server mana pun di project ini.</p>'); return; }
+    if (!vols.length) { setHTML($('os-vols'), tr('<p class="os-none">Belum ada volume. Volume Cinder itu disk tambahan yang bisa dicopot-pasang ke server mana pun di project ini.</p>', '<p class="os-none">No volumes yet. A Cinder volume is an extra disk you can attach to and detach from any server in this project.</p>')); return; }
     var srv = myServers().filter(function (s) { return s.status === 'ACTIVE' || s.status === 'SHUTOFF'; });
     setHTML($('os-vols'), vols.map(function (v) {
       var s = srvById(v.server), acts = [];
       if (v.status === 'available') {
-        srv.slice(0, 3).forEach(function (x) { acts.push(cmdBtn('openstack server add volume ' + ref(x, W.servers) + ' ' + ref(v, W.vols), 'pasang ke ' + x.name)); });
+        srv.slice(0, 3).forEach(function (x) { acts.push(cmdBtn('openstack server add volume ' + ref(x, W.servers) + ' ' + ref(v, W.vols), tr('pasang ke ', 'attach to ') + x.name)); });
         acts.push(cmdBtn('openstack volume delete ' + ref(v, W.vols), 'hapus', 'os-del'));
       }
       if (v.status === 'in-use' && s) acts.push(cmdBtn('openstack server remove volume ' + ref(s, W.servers) + ' ' + ref(v, W.vols), 'lepas'));
       var st = v.status === 'in-use' ? 'ok' : v.status === 'available' ? 'warn' : 'info';
       return '<div class="os-vm" data-s="' + st + '"><div class="os-vh"><i class="os-dot" aria-hidden="true"></i><b>' + esc(v.name) + '</b><em>' + v.status + '</em></div>' +
-        '<div class="os-meta">' + v.size + ' GB · lvmdriver-1' + (s ? ' · di ' + esc(s.name) + ' sebagai ' + v.dev : '') + '</div>' +
+        '<div class="os-meta">' + v.size + ' GB · lvmdriver-1' + (s ? tr(' · di ', ' · on ') + esc(s.name) + tr(' sebagai ', ' as ') + v.dev : '') + '</div>' +
         (acts.length ? '<div class="sw-act">' + acts.join('') + '</div>' : '') + '</div>';
     }).join(''));
   }
@@ -1710,8 +1711,8 @@
     if (!b || b.disabled) return;
     var act = b.dataset.act;
     if (act === 'cmd') {
-      if (W.busy) toast('tunggu perintah sebelumnya selesai');
-      else if (W.ssh && b.closest('.os-dash')) toast('kamu lagi di dalam ' + ((srvById(W.ssh.srv) || {}).name || 'server') + '. Ketik exit dulu buat balik ke laptop.');
+      if (W.busy) toast(tr('tunggu perintah sebelumnya selesai', 'wait for the previous command to finish'));
+      else if (W.ssh && b.closest('.os-dash')) toast(tr('kamu lagi di dalam ', 'you\'re inside ') + ((srvById(W.ssh.srv) || {}).name || 'server') + tr('. Ketik exit dulu buat balik ke laptop.', '. Type exit first to go back to the laptop.'));
       else term.submit(b.dataset.cmd);
     }
     else if (act === 'tab') { W.tab = b.dataset.tab; render(); }
@@ -1729,7 +1730,7 @@
         $('os-fm-name').focus();
       }
     }
-    else if (act === 'vol-new' && W.ssh) toast('ketik exit dulu buat balik ke laptop');
+    else if (act === 'vol-new' && W.ssh) toast(tr('ketik exit dulu buat balik ke laptop', 'type exit first to go back to the laptop'));
     else if (act === 'vol-new') {
       var names2 = mine(W.vols).map(function (v) { return v.name; }), m = 1;
       while (names2.indexOf('data' + m) >= 0) m++;
@@ -1746,8 +1747,8 @@
   });
   $('os-form').addEventListener('submit', function (e) {
     e.preventDefault();
-    if (W.busy) { toast('tunggu perintah sebelumnya selesai'); return; }
-    if (W.ssh) { toast('ketik exit dulu buat balik ke laptop'); return; }
+    if (W.busy) { toast(tr('tunggu perintah sebelumnya selesai', 'wait for the previous command to finish')); return; }
+    if (W.ssh) { toast(tr('ketik exit dulu buat balik ke laptop', 'type exit first to go back to the laptop')); return; }
     var name = $('os-fm-name').value.trim().replace(/\s+/g, '-') || 'web1';
     var cmd = 'openstack server create --flavor ' + $('os-fm-flavor').value + ' --image ' + $('os-fm-image').value + ' --network ' + $('os-fm-net').value +
       ($('os-fm-key').value ? ' --key-name ' + $('os-fm-key').value : '') + ' --security-group ' + $('os-fm-sg').value + ' ' + name;
@@ -1762,8 +1763,8 @@
     M.reset();
     $('os-form').hidden = true;
     term.lines([
-      '<span class="sx-dim"># Cloud OpenStack bohongan: 1 controller, 2 compute node, network eksternal public (' + PUB_CIDR + '). Ada dua project: demo dan admin.</span>',
-      '<span class="sx-dim"># Ini terminal laptop kamu. Mulai dengan </span><b>source demo-openrc</b><span class="sx-dim">. Ketik </span><b>help</b><span class="sx-dim"> buat daftar perintah.</span>'
+      tr('<span class="sx-dim"># Cloud OpenStack bohongan: 1 controller, 2 compute node, network eksternal public (', '<span class="sx-dim"># A pretend OpenStack cloud: 1 controller, 2 compute nodes, external network public (') + PUB_CIDR + tr('). Ada dua project: demo dan admin.</span>', '). There are two projects: demo and admin.</span>'),
+      tr('<span class="sx-dim"># Ini terminal laptop kamu. Mulai dengan </span><b>source demo-openrc</b><span class="sx-dim">. Ketik </span><b>help</b><span class="sx-dim"> buat daftar perintah.</span>', '<span class="sx-dim"># This is your laptop\'s terminal. Start with </span><b>source demo-openrc</b><span class="sx-dim">. Type </span><b>help</b><span class="sx-dim"> for the command list.</span>')
     ]);
     render();
   }

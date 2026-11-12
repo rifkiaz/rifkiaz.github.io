@@ -1,35 +1,42 @@
 # Lab hub (/lab/) and the "Lab" dropdown in the top menu are both built from
 # this file. An entry only shows once a page with that url exists, so labs
 # that are still being built can be listed ahead of time.
+# name_en / desc_en are used on the English site (/en/lab/).
 groups:
   - id: simulasi
     name: Simulasi
+    name_en: Simulators
     desc: Coba tool DevOps langsung di browser, tanpa server dan tanpa akun cloud.
+    desc_en: Try DevOps tools right in your browser, no server and no cloud account needed.
     items:
-      - { url: /git/, name: Git, icon: git, desc: "Init, add, commit, branch, merge sampai konflik, push dan pull bareng teman, lalu stash, reset, reflog, dan rebase." }
-      - { url: /docker/, name: Docker, icon: docker, desc: "Build image, jalankan container, dan atur network serta volume." }
-      - { url: /swarm/, name: Docker Swarm, icon: swarm, desc: "Bikin cluster Swarm, deploy service, scale, dan lihat failover." }
-      - { url: /ceph/, name: Ceph, icon: ceph, desc: "Simulasi cluster storage Ceph: OSD, pool, replikasi, dan recovery." }
-      - { url: /openstack/, name: OpenStack, icon: openstack, desc: "Private cloud mini: network, router, security group, server, floating IP, dan volume." }
-      - { url: /vault/, name: Vault, icon: vault, desc: "Init dan unseal, simpan secret, tulis policy, AppRole, kredensial database dinamis, dan transit." }
-      - { url: /terraform/, name: Terraform, icon: terraform, desc: "Tulis main.tf, lalu init, plan, apply, dan destroy ke akun AWS bohongan." }
-      - { url: /ansible/, name: Ansible, icon: ansible, desc: "Jalankan playbook ke lima server lab dan lihat hasil per host." }
-      - { url: /gitops/, name: GitOps, icon: gitops, desc: "Commit manifest, lalu lihat Argo CD sync, self-heal, dan rollback." }
+      - { url: /git/, name: Git, icon: git, desc: "Init, add, commit, branch, merge sampai konflik, push dan pull bareng teman, lalu stash, reset, reflog, dan rebase.", desc_en: "Init, add, commit, branch, merge all the way to conflicts, push and pull with a teammate, then stash, reset, reflog, and rebase." }
+      - { url: /docker/, name: Docker, icon: docker, desc: "Build image, jalankan container, dan atur network serta volume.", desc_en: "Build images, run containers, and manage networks and volumes." }
+      - { url: /swarm/, name: Docker Swarm, icon: swarm, desc: "Bikin cluster Swarm, deploy service, scale, dan lihat failover.", desc_en: "Create a Swarm cluster, deploy services, scale them, and watch failover." }
+      - { url: /ceph/, name: Ceph, icon: ceph, desc: "Simulasi cluster storage Ceph: OSD, pool, replikasi, dan recovery.", desc_en: "A simulated Ceph storage cluster: OSDs, pools, replication, and recovery." }
+      - { url: /openstack/, name: OpenStack, icon: openstack, desc: "Private cloud mini: network, router, security group, server, floating IP, dan volume.", desc_en: "A mini private cloud: networks, routers, security groups, servers, floating IPs, and volumes." }
+      - { url: /vault/, name: Vault, icon: vault, desc: "Init dan unseal, simpan secret, tulis policy, AppRole, kredensial database dinamis, dan transit.", desc_en: "Init and unseal, store secrets, write policies, AppRole, dynamic database credentials, and transit." }
+      - { url: /terraform/, name: Terraform, icon: terraform, desc: "Tulis main.tf, lalu init, plan, apply, dan destroy ke akun AWS bohongan.", desc_en: "Write main.tf, then init, plan, apply, and destroy against a pretend AWS account." }
+      - { url: /ansible/, name: Ansible, icon: ansible, desc: "Jalankan playbook ke lima server lab dan lihat hasil per host.", desc_en: "Run playbooks against five lab servers and see the result per host." }
+      - { url: /gitops/, name: GitOps, icon: gitops, desc: "Commit manifest, lalu lihat Argo CD sync, self-heal, dan rollback.", desc_en: "Commit manifests, then watch Argo CD sync, self-heal, and roll back." }
   - id: tools
     name: Tools
     desc: Alat bantu kecil buat kerjaan sehari-hari.
+    desc_en: Small helpers for everyday work.
     items:
-      - { url: /topologi/, name: Topologi, icon: topologi, desc: "Susun diagram infra AWS, GCP, dan Kubernetes, lalu ekspor gambarnya." }
-      - { url: /kalkulator/, name: Kalkulator Cloud, icon: kalkulator, desc: "Bandingkan estimasi biaya bulanan AWS dan GCP berdampingan." }
+      - { url: /topologi/, name: Topologi, name_en: Topology, icon: topologi, desc: "Susun diagram infra AWS, GCP, dan Kubernetes, lalu ekspor gambarnya.", desc_en: "Lay out AWS, GCP, and Kubernetes infrastructure diagrams, then export the image." }
+      - { url: /kalkulator/, name: Kalkulator Cloud, name_en: Cloud Calculator, icon: kalkulator, desc: "Bandingkan estimasi biaya bulanan AWS dan GCP berdampingan.", desc_en: "Compare estimated monthly AWS and GCP costs side by side." }
   - id: party
     name: Game Party
+    name_en: Party Games
     desc: Game rame-rame pakai satu HP yang dioper keliling. Daftar pemain dan progres disimpan di browser kamu, jadi aman kalau halaman ke-refresh.
+    desc_en: Group games on one phone passed around the table. Players and progress are saved in your browser, so a page refresh won't lose anything.
     items:
-      - { url: /werewolf/, name: Werewolf, icon: werewolf, desc: "Siapa serigalanya? Malam memangsa, siang voting. Bisa pakai moderator atau HP dioper." }
-      - { url: /mata-mata/, name: Mata-mata, icon: mata-mata, desc: "Semua tahu tempatnya kecuali mata-mata. Tanya jawab, lalu tangkap dia." }
-      - { url: /kata-rahasia/, name: Kata Rahasia, icon: kata-rahasia, desc: "Kata kamu sama dengan yang lain, atau justru kamu penyusupnya?" }
+      - { url: /werewolf/, name: Werewolf, icon: werewolf, desc: "Siapa serigalanya? Malam memangsa, siang voting. Bisa pakai moderator atau HP dioper.", desc_en: "Who's the werewolf? They hunt at night, everyone votes by day. Play with a moderator or pass the phone." }
+      - { url: /mata-mata/, name: Mata-mata, name_en: Spy, icon: mata-mata, desc: "Semua tahu tempatnya kecuali mata-mata. Tanya jawab, lalu tangkap dia.", desc_en: "Everyone knows the location except the spy. Ask questions, then catch them." }
+      - { url: /kata-rahasia/, name: Kata Rahasia, name_en: Secret Word, icon: kata-rahasia, desc: "Kata kamu sama dengan yang lain, atau justru kamu penyusupnya?", desc_en: "Is your word the same as everyone else's, or are you the infiltrator?" }
   - id: fun
     name: Fun
     desc: Buat iseng.
+    desc_en: Just for fun.
     items:
-      - { url: /terminal/, name: Terminal, icon: terminal, desc: "Terminal mini: jelajahi tulisan pakai ls dan cat, atau main game." }
+      - { url: /terminal/, name: Terminal, icon: terminal, desc: "Terminal mini: jelajahi tulisan pakai ls dan cat, atau main game.", desc_en: "A mini terminal: browse posts with ls and cat, or play games." }

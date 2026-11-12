@@ -1,6 +1,9 @@
 (function () {
   'use strict';
 
+  var EN = (document.documentElement.lang || '').slice(0, 2) === 'en';
+  function tr(id, en) { return EN ? en : id; }
+
   var dataEl = document.getElementById('term-data');
   var screen = document.getElementById('term-screen');
   var out = document.getElementById('term-out');
@@ -29,7 +32,7 @@
   var root = { posts: dir(entries(D.posts)), cheatsheet: dir(entries(D.cheatsheet)), stack: dir(stackDir) };
   (D.pages || []).forEach(function (p) { root[p.name + '.md'] = file(p); });
   root['README.txt'] = file({ readme: true });
-  root['.rahasia'] = file({ secret: true });
+  root[tr('.rahasia', '.secret')] = file({ secret: true });
   var FS = dir(root);
 
   var cwd = [];
@@ -128,10 +131,10 @@
     ['etcd', 2379], ['Telnet', 23], ['NTP', 123], ['LDAP', 389], ['RabbitMQ (AMQP)', 5672]
   ];
   var HTTP_CODES = [
-    ['OK', 200], ['Created', 201], ['No Content', 204], ['Moved Permanently', 301], ['Found (redirect sementara)', 302],
+    ['OK', 200], ['Created', 201], ['No Content', 204], ['Moved Permanently', 301], [tr('Found (redirect sementara)', 'Found (temporary redirect)'), 302],
     ['Not Modified', 304], ['Bad Request', 400], ['Unauthorized', 401], ['Forbidden', 403], ['Not Found', 404],
     ['Method Not Allowed', 405], ['Conflict', 409], ['Too Many Requests', 429], ['Internal Server Error', 500],
-    ["Bad Gateway (nginx-nya nyerah)", 502], ['Service Unavailable', 503], ['Gateway Timeout', 504], ["I'm a teapot ☕", 418]
+    [tr('Bad Gateway (nginx-nya nyerah)', 'Bad Gateway (nginx gave up)'), 502], ['Service Unavailable', 503], ['Gateway Timeout', 504], ["I'm a teapot ☕", 418]
   ];
   // [deskripsi, jawaban yang diterima...]
   var CMDS = [
@@ -162,6 +165,7 @@
     ['Buat folder baru', 'mkdir'],
     ['Cari file berdasarkan nama', 'find', 'locate', 'fd']
   ];
+  if (EN) ['List folder contents', 'Move to another folder', 'Show the folder you are in right now', 'See running processes', 'Check free disk space per partition', 'Check the size of a folder', 'Check RAM usage', 'Search for text inside files', 'Change file permissions', 'Change file owner', 'Stop a process by PID', 'Watch a log live', 'Restart a systemd service', 'Read logs from systemd', 'Copy files to another server over SSH', 'Check connectivity to a host with ICMP packets', 'See listening ports', 'Check a domain\'s DNS records', 'Extract a .tar.gz file', 'Run a command as root', 'Install a package on openSUSE', 'See running Docker containers', 'See git commit history', 'How long the server has been up', 'Create a new folder', 'Find files by name'].forEach(function (t, i) { CMDS[i][0] = t; });
   var TYPING = [
     'sudo zypper dup',
     'git commit -m "fix typo"',
@@ -178,12 +182,15 @@
   ];
 
   var GAMES = {
-    port: { title: 'Tebak Port', desc: 'tebak port default service', start: function () { return quizNumber('Tebak Port', 'port?>', PORTS, 'Port default', 'jaringan'); } },
-    http: { title: 'Tebak Kode HTTP', desc: 'tebak status code HTTP', start: function () { return quizNumber('Tebak Kode HTTP', 'http?>', HTTP_CODES, 'Kode HTTP untuk', null); } },
-    cmd: { title: 'Tebak Perintah', desc: 'tebak perintah Linux dari deskripsinya', start: startCmd },
-    angka: { title: 'Tebak Angka', desc: 'tebak angka 1 sampai 100', start: startAngka },
-    ketik: { title: 'Adu Cepat Ngetik', desc: 'ketik perintah secepat mungkin', start: startKetik }
+    port: { title: tr('Tebak Port', 'Guess the Port'), desc: tr('tebak port default service', 'guess a service\'s default port'), start: function () { return quizNumber(tr('Tebak Port', 'Guess the Port'), 'port?>', PORTS, tr('Port default', 'Default port for'), tr('jaringan', 'networking')); } },
+    http: { title: tr('Tebak Kode HTTP', 'Guess the HTTP Code'), desc: tr('tebak status code HTTP', 'guess the HTTP status code'), start: function () { return quizNumber(tr('Tebak Kode HTTP', 'Guess the HTTP Code'), 'http?>', HTTP_CODES, tr('Kode HTTP untuk', 'HTTP code for'), null); } },
+    cmd: { title: tr('Tebak Perintah', 'Guess the Command'), desc: tr('tebak perintah Linux dari deskripsinya', 'guess the Linux command from its description'), start: startCmd },
+    angka: { title: tr('Tebak Angka', 'Guess the Number'), desc: tr('tebak angka 1 sampai 100', 'guess a number from 1 to 100'), start: startAngka },
+    ketik: { title: tr('Adu Cepat Ngetik', 'Typing Race'), desc: tr('ketik perintah secepat mungkin', 'type commands as fast as you can'), start: startKetik }
   };
+  // English names for the Indonesian game keys (both work everywhere)
+  var GAME_ALIAS = { number: 'angka', typing: 'ketik', acak: 'random' };
+  function gameKey(k) { return EN ? ({ angka: 'number', ketik: 'typing' }[k] || k) : k; }
 
   var game = null;
   var best = {};
@@ -222,22 +229,22 @@
   }
 
   function gameMenu() {
-    line('🎮 Pilih game:');
+    line(tr('🎮 Pilih game:', '🎮 Pick a game:'));
     Object.keys(GAMES).forEach(function (k) {
-      line(frag(cmdButton('game ' + k), ' '.repeat(12 - ('game ' + k).length) + GAMES[k].desc));
+      line(frag(cmdButton('game ' + gameKey(k)), ' '.repeat(Math.max(1, 13 - ('game ' + gameKey(k)).length)) + GAMES[k].desc));
     });
-    line('Di HP tinggal tap nama game-nya. Ketik "q" kapan saja buat keluar dari game.', 'term-dim');
-    line(frag('Mau yang lebih teknis? Coba ', cmdButton('quiz'), ' untuk kuis Terraform, Ansible, dan Kubernetes.'), 'term-dim');
+    line(tr('Di HP tinggal tap nama game-nya. Ketik "q" kapan saja buat keluar dari game.', 'On a phone, just tap the game name. Type "q" any time to leave a game.'), 'term-dim');
+    line(frag(tr('Mau yang lebih teknis? Coba ', 'Want something more technical? Try '), cmdButton('quiz'), tr(' untuk kuis Terraform, Ansible, dan Kubernetes.', ' for Terraform, Ansible, and Kubernetes quizzes.')), 'term-dim');
   }
 
   function scoreLine(s, n, key) {
     var rec = saveBest(key, s, false);
-    var verdict = s === n ? 'Sempurna! Kamu layak pegang pager on-call. 🏆'
-      : s >= n * 0.6 ? 'Mantap, dikit lagi jadi kamus berjalan.'
-      : s >= 1 ? 'Lumayan. Coba lagi biar makin hafal.'
-      : 'Nggak apa-apa, semua orang pernah lupa. Coba lagi ya.';
-    line(frag('Skor kamu: ', span(s + '/' + n, 'term-hl'), '. ' + verdict + (rec ? ' Rekor baru! 🎉' : '')));
-    if (best[key] !== undefined) line('Rekor terbaik kamu: ' + best[key] + '/' + n, 'term-dim');
+    var verdict = s === n ? tr('Sempurna! Kamu layak pegang pager on-call. 🏆', 'Perfect! You\'re ready to carry the on-call pager. 🏆')
+      : s >= n * 0.6 ? tr('Mantap, dikit lagi jadi kamus berjalan.', 'Nice, you\'re almost a walking reference.')
+      : s >= 1 ? tr('Lumayan. Coba lagi biar makin hafal.', 'Not bad. Try again to lock it in.')
+      : tr('Nggak apa-apa, semua orang pernah lupa. Coba lagi ya.', 'No worries, everyone forgets. Give it another go.');
+    line(frag(tr('Skor kamu: ', 'Your score: '), span(s + '/' + n, 'term-hl'), '. ' + verdict + (rec ? tr(' Rekor baru! 🎉', ' New record! 🎉') : '')));
+    if (best[key] !== undefined) line(tr('Rekor terbaik kamu: ', 'Your best: ') + best[key] + '/' + n, 'term-dim');
   }
 
   // quiz with numeric answers: 5 questions, 2 tries, higher/lower hint
@@ -245,28 +252,28 @@
     var qs = shuffle(bank).slice(0, 5);
     var i = 0, score = 0, tries = 0;
     function ask() {
-      line(frag(span('[' + (i + 1) + '/' + qs.length + '] ', 'term-dim'), label + ' ', span(qs[i][0], 'term-hl'), ' berapa?'));
+      line(frag(span('[' + (i + 1) + '/' + qs.length + '] ', 'term-dim'), label + ' ', span(qs[i][0], 'term-hl'), tr(' berapa?', ' is?')));
     }
     function next() {
       i++; tries = 0;
       if (i < qs.length) return ask();
       scoreLine(score, qs.length, prompt.replace('?>', ''));
-      if (score < 3 && sheet) line('Contekan: cat cheatsheet/' + sheet, 'term-dim');
+      if (score < 3 && sheet) line(tr('Contekan: cat cheatsheet/', 'Cheat sheet: cat cheatsheet/') + sheet, 'term-dim');
       stopGame();
     }
-    line(frag(span('🎮 ' + title, 'term-hl'), ': 5 soal, tiap soal dapat 2 kesempatan.'));
-    line('Ketik angkanya, "skip" untuk lewati, atau "q" untuk keluar.', 'term-dim');
+    line(frag(span('🎮 ' + title, 'term-hl'), tr(': 5 soal, tiap soal dapat 2 kesempatan.', ': 5 questions, 2 tries each.')));
+    line(tr('Ketik angkanya, "skip" untuk lewati, atau "q" untuk keluar.', 'Type the number, "skip" to pass, or "q" to quit.'), 'term-dim');
     ask();
     return {
       prompt: prompt,
       input: function (v) {
         var a = qs[i][1];
-        if (v === 'skip') { line(frag('Jawabannya ', span(String(a), 'term-hl'), '.'), 'term-dim'); return next(); }
-        if (!/^\d+$/.test(v)) return err('Masukkan angka ya, atau "skip" / "q".');
+        if (v === 'skip') { line(frag(tr('Jawabannya ', 'The answer is '), span(String(a), 'term-hl'), '.'), 'term-dim'); return next(); }
+        if (!/^\d+$/.test(v)) return err(tr('Masukkan angka ya, atau "skip" / "q".', 'Enter a number, or "skip" / "q".'));
         var n = parseInt(v, 10);
-        if (n === a) { score++; line('✔ Benar!', 'term-ok'); return next(); }
-        if (tries++ === 0) return err('✘ Belum tepat. Petunjuk: ' + (n < a ? 'lebih besar' : 'lebih kecil') + '. Sekali lagi.');
-        err('✘ Salah. Jawabannya ' + a + '.');
+        if (n === a) { score++; line(tr('✔ Benar!', '✔ Correct!'), 'term-ok'); return next(); }
+        if (tries++ === 0) return err(tr('✘ Belum tepat. Petunjuk: ', '✘ Not quite. Hint: ') + (n < a ? tr('lebih besar', 'higher') : tr('lebih kecil', 'lower')) + tr('. Sekali lagi.', '. One more try.'));
+        err(tr('✘ Salah. Jawabannya ', '✘ Wrong. The answer is ') + a + '.');
         next();
       }
     };
@@ -276,31 +283,31 @@
     var qs = shuffle(CMDS).slice(0, 5);
     var i = 0, score = 0, tries = 0;
     function ask() {
-      line(frag(span('[' + (i + 1) + '/' + qs.length + '] ', 'term-dim'), span(qs[i][0], 'term-hl'), '. Perintahnya apa?'));
+      line(frag(span('[' + (i + 1) + '/' + qs.length + '] ', 'term-dim'), span(qs[i][0], 'term-hl'), tr('. Perintahnya apa?', '. What\'s the command?')));
     }
     function next() {
       i++; tries = 0;
       if (i < qs.length) return ask();
       scoreLine(score, qs.length, 'cmd');
-      if (score < 3) line('Contekan: cat cheatsheet/perintah-dasar', 'term-dim');
+      if (score < 3) line(tr('Contekan: cat cheatsheet/perintah-dasar', 'Cheat sheet: cat cheatsheet/basic-commands'), 'term-dim');
       stopGame();
     }
-    line(frag(span('🎮 Tebak Perintah', 'term-hl'), ': 5 soal, cukup ketik nama perintahnya.'));
-    line('"skip" untuk lewati, "q" untuk keluar.', 'term-dim');
+    line(frag(span(tr('🎮 Tebak Perintah', '🎮 Guess the Command'), 'term-hl'), tr(': 5 soal, cukup ketik nama perintahnya.', ': 5 questions, just type the command name.')));
+    line(tr('"skip" untuk lewati, "q" untuk keluar.', '"skip" to pass, "q" to quit.'), 'term-dim');
     ask();
     return {
       prompt: 'cmd?>',
       input: function (v) {
         var ans = qs[i].slice(1);
-        if (v === 'skip') { line(frag('Jawabannya ', span(ans.join(' / '), 'term-hl'), '.'), 'term-dim'); return next(); }
+        if (v === 'skip') { line(frag(tr('Jawabannya ', 'The answer is '), span(ans.join(' / '), 'term-hl'), '.'), 'term-dim'); return next(); }
         var word = v.replace(/^sudo\s+(?=\S)/, '').split(/\s+/)[0];
         if (ans.indexOf(word) !== -1) {
           score++;
-          line('✔ Benar!' + (ans.length > 1 ? ' Bisa juga: ' + ans.filter(function (x) { return x !== word; }).join(', ') : ''), 'term-ok');
+          line(tr('✔ Benar!', '✔ Correct!') + (ans.length > 1 ? tr(' Bisa juga: ', ' Also accepted: ') + ans.filter(function (x) { return x !== word; }).join(', ') : ''), 'term-ok');
           return next();
         }
-        if (tries++ === 0) return err('✘ Belum tepat. Petunjuk: diawali huruf "' + ans[0].charAt(0) + '" dan panjangnya ' + ans[0].length + ' huruf.');
-        err('✘ Salah. Jawabannya ' + ans.join(' / ') + '.');
+        if (tries++ === 0) return err(tr('✘ Belum tepat. Petunjuk: diawali huruf "', '✘ Not quite. Hint: it starts with "') + ans[0].charAt(0) + tr('" dan panjangnya ', '" and is ') + ans[0].length + tr(' huruf.', ' letters long.'));
+        err(tr('✘ Salah. Jawabannya ', '✘ Wrong. The answer is ') + ans.join(' / ') + '.');
         next();
       }
     };
@@ -309,22 +316,22 @@
   function startAngka() {
     var target = 1 + Math.floor(Math.random() * 100);
     var tries = 0, max = 7;
-    line(frag(span('🎮 Tebak Angka', 'term-hl'), ': saya pilih angka 1 sampai 100. Kamu punya ' + max + ' kesempatan.'));
-    line('Ketik "q" untuk keluar.', 'term-dim');
+    line(frag(span(tr('🎮 Tebak Angka', '🎮 Guess the Number'), 'term-hl'), tr(': saya pilih angka 1 sampai 100. Kamu punya ', ': I picked a number from 1 to 100. You get ') + max + tr(' kesempatan.', ' tries.')));
+    line(tr('Ketik "q" untuk keluar.', 'Type "q" to quit.'), 'term-dim');
     return {
-      prompt: 'angka?>',
+      prompt: tr('angka?>', 'number?>'),
       input: function (v) {
-        if (!/^\d+$/.test(v)) return err('Masukkan angka 1 sampai 100 ya.');
+        if (!/^\d+$/.test(v)) return err(tr('Masukkan angka 1 sampai 100 ya.', 'Enter a number from 1 to 100.'));
         var n = parseInt(v, 10);
         tries++;
         if (n === target) {
           var rec = saveBest('angka', tries, true);
-          line('✔ Tepat! Angkanya ' + target + ', ketemu dalam ' + tries + ' tebakan.' + (rec ? ' Rekor baru! 🎉' : ''), 'term-ok');
-          line('Rekor terbaik kamu: ' + best.angka + ' tebakan. Main lagi: game angka', 'term-dim');
+          line(tr('✔ Tepat! Angkanya ', '✔ Got it! The number was ') + target + tr(', ketemu dalam ', ', found in ') + tries + tr(' tebakan.', ' guesses.') + (rec ? tr(' Rekor baru! 🎉', ' New record! 🎉') : ''), 'term-ok');
+          line(tr('Rekor terbaik kamu: ', 'Your best: ') + best.angka + tr(' tebakan. Main lagi: game angka', ' guesses. Play again: game number'), 'term-dim');
           return stopGame();
         }
-        if (tries >= max) { err('✘ Kesempatan habis. Angkanya ' + target + '. Binary search bisa bantu lho. 😉'); return stopGame(); }
-        err('✘ ' + (n < target ? 'Terlalu kecil' : 'Terlalu besar') + '. Sisa ' + (max - tries) + ' kesempatan.');
+        if (tries >= max) { err(tr('✘ Kesempatan habis. Angkanya ', '✘ Out of tries. The number was ') + target + tr('. Binary search bisa bantu lho. 😉', '. Binary search helps, you know. 😉')); return stopGame(); }
+        err('✘ ' + (n < target ? tr('Terlalu kecil', 'Too low') : tr('Terlalu besar', 'Too high')) + tr('. Sisa ', '. ') + (max - tries) + tr(' kesempatan.', ' tries left.'));
       }
     };
   }
@@ -333,26 +340,26 @@
     var qs = shuffle(TYPING).slice(0, 3);
     var i = 0, t0 = 0, total = 0, chars = 0, miss = 0;
     function ask() {
-      line(frag(span('[' + (i + 1) + '/' + qs.length + '] ', 'term-dim'), 'Ketik: ', span(qs[i], 'term-hl')));
+      line(frag(span('[' + (i + 1) + '/' + qs.length + '] ', 'term-dim'), tr('Ketik: ', 'Type: '), span(qs[i], 'term-hl')));
       t0 = Date.now();
     }
-    line(frag(span('🎮 Adu Cepat Ngetik', 'term-hl'), ': ketik 3 perintah persis sama, secepat mungkin.'));
-    line('Waktu mulai jalan begitu perintahnya muncul. "q" untuk keluar.', 'term-dim');
+    line(frag(span(tr('🎮 Adu Cepat Ngetik', '🎮 Typing Race'), 'term-hl'), tr(': ketik 3 perintah persis sama, secepat mungkin.', ': type 3 commands exactly, as fast as you can.')));
+    line(tr('Waktu mulai jalan begitu perintahnya muncul. "q" untuk keluar.', 'The clock starts as soon as the command appears. "q" to quit.'), 'term-dim');
     ask();
     return {
-      prompt: 'ketik?>',
+      prompt: tr('ketik?>', 'typing?>'),
       raw: true,
       input: function (v) {
-        if (v.trim() !== qs[i]) { miss++; return err('✘ Belum sama persis, coba lagi.'); }
+        if (v.trim() !== qs[i]) { miss++; return err(tr('✘ Belum sama persis, coba lagi.', '✘ Not an exact match, try again.')); }
         var dt = (Date.now() - t0) / 1000;
         total += dt; chars += qs[i].length;
-        line('✔ ' + dt.toFixed(1) + ' detik', 'term-ok');
+        line('✔ ' + dt.toFixed(1) + tr(' detik', ' s'), 'term-ok');
         if (++i < qs.length) return ask();
         var cpm = Math.round(chars / total * 60);
         var rec = saveBest('ketik', Math.round(total * 10) / 10, true);
-        line(frag('Total ', span(total.toFixed(1) + ' detik', 'term-hl'), ', sekitar ' + cpm + ' karakter/menit' + (miss ? ', salah ' + miss + 'x' : ', tanpa salah') + '.' + (rec ? ' Rekor baru! 🎉' : '')));
-        line(cpm > 250 ? 'Jari kamu jago banget. Pasti biasa hidup di terminal. ⚡' : cpm > 150 ? 'Cepat juga! Tinggal latihan dikit lagi.' : 'Santai aja, yang penting perintahnya benar. 😄');
-        line('Rekor terbaik kamu: ' + best.ketik + ' detik', 'term-dim');
+        line(frag('Total ', span(total.toFixed(1) + tr(' detik', ' s'), 'term-hl'), tr(', sekitar ', ', about ') + cpm + tr(' karakter/menit', ' chars/min') + (miss ? tr(', salah ', ', ') + miss + 'x' : tr(', tanpa salah', ', no mistakes')) + '.' + (rec ? tr(' Rekor baru! 🎉', ' New record! 🎉') : '')));
+        line(cpm > 250 ? tr('Jari kamu jago banget. Pasti biasa hidup di terminal. ⚡', 'Those fingers are fast. You must live in a terminal. ⚡') : cpm > 150 ? tr('Cepat juga! Tinggal latihan dikit lagi.', 'Pretty quick! A bit more practice and you\'re there.') : tr('Santai aja, yang penting perintahnya benar. 😄', 'No rush, getting the command right is what counts. 😄'));
+        line(tr('Rekor terbaik kamu: ', 'Your best: ') + best.ketik + tr(' detik', ' s'), 'term-dim');
         stopGame();
       }
     };
@@ -361,15 +368,16 @@
   function gameStart(args) {
     var k = (args[0] || '').toLowerCase();
     if (!k) return gameMenu();
-    if (k === 'random' || k === 'acak') { var ks = Object.keys(GAMES); k = ks[Math.floor(Math.random() * ks.length)]; }
-    if (!GAMES[k]) { err('game: "' + k + '" nggak ada.'); return gameMenu(); }
+    k = GAME_ALIAS[k] || k;
+    if (k === 'random') { var ks = Object.keys(GAMES); k = ks[Math.floor(Math.random() * ks.length)]; }
+    if (!GAMES[k]) { err('game: "' + k + tr(tr('" nggak ada.', '" doesn\'t exist.'), '" doesn\'t exist.')); return gameMenu(); }
     game = GAMES[k].start();
     setPrompt(game.prompt);
   }
 
   function gameInput(raw) {
     var v = raw.trim().toLowerCase();
-    if (v === 'q' || v === 'quit' || v === 'exit') return stopGame('Game dihentikan.');
+    if (v === 'q' || v === 'quit' || v === 'exit') return stopGame(tr('Game dihentikan.', 'Game stopped.'));
     if (!v) return;
     game.input(game.raw || game.keepCase ? raw : v);
   }
@@ -499,6 +507,73 @@
       ]
     }
   };
+  if (EN) {
+    var QUIZ_EN = {
+      terraform: ['You\'re in a Terraform project folder with main.tf and variables.tf.', [
+        ['The project folder was just cloned. Set up the backend and download the providers.', 'the first step before any plan/apply'],
+        ['See what would change, without changing anything.', 'a 4-letter subcommand starting with "p"'],
+        ['Save the plan to a file called tfplan, so what gets applied later is exactly the same.', 'use the -out option'],
+        ['Apply changes in a CI pipeline, without the "yes" confirmation prompt.', 'apply with the auto-... option'],
+        ['Format every .tf file, including the ones in the modules/ subfolder.', 'fmt plus an option to go into subfolders'],
+        ['Check whether the configuration is syntactically valid.', 'the subcommand looks like the word "validate"'],
+        ['List every resource recorded in the state.', 'state + the subcommand that lists'],
+        ['See every attribute of aws_instance.web in the state.', 'state + the subcommand that shows details'],
+        ['You renamed aws_instance.web to aws_instance.app in the code. Move it in the state too so it isn\'t recreated.', 'state + the subcommand that looks like mv in Linux'],
+        ['The S3 bucket my-logs was created by hand in the console. Bring it into the state as aws_s3_bucket.logs.', 'import <resource address> <id>'],
+        ['Force aws_instance.web to be recreated on apply (taint is deprecated).', 'apply with the -replace= option'],
+        ['Plan only module.vpc.', 'the -target= option'],
+        ['Upgrade providers to the newest version that still fits the version constraint.', 'init with an extra option'],
+        ['Create a new workspace called staging (and switch to it).', 'workspace + the subcommand that creates'],
+        ['Get the db_endpoint output value from the state.', 'the subcommand has the same name as the block in the code'],
+        ['Delete every resource this project manages.', 'the opposite of apply']
+      ]],
+      ansible: ['There\'s an inventory hosts.ini (groups webservers and db) and a playbook site.yml.', [
+        ['Check that every host in hosts.ini is reachable by Ansible.', 'ad-hoc against "all" with the ping module'],
+        ['Run the site.yml playbook with the hosts.ini inventory.', 'ansible-playbook -i <inventory> <playbook>'],
+        ['Dry-run site.yml (inventory hosts.ini) while showing a diff of file changes.', 'two options: --check and --diff'],
+        ['Run site.yml (inventory hosts.ini) only against the webservers group.', 'the --limit or -l option'],
+        ['Run site.yml (inventory hosts.ini) only for tasks tagged nginx.', 'the --tags or -t option'],
+        ['Run site.yml (inventory hosts.ini) with the variable env=prod from the command line.', 'the -e or --extra-vars option'],
+        ['Run site.yml (inventory hosts.ini), but ask for the sudo password first.', 'the --ask-become-pass option (capital K)'],
+        ['Check the syntax of site.yml without running anything.', 'the --syntax-... option'],
+        ['Show the groups and hosts in hosts.ini as a tree.', 'ansible-inventory with the --graph option'],
+        ['Check the uptime of every host in the db group (inventory hosts.ini) with an ad-hoc command.', 'ansible <group> -a "<command>"'],
+        ['See all facts for host web1 (inventory hosts.ini).', 'the module used by gather_facts'],
+        ['Restart nginx on the webservers group (inventory hosts.ini) ad-hoc, with sudo.', '-m service -a "name=... state=..." plus -b'],
+        ['Encrypt group_vars/all/vault.yml, which holds passwords.', 'ansible-vault + the subcommand that encrypts'],
+        ['Edit secrets.yml, which is already vault-encrypted.', 'ansible-vault + the subcommand that edits'],
+        ['Install every role listed in requirements.yml.', 'ansible-galaxy install -r ...'],
+        ['Read the copy module docs right from the terminal.', 'ansible-doc <module name>']
+      ]],
+      kubernetes: ['kubectl is already connected to the cluster. The alias "k" for kubectl works too.', [
+        ['List every pod in every namespace.', 'get pods plus the -A option'],
+        ['List pods in the monitoring namespace only.', 'the -n <namespace> option'],
+        ['Pod web-7d9f is stuck in Pending. Show its details and events.', 'the subcommand is the English verb for "explain"'],
+        ['Follow the logs of pod api-5c8b live.', 'logs plus the -f option'],
+        ['Pod api-5c8b is in CrashLoopBackOff. Show the logs from the container before it crashed.', 'logs plus the --previous option'],
+        ['Open a shell inside pod web-7d9f.', 'exec -it <pod> -- sh'],
+        ['Apply the deploy.yaml manifest to the cluster.', 'apply -f <file>'],
+        ['Scale the web deployment to 5 replicas.', 'scale plus the --replicas option'],
+        ['Restart every pod in the web deployment one by one (rolling).', 'rollout + the restart subcommand'],
+        ['Watch whether the web deployment rollout has finished.', 'rollout + the status subcommand'],
+        ['The new version of the web deployment is throwing errors. Roll back to the previous revision.', 'rollout + the undo subcommand'],
+        ['Change the web container image in the web deployment to nginx:1.27.', 'set image <deployment> <container>=<image>'],
+        ['Open Grafana from the grafana service (port 3000) on your laptop at localhost:3000.', 'port-forward svc/<name> <port>'],
+        ['See CPU and memory usage per pod.', 'the subcommand is the same as Linux\'s top'],
+        ['Switch to the prod-cluster context.', 'config use-context <name>'],
+        ['Make monitoring the default namespace for the current context.', 'config set-context --current --namespace=...'],
+        ['Node worker-2 is going into maintenance. Drain its pods, but leave DaemonSet pods alone.', 'drain plus the --ignore-daemonsets option'],
+        ['Create a generic secret called db-cred containing username=admin.', 'create secret generic ... --from-literal=']
+      ]]
+    };
+    Object.keys(QUIZ_EN).forEach(function (k) {
+      QUIZ[k].intro = QUIZ_EN[k][0];
+      QUIZ_EN[k][1].forEach(function (t, i) { QUIZ[k].qs[i][0] = t[0]; QUIZ[k].qs[i][1] = t[1]; });
+    });
+    QUIZ.kubernetes.start = 'kubectl (the alias k works too)';
+    QUIZ.ansible.qs[5][4][1] = 'ok: [web1] => {"msg": "deploying to prod"}';
+    QUIZ.ansible.qs[13][4][1] = '(editor opens, save and quit)';
+  }
   var QUIZ_ALIAS = { tf: 'terraform', ans: 'ansible', k8s: 'kubernetes', kube: 'kubernetes', kubectl: 'kubernetes' };
 
   // keyboard HP suka ganti -- jadi — dan kutip jadi kutip miring
@@ -522,7 +597,7 @@
   var QUIZ_ART = {
     terraform: {
       color: '#844fba',
-      caption: 'terraform apply: kode di main.tf berubah jadi infrastruktur.',
+      caption: tr('terraform apply: kode di main.tf berubah jadi infrastruktur.', 'terraform apply: the code in main.tf becomes infrastructure.'),
       svg: '<rect class="qa-box" x="8" y="18" width="112" height="94" rx="8"/>' +
         '<text class="qa-dim" x="20" y="38">main.tf</text>' +
         '<rect class="qa-code" x="20" y="50" width="82" height="6" rx="3"/>' +
@@ -540,7 +615,7 @@
     },
     ansible: {
       color: '#e5484d',
-      caption: 'ansible-playbook: satu playbook, semua server dikonfigurasi lewat SSH.',
+      caption: tr('ansible-playbook: satu playbook, semua server dikonfigurasi lewat SSH.', 'ansible-playbook: one playbook configures every server over SSH.'),
       svg: '<rect class="qa-box" x="8" y="38" width="100" height="54" rx="8"/>' +
         '<text class="qa-t" x="58" y="61" text-anchor="middle">ansible</text>' +
         '<text class="qa-dim" x="58" y="79" text-anchor="middle">site.yml</text>' +
@@ -555,7 +630,7 @@
     },
     kubernetes: {
       color: '#326ce5',
-      caption: 'Kubernetes self-healing: pod yang crash langsung diganti pod baru.',
+      caption: tr('Kubernetes self-healing: pod yang crash langsung diganti pod baru.', 'Kubernetes self-healing: a crashed pod is replaced by a new one right away.'),
       svg: '<rect class="qa-box qa-cluster" x="8" y="8" width="344" height="114" rx="10"/>' +
         '<text class="qa-dim" x="22" y="28">deployment/web · replicas: 3</text>' +
         [70, 180].map(function (x, i) {
@@ -580,11 +655,11 @@
   }
 
   function quizMenu() {
-    line('🧪 Kuis hands-on: jawab tiap skenario dengan perintah yang benar.');
+    line(tr('🧪 Kuis hands-on: jawab tiap skenario dengan perintah yang benar.', '🧪 Hands-on quiz: answer each scenario with the right command.'));
     Object.keys(QUIZ).forEach(function (k) {
-      line(frag(cmdButton('quiz ' + k), ' '.repeat(17 - ('quiz ' + k).length) + QUIZ[k].qs.length + ' skenario, 5 soal acak per ronde'));
+      line(frag(cmdButton('quiz ' + k), ' '.repeat(17 - ('quiz ' + k).length) + QUIZ[k].qs.length + tr(' skenario, 5 soal acak per ronde', ' scenarios, 5 random questions per round')));
     });
-    line('Alias: quiz tf, quiz k8s. "hint" untuk petunjuk, "skip" untuk lewati, "q" untuk keluar.', 'term-dim');
+    line(tr('Alias: quiz tf, quiz k8s. "hint" untuk petunjuk, "skip" untuk lewati, "q" untuk keluar.', 'Aliases: quiz tf, quiz k8s. "hint" for a hint, "skip" to pass, "q" to quit.'), 'term-dim');
   }
 
   function startQuiz(key) {
@@ -594,18 +669,18 @@
     function ask() {
       line(frag(span('[' + (i + 1) + '/' + qs.length + '] ', 'term-dim'), span(qs[i][0], 'term-hl')));
     }
-    function hint() { line('💡 Petunjuk: ' + qs[i][1], 'term-dim'); }
-    function reveal() { line(frag('Jawabannya: ', span(qs[i][2], 'term-hl')), 'term-dim'); }
+    function hint() { line(tr('💡 Petunjuk: ', '💡 Hint: ') + qs[i][1], 'term-dim'); }
+    function reveal() { line(frag(tr('Jawabannya: ', 'Answer: '), span(qs[i][2], 'term-hl')), 'term-dim'); }
     function next() {
       i++; tries = 0;
       if (i < qs.length) return ask();
       scoreLine(score, qs.length, 'quiz-' + key);
-      line('Main lagi: quiz ' + key + ' (soalnya diacak tiap ronde)', 'term-dim');
+      line(tr('Main lagi: quiz ', 'Play again: quiz ') + key + tr(' (soalnya diacak tiap ronde)', ' (questions are shuffled every round)'), 'term-dim');
       stopGame();
     }
-    line(frag(span('🧪 Kuis ' + Z.title, 'term-hl'), ': 5 skenario, ketik perintah lengkapnya. Tiap soal dapat 2 kesempatan.'));
+    line(frag(span(tr('🧪 Kuis ', '🧪 Quiz: ') + Z.title, 'term-hl'), tr(': 5 skenario, ketik perintah lengkapnya. Tiap soal dapat 2 kesempatan.', ': 5 scenarios, type the full command. 2 tries each.')));
     quizArt(key);
-    line(Z.intro + ' Ketik "hint", "skip", atau "q".', 'term-dim');
+    line(Z.intro + tr(' Ketik "hint", "skip", atau "q".', ' Type "hint", "skip", or "q".'), 'term-dim');
     ask();
     return {
       prompt: key + '$',
@@ -619,12 +694,12 @@
         if (quizMatch(c, q[3])) {
           score++;
           line(q[4].join('\n'), 'term-dim term-sim');
-          line('✔ Benar!' + (c !== q[2] ? ' Versi saya: ' + q[2] : ''), 'term-ok');
+          line(tr('✔ Benar!', '✔ Correct!') + (c !== q[2] ? tr(' Versi saya: ', ' Mine: ') + q[2] : ''), 'term-ok');
           return next();
         }
-        if (!Z.tool.test(c)) return err('Ini kuis ' + Z.title + ', perintahnya diawali ' + Z.start + '.');
-        if (tries++ === 0) { err('✘ Belum tepat. Coba lagi.'); return hint(); }
-        err('✘ Masih belum.');
+        if (!Z.tool.test(c)) return err(tr('Ini kuis ', 'This is the ') + Z.title + tr(', perintahnya diawali ', ' quiz, commands start with ') + Z.start + '.');
+        if (tries++ === 0) { err(tr('✘ Belum tepat. Coba lagi.', '✘ Not quite. Try again.')); return hint(); }
+        err(tr('✘ Masih belum.', '✘ Still not it.'));
         reveal();
         next();
       }
@@ -636,7 +711,7 @@
     k = QUIZ_ALIAS[k] || k;
     if (!k) return quizMenu();
     if (k === 'random' || k === 'acak') { var ks = Object.keys(QUIZ); k = ks[Math.floor(Math.random() * ks.length)]; }
-    if (!QUIZ[k]) { err('quiz: "' + k + '" belum ada.'); return quizMenu(); }
+    if (!QUIZ[k]) { err('quiz: "' + k + tr('" belum ada.', '" doesn\'t exist yet.')); return quizMenu(); }
     game = startQuiz(k);
     setPrompt(game.prompt);
   }
@@ -651,21 +726,21 @@
     // [cmd, user, cpu dasar (% 1 core), RES MB, respawn?, catatan kill]
     var BASE = [
       ['/usr/lib/systemd/systemd --switched-root --system', 'root', 0.2, 14, 'pid1'],
-      ['/usr/sbin/sshd -D', 'root', 0.1, 9, true, 'Hati-hati, kalau ini server remote kamu barusan ngunci diri sendiri. 🔒'],
+      ['/usr/sbin/sshd -D', 'root', 0.1, 9, true, tr('Hati-hati, kalau ini server remote kamu barusan ngunci diri sendiri. 🔒', 'Careful, if this were a remote server you just locked yourself out. 🔒')],
       ['/usr/bin/containerd', 'root', 1.4, 62, true],
       ['/usr/bin/dockerd -H fd://', 'root', 1.1, 98, true],
-      ['/usr/bin/kubelet --config=/var/lib/kubelet/config.yaml', 'root', 3.2, 140, true, 'kubelet mati, node jadi NotReady. Untung cuma sebentar.'],
-      ['/usr/bin/prometheus --storage.tsdb.retention=15d', 'prometheus', 4.5, 610, true, 'Prometheus mati = alert juga ikut diam. Itu justru yang paling serem. 👻'],
+      ['/usr/bin/kubelet --config=/var/lib/kubelet/config.yaml', 'root', 3.2, 140, true, tr('kubelet mati, node jadi NotReady. Untung cuma sebentar.', 'kubelet died, the node went NotReady. Luckily just for a moment.')],
+      ['/usr/bin/prometheus --storage.tsdb.retention=15d', 'prometheus', 4.5, 610, true, tr('Prometheus mati = alert juga ikut diam. Itu justru yang paling serem. 👻', 'Prometheus down = alerts go quiet too. That\'s the scariest part. 👻')],
       ['/usr/bin/node_exporter', 'prometheus', 0.6, 22, true],
       ['/usr/sbin/grafana-server', 'grafana', 1.2, 180, true],
-      ['vault server -config=/etc/vault.d/vault.hcl', 'vault', 0.5, 95, true, 'Vault restart dalam keadaan sealed. Siapkan unseal key kamu. 🔐'],
+      ['vault server -config=/etc/vault.d/vault.hcl', 'vault', 0.5, 95, true, tr('Vault restart dalam keadaan sealed. Siapkan unseal key kamu. 🔐', 'Vault restarted sealed. Get your unseal keys ready. 🔐')],
       ['postgres: checkpointer', 'postgres', 0.8, 240, true],
       ['redis-server *:6379', 'redis', 0.7, 48, true],
-      ['nginx: worker process', 'nginx', 0.9, 16, true, 'nginx mati, pengunjung dapat 502. Untung systemd sigap.'],
+      ['nginx: worker process', 'nginx', 0.9, 16, true, tr('nginx mati, pengunjung dapat 502. Untung systemd sigap.', 'nginx died, visitors got a 502. Good thing systemd is quick.')],
       ['hugo server -D --bind 0.0.0.0', 'rifki', 2.0, 130, false],
       ['n8n start', 'rifki', 1.0, 210, false],
       ['/opt/google/chrome/chrome --type=renderer (42 tab)', 'rifki', 9, 3170, 'chrome'],
-      ['kopi-daemon --dosis=secukupnya', 'rifki', 0.3, 7, 'kopi'],
+      [tr('kopi-daemon --dosis=secukupnya', 'kopi-daemon --dose=just-enough'), 'rifki', 0.3, 7, 'kopi'],
       ['-zsh', 'rifki', 0, 11, false],
       ['htop', 'rifki', 1.5, 6, 'self']
     ];
@@ -690,7 +765,7 @@
     var load = [0.62, 0.55, 0.48];
     var nextJob = Date.now() + 3000;
     var timers = [];
-    var msg = 'Tekan h buat bantuan, q buat keluar.';
+    var msg = tr('Tekan h buat bantuan, q buat keluar.', 'Press h for help, q to quit.');
 
     // ---- DOM ----
     function el(tag, cls, text) {
@@ -700,7 +775,7 @@
       return e;
     }
     var root = el('div', 'htop');
-    root.setAttribute('aria-label', 'htop: daftar proses (simulasi)');
+    root.setAttribute('aria-label', tr('htop: daftar proses (simulasi)', 'htop: process list (simulated)'));
     var meters = el('div', 'ht-meters');
     var colL = el('div', 'ht-col');
     var colR = el('div', 'ht-col');
@@ -874,28 +949,28 @@
     function kill(p) {
       if (!p) return;
       if (p.kind === 'pid1') {
-        say('Nice try. PID 1 nggak bisa di-kill, kernel-nya bisa ngambek. 😅');
+        say(tr('Nice try. PID 1 nggak bisa di-kill, kernel-nya bisa ngambek. 😅', 'Nice try. PID 1 can\'t be killed, the kernel would sulk. 😅'));
         screen.classList.add('term-shake');
         later(function () { screen.classList.remove('term-shake'); }, 500);
         return;
       }
-      if (p.kind === 'self') { stopGame('htop: dibunuh oleh dirinya sendiri. Filosofis. 🤔'); return; }
+      if (p.kind === 'self') { stopGame(tr('htop: dibunuh oleh dirinya sendiri. Filosofis. 🤔', 'htop: killed by itself. How philosophical. 🤔')); return; }
       procs = procs.filter(function (x) { return x !== p; });
       var name = p.cmd.split(' ')[0].split('/').pop().replace(/:$/, '');
-      if (p.kind === 'chrome') say('Chrome ditutup, RAM lega ' + mem(p.res) + '. 42 tab itu sebenarnya mau dibaca kapan? 🎉');
+      if (p.kind === 'chrome') say(tr('Chrome ditutup, RAM lega ', 'Chrome closed, freed ') + mem(p.res) + tr('. 42 tab itu sebenarnya mau dibaca kapan? 🎉', ' of RAM. Were you ever going to read those 42 tabs? 🎉'));
       else if (p.kind === 'kopi') {
-        say('☕ kopi-daemon mati. Produktivitas turun 80%...');
-        later(function () { if (game && game.htop) { procs.push(mk(BASE[15])); say('☕ systemd: kopi-daemon.service dinyalakan lagi. Fiuh.'); draw(); } }, 3000);
+        say(tr('☕ kopi-daemon mati. Produktivitas turun 80%...', '☕ kopi-daemon died. Productivity down 80%...'));
+        later(function () { if (game && game.htop) { procs.push(mk(BASE[15])); say(tr('☕ systemd: kopi-daemon.service dinyalakan lagi. Fiuh.', '☕ systemd: kopi-daemon.service started again. Phew.')); draw(); } }, 3000);
       } else if (p.kind === true) {
-        say('SIGTERM ke ' + p.pid + ' (' + name + '). ' + (p.note || 'Tenang, ada systemd.'));
+        say(tr('SIGTERM ke ', 'SIGTERM to ') + p.pid + ' (' + name + '). ' + (p.note || tr('Tenang, ada systemd.', 'Relax, systemd has it.')));
         var b = BASE.filter(function (x) { return x[0] === p.cmd; })[0];
         later(function () {
           if (!game || !game.htop) return;
           var n = mk(b); procs.push(n);
-          say('systemd: ' + name + '.service restart otomatis jadi PID ' + n.pid + ' (Restart=always).');
+          say('systemd: ' + name + tr('.service restart otomatis jadi PID ', '.service restarted automatically as PID ') + n.pid + ' (Restart=always).');
           draw();
         }, 2500);
-      } else say('SIGTERM ke ' + p.pid + ' (' + name + '). Proses selesai.');
+      } else say(tr('SIGTERM ke ', 'SIGTERM to ') + p.pid + ' (' + name + tr('). Proses selesai.', '). Process ended.'));
       draw();
     }
 
@@ -904,19 +979,19 @@
       if (k === 'down' || k === '↓') return move(1);
       if (k === 's' || k === 'f6' || k === '>') {
         sortBy = sortKeys[(sortKeys.indexOf(sortBy) + 1) % sortKeys.length];
-        say('Diurutkan berdasarkan ' + sortLabel[sortBy] + '.');
+        say(tr('Diurutkan berdasarkan ', 'Sorted by ') + sortLabel[sortBy] + '.');
         return draw();
       }
       if (k === 'k' || k === 'f9') return kill(procs.filter(function (p) { return p.pid === sel; })[0]);
-      if (k === 'h' || k === 'f1' || k === '?') return say('↑/↓ pilih proses · k/F9 kill · s/F6 urutkan · q/F10 keluar. Di HP tinggal tap baris prosesnya.');
-      if (k === '-') return say('Fitur ini belum ada di versi web. Pakai htop beneran ya. 😉');
+      if (k === 'h' || k === 'f1' || k === '?') return say(tr('↑/↓ pilih proses · k/F9 kill · s/F6 urutkan · q/F10 keluar. Di HP tinggal tap baris prosesnya.', '↑/↓ select a process · k/F9 kill · s/F6 sort · q/F10 quit. On a phone, just tap a process row.'));
+      if (k === '-') return say(tr('Fitur ini belum ada di versi web. Pakai htop beneran ya. 😉', 'That isn\'t in the web version yet. Use the real htop. 😉'));
       if (k === 'q' || k === 'f10') return stopGame();
       var m = /^(?:k|kill)\s+(\d+)$/.exec(k);
       if (m) {
         var p = procs.filter(function (x) { return x.pid === +m[1]; })[0];
-        return p ? kill(p) : say('kill: PID ' + m[1] + ' nggak ada.');
+        return p ? kill(p) : say('kill: PID ' + m[1] + tr(' nggak ada.', ' doesn\'t exist.'));
       }
-      say('Tombol "' + k + '" nggak dikenal. Tekan h buat bantuan.');
+      say(tr('Tombol "', 'Key "') + k + tr('" nggak dikenal. Tekan h buat bantuan.', '" isn\'t recognized. Press h for help.'));
     }
 
     root.addEventListener('click', function (e) {
@@ -925,7 +1000,7 @@
       var f = e.target.closest('.ht-fkey');
       if (f) return act(f.dataset.key);
       var h = e.target.closest('.ht-head span');
-      if (h && sortLabel[h.dataset.sort]) { sortBy = h.dataset.sort; say('Diurutkan berdasarkan ' + sortLabel[sortBy] + '.'); return draw(); }
+      if (h && sortLabel[h.dataset.sort]) { sortBy = h.dataset.sort; say(tr('Diurutkan berdasarkan ', 'Sorted by ') + sortLabel[sortBy] + '.'); return draw(); }
       var r = e.target.closest('.ht-row[data-pid]');
       if (r) { sel = +r.dataset.pid; draw(); }
     });
@@ -949,7 +1024,7 @@
         timers.forEach(clearTimeout);
         screen.classList.remove('term-htop-on');
         if (row.parentNode) row.parentNode.removeChild(row);
-        line('htop selesai. Server aman, kopi masih ada. ☕', 'term-dim');
+        line(tr('htop selesai. Server aman, kopi masih ada. ☕', 'htop closed. Servers are fine, coffee\'s still there. ☕'), 'term-dim');
       }
     };
   }
@@ -965,34 +1040,35 @@
     'Idempoten itu bukan mantra, tapi kebiasaan.',
     'chmod 777 bukan solusi, itu pengakuan.'
   ];
+  if (EN) FORTUNES = ['It works on my machine. ¯\\_(ツ)_/¯', 'There\'s always one server that isn\'t in the Ansible inventory.', 'A backup you\'ve never restored is just a hope.', 'Deploying on a Friday afternoon: brave, but not wise.', 'If an alert fires every hour, eventually nobody listens.', 'DNS. It\'s always DNS.', 'Idempotence isn\'t a spell, it\'s a habit.', 'chmod 777 isn\'t a fix, it\'s a confession.'];
 
   var COMMANDS = {
     help: {
-      desc: 'daftar perintah',
+      desc: tr('daftar perintah', 'list commands'),
       run: function () {
-        line('Perintah yang tersedia:');
+        line(tr('Perintah yang tersedia:', 'Available commands:'));
         Object.keys(COMMANDS).forEach(function (k) {
           if (COMMANDS[k].hidden) return;
           line(frag(span(k.padEnd(10), 'term-hl'), COMMANDS[k].desc));
         });
-        line('Tips: Tab untuk melengkapi, ↑/↓ untuk riwayat. Ada beberapa perintah rahasia juga. 😉', 'term-dim');
+        line(tr('Tips: Tab untuk melengkapi, ↑/↓ untuk riwayat. Ada beberapa perintah rahasia juga. 😉', 'Tips: Tab to complete, ↑/↓ for history. There are a few secret commands too. 😉'), 'term-dim');
       }
     },
     whoami: {
-      desc: 'siapa saya',
+      desc: tr('siapa saya', 'who am I'),
       run: function () {
         line(span(D.name || USER, 'term-hl'));
         if (D.roles && D.roles.length) line(D.roles.join(' · '), 'term-dim');
-        line('Tulisan lengkapnya: cat tentang', 'term-dim');
+        line(tr('Tulisan lengkapnya: cat tentang', 'The full story: cat about'), 'term-dim');
       }
     },
     ls: {
-      desc: 'lihat isi folder (ls -a juga bisa)',
+      desc: tr('lihat isi folder (ls -a juga bisa)', 'list folder contents (ls -a works too)'),
       run: function (args) {
         var all = args.indexOf('-a') !== -1 || args.indexOf('-la') !== -1 || args.indexOf('-al') !== -1;
         var target = args.filter(function (a) { return a.charAt(0) !== '-'; })[0];
-        var r = resolve(target);
-        if (!r) return err('ls: ' + target + ': folder nggak ditemukan');
+        var r = resolve(target === undefined ? '.' : target);
+        if (!r) return err('ls: ' + target + tr(': folder nggak ditemukan', ': folder not found'));
         if (r.node.type === 'file') return line(target);
         var row = document.createElement('div');
         row.className = 'term-ls-out';
@@ -1008,52 +1084,52 @@
       }
     },
     cd: {
-      desc: 'pindah folder',
+      desc: tr('pindah folder', 'change folder'),
       run: function (args) {
         var r = resolve(args[0]);
-        if (!r) return err('cd: ' + args[0] + ': folder nggak ditemukan');
-        if (r.node.type !== 'dir') return err('cd: ' + args[0] + ': bukan folder. Coba: cat ' + args[0]);
+        if (!r) return err('cd: ' + args[0] + tr(': folder nggak ditemukan', ': folder not found'));
+        if (r.node.type !== 'dir') return err('cd: ' + args[0] + tr(': bukan folder. Coba: cat ', ': not a folder. Try: cat ') + args[0]);
         cwd = r.parts;
       }
     },
-    pwd: { desc: 'folder sekarang', run: function () { line('/home/' + USER + (cwd.length ? '/' + cwd.join('/') : '')); } },
+    pwd: { desc: tr('folder sekarang', 'current folder'), run: function () { line('/home/' + USER + (cwd.length ? '/' + cwd.join('/') : '')); } },
     cat: {
-      desc: 'baca ringkasan file',
+      desc: tr('baca ringkasan file', 'read a file summary'),
       run: function (args) {
-        if (!args.length) return err('cat: mau baca file apa? Contoh: cat tentang');
+        if (!args.length) return err(tr('cat: mau baca file apa? Contoh: cat tentang', 'cat: which file? Example: cat about'));
         var r = resolve(args[0]);
-        if (!r) return err('cat: ' + args[0] + ': file nggak ditemukan');
-        if (r.node.type === 'dir') return err('cat: ' + args[0] + ': itu folder. Coba: ls ' + args[0]);
+        if (!r) return err('cat: ' + args[0] + tr(': file nggak ditemukan', ': file not found'));
+        if (r.node.type === 'dir') return err('cat: ' + args[0] + tr(': itu folder. Coba: ls ', ': that\'s a folder. Try: ls ') + args[0]);
         var m = r.node.meta;
         if (m.readme) {
-          line('Halo! Ini terminal mini di web saya. Semua tulisan ada di posts/, contekan di cheatsheet/.');
-          line('Pakai "cat" untuk baca ringkasan dan "open" untuk buka halamannya.');
+          line(tr('Halo! Ini terminal mini di web saya. Semua tulisan ada di posts/, contekan di cheatsheet/.', 'Hi! This is the mini terminal on my site. All posts are in posts/, cheat sheets in cheatsheet/.'));
+          line(tr('Pakai "cat" untuk baca ringkasan dan "open" untuk buka halamannya.', 'Use "cat" to read a summary and "open" to open the page.'));
           return;
         }
         if (m.secret) {
-          line('🔐 Isinya cuma satu baris:');
-          line('"Jangan pernah commit file .env ke git." Itu saja rahasianya.', 'term-hl');
+          line(tr('🔐 Isinya cuma satu baris:', '🔐 It\'s just one line:'));
+          line(tr('"Jangan pernah commit file .env ke git." Itu saja rahasianya.', '"Never commit your .env file to git." That\'s the whole secret.'), 'term-hl');
           return;
         }
-        if (m.stack) return line(m.title + ': salah satu tool yang saya pakai sehari-hari.');
+        if (m.stack) return line(m.title + tr(': salah satu tool yang saya pakai sehari-hari.', ': one of the tools I use every day.'));
         line(span(m.title, 'term-hl'));
         if (m.date && m.date.indexOf('0001') !== 0) line(m.date, 'term-dim');
         if (m.summary) line(m.summary);
-        line(frag('→ ', link('baca selengkapnya', m.url)), 'term-dim');
+        line(frag('→ ', link(tr('baca selengkapnya', 'read more'), m.url)), 'term-dim');
       }
     },
     open: {
-      desc: 'buka halaman tulisan',
+      desc: tr('buka halaman tulisan', 'open a page'),
       run: function (args) {
-        if (!args.length) return err('open: mau buka apa? Contoh: open tentang');
+        if (!args.length) return err(tr('open: mau buka apa? Contoh: open tentang', 'open: open what? Example: open about'));
         var r = resolve(args[0]);
-        if (!r || r.node.type !== 'file' || !r.node.meta.url) return err('open: ' + args[0] + ': nggak bisa dibuka');
-        line('Membuka ' + r.node.meta.title + '…', 'term-dim');
+        if (!r || r.node.type !== 'file' || !r.node.meta.url) return err('open: ' + args[0] + tr(': nggak bisa dibuka', ': can\'t be opened'));
+        line(tr('Membuka ', 'Opening ') + r.node.meta.title + '…', 'term-dim');
         setTimeout(function () { window.location.href = r.node.meta.url; }, 300);
       }
     },
     tree: {
-      desc: 'lihat struktur folder',
+      desc: tr('lihat struktur folder', 'show the folder tree'),
       run: function () {
         line('~');
         var keys = Object.keys(FS.children).filter(function (k) { return k.charAt(0) !== '.'; });
@@ -1071,7 +1147,7 @@
       }
     },
     neofetch: {
-      desc: 'info "sistem"',
+      desc: tr('info "sistem"', '"system" info'),
       run: function () {
         // openSUSE logo, as drawn by neofetch (big and small variants)
         var artBig = String.raw`           .;ldkO0000Okdl;.
@@ -1102,19 +1178,19 @@ __________/`;
         var info = [
           [USER + '@' + HOST, ''],
           ['-----------', ''],
-          ['OS', 'openSUSE Tumbleweed (versi web)'],
+          ['OS', tr('openSUSE Tumbleweed (versi web)', 'openSUSE Tumbleweed (web edition)')],
           ['Host', 'GitHub Pages'],
           ['Shell', 'rifki-sh 1.0'],
           ['Role', (D.roles || [])[0] || 'DevOps'],
           ['Stack', (D.stack || []).slice(0, 5).join(', ')],
           ['Uptime', uptime()],
-          ['Kopi', 'secukupnya ☕']
+          [tr('Kopi', 'Coffee'), tr('secukupnya ☕', 'just enough ☕')]
         ];
         var pre = document.createElement('div');
         pre.className = 'term-neofetch';
         var a = document.createElement('div');
         a.className = 'term-art';
-        a.setAttribute('aria-label', 'Logo openSUSE');
+        a.setAttribute('aria-label', tr('Logo openSUSE', 'openSUSE logo'));
         a.appendChild(span(artBig, 'term-art-big'));
         a.appendChild(span(artSmall, 'term-art-small'));
         var i = document.createElement('div');
@@ -1130,14 +1206,14 @@ __________/`;
       }
     },
     htop: {
-      desc: 'pantau proses ala htop 📊 (q buat keluar)',
+      desc: tr('pantau proses ala htop 📊 (q buat keluar)', 'watch processes htop-style 📊 (q to quit)'),
       run: function () { game = startHtop(); }
     },
-    game: { desc: 'main game 🎮 (port, http, cmd, angka, ketik)', run: function (args) { gameStart(args); } },
-    quiz: { desc: 'kuis hands-on 🧪 (terraform, ansible, kubernetes)', run: function (args) { quizCmd(args); } },
-    fortune: { desc: 'kutipan acak', run: function () { line(FORTUNES[Math.floor(Math.random() * FORTUNES.length)]); } },
+    game: { desc: tr('main game 🎮 (port, http, cmd, angka, ketik)', 'play a game 🎮 (port, http, cmd, number, typing)'), run: function (args) { gameStart(args); } },
+    quiz: { desc: tr('kuis hands-on 🧪 (terraform, ansible, kubernetes)', 'hands-on quiz 🧪 (terraform, ansible, kubernetes)'), run: function (args) { quizCmd(args); } },
+    fortune: { desc: tr('kutipan acak', 'random quote'), run: function () { line(FORTUNES[Math.floor(Math.random() * FORTUNES.length)]); } },
     social: {
-      desc: 'akun media sosial',
+      desc: tr('akun media sosial', 'social media accounts'),
       run: function () {
         (D.socials || []).forEach(function (s) {
           var ext = /^https?:/.test(s.url);
@@ -1146,20 +1222,20 @@ __________/`;
       }
     },
     theme: {
-      desc: 'ganti mode terang/gelap',
+      desc: tr('ganti mode terang/gelap', 'toggle light/dark mode'),
       run: function () {
         var t = document.getElementById('theme-toggle');
-        if (!t) return err('theme: tombol tema nggak tersedia');
+        if (!t) return err(tr('theme: tombol tema nggak tersedia', 'theme: the theme button isn\'t available'));
         t.click();
-        line('Mode sekarang: ' + (document.documentElement.dataset.theme === 'dark' ? 'gelap 🌙' : 'terang ☀️'));
+        line(tr('Mode sekarang: ', 'Mode now: ') + (document.documentElement.dataset.theme === 'dark' ? tr('gelap 🌙', 'dark 🌙') : tr('terang ☀️', 'light ☀️')));
       }
     },
-    history: { desc: 'riwayat perintah', run: function () { hist.forEach(function (h, i) { line(String(i + 1).padStart(4) + '  ' + h); }); } },
-    echo: { desc: 'cetak teks', run: function (args) { line(args.join(' ').replace(/\$USER/g, USER).replace(/\$ROLE/g, (D.roles || [])[0] || '')); } },
-    date: { desc: 'tanggal dan jam', run: function () { line(new Date().toString()); } },
-    clear: { desc: 'bersihkan layar', run: function () { out.textContent = ''; } },
+    history: { desc: tr('riwayat perintah', 'command history'), run: function () { hist.forEach(function (h, i) { line(String(i + 1).padStart(4) + '  ' + h); }); } },
+    echo: { desc: tr('cetak teks', 'print text'), run: function (args) { line(args.join(' ').replace(/\$USER/g, USER).replace(/\$ROLE/g, (D.roles || [])[0] || '')); } },
+    date: { desc: tr('tanggal dan jam', 'date and time'), run: function () { line(new Date().toString()); } },
+    clear: { desc: tr('bersihkan layar', 'clear the screen'), run: function () { out.textContent = ''; } },
     exit: {
-      desc: 'kembali ke beranda',
+      desc: tr('kembali ke beranda', 'back to the homepage'),
       run: function () {
         line('logout', 'term-dim');
         setTimeout(function () { window.location.href = D.home || '/'; }, 400);
@@ -1170,7 +1246,7 @@ __________/`;
     sudo: {
       hidden: true,
       run: function (args) {
-        if (args.join(' ') === 'make me a sandwich') return line('Oke. 🥪');
+        if (args.join(' ') === 'make me a sandwich') return line(tr('Oke. 🥪', 'Okay. 🥪'));
         err(USER + ' is not in the sudoers file. This incident will be reported. 🚨');
       }
     },
@@ -1178,17 +1254,17 @@ __________/`;
       hidden: true,
       run: function (args) {
         if (/-[a-z]*r[a-z]*f|-[a-z]*f[a-z]*r/.test(args.join(' ')) && /(^|\s)(\/|~|\*|\/\*)(\s|$)/.test(args.join(' '))) {
-          err('Wah, jangan dong. 😱 Untung ini cuma terminal mainan.');
+          err(tr('Wah, jangan dong. 😱 Untung ini cuma terminal mainan.', 'Whoa, please don\'t. 😱 Good thing this is just a toy terminal.'));
           screen.classList.add('term-shake');
           setTimeout(function () { screen.classList.remove('term-shake'); }, 500);
           return;
         }
-        err('rm: filesystem ini read-only. Tulisannya aman. 😄');
+        err(tr('rm: filesystem ini read-only. Tulisannya aman. 😄', 'rm: this filesystem is read-only. The posts are safe. 😄'));
       }
     },
-    vim: { hidden: true, run: function () { line('Keluar dari vim itu susah, jadi sengaja nggak saya pasang di sini. 🙃'); } },
-    nano: { hidden: true, run: function () { line('nano? Pilihan yang aman dan damai. Sayangnya tetap nggak ada di sini.'); } },
-    emacs: { hidden: true, run: function () { line('Sistem operasi yang bagus, cuma kurang text editor. 😜'); } },
+    vim: { hidden: true, run: function () { line(tr('Keluar dari vim itu susah, jadi sengaja nggak saya pasang di sini. 🙃', 'Quitting vim is hard, so I didn\'t install it here on purpose. 🙃')); } },
+    nano: { hidden: true, run: function () { line(tr('nano? Pilihan yang aman dan damai. Sayangnya tetap nggak ada di sini.', 'nano? A safe and peaceful choice. Sadly it isn\'t here either.')); } },
+    emacs: { hidden: true, run: function () { line(tr('Sistem operasi yang bagus, cuma kurang text editor. 😜', 'A great operating system, it just lacks a text editor. 😜')); } },
     zypper: {
       hidden: true,
       run: function (args) {
@@ -1198,11 +1274,11 @@ __________/`;
           line('Resolving package dependencies...', 'term-dim');
           line('The following NEW package is going to be installed: ' + pkg);
           line('(1/1) Installing: ' + pkg + ' ................................[done]', 'term-ok');
-          if (pkg === 'kopi' || pkg === 'coffee') line('☕ Siap. Semangat kerjanya!');
+          if (pkg === 'kopi' || pkg === 'coffee') line(tr('☕ Siap. Semangat kerjanya!', '☕ Done. Have a productive day!'));
           return;
         }
-        if (args[0] === 'dup') return line('Tumbleweed sudah versi terbaru. Kayaknya. Coba lagi besok. 🦎');
-        line('Coba: zypper in kopi', 'term-dim');
+        if (args[0] === 'dup') return line(tr('Tumbleweed sudah versi terbaru. Kayaknya. Coba lagi besok. 🦎', 'Tumbleweed is already up to date. Probably. Try again tomorrow. 🦎'));
+        line(tr('Coba: zypper in kopi', 'Try: zypper in kopi'), 'term-dim');
       }
     },
     ping: {
@@ -1220,18 +1296,18 @@ __________/`;
         })();
       }
     },
-    top: { hidden: true, run: function () { line('top? Pakai htop aja, lebih berwarna. 😎', 'term-dim'); COMMANDS.htop.run(); } },
-    btop: { hidden: true, run: function () { line('btop belum terpasang. Sementara htop dulu ya.', 'term-dim'); COMMANDS.htop.run(); } },
+    top: { hidden: true, run: function () { line(tr('top? Pakai htop aja, lebih berwarna. 😎', 'top? Use htop, it\'s more colorful. 😎'), 'term-dim'); COMMANDS.htop.run(); } },
+    btop: { hidden: true, run: function () { line(tr('btop belum terpasang. Sementara htop dulu ya.', 'btop isn\'t installed. Here\'s htop for now.'), 'term-dim'); COMMANDS.htop.run(); } },
     uname: { hidden: true, run: function () { line('Linux ' + HOST + ' 6.x-tumbleweed #1 SMP PREEMPT_DYNAMIC x86_64 GNU/Linux'); } },
-    hello: { hidden: true, run: function () { line('Halo juga! 👋 Ketik help kalau bingung.'); } },
+    hello: { hidden: true, run: function () { line(tr('Halo juga! 👋 Ketik help kalau bingung.', 'Hi there! 👋 Type help if you\'re lost.')); } },
     halo: { hidden: true, run: function () { COMMANDS.hello.run(); } },
     kopi: { hidden: true, run: function () { COMMANDS.zypper.run(['in', 'kopi']); } },
     hack: {
       hidden: true,
       run: function () {
-        line('Mengakses mainframe...', 'term-dim');
+        line(tr('Mengakses mainframe...', 'Accessing the mainframe...'), 'term-dim');
         setTimeout(function () { line('Bypass firewall... ████████████ 100%', 'term-ok'); scroll(); }, 500);
-        setTimeout(function () { line('Akses ditolak. Kamu cuma bisa hack hati saya pakai pull request yang rapi. 😎'); scroll(); }, 1100);
+        setTimeout(function () { line(tr('Akses ditolak. Kamu cuma bisa hack hati saya pakai pull request yang rapi. 😎', 'Access denied. The only way to hack my heart is a tidy pull request. 😎')); scroll(); }, 1100);
       }
     }
   };
@@ -1243,7 +1319,7 @@ __________/`;
   var started = Date.now();
   function uptime() {
     var s = Math.floor((Date.now() - started) / 1000);
-    return Math.floor(s / 60) + ' menit ' + (s % 60) + ' detik';
+    return Math.floor(s / 60) + tr(' menit ', ' min ') + (s % 60) + tr(' detik', ' s');
   }
 
   // ---------- run loop ----------
@@ -1266,7 +1342,7 @@ __________/`;
     var name = parts[0].toLowerCase();
     var c = COMMANDS[name];
     if (!c) {
-      err(name + ': command not found. Ketik help untuk lihat daftar perintah.');
+      err(name + tr(': command not found. Ketik help untuk lihat daftar perintah.', ': command not found. Type help to see the command list.'));
       return;
     }
     c.run(parts.slice(1));
@@ -1347,7 +1423,7 @@ __________/`;
 
   // no copy-paste shortcuts in the typing race
   input.addEventListener('paste', function (e) {
-    if (game && game.raw) { e.preventDefault(); err('Eits, nggak boleh paste. Ketik manual ya. 😄'); scroll(); }
+    if (game && game.raw) { e.preventDefault(); err(tr('Eits, nggak boleh paste. Ketik manual ya. 😄', 'Nope, no pasting. Type it out. 😄')); scroll(); }
   });
 
   // click on a listed file/folder: cd into folders, cat files
@@ -1390,7 +1466,7 @@ __________/`;
 
   // ---------- boot ----------
   setPrompt(ps1());
-  line(frag('Selamat datang di ', span('rifki-sh', 'term-hl'), '. Terminal mini untuk jelajah isi web ini.'));
-  line(frag('Ketik ', span('help', 'term-hl'), ' untuk mulai, atau ', span('game', 'term-hl'), ' buat main game, atau ', span('quiz', 'term-hl'), ' buat kuis Terraform/Ansible/Kubernetes.'), 'term-dim');
+  line(frag(tr('Selamat datang di ', 'Welcome to '), span('rifki-sh', 'term-hl'), tr('. Terminal mini untuk jelajah isi web ini.', '. A mini terminal for exploring this site.')));
+  line(frag(tr('Ketik ', 'Type '), span('help', 'term-hl'), tr(' untuk mulai, atau ', ' to start, or '), span('game', 'term-hl'), tr(' buat main game, atau ', ' to play a game, or '), span('quiz', 'term-hl'), tr(' buat kuis Terraform/Ansible/Kubernetes.', ' for a Terraform/Ansible/Kubernetes quiz.')), 'term-dim');
   if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) input.focus({ preventScroll: true });
 })();

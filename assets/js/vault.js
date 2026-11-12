@@ -8,6 +8,7 @@
   'use strict';
 
   var K = window.SimKit;
+  var tr = K.tr;
   var app = document.getElementById('vt');
   if (!app || !K) return;
   var esc = K.esc, setHTML = K.setHTML, setText = K.setText, words = K.words, pad = K.pad;
@@ -24,16 +25,16 @@
   var DB_CMD = 'vault write database/config/postgres plugin_name=postgresql-database-plugin connection_url="postgresql://{{username}}:{{password}}@' + DB_HOST + ':5432/app" allowed_roles=readonly username=vault password=vault-pass';
 
   var MISSIONS = [
-    { id: 'init', text: 'Arahkan CLI ke server (<b>VAULT_ADDR</b>), lalu inisialisasi: <i>vault operator init</i>.' },
-    { id: 'unseal', text: 'Buka segel Vault pakai <b>3 dari 5</b> unseal key.' },
-    { id: 'login', text: 'Login pakai <b>root token</b>, lalu cek <i>vault token lookup</i>.' },
-    { id: 'kv', text: 'Aktifkan <b>KV v2</b> di <i>secret/</i>, simpan <b>secret/app/db</b>, lalu baca lagi.' },
-    { id: 'versi', text: 'Ubah secret itu, lalu ambil <b>versi lamanya</b> pakai <i>-version=1</i> atau <i>kv rollback</i>.' },
-    { id: 'policy', text: 'Tulis policy <b>app-read</b>, bikin token dengannya, lalu buktikan token itu bisa baca tapi <b>ga bisa nulis</b>.' },
-    { id: 'approle', text: 'Login sebagai aplikasi lewat <b>AppRole</b>: tukar role-id + secret-id jadi token.' },
-    { id: 'dynamic', text: 'Minta <b>kredensial database dinamis</b>, lalu revoke lease-nya (atau tunggu sampai habis).' },
-    { id: 'transit', text: 'Enkripsi teks pakai <b>transit</b>, lalu dekripsi lagi ke teks aslinya.' },
-    { id: 'seal', text: 'Segel darurat pakai <b>vault operator seal</b>, lalu unseal lagi.' }
+    { id: 'init', text: tr('Arahkan CLI ke server (<b>VAULT_ADDR</b>), lalu inisialisasi: <i>vault operator init</i>.', 'Point the CLI at the server (<b>VAULT_ADDR</b>), then initialize: <i>vault operator init</i>.') },
+    { id: 'unseal', text: tr('Buka segel Vault pakai <b>3 dari 5</b> unseal key.', 'Unseal Vault with <b>3 of 5</b> unseal keys.') },
+    { id: 'login', text: tr('Login pakai <b>root token</b>, lalu cek <i>vault token lookup</i>.', 'Log in with the <b>root token</b>, then check <i>vault token lookup</i>.') },
+    { id: 'kv', text: tr('Aktifkan <b>KV v2</b> di <i>secret/</i>, simpan <b>secret/app/db</b>, lalu baca lagi.', 'Enable <b>KV v2</b> at <i>secret/</i>, store <b>secret/app/db</b>, then read it back.') },
+    { id: 'versi', text: tr('Ubah secret itu, lalu ambil <b>versi lamanya</b> pakai <i>-version=1</i> atau <i>kv rollback</i>.', 'Change that secret, then get the <b>old version</b> with <i>-version=1</i> or <i>kv rollback</i>.') },
+    { id: 'policy', text: tr('Tulis policy <b>app-read</b>, bikin token dengannya, lalu buktikan token itu bisa baca tapi <b>ga bisa nulis</b>.', 'Write an <b>app-read</b> policy, create a token with it, then prove the token can read but <b>can\'t write</b>.') },
+    { id: 'approle', text: tr('Login sebagai aplikasi lewat <b>AppRole</b>: tukar role-id + secret-id jadi token.', 'Log in as an application with <b>AppRole</b>: exchange role-id + secret-id for a token.') },
+    { id: 'dynamic', text: tr('Minta <b>kredensial database dinamis</b>, lalu revoke lease-nya (atau tunggu sampai habis).', 'Request <b>dynamic database credentials</b>, then revoke the lease (or wait for it to expire).') },
+    { id: 'transit', text: tr('Enkripsi teks pakai <b>transit</b>, lalu dekripsi lagi ke teks aslinya.', 'Encrypt text with <b>transit</b>, then decrypt it back to the original.') },
+    { id: 'seal', text: tr('Segel darurat pakai <b>vault operator seal</b>, lalu unseal lagi.', 'Emergency seal with <b>vault operator seal</b>, then unseal again.') }
   ];
 
   var DEFAULT_POLICY = [
@@ -73,19 +74,19 @@
 
   var SNIPS = {
     ro: [
-      '# Policy buat aplikasi web: boleh baca secret di secret/app/,',
-      '# tapi ga boleh nulis atau menghapus.',
-      '# Di KV v2, path API-nya pakai prefix data/ (secret/data/...).',
+      tr('# Policy buat aplikasi web: boleh baca secret di secret/app/,', '# Policy for the web app: may read secrets under secret/app/,'),
+      tr('# tapi ga boleh nulis atau menghapus.', '# but may not write or delete.'),
+      tr('# Di KV v2, path API-nya pakai prefix data/ (secret/data/...).', '# In KV v2, the API path uses the data/ prefix (secret/data/...).'),
       'path "secret/data/app/*" {',
       '  capabilities = ["read"]',
       '}',
       '',
-      '# minta kredensial database dinamis',
+      tr('# minta kredensial database dinamis', '# request dynamic database credentials'),
       'path "database/creds/readonly" {',
       '  capabilities = ["read"]',
       '}',
       '',
-      '# pakai kunci transit "app" buat enkripsi dan dekripsi',
+      tr('# pakai kunci transit "app" buat enkripsi dan dekripsi', '# use the transit key "app" to encrypt and decrypt'),
       'path "transit/encrypt/app" {',
       '  capabilities = ["update"]',
       '}',
@@ -95,9 +96,9 @@
       ''
     ].join('\n'),
     v1: [
-      '# Kelihatannya benar, tapi buat KV v2 ini salah:',
-      '# CLI "vault kv get secret/app/db" sebenarnya membaca',
-      '# path API secret/data/app/db, jadi rule di bawah ga kena.',
+      tr('# Kelihatannya benar, tapi buat KV v2 ini salah:', '# Looks right, but for KV v2 it\'s wrong:'),
+      tr('# CLI "vault kv get secret/app/db" sebenarnya membaca', '# the CLI "vault kv get secret/app/db" actually reads'),
+      tr('# path API secret/data/app/db, jadi rule di bawah ga kena.', '# the API path secret/data/app/db, so the rule below doesn\'t match.'),
       'path "secret/app/*" {',
       '  capabilities = ["read", "list"]',
       '}',
@@ -161,7 +162,7 @@
       if (c === '#' || (c === '/' && src[i + 1] === '/')) { while (i < src.length && src[i] !== '\n') i++; continue; }
       if (c === '/' && src[i + 1] === '*') {
         j = src.indexOf('*/', i + 2);
-        if (j < 0) throw PErr(line, 'komentar /* belum ditutup dengan */');
+        if (j < 0) throw PErr(line, tr('komentar /* belum ditutup dengan */', 'comment /* is not closed with */'));
         line += (src.slice(i, j).match(/\n/g) || []).length;
         i = j + 2;
         continue;
@@ -170,7 +171,7 @@
         var v = '';
         j = i + 1;
         while (j < src.length && src[j] !== '"' && src[j] !== '\n') { if (src[j] === '\\') { v += src[j + 1] || ''; j += 2; continue; } v += src[j]; j++; }
-        if (src[j] !== '"') throw PErr(line, 'tanda kutip " belum ditutup');
+        if (src[j] !== '"') throw PErr(line, tr('tanda kutip " belum ditutup', 'quote " is not closed'));
         toks.push({ t: 's', v: v, line: line });
         i = j + 1;
         continue;
@@ -178,69 +179,69 @@
       if ('{}[]=,'.indexOf(c) >= 0) { toks.push({ t: c, line: line }); i++; continue; }
       var m = /^[A-Za-z_][\w-]*|^\d+/.exec(src.slice(i));
       if (m) { toks.push({ t: 'id', v: m[0], line: line }); i += m[0].length; continue; }
-      if (c === '“' || c === '”') throw PErr(line, 'pakai tanda kutip biasa ", bukan kutip miring');
-      throw PErr(line, 'karakter "' + c + '" ga dikenal');
+      if (c === '“' || c === '”') throw PErr(line, tr('pakai tanda kutip biasa ", bukan kutip miring', 'use a plain quote ", not a curly quote'));
+      throw PErr(line, tr('karakter "', 'character "') + c + tr('" ga dikenal', '" is not recognized'));
     }
     var p = 0, rules = [];
     function lastLine() { return toks.length ? toks[toks.length - 1].line : 1; }
     function need(t, what) {
       var k = toks[p];
-      if (!k || k.t !== t) throw PErr(k ? k.line : lastLine(), 'harusnya ada ' + what + ' di sini');
+      if (!k || k.t !== t) throw PErr(k ? k.line : lastLine(), tr('harusnya ada ', 'expected ') + what + tr(' di sini', ' here'));
       p++;
       return k;
     }
     function value() {
       var k = toks[p];
-      if (!k) throw PErr(lastLine(), 'nilainya belum ditulis');
+      if (!k) throw PErr(lastLine(), tr('nilainya belum ditulis', 'the value is missing'));
       if (k.t === 's' || k.t === 'id') { p++; return k.v; }
       if (k.t === '[') {
         p++;
         var arr = [];
         while (toks[p] && toks[p].t !== ']') {
           var x = toks[p];
-          if (x.t !== 's') throw PErr(x.line, 'isi list harus string berkutip, misal "read"');
+          if (x.t !== 's') throw PErr(x.line, tr('isi list harus string berkutip, misal "read"', 'list items must be quoted strings, e.g. "read"'));
           arr.push(x.v);
           p++;
           if (toks[p] && toks[p].t === ',') p++;
-          else if (toks[p] && toks[p].t !== ']') throw PErr(toks[p].line, 'kurang koma di antara isi list');
+          else if (toks[p] && toks[p].t !== ']') throw PErr(toks[p].line, tr('kurang koma di antara isi list', 'missing comma between list items'));
         }
-        need(']', '] penutup list');
+        need(']', tr('] penutup list', '] to close the list'));
         return arr;
       }
       if (k.t === '{') {
         var d = 0;
         do { if (toks[p].t === '{') d++; if (toks[p].t === '}') d--; p++; } while (p < toks.length && d > 0);
-        if (d) throw PErr(k.line, 'kurung { belum ditutup');
+        if (d) throw PErr(k.line, tr('kurung { belum ditutup', 'brace { is not closed'));
         return {};
       }
-      throw PErr(k.line, 'nilai ga valid');
+      throw PErr(k.line, tr('nilai ga valid', 'invalid value'));
     }
     while (p < toks.length) {
       var k = toks[p];
-      if (k.t !== 'id' || k.v !== 'path') throw PErr(k.line, k.t === 'id' ? 'blok "' + k.v + '" ga dikenal. Isi policy itu blok path "..." { ... }' : 'harusnya diawali path "..."');
+      if (k.t !== 'id' || k.v !== 'path') throw PErr(k.line, k.t === 'id' ? tr('blok "', 'block "') + k.v + tr('" ga dikenal. Isi policy itu blok path "..." { ... }', '" is not recognized. A policy is made of path "..." { ... } blocks') : tr('harusnya diawali path "..."', 'should start with path "..."'));
       p++;
-      var ps = need('s', 'nama path berkutip, misal path "secret/data/app/*"');
-      var open = need('{', '{ setelah nama path');
+      var ps = need('s', tr('nama path berkutip, misal path "secret/data/app/*"', 'a quoted path name, e.g. path "secret/data/app/*"'));
+      var open = need('{', tr('{ setelah nama path', '{ after the path name'));
       var caps = null, capLine = open.line;
       while (toks[p] && toks[p].t !== '}') {
         var a = toks[p];
-        if (a.t !== 'id') throw PErr(a.line, 'harusnya atribut seperti capabilities = [...]');
+        if (a.t !== 'id') throw PErr(a.line, tr('harusnya atribut seperti capabilities = [...]', 'expected an attribute like capabilities = [...]'));
         p++;
-        need('=', '= setelah ' + a.v);
+        need('=', tr('= setelah ', '= after ') + a.v);
         var val = value();
         if (a.v === 'capabilities') {
-          if (!Array.isArray(val)) throw PErr(a.line, 'capabilities harus berupa list, misal ["read"]');
+          if (!Array.isArray(val)) throw PErr(a.line, tr('capabilities harus berupa list, misal ["read"]', 'capabilities must be a list, e.g. ["read"]'));
           caps = val;
           capLine = a.line;
         } else if (['allowed_parameters', 'denied_parameters', 'required_parameters', 'min_wrapping_ttl', 'max_wrapping_ttl'].indexOf(a.v) < 0) {
-          throw PErr(a.line, 'atribut "' + a.v + '" ga dikenal. Yang biasa dipakai: capabilities');
+          throw PErr(a.line, tr('atribut "', 'attribute "') + a.v + tr('" ga dikenal. Yang biasa dipakai: capabilities', '" is not recognized. The usual one is: capabilities'));
         }
       }
-      if (!toks[p]) throw PErr(open.line, 'blok path ini belum ditutup dengan }');
+      if (!toks[p]) throw PErr(open.line, tr('blok path ini belum ditutup dengan }', 'this path block is not closed with }'));
       p++;
-      if (!caps) throw PErr(ps.line, 'path "' + ps.v + '": belum ada capabilities');
+      if (!caps) throw PErr(ps.line, 'path "' + ps.v + tr('": belum ada capabilities', '": no capabilities yet'));
       caps.forEach(function (c) { if (CAPS.indexOf(c) < 0) throw PErr(capLine, 'path "' + ps.v + '": invalid capability "' + c + '"'); });
-      if (/\*./.test(ps.v)) throw PErr(ps.line, 'path "' + ps.v + '": tanda * cuma boleh di akhir path');
+      if (/\*./.test(ps.v)) throw PErr(ps.line, 'path "' + ps.v + tr('": tanda * cuma boleh di akhir path', '": * is only allowed at the end of a path'));
       rules.push({ path: ps.v.replace(/^\/+/, ''), caps: caps, line: ps.line });
     }
     return rules;
@@ -283,7 +284,7 @@
   function initWorld() {
     W = {
       tab: W ? W.tab : 'status',
-      env: { HOME: '/home/kamu', USER: 'kamu', SHELL: '/bin/bash', PATH: '/usr/local/bin:/usr/bin:/bin' },
+      env: { HOME: tr('/home/kamu', '/home/you'), USER: tr('kamu', 'you'), SHELL: '/bin/bash', PATH: '/usr/local/bin:/usr/bin:/bin' },
       shell: {}, tmp: null, fileToken: null, pending: null,
       init: false, sealed: true, shares: 0, threshold: 0, keys: [], parts: [], nonce: '', root: null,
       clusterId: uuid(), clusterName: 'vault-cluster-' + K.hex(8), activeSince: 0, sealedAt: now(),
@@ -324,9 +325,9 @@
     var t = W.tokens[id];
     if (!t) return;
     delete W.tokens[id];
-    W.dead[id] = why || 'dicabut';
+    W.dead[id] = why || tr('dicabut', 'revoked');
     Object.keys(W.tokens).forEach(function (k) { var c = W.tokens[k]; if (c && c.parent === id && !c.orphan) revokeToken(k, why); });
-    W.leases.slice().forEach(function (L) { if (L.token === id) endLease(L, 'token-nya ' + (why || 'dicabut')); });
+    W.leases.slice().forEach(function (L) { if (L.token === id) endLease(L, tr('token-nya ', 'its token ') + (why || tr('dicabut', 'revoked'))); });
   }
   function newLease(prefix, ttl, max, tok, info) {
     var L = { id: prefix + '/' + rs(24), path: prefix, issued: now(), renewed: 0, ttl: ttl, expires: now() + ttl * 1000, maxAt: now() + max * 1000, token: tok ? tok.id : null, info: info };
@@ -341,7 +342,7 @@
       W.dbUsers.forEach(function (u) { if (u.lease === L.id && !u.gone) { u.gone = now(); u.why = why; } });
       K.pulse(app, 'creds');
       K.flash(app, 'db', 'warn');
-      if (why === 'kedaluwarsa') toast('⏳ Lease habis. User <b>' + esc(L.info.user.slice(0, 26)) + '…</b> dihapus dari PostgreSQL.');
+      if (why === tr('kedaluwarsa', 'expired')) toast(tr('⏳ Lease habis. User <b>', '⏳ Lease expired. User <b>') + esc(L.info.user.slice(0, 26)) + tr('…</b> dihapus dari PostgreSQL.', '…</b> deleted from PostgreSQL.'));
       M.hit('dynamic');
     }
   }
@@ -358,7 +359,7 @@
   // ---------- terminal and output ----------
   var term = new K.Term($('vt-out'), $('vt-in'), { onCmd: onCmd });
   var toast = K.makeToast($('vt-toast'));
-  var M = new K.Missions($('vt-m-list'), $('vt-m-count'), MISSIONS, toast, '🔐 Semua misi Vault beres. Rahasia kamu aman!');
+  var M = new K.Missions($('vt-m-list'), $('vt-m-count'), MISSIONS, toast, tr('🔐 Semua misi Vault beres. Rahasia kamu aman!', '🔐 All Vault missions done. Your secrets are safe!'));
   var ed;
   var CAP = null;
   function emit(text, cls) {
@@ -375,7 +376,7 @@
   function dim(t) { term.line('<span class="sx-dim">' + esc(t) + '</span>'); }
   function hint(t) { term.line('<span class="sx-warn">' + esc(t) + '</span>'); }
   function ok(t) { if (CAP) { CAP.push(t + '\n'); return; } term.line('<span class="sx-ok">' + esc(t) + '</span>'); }
-  function prompt() { return 'kamu@laptop:~$'; }
+  function prompt() { return tr('kamu', 'you') + '@laptop:~$'; }
 
   function fmtVal(v) {
     if (v === null || v === undefined) return '<nil>';
@@ -434,13 +435,13 @@
     var a = (addr || 'https://127.0.0.1:8200').replace(/\/+$/, '');
     var u = a + '/v1/' + path + (method === 'LIST' ? '?list=true' : '');
     var m = /^(https?):\/\/([^/:]+)(?::(\d+))?$/.exec(a);
-    if (!m) return { msg: gm + ' "' + u + '": unsupported protocol scheme ""', hint: '# VAULT_ADDR harus lengkap dengan http:// dan port, misal ' + ADDR_OK };
+    if (!m) return { msg: gm + ' "' + u + '": unsupported protocol scheme ""', hint: tr('# VAULT_ADDR harus lengkap dengan http:// dan port, misal ', '# VAULT_ADDR must include http:// and the port, e.g. ') + ADDR_OK };
     var host = m[2], port = m[3] || (m[1] === 'https' ? '443' : '80');
     if (host === HOST && port === '8200') {
-      if (m[1] === 'https') return { msg: gm + ' "' + u + '": http: server gave HTTP response to HTTPS client', hint: '# listener vault-1 di simulasi ini pakai http. Pakai export VAULT_ADDR=' + ADDR_OK };
+      if (m[1] === 'https') return { msg: gm + ' "' + u + '": http: server gave HTTP response to HTTPS client', hint: tr('# listener vault-1 di simulasi ini pakai http. Pakai export VAULT_ADDR=', '# vault-1\'s listener in this simulation uses http. Use export VAULT_ADDR=') + ADDR_OK };
       return null;
     }
-    var h = !addr ? (W.shell.VAULT_ADDR ? '# VAULT_ADDR sudah di-set tapi belum di-export, jadi vault ga melihatnya. Jalankan: export VAULT_ADDR' : '# VAULT_ADDR belum di-set, jadi CLI mencoba https://127.0.0.1:8200 (laptop kamu sendiri). Jalankan: export VAULT_ADDR=' + ADDR_OK) : '# server Vault ada di ' + ADDR_OK;
+    var h = !addr ? (W.shell.VAULT_ADDR ? tr('# VAULT_ADDR sudah di-set tapi belum di-export, jadi vault ga melihatnya. Jalankan: export VAULT_ADDR', '# VAULT_ADDR is set but not exported, so vault doesn\'t see it. Run: export VAULT_ADDR') : tr('# VAULT_ADDR belum di-set, jadi CLI mencoba https://127.0.0.1:8200 (laptop kamu sendiri). Jalankan: export VAULT_ADDR=', '# VAULT_ADDR isn\'t set, so the CLI tries https://127.0.0.1:8200 (your own laptop). Run: export VAULT_ADDR=') + ADDR_OK) : tr('# server Vault ada di ', '# the Vault server is at ') + ADDR_OK;
     return { msg: gm + ' "' + u + '": dial tcp ' + host + ':' + port + ': connect: connection refused', hint: h };
   }
   function api(method, path, body, o) {
@@ -451,8 +452,8 @@
     if (n) { var ne = { net: true, msg: n.msg, hint: n.hint }; throw ne; }
     var e;
     K.pulse(app, 'api');
-    if (!W.init && !/^sys\/(seal-status|health|init|leader)$/.test(path)) { K.flash(app, 'vault', 'warn'); e = apiE(400, 'Vault is not initialized', '# Vault belum di-init. Jalankan: vault operator init'); }
-    else if (W.sealed && !SEAL_FREE.test(path)) { K.flash(app, 'vault', 'warn'); e = apiE(503, 'Vault is sealed', '# Vault masih tersegel. Buka dulu pakai vault operator unseal.'); }
+    if (!W.init && !/^sys\/(seal-status|health|init|leader)$/.test(path)) { K.flash(app, 'vault', 'warn'); e = apiE(400, 'Vault is not initialized', tr('# Vault belum di-init. Jalankan: vault operator init', '# Vault isn\'t initialized. Run: vault operator init')); }
+    else if (W.sealed && !SEAL_FREE.test(path)) { K.flash(app, 'vault', 'warn'); e = apiE(503, 'Vault is sealed', tr('# Vault masih tersegel. Buka dulu pakai vault operator unseal.', '# Vault is still sealed. Unseal it first with vault operator unseal.')); }
     if (e) { e.method = method; e.path = path; throw e; }
     var h, tok = null, op;
     try {
@@ -463,7 +464,7 @@
         tok = id ? W.tokens[id] : null;
         if (!tok) {
           K.flash(app, 'vault', 'warn');
-          throw apiE(403, 'permission denied', !id ? '# belum ada token. Login dulu: vault login' : W.dead[id] ? '# token ini sudah ' + W.dead[id] + '. Login lagi atau pakai token lain.' : '# token ini ga dikenal Vault. Cek lagi, mungkin salah salin.');
+          throw apiE(403, 'permission denied', !id ? tr('# belum ada token. Login dulu: vault login', '# no token yet. Log in first: vault login') : W.dead[id] ? tr('# token ini sudah ', '# this token is ') + W.dead[id] + tr('. Login lagi atau pakai token lain.', '. Log in again or use another token.') : tr('# token ini ga dikenal Vault. Cek lagi, mungkin salah salin.', '# Vault doesn\'t know this token. Check it, maybe it was copied wrong.'));
         }
         var caps = capsFor(tok, path);
         var allowed = caps[0] === 'root' || (caps.indexOf(op) >= 0 || (op === 'patch' && caps.indexOf('update') >= 0 && caps.indexOf('read') >= 0)) && (!h.sudo || caps.indexOf('sudo') >= 0);
@@ -490,10 +491,10 @@
     if (mt && mt.type === 'kv' && mt.version === 2) {
       var plain = m[1] + m[2];
       var miss = tok.policies.some(function (n) { var p = W.policies[n]; return p && p.rules.some(function (r) { return globRe(r.path).test(plain); }); });
-      if (miss) return '# policy kamu menulis path tanpa data/. Di KV v2, path API-nya ' + path + ', jadi tulis path "' + m[1] + 'data/..." di policy.';
+      if (miss) return tr('# policy kamu menulis path tanpa data/. Di KV v2, path API-nya ', '# your policy writes the path without data/. In KV v2 the API path is ') + path + tr(', jadi tulis path "', ', so write path "') + m[1] + tr('data/..." di policy.', 'data/..." in the policy.');
     }
-    if (h.sudo && caps.indexOf(op) >= 0) return '# path ini butuh kemampuan sudo.';
-    return '# policy token ini (' + tok.policies.join(', ') + ') ga mengizinkan "' + op + '" di ' + path + '. Cek pakai: vault token capabilities ' + path;
+    if (h.sudo && caps.indexOf(op) >= 0) return tr('# path ini butuh kemampuan sudo.', '# this path needs the sudo capability.');
+    return tr('# policy token ini (', '# this token\'s policies (') + tok.policies.join(', ') + tr(') ga mengizinkan "', ') don\'t allow "') + op + tr('" di ', '" on ') + path + tr('. Cek pakai: vault token capabilities ', '. Check with: vault token capabilities ') + path;
   }
   function policyMission(tok) {
     if (!tok || isRoot(tok)) return;
@@ -547,7 +548,7 @@
         fn: function () {
           var p = m[1].replace(/\/+$/, '');
           var mp = longest(W.mounts, p);
-          if (!mp || mp === 'sys/') throw apiE(403, 'preflight capability check returned 403, please ensure client\'s policies grant access to path "' + p + '/"', '# belum ada secrets engine di path ini. Aktifkan dulu, misal: vault secrets enable -path=secret kv-v2');
+          if (!mp || mp === 'sys/') throw apiE(403, 'preflight capability check returned 403, please ensure client\'s policies grant access to path "' + p + '/"', tr('# belum ada secrets engine di path ini. Aktifkan dulu, misal: vault secrets enable -path=secret kv-v2', '# no secrets engine at this path yet. Enable one first, e.g. vault secrets enable -path=secret kv-v2'));
           var mt = W.mounts[mp];
           return { data: { path: mp, type: mt.type, options: mt.type === 'kv' ? { version: String(mt.version || 1) } : null } };
         }
@@ -575,7 +576,7 @@
         return {
           sudo: true, op: 'update', fn: function (b) {
             if (W.audits[dp]) throw apiE(400, 'path already in use');
-            if (b.type !== 'file') throw apiE(400, 'unknown backend type: "' + (b.type || '') + '"', '# simulasi ini cuma punya audit device file');
+            if (b.type !== 'file') throw apiE(400, 'unknown backend type: "' + (b.type || '') + '"', tr('# simulasi ini cuma punya audit device file', '# this simulation only has the file audit device'));
             var fp = b.options && b.options.file_path;
             if (!fp) throw apiE(400, 'file_path is required');
             W.audits[dp] = { type: 'file', path: fp, accessor: 'file_' + K.hex(8), n: 0 };
@@ -609,13 +610,13 @@
       throw unsupported();
     }
     if (rel === 'leases/renew') return { op: 'update', fn: leaseRenew };
-    if (rel === 'leases/revoke') return { op: 'update', fn: function (b) { var L = findLease(b.lease_id); endLease(L, 'dicabut'); } };
+    if (rel === 'leases/revoke') return { op: 'update', fn: function (b) { var L = findLease(b.lease_id); endLease(L, tr('dicabut', 'revoked')); } };
     if (rel === 'leases/lookup') return { op: 'update', fn: function (b) { var L = findLease(b.lease_id); return { data: leaseInfo(L) }; } };
     if ((m = /^leases\/revoke-prefix\/(.+)$/.exec(rel))) {
       return {
         op: 'update', sudo: true, fn: function () {
           var pre = m[1];
-          W.leases.slice().forEach(function (L) { if (L.id.indexOf(pre) === 0) endLease(L, 'dicabut'); });
+          W.leases.slice().forEach(function (L) { if (L.id.indexOf(pre) === 0) endLease(L, tr('dicabut', 'revoked')); });
         }
       };
     }
@@ -647,7 +648,7 @@
     if (W.init) throw apiE(400, 'Vault is already initialized');
     var n = b.secret_shares === undefined ? 5 : +b.secret_shares, t = b.secret_threshold === undefined ? 3 : +b.secret_threshold;
     if (!(n >= 1) || !(t >= 1) || n !== Math.floor(n) || t !== Math.floor(t)) throw apiE(400, 'invalid seal configuration: share count must be a positive integer');
-    if (n > 10) throw apiE(400, 'invalid seal configuration: share count must be at most 10 di simulasi ini');
+    if (n > 10) throw apiE(400, tr('invalid seal configuration: share count must be at most 10 di simulasi ini', 'invalid seal configuration: share count must be at most 10 in this simulation'));
     if (t > n) throw apiE(400, 'invalid seal configuration: threshold must not be greater than shares');
     if (n > 1 && t < 2) throw apiE(400, 'invalid seal configuration: threshold must be greater than one for multiple shares');
     W.init = true;
@@ -668,14 +669,14 @@
     if (!W.sealed) return { data: sealStatus() };
     var k = String(b.key || '').trim();
     if (!k) throw apiE(400, '\'key\' must be specified in request body as JSON, or \'reset\' set to true');
-    if (!/^[A-Za-z0-9+/]+={0,2}$/.test(k)) throw apiE(400, '\'key\' must be a valid hex or base64 string', '# unseal key itu string base64 44 karakter dari output vault operator init');
+    if (!/^[A-Za-z0-9+/]+={0,2}$/.test(k)) throw apiE(400, '\'key\' must be a valid hex or base64 string', tr('# unseal key itu string base64 44 karakter dari output vault operator init', '# an unseal key is the 44-character base64 string from the vault operator init output'));
     if (!W.parts.length) W.nonce = uuid();
     if (W.parts.indexOf(k) >= 0) { W.dupKey = true; return { data: sealStatus() }; }
     W.parts.push(k);
     if (W.parts.length >= W.threshold) {
       var good = W.parts.every(function (p) { return W.keys.indexOf(p) >= 0; });
       W.parts = [];
-      if (!good) throw apiE(400, 'cipher: message authentication failed', '# ada key yang salah, jadi root key gagal disusun. Progress unseal di-reset; ulangi dengan key yang benar.');
+      if (!good) throw apiE(400, 'cipher: message authentication failed', tr('# ada key yang salah, jadi root key gagal disusun. Progress unseal di-reset; ulangi dengan key yang benar.', '# one key was wrong, so the root key could not be rebuilt. Unseal progress was reset; start again with the right keys.'));
       var gap = now() - W.sealedAt;
       W.leases.forEach(function (L) { L.expires += gap; L.maxAt += gap; });
       Object.keys(W.tokens).forEach(function (id) { var t = W.tokens[id]; if (t.expires) t.expires += gap; });
@@ -704,8 +705,8 @@
     if (clash || Object.keys(W.mounts).some(function (k) { return k.indexOf(mp) === 0; })) throw apiE(400, 'path is already in use at ' + (clash || mp));
     if (/^(auth|sys|cubbyhole|identity)\//.test(mp)) throw apiE(400, 'cannot mount "' + mp + '" of type "' + type + '": reserved path');
     if (!SUPPORTED[type]) {
-      if (KNOWN.indexOf(type) >= 0) throw apiE(400, 'plugin not found in the catalog: ' + type, '# ' + type + ' ada di Vault beneran, tapi belum ada di simulasi ini. Yang ada: kv, kv-v2, transit, database');
-      throw apiE(400, 'plugin not found in the catalog: ' + type, '# simulasi ini punya secrets engine kv, kv-v2, transit, dan database');
+      if (KNOWN.indexOf(type) >= 0) throw apiE(400, 'plugin not found in the catalog: ' + type, '# ' + type + tr(' ada di Vault beneran, tapi belum ada di simulasi ini. Yang ada: kv, kv-v2, transit, database', ' exists in real Vault, but not in this simulation yet. Available: kv, kv-v2, transit, database'));
+      throw apiE(400, 'plugin not found in the catalog: ' + type, tr('# simulasi ini punya secrets engine kv, kv-v2, transit, dan database', '# this simulation has the kv, kv-v2, transit, and database secrets engines'));
     }
     var v = type === 'kv' ? (+((b.options || {}).version) === 2 ? 2 : 1) : 0;
     addMount(mp, type, b.description || '', v);
@@ -713,21 +714,21 @@
   function disableMount(mp) {
     if (/^(sys|cubbyhole|identity)\/$/.test(mp)) throw apiE(400, 'cannot unmount "' + mp + '"');
     if (!W.mounts[mp]) return;
-    W.leases.slice().forEach(function (L) { if (L.id.indexOf(mp) === 0) endLease(L, 'dicabut'); });
+    W.leases.slice().forEach(function (L) { if (L.id.indexOf(mp) === 0) endLease(L, tr('dicabut', 'revoked')); });
     delete W.mounts[mp];
   }
   function enableAuth(ap, b) {
     if (W.auths[ap]) throw apiE(400, 'path is already in use at auth/' + ap);
     if (b.type !== 'approle') {
-      if (['userpass', 'kubernetes', 'oidc', 'jwt', 'ldap', 'github', 'aws', 'cert', 'gcp', 'azure'].indexOf(b.type) >= 0) throw apiE(400, 'plugin not found in the catalog: ' + b.type, '# ' + b.type + ' ada di Vault beneran, tapi simulasi ini baru punya auth method approle');
-      throw apiE(400, 'plugin not found in the catalog: ' + b.type, '# simulasi ini baru punya auth method approle');
+      if (['userpass', 'kubernetes', 'oidc', 'jwt', 'ldap', 'github', 'aws', 'cert', 'gcp', 'azure'].indexOf(b.type) >= 0) throw apiE(400, 'plugin not found in the catalog: ' + b.type, '# ' + b.type + tr(' ada di Vault beneran, tapi simulasi ini baru punya auth method approle', ' exists in real Vault, but this simulation only has the approle auth method'));
+      throw apiE(400, 'plugin not found in the catalog: ' + b.type, tr('# simulasi ini baru punya auth method approle', '# this simulation only has the approle auth method'));
     }
     W.auths[ap] = { type: 'approle', accessor: 'auth_approle_' + K.hex(8), desc: b.description || '', roles: {} };
   }
   function findLease(id) {
     if (!id) throw apiE(400, 'lease_id must be specified');
     var L = W.leases.filter(function (x) { return x.id === id; })[0];
-    if (!L) throw apiE(400, 'invalid lease', '# lease ini ga ada. Mungkin sudah habis atau sudah dicabut.');
+    if (!L) throw apiE(400, 'invalid lease', tr('# lease ini ga ada. Mungkin sudah habis atau sudah dicabut.', '# this lease doesn\'t exist. It may have expired or been revoked.'));
     return L;
   }
   function leaseRenew(b) {
@@ -759,8 +760,8 @@
     if (rel === 'lookup-self') return { op: 'read', fn: function (b, tok) { return { data: tokenInfo(tok) }; } };
     if (rel === 'lookup') return { op: 'update', fn: function (b) { var t = W.tokens[b.token]; if (!t) throw apiE(403, 'bad token'); return { data: tokenInfo(t) }; } };
     if (rel === 'create' || rel === 'create-orphan') return { op: 'update', fn: function (b, tok) { return { auth: createToken(b, tok, rel === 'create-orphan') }; } };
-    if (rel === 'revoke-self') return { op: 'update', fn: function (b, tok) { revokeToken(tok.id, 'dicabut'); } };
-    if (rel === 'revoke') return { op: 'update', fn: function (b) { if (!b.token) throw apiE(400, 'missing token'); revokeToken(b.token, 'dicabut'); } };
+    if (rel === 'revoke-self') return { op: 'update', fn: function (b, tok) { revokeToken(tok.id, tr('dicabut', 'revoked')); } };
+    if (rel === 'revoke') return { op: 'update', fn: function (b) { if (!b.token) throw apiE(400, 'missing token'); revokeToken(b.token, tr('dicabut', 'revoked')); } };
     if (rel === 'renew-self') {
       return {
         op: 'update', fn: function (b, tok) {
@@ -847,7 +848,7 @@
     if (!r) throw apiE(400, 'invalid role or secret ID');
     if (!b.secret_id) throw apiE(400, 'missing secret_id');
     var s = r.sids.filter(function (x) { return x.id === b.secret_id; })[0];
-    if (!s || (s.exp && s.exp < now())) throw apiE(400, 'invalid role or secret ID', s ? '# secret-id ini sudah kedaluwarsa. Minta yang baru.' : null);
+    if (!s || (s.exp && s.exp < now())) throw apiE(400, 'invalid role or secret ID', s ? tr('# secret-id ini sudah kedaluwarsa. Minta yang baru.', '# this secret-id has expired. Request a new one.') : null);
     if (s.uses) { s.left = (s.left === undefined ? s.uses : s.left) - 1; if (s.left <= 0) r.sids.splice(r.sids.indexOf(s), 1); }
     var t = newToken({ policies: uniq(r.policies.concat(['default'])).sort(), ttl: r.ttl || SYS_TTL, display: 'approle', path: 'auth/approle/login', orphan: true, meta: { role_name: r.name } });
     W.last.appToken = t.id;
@@ -894,7 +895,7 @@
     if ((rel === 'metadata' || rel === 'metadata/') && method === 'LIST') {
       return { fn: function () { var ks = keysUnder(Object.keys(m.secrets), ''); return ks.length ? { data: { keys: ks } } : { notFound: true }; } };
     }
-    if (!mm) throw apiE(404, 'Invalid path for a versioned K/V secrets engine. See the API docs for the appropriate API endpoints to use. If using the Vault CLI, use \'vault kv ' + (method === 'GET' ? 'get' : 'put') + '\' for this operation.', '# di KV v2 pakai vault kv get/put, atau path API ' + mp + 'data/' + rel);
+    if (!mm) throw apiE(404, 'Invalid path for a versioned K/V secrets engine. See the API docs for the appropriate API endpoints to use. If using the Vault CLI, use \'vault kv ' + (method === 'GET' ? 'get' : 'put') + '\' for this operation.', tr('# di KV v2 pakai vault kv get/put, atau path API ', '# in KV v2 use vault kv get/put, or the API path ') + mp + 'data/' + rel);
     var kind = mm[1], p = mm[2], s = m.secrets[p];
     if (kind === 'data') {
       if (method === 'GET') {
@@ -987,7 +988,7 @@
         };
       }
       if (isWrite(method)) return { exists: !!key, fn: function () { if (!key) m.keys[kn] = newTKey(); } };
-      if (method === 'DELETE') return { fn: function () { if (!key) return; if (!key.del) throw apiE(400, 'deletion is not allowed for this key', '# kunci transit ga bisa dihapus kecuali deletion_allowed=true. Ini sengaja: kunci hilang = data terenkripsi hilang.'); delete m.keys[kn]; } };
+      if (method === 'DELETE') return { fn: function () { if (!key) return; if (!key.del) throw apiE(400, 'deletion is not allowed for this key', tr('# kunci transit ga bisa dihapus kecuali deletion_allowed=true. Ini sengaja: kunci hilang = data terenkripsi hilang.', '# a transit key can\'t be deleted unless deletion_allowed=true. That\'s on purpose: lose the key = lose the encrypted data.')); delete m.keys[kn]; } };
       throw unsupported();
     }
     if ((x = /^keys\/([^/]+)\/rotate$/.exec(rel))) {
@@ -1027,17 +1028,17 @@
           if (act === 'encrypt') {
             if (b.plaintext === undefined) throw apiE(400, 'missing plaintext to encrypt');
             var pt = String(b.plaintext);
-            if (!isB64(pt)) throw apiE(400, 'failed to base64-decode plaintext', '# plaintext harus base64. Contoh: plaintext=$(echo -n "halo vault" | base64)');
+            if (!isB64(pt)) throw apiE(400, 'failed to base64-decode plaintext', tr('# plaintext harus base64. Contoh: plaintext=$(echo -n "halo vault" | base64)', '# plaintext must be base64. Example: plaintext=$(echo -n "halo vault" | base64)'));
             if (!k) k = m.keys[name] = newTKey();
             return { data: { ciphertext: makeCt(mp, name, k, pt), key_version: k.latest } };
           }
           if (!k) throw apiE(400, 'encryption key not found');
           var ct = String(b.ciphertext || '');
           if (!ct) throw apiE(400, 'missing ciphertext to decrypt');
-          if (!/^vault:v\d+:/.test(ct)) throw apiE(400, 'invalid ciphertext: no prefix', '# ciphertext transit selalu diawali vault:v1:, vault:v2:, dan seterusnya');
+          if (!/^vault:v\d+:/.test(ct)) throw apiE(400, 'invalid ciphertext: no prefix', tr('# ciphertext transit selalu diawali vault:v1:, vault:v2:, dan seterusnya', '# transit ciphertext always starts with vault:v1:, vault:v2:, and so on'));
           var c = W.ciphers[ct], ver = +/^vault:v(\d+):/.exec(ct)[1];
           if (ver < k.minDec) throw apiE(400, 'ciphertext or signature version is disallowed by policy (too old)');
-          if (!c || c.mount !== mp || c.key !== name) throw apiE(400, 'cipher: message authentication failed', '# ciphertext ini bukan hasil enkripsi kunci ' + name + ', atau ada karakter yang berubah');
+          if (!c || c.mount !== mp || c.key !== name) throw apiE(400, 'cipher: message authentication failed', tr('# ciphertext ini bukan hasil enkripsi kunci ', '# this ciphertext was not encrypted with key ') + name + tr(', atau ada karakter yang berubah', ', or some characters changed'));
           if (act === 'decrypt') { M.hit('transit'); W.last.pt = c.pt; return { data: { plaintext: c.pt } }; }
           return { data: { ciphertext: makeCt(mp, name, k, c.pt), key_version: k.latest } };
         }
@@ -1081,12 +1082,12 @@
         return {
           exists: !!m.configs[cn], fn: function (b) {
             if (!b.plugin_name) throw apiE(400, 'empty plugin name');
-            if (b.plugin_name !== 'postgresql-database-plugin') throw apiE(400, 'error creating database object: invalid database version: no database plugin named "' + b.plugin_name + '" found', /mysql|mongo|redis|mssql|oracle/.test(b.plugin_name) ? '# di simulasi ini cuma ada PostgreSQL: plugin_name=postgresql-database-plugin' : '# nama plugin PostgreSQL: postgresql-database-plugin');
+            if (b.plugin_name !== 'postgresql-database-plugin') throw apiE(400, 'error creating database object: invalid database version: no database plugin named "' + b.plugin_name + '" found', /mysql|mongo|redis|mssql|oracle/.test(b.plugin_name) ? tr('# di simulasi ini cuma ada PostgreSQL: plugin_name=postgresql-database-plugin', '# this simulation only has PostgreSQL: plugin_name=postgresql-database-plugin') : tr('# nama plugin PostgreSQL: postgresql-database-plugin', '# the PostgreSQL plugin name: postgresql-database-plugin'));
             var c = parseConn(b.connection_url, b);
             if (!c) throw apiE(400, 'error creating database object: error verifying connection: cannot parse connection_url', '# formatnya: postgresql://{{username}}:{{password}}@' + DB_HOST + ':5432/app');
-            if (c.host !== DB_HOST || c.port !== '5432') throw apiE(400, 'error creating database object: error verifying connection: dial tcp ' + c.host + ':' + c.port + ': connect: connection refused', '# PostgreSQL di lab ini ada di ' + DB_HOST + ':5432 (lihat cat db-admin.txt)');
-            if (c.user !== DB_ADMIN.user || c.pass !== DB_ADMIN.pass) throw apiE(400, 'error creating database object: error verifying connection: failed to connect to `host=' + DB_HOST + ' user=' + (c.user || '') + ' database=' + c.db + '`: failed SASL auth (FATAL: password authentication failed for user "' + (c.user || '') + '" (SQLSTATE 28P01))', '# user dan password admin ada di file db-admin.txt');
-            if (c.db !== DB_ADMIN.db) throw apiE(400, 'error creating database object: error verifying connection: FATAL: database "' + c.db + '" does not exist (SQLSTATE 3D000)', '# nama database-nya app');
+            if (c.host !== DB_HOST || c.port !== '5432') throw apiE(400, 'error creating database object: error verifying connection: dial tcp ' + c.host + ':' + c.port + ': connect: connection refused', tr('# PostgreSQL di lab ini ada di ', '# PostgreSQL in this lab is at ') + DB_HOST + tr(':5432 (lihat cat db-admin.txt)', ':5432 (see cat db-admin.txt)'));
+            if (c.user !== DB_ADMIN.user || c.pass !== DB_ADMIN.pass) throw apiE(400, 'error creating database object: error verifying connection: failed to connect to `host=' + DB_HOST + ' user=' + (c.user || '') + ' database=' + c.db + '`: failed SASL auth (FATAL: password authentication failed for user "' + (c.user || '') + '" (SQLSTATE 28P01))', tr('# user dan password admin ada di file db-admin.txt', '# the admin user and password are in the db-admin.txt file'));
+            if (c.db !== DB_ADMIN.db) throw apiE(400, 'error creating database object: error verifying connection: FATAL: database "' + c.db + '" does not exist (SQLSTATE 3D000)', tr('# nama database-nya app', '# the database name is app'));
             m.configs[cn] = { plugin: b.plugin_name, url: b.connection_url, user: c.user, roles: list(b.allowed_roles) };
             K.pulse(app, 'creds');
             K.flash(app, 'db');
@@ -1111,9 +1112,9 @@
         return {
           exists: !!m.roles[rn], fn: function (b) {
             if (!b.db_name) throw apiE(400, 'empty database name attribute');
-            if (!b.creation_statements) throw apiE(400, 'creation_statements is required', '# isi creation_statements dengan SQL CREATE ROLE ... buat bikin user');
+            if (!b.creation_statements) throw apiE(400, 'creation_statements is required', tr('# isi creation_statements dengan SQL CREATE ROLE ... buat bikin user', '# fill creation_statements with SQL CREATE ROLE ... to create the user'));
             var sql = String(b.creation_statements);
-            if (!/\{\{\s*name\s*\}\}/.test(sql) || !/\{\{\s*password\s*\}\}/.test(sql)) throw apiE(400, 'creation_statements harus memakai {{name}} dan {{password}}');
+            if (!/\{\{\s*name\s*\}\}/.test(sql) || !/\{\{\s*password\s*\}\}/.test(sql)) throw apiE(400, tr('creation_statements harus memakai {{name}} dan {{password}}', 'creation_statements must use {{name}} and {{password}}'));
             var ttl = parseDur(b.default_ttl), max = parseDur(b.max_ttl);
             if (isNaN(ttl) || isNaN(max)) throw apiE(400, 'invalid duration');
             if (ttl && max && ttl > max) throw apiE(400, 'ttl cannot be greater than max_ttl');
@@ -1133,7 +1134,7 @@
           if (!r) throw apiE(400, 'unknown role: ' + x[1]);
           var c = m.configs[r.db];
           if (!c) throw apiE(400, 'error getting database: database "' + r.db + '" is not configured');
-          if (c.roles.indexOf('*') < 0 && c.roles.indexOf(x[1]) < 0) throw apiE(400, '"' + x[1] + '" is not an allowed role', '# tambahkan role ini ke allowed_roles di database/config/' + r.db);
+          if (c.roles.indexOf('*') < 0 && c.roles.indexOf(x[1]) < 0) throw apiE(400, '"' + x[1] + '" is not an allowed role', tr('# tambahkan role ini ke allowed_roles di database/config/', '# add this role to allowed_roles in database/config/') + r.db);
           var user = ('v-' + tok.display + '-' + x[1].slice(0, 8) + '-' + rs(20) + '-' + Math.floor(now() / 1000)).slice(0, 63);
           var pw = 'A1a-' + rs(16);
           var L = newLease(mp + 'creds/' + x[1], Math.min(r.ttl, r.max), r.max, tok, { kind: 'db', user: user, ttl: r.ttl });
@@ -1220,7 +1221,7 @@
     if (!w.length) {
       Object.keys(tmp).forEach(function (k) { W.shell[k] = tmp[k]; if (W.env[k] !== undefined) W.env[k] = tmp[k]; });
       if ((tmp.VAULT_ADDR !== undefined && W.env.VAULT_ADDR === undefined) || (tmp.VAULT_TOKEN !== undefined && W.env.VAULT_TOKEN === undefined)) {
-        hint('# ini cuma variabel shell, belum kelihatan oleh perintah vault. Pakai export, misal: export ' + (tmp.VAULT_ADDR !== undefined ? 'VAULT_ADDR' : 'VAULT_TOKEN'));
+        hint(tr('# ini cuma variabel shell, belum kelihatan oleh perintah vault. Pakai export, misal: export ', '# this is just a shell variable, the vault command can\'t see it yet. Use export, e.g. export ') + (tmp.VAULT_ADDR !== undefined ? 'VAULT_ADDR' : 'VAULT_TOKEN'));
       }
       return;
     }
@@ -1231,9 +1232,9 @@
 
   // ---------- laptop commands ----------
   var FILES = {
-    'db-admin.txt': '# akun admin PostgreSQL yang dipakai Vault buat bikin user (khusus lab)\nhost: ' + DB_HOST + ':5432\ndatabase: app\nuser: vault\npassword: vault-pass'
+    'db-admin.txt': tr('# akun admin PostgreSQL yang dipakai Vault buat bikin user (khusus lab)\nhost: ', '# the PostgreSQL admin account Vault uses to create users (lab only)\nhost: ') + DB_HOST + ':5432\ndatabase: app\nuser: vault\npassword: vault-pass'
   };
-  function fileName(f) { return String(f || '').replace(/^(\.\/|~\/|\/home\/kamu\/)/, ''); }
+  function fileName(f) { return String(f || '').replace(/^(\.\/|~\/|\/home\/kamu\/|\/home\/you\/)/, ''); }
   function readFile(f) {
     var n = fileName(f);
     if (n === 'app-read.hcl') return ed.get();
@@ -1265,7 +1266,7 @@
       var src = stdin;
       var f = w.slice(1).filter(function (x) { return x[0] !== '-'; })[0];
       if (src === null && f) { src = readFile(f); if (src === null) throw E('base64: ' + f + ': No such file or directory'); }
-      if (src === null) { dim('# base64 butuh input dari pipe, misal: echo -n "halo" | base64'); return; }
+      if (src === null) { dim(tr('# base64 butuh input dari pipe, misal: echo -n "halo" | base64', '# base64 needs input from a pipe, e.g. echo -n "halo" | base64')); return; }
       if (dec) {
         var r = unb64(src.trim());
         if (r === null) throw E('base64: invalid input');
@@ -1275,7 +1276,7 @@
     }
     if (c === 'jq') { jq(w.slice(1), stdin); return; }
     if (c === 'grep') {
-      if (stdin === null) { dim('# grep di sini cuma buat dipakai lewat pipe, misal: vault secrets list | grep kv'); return; }
+      if (stdin === null) { dim(tr('# grep di sini cuma buat dipakai lewat pipe, misal: vault secrets list | grep kv', '# grep here only works through a pipe, e.g. vault secrets list | grep kv')); return; }
       var pat = w.slice(1).filter(function (x) { return x[0] !== '-'; })[0] || '';
       var iflag = w.indexOf('-i') > 0;
       stdin.split('\n').forEach(function (l) { if (l && (iflag ? l.toLowerCase().indexOf(pat.toLowerCase()) : l.indexOf(pat)) >= 0) emit(l); });
@@ -1298,20 +1299,20 @@
       return;
     }
     if (c === 'nano' || c === 'vim' || c === 'vi' || c === 'code') {
-      if (fileName(w[1]) === 'app-read.hcl') { W.tab = 'akses'; render(); setTimeout(function () { ed.ta.focus(); }, 50); dim('# file app-read.hcl dibuka di panel akses. Edit di sana, lalu jalankan vault policy write.'); }
-      else dim('# di simulasi ini yang bisa diedit cuma app-read.hcl (di panel akses)');
+      if (fileName(w[1]) === 'app-read.hcl') { W.tab = 'akses'; render(); setTimeout(function () { ed.ta.focus(); }, 50); dim(tr('# file app-read.hcl dibuka di panel akses. Edit di sana, lalu jalankan vault policy write.', '# app-read.hcl is open in the access panel. Edit it there, then run vault policy write.')); }
+      else dim(tr('# di simulasi ini yang bisa diedit cuma app-read.hcl (di panel akses)', '# in this simulation only app-read.hcl can be edited (in the access panel)'));
       return;
     }
-    if (c === 'whoami') { out('kamu'); return; }
+    if (c === 'whoami') { out(tr('kamu', 'you')); return; }
     if (c === 'hostname') { out('laptop'); return; }
-    if (c === 'pwd') { out('/home/kamu'); return; }
-    if (c === 'cd') { dim('# simulasi ini cuma punya satu folder: /home/kamu'); return; }
+    if (c === 'pwd') { out(tr('/home/kamu', '/home/you')); return; }
+    if (c === 'cd') { dim(tr('# simulasi ini cuma punya satu folder: /home/kamu', '# this simulation has only one folder: /home/you')); return; }
     if (c === 'which') { if (w[1] === 'vault') out('/usr/local/bin/vault'); else if (w[1]) err(w[1] + ' not found'); return; }
     if (c === 'curl') { curl(w.slice(1)); return; }
     if (c === 'history') { term.hist.forEach(function (h, i) { out(pad(String(i + 1), 5) + h); }); return; }
-    if (c === 'sudo') { dim('# ga perlu sudo buat vault CLI'); return; }
-    if (c === 'psql') { dim('# psql ga ada di laptop ini. User yang dibuat Vault kelihatan di tab lease, bagian PostgreSQL.'); return; }
-    if (c === 'exit' || c === 'logout') { dim('# ini terminal laptop kamu. Ga ada yang perlu di-exit.'); return; }
+    if (c === 'sudo') { dim(tr('# ga perlu sudo buat vault CLI', '# no sudo needed for the vault CLI')); return; }
+    if (c === 'psql') { dim(tr('# psql ga ada di laptop ini. User yang dibuat Vault kelihatan di tab lease, bagian PostgreSQL.', '# psql isn\'t on this laptop. Users created by Vault show up in the lease tab, PostgreSQL section.')); return; }
+    if (c === 'exit' || c === 'logout') { dim(tr('# ini terminal laptop kamu. Ga ada yang perlu di-exit.', '# this is your laptop\'s terminal. There\'s nothing to exit.')); return; }
     throw E('bash: ' + c + ': command not found');
   }
   function doExport(a) {
@@ -1322,16 +1323,16 @@
       var k = x.slice(0, i), v = x.slice(i + 1);
       W.env[k] = v;
       W.shell[k] = v;
-      if (k === 'VAULT_ADDR' && v.replace(/\/+$/, '') !== ADDR_OK) hint('# server Vault di lab ini ada di ' + ADDR_OK);
+      if (k === 'VAULT_ADDR' && v.replace(/\/+$/, '') !== ADDR_OK) hint(tr('# server Vault di lab ini ada di ', '# the Vault server in this lab is at ') + ADDR_OK);
       if (k === 'VAULT_ADDR' && v.replace(/\/+$/, '') === ADDR_OK) W.env[k] = ADDR_OK;
     });
   }
   function jq(a, stdin) {
-    if (stdin === null) { dim('# jq dipakai lewat pipe, misal: vault kv get -format=json secret/app/db | jq -r .data.data.password'); return; }
+    if (stdin === null) { dim(tr('# jq dipakai lewat pipe, misal: vault kv get -format=json secret/app/db | jq -r .data.data.password', '# use jq through a pipe, e.g. vault kv get -format=json secret/app/db | jq -r .data.data.password')); return; }
     var raw = a.indexOf('-r') >= 0, f = a.filter(function (x) { return x[0] !== '-'; })[0] || '.';
     var v;
-    try { v = JSON.parse(stdin); } catch (e) { throw E('jq: error (at <stdin>:1): Cannot parse input as JSON. Pakai -format=json di perintah vault.'); }
-    if (!/^\.([\w-]+(\.[\w-]+)*)?$/.test(f) && f !== '.') throw E('jq: simulasi ini cuma paham filter sederhana seperti .data.data.password');
+    try { v = JSON.parse(stdin); } catch (e) { throw E(tr('jq: error (at <stdin>:1): Cannot parse input as JSON. Pakai -format=json di perintah vault.', 'jq: error (at <stdin>:1): Cannot parse input as JSON. Use -format=json in the vault command.')); }
+    if (!/^\.([\w-]+(\.[\w-]+)*)?$/.test(f) && f !== '.') throw E(tr('jq: simulasi ini cuma paham filter sederhana seperti .data.data.password', 'jq: this simulation only understands simple filters like .data.data.password'));
     f.slice(1).split('.').filter(Boolean).forEach(function (k) { v = v === null || v === undefined ? null : v[k]; });
     if (v === undefined) v = null;
     if (raw && typeof v === 'string') emit(v);
@@ -1349,7 +1350,7 @@
     if (!url) { err('curl: try \'curl --help\' for more information'); return; }
     var m = /^(https?:\/\/[^/]+)\/v1\/(.+)$/.exec(url);
     if (!m) { err('curl: (7) Failed to connect to ' + url.replace(/^\w+:\/\//, '').split('/')[0] + ': Connection refused'); return; }
-    if (method !== 'GET' && method !== 'LIST') { dim('# di simulasi ini curl cuma buat GET. Buat menulis, pakai vault write.'); return; }
+    if (method !== 'GET' && method !== 'LIST') { dim(tr('# di simulasi ini curl cuma buat GET. Buat menulis, pakai vault write.', '# in this simulation curl only does GET. To write, use vault write.')); return; }
     var prevTmp = W.tmp;
     W.tmp = Object.assign({}, W.tmp || {}, { VAULT_ADDR: m[1] });
     try {
@@ -1358,23 +1359,23 @@
       emit(JSON.stringify(/^sys\/(health|seal-status)$/.test(m[2]) ? r.data : respJSON(r)));
     } catch (e) {
       if (e && e.net) { err('curl: (7) Failed to connect to ' + m[1].replace(/^\w+:\/\//, '') + ': Connection refused'); return; }
-      if (e && e.api) { emit(JSON.stringify({ errors: e.msgs })); if (e.code === 403 && !hdr['x-vault-token']) hint('# curl ga otomatis pakai VAULT_TOKEN. Tambahkan -H "X-Vault-Token: $VAULT_TOKEN"'); else if (e.hint) hint(e.hint); return; }
+      if (e && e.api) { emit(JSON.stringify({ errors: e.msgs })); if (e.code === 403 && !hdr['x-vault-token']) hint(tr('# curl ga otomatis pakai VAULT_TOKEN. Tambahkan -H "X-Vault-Token: $VAULT_TOKEN"', '# curl doesn\'t use VAULT_TOKEN automatically. Add -H "X-Vault-Token: $VAULT_TOKEN"')); else if (e.hint) hint(e.hint); return; }
       throw e;
     } finally { W.tmp = prevTmp; }
   }
   function versionQ(p) { var m = /[?&]version=(\d+)/.exec(p); return m ? { version: +m[1] } : {}; }
   function help() {
     term.lines([
-      '<b>Perintah yang bisa dicoba</b> (ketik atau klik tombol di bawah):',
+      tr('<b>Perintah yang bisa dicoba</b> (ketik atau klik tombol di bawah):', '<b>Commands you can try</b> (type them or click the buttons below):'),
       '  export VAULT_ADDR=' + ADDR_OK + '   vault status   vault operator init | unseal | seal',
       '  vault login [token]   vault token lookup | create -policy=... | revoke | capabilities PATH',
       '  vault secrets enable [-path=..] kv-v2 | transit | database   vault secrets list',
       '  vault kv put | get [-version=N] [-field=x] | list | delete | undelete | destroy | rollback | metadata get',
-      '  vault policy write NAMA app-read.hcl | read | list | delete',
+      tr('  vault policy write NAMA app-read.hcl | read | list | delete', '  vault policy write NAME app-read.hcl | read | list | delete'),
       '  vault auth enable approle   vault read | write | list | delete PATH   vault lease renew | revoke | lookup',
       '  vault audit enable file file_path=/var/log/vault_audit.log   vault operator raft list-peers',
       '  ls  cat FILE  echo  env  unset  base64 [-d]  jq -r .a.b  grep  curl -H "X-Vault-Token: ..." URL',
-      '<span class="sx-dim">  bisa juga: VAULT_TOKEN=hvs... vault kv get ...,  $(echo -n "teks" | base64),  ... | base64 -d</span>'
+      tr('<span class="sx-dim">  bisa juga: VAULT_TOKEN=hvs... vault kv get ...,  $(echo -n "teks" | base64),  ... | base64 -d</span>', '<span class="sx-dim">  also works: VAULT_TOKEN=hvs... vault kv get ...,  $(echo -n "text" | base64),  ... | base64 -d</span>')
     ]);
   }
 
@@ -1435,11 +1436,11 @@
     var fn = {
       status: cStatus, operator: cOperator, login: cLogin, token: cToken, secrets: cSecrets, auth: cAuth, policy: cPolicy,
       kv: cKv, read: cRead, write: cWrite, list: cList, delete: cDelete, lease: cLease, audit: cAudit,
-      version: function () { out('Vault v' + VERSION + ' (simulasi), built ' + BUILD); }
+      version: function () { out('Vault v' + VERSION + tr(' (simulasi), built ', ' (simulated), built ') + BUILD); }
     }[c];
     if (!fn) {
-      if (['agent', 'server', 'ssh', 'pki', 'transit', 'plugin', 'namespace', 'monitor', 'debug', 'path-help', 'unwrap', 'print', 'events', 'proxy'].indexOf(c) >= 0) throw E('perintah "vault ' + c + '" ada di Vault beneran, tapi belum ada di simulasi ini.');
-      throw E('Usage: vault <command> [args]\n\nvault: unknown command "' + c + '". Ketik help buat daftar perintah.');
+      if (['agent', 'server', 'ssh', 'pki', 'transit', 'plugin', 'namespace', 'monitor', 'debug', 'path-help', 'unwrap', 'print', 'events', 'proxy'].indexOf(c) >= 0) throw E(tr('perintah "vault ', 'the command "vault ') + c + tr('" ada di Vault beneran, tapi belum ada di simulasi ini.', '" exists in real Vault, but not in this simulation yet.'));
+      throw E('Usage: vault <command> [args]\n\nvault: unknown command "' + c + tr('". Ketik help buat daftar perintah.', '". Type help for the command list.'));
     }
     fn(P);
   }
@@ -1458,8 +1459,8 @@
   function cStatus(P) {
     var r = call('Error checking seal status: ', 'GET', 'sys/seal-status');
     show(P, r.data, statusPairs());
-    if (!W.init) hint('# Vault belum di-init. Lanjut: vault operator init');
-    else if (W.sealed) hint('# Vault tersegel. Lanjut: vault operator unseal (butuh ' + W.threshold + ' key)');
+    if (!W.init) hint(tr('# Vault belum di-init. Lanjut: vault operator init', '# Vault isn\'t initialized. Next: vault operator init'));
+    else if (W.sealed) hint(tr('# Vault tersegel. Lanjut: vault operator unseal (butuh ', '# Vault is sealed. Next: vault operator unseal (needs ') + W.threshold + ' key)');
   }
   function cOperator(P) {
     var s = P.pos[1];
@@ -1481,14 +1482,14 @@
         'It is possible to generate new unseal keys, provided you have a quorum of',
         'existing unseal keys shares. See "vault operator rekey" for more information.');
       block(lines.join('\n'));
-      if (!CAP) hint('# Vault sudah di-init tapi masih tersegel. Lanjut: vault operator unseal');
+      if (!CAP) hint(tr('# Vault sudah di-init tapi masih tersegel. Lanjut: vault operator unseal', '# Vault is initialized but still sealed. Next: vault operator unseal'));
       return;
     }
     if (s === 'unseal') {
       if (P.has('reset')) { var rr = call('Error resetting unseal process: ', 'PUT', 'sys/unseal', { reset: true }); show(P, rr.data, statusPairs()); return; }
       if (!P.pos[2]) {
         call('Error checking seal status: ', 'GET', 'sys/seal-status');
-        if (!W.init) throw E('Error unsealing: Error making API request.\n\nURL: PUT ' + ADDR_OK + '/v1/sys/unseal\nCode: 400. Errors:\n\n* Vault is not initialized', '# init dulu: vault operator init');
+        if (!W.init) throw E('Error unsealing: Error making API request.\n\nURL: PUT ' + ADDR_OK + '/v1/sys/unseal\nCode: 400. Errors:\n\n* Vault is not initialized', tr('# init dulu: vault operator init', '# init first: vault operator init'));
         if (!W.sealed) { show(P, sealStatus(), statusPairs()); return; }
         setPending('unseal');
         return;
@@ -1499,7 +1500,7 @@
     if (s === 'seal') {
       call('Error sealing: ', 'PUT', 'sys/seal');
       ok('Success! Vault is sealed.');
-      if (!CAP) hint('# semua permintaan sekarang ditolak sampai Vault di-unseal lagi pakai ' + W.threshold + ' key.');
+      if (!CAP) hint(tr('# semua permintaan sekarang ditolak sampai Vault di-unseal lagi pakai ', '# every request is now refused until Vault is unsealed again with ') + W.threshold + ' key.');
       return;
     }
     if (s === 'raft') {
@@ -1509,23 +1510,23 @@
       cols([['Node', 'Address', 'State', 'Voter'], ['vault-1', HOST + ':8201', 'leader', 'true']]);
       return;
     }
-    if (s === 'rekey' || s === 'generate-root' || s === 'step-down' || s === 'migrate' || s === 'members' || s === 'key-status') throw E('vault operator ' + s + ' ada di Vault beneran, tapi belum ada di simulasi ini.');
+    if (s === 'rekey' || s === 'generate-root' || s === 'step-down' || s === 'migrate' || s === 'members' || s === 'key-status') throw E('vault operator ' + s + tr(' ada di Vault beneran, tapi belum ada di simulasi ini.', ' exists in real Vault, but not in this simulation yet.'));
     throw E('Usage: vault operator <subcommand>\n\n    init       Initializes a server\n    unseal     Unseals the Vault server\n    seal       Seals the Vault server\n    raft       Interact with Vault\'s raft storage backend');
   }
   function unsealWith(key, P) {
     var r = call('Error unsealing: ', 'PUT', 'sys/unseal', { key: key });
     show(P || parse([]), r.data, statusPairs());
     if (CAP) return;
-    if (W.dupKey) hint('# key ini sudah dimasukkan. Vault mengabaikannya; pakai key yang lain.');
-    else if (W.sealed) hint('# progress ' + W.parts.length + '/' + W.threshold + '. Masukkan key berikutnya.');
-    else ok(curTok() ? '# Vault terbuka lagi. Token kamu masih berlaku.' : '# Vault terbuka! Sekarang login: vault login');
+    if (W.dupKey) hint(tr('# key ini sudah dimasukkan. Vault mengabaikannya; pakai key yang lain.', '# this key was already entered. Vault ignores it; use another key.'));
+    else if (W.sealed) hint('# progress ' + W.parts.length + '/' + W.threshold + tr('. Masukkan key berikutnya.', '. Enter the next key.'));
+    else ok(curTok() ? tr('# Vault terbuka lagi. Token kamu masih berlaku.', '# Vault is unsealed again. Your token is still valid.') : tr('# Vault terbuka! Sekarang login: vault login', '# Vault is unsealed! Now log in: vault login'));
   }
   function setPending(kind) {
     W.pending = { kind: kind, label: kind === 'unseal' ? 'Unseal Key (will be hidden):' : 'Token (will be hidden):' };
     setText($('vt-ps'), W.pending.label);
     var inp = $('vt-in');
     inp.type = 'password';
-    inp.placeholder = kind === 'unseal' ? 'tempel unseal key, atau klik key di tab status' : 'tempel token, misal root token dari hasil init';
+    inp.placeholder = kind === 'unseal' ? tr('tempel unseal key, atau klik key di tab status', 'paste an unseal key, or click a key in the status tab') : tr('tempel token, misal root token dari hasil init', 'paste a token, e.g. the root token from init');
     inp.focus();
   }
   function clearPending() {
@@ -1533,7 +1534,7 @@
     setText($('vt-ps'), prompt());
     var inp = $('vt-in');
     inp.type = 'text';
-    inp.placeholder = 'ketik perintah, misal vault status';
+    inp.placeholder = tr('ketik perintah, misal vault status', 'type a command, e.g. vault status');
   }
   function pendingInput(v) {
     var p = W.pending;
@@ -1551,11 +1552,11 @@
     var m = P.get('method');
     if (m && m !== 'token') {
       throw E('Unknown auth method: ' + m + '. Use "vault auth list" to see the complete list of auth methods.\nAdditionally, some auth methods are only available via the HTTP API.',
-        m === 'approle' ? '# AppRole ga punya helper login di CLI. Pakai: vault write auth/approle/login role_id=... secret_id=...' : '# simulasi ini login pakai token, atau AppRole lewat vault write auth/approle/login');
+        m === 'approle' ? tr('# AppRole ga punya helper login di CLI. Pakai: vault write auth/approle/login role_id=... secret_id=...', '# AppRole has no CLI login helper. Use: vault write auth/approle/login role_id=... secret_id=...') : tr('# simulasi ini login pakai token, atau AppRole lewat vault write auth/approle/login', '# this simulation logs in with a token, or AppRole through vault write auth/approle/login'));
     }
     var t = P.pos[1];
     if (t && /=/.test(t)) t = t.replace(/^token=/, '');
-    if (!t) { call('Error authenticating: ', 'GET', 'sys/seal-status'); if (W.sealed) throw E('Error authenticating: Error making API request.\n\nCode: 503. Errors:\n\n* Vault is sealed', '# unseal dulu sebelum login'); setPending('login'); return; }
+    if (!t) { call('Error authenticating: ', 'GET', 'sys/seal-status'); if (W.sealed) throw E('Error authenticating: Error making API request.\n\nCode: 503. Errors:\n\n* Vault is sealed', tr('# unseal dulu sebelum login', '# unseal before logging in')); setPending('login'); return; }
     doLogin(t);
   }
   function doLogin(t) {
@@ -1608,7 +1609,7 @@
       var caps = rc2.data[path] || ['deny'];
       out(caps.slice().sort().join(', '));
       var mt = /^([^/]+\/)(?!data\/|metadata\/)(.+)$/.exec(path);
-      if (!CAP && mt && W.mounts[mt[1]] && W.mounts[mt[1]].type === 'kv' && W.mounts[mt[1]].version === 2) hint('# ingat: ini KV v2, jadi vault kv get ' + path + ' dicek di path ' + mt[1] + 'data/' + mt[2]);
+      if (!CAP && mt && W.mounts[mt[1]] && W.mounts[mt[1]].type === 'kv' && W.mounts[mt[1]].version === 2) hint(tr('# ingat: ini KV v2, jadi vault kv get ', '# remember: this is KV v2, so vault kv get ') + path + tr(' dicek di path ', ' is checked at path ') + mt[1] + 'data/' + mt[2]);
       return;
     }
     throw E('Usage: vault token <subcommand>\n\n    capabilities    Print capabilities of a token on a path\n    create          Create a new token\n    lookup          Display information about a token\n    renew           Renew a token lease\n    revoke          Revoke a token and its children');
@@ -1624,7 +1625,7 @@
       if (type === 'kv') body.options = { version: String(ver || 1) };
       call('Error enabling: ', 'POST', 'sys/mounts/' + path.slice(0, -1), body);
       ok('Success! Enabled the ' + orig + ' secrets engine at: ' + path);
-      if (!CAP && type === 'kv' && +(ver || 1) !== 2) hint('# ini KV versi 1 (tanpa riwayat versi). Buat versi 2: vault secrets enable -path=' + path.slice(0, -1) + ' kv-v2');
+      if (!CAP && type === 'kv' && +(ver || 1) !== 2) hint(tr('# ini KV versi 1 (tanpa riwayat versi). Buat versi 2: vault secrets enable -path=', '# this is KV version 1 (no version history). For version 2: vault secrets enable -path=') + path.slice(0, -1) + ' kv-v2');
       return;
     }
     if (s === 'disable') {
@@ -1647,7 +1648,7 @@
       cols(rows);
       return;
     }
-    if (s === 'tune' || s === 'move') throw E('vault secrets ' + s + ' belum ada di simulasi ini.');
+    if (s === 'tune' || s === 'move') throw E('vault secrets ' + s + tr(' belum ada di simulasi ini.', ' is not in this simulation yet.'));
     throw E('Usage: vault secrets <subcommand>\n\n    enable     Enable a secrets engine\n    disable    Disable a secrets engine\n    list       List enabled secrets engines');
   }
   function cAuth(P) {
@@ -1683,7 +1684,7 @@
       var opts = kvArgs(P.pos.slice(3));
       call('Error enabling audit device: ', 'PUT', 'sys/audit/' + path.slice(0, -1), { type: type, options: opts });
       ok('Success! Enabled the ' + type + ' audit device at: ' + path);
-      if (!CAP) hint('# mulai sekarang tiap permintaan dicatat ke ' + opts.file_path + ', dengan nilai sensitif di-hash (HMAC).');
+      if (!CAP) hint(tr('# mulai sekarang tiap permintaan dicatat ke ', '# from now on every request is logged to ') + opts.file_path + tr(', dengan nilai sensitif di-hash (HMAC).', ', with sensitive values hashed (HMAC).'));
       return;
     }
     if (s === 'list') {
@@ -1717,14 +1718,14 @@
       need(P, 2, 2);
       var name = P.pos[2], file = P.pos[3];
       var text = file === '-' ? null : readFile(file);
-      if (text === null) throw E('Error opening policy file: open ' + file + ': no such file or directory', '# file policy yang ada: app-read.hcl (edit di tab akses)');
+      if (text === null) throw E('Error opening policy file: open ' + file + ': no such file or directory', tr('# file policy yang ada: app-read.hcl (edit di tab akses)', '# available policy file: app-read.hcl (edit it in the access tab)'));
       ed.mark([]);
       try { call('Error uploading policy: ', 'PUT', 'sys/policies/acl/' + name, { policy: text }); } catch (e) {
         if (e.pline && fileName(file) === 'app-read.hcl') { ed.mark([e.pline]); W.tab = 'akses'; }
         throw e;
       }
       ok('Success! Uploaded policy: ' + name);
-      if (!CAP && name === 'app-read' && !W.last.token) hint('# lanjut: bikin token dengan policy ini, vault token create -policy=app-read -ttl=1h');
+      if (!CAP && name === 'app-read' && !W.last.token) hint(tr('# lanjut: bikin token dengan policy ini, vault token create -policy=app-read -ttl=1h', '# next: create a token with this policy, vault token create -policy=app-read -ttl=1h'));
       return;
     }
     if (s === 'delete') {
@@ -1745,7 +1746,7 @@
     var r = call('', 'GET', 'sys/internal/ui/mounts/' + raw);
     var mp = r.data.path, rel = raw.slice(mp.length);
     var v2 = r.data.type === 'kv' && r.data.options && r.data.options.version === '2';
-    if (r.data.type !== 'kv') throw E('Error: ' + mp + ' bukan secrets engine KV (tipenya ' + r.data.type + '). Pakai vault read/write.');
+    if (r.data.type !== 'kv') throw E('Error: ' + mp + tr(' bukan secrets engine KV (tipenya ', ' is not a KV secrets engine (its type is ') + r.data.type + tr('). Pakai vault read/write.', '). Use vault read/write.'));
     return { mp: mp, rel: rel, v2: v2, full: raw };
   }
   function kvHead(path, md) {
@@ -1804,7 +1805,7 @@
     if (s === 'get') {
       var q = {};
       if (P.get('version') !== undefined) {
-        if (!t.v2) throw E('Metadata not supported on KV Version 1', '# -version cuma ada di KV v2');
+        if (!t.v2) throw E('Metadata not supported on KV Version 1', tr('# -version cuma ada di KV v2', '# -version only exists in KV v2'));
         q.version = +P.get('version');
       }
       r = call('Error reading ' + data + ': ', 'GET', data, q);
@@ -1822,7 +1823,7 @@
         var s2 = W.mounts[t.mp].secrets[t.rel];
         if (t.v2 && q.version && s2 && q.version < s2.cur) M.hit('versi');
       } else if (vals && t.v2) M.hit('kv');
-      if (!vals && !CAP) hint(r.data.metadata.destroyed ? '# versi ini sudah di-destroy. Datanya hilang permanen.' : '# versi ini sudah di-delete (soft delete). Balikin: vault kv undelete -versions=' + r.data.metadata.version + ' ' + t.full);
+      if (!vals && !CAP) hint(r.data.metadata.destroyed ? tr('# versi ini sudah di-destroy. Datanya hilang permanen.', '# this version was destroyed. The data is gone for good.') : tr('# versi ini sudah di-delete (soft delete). Balikin: vault kv undelete -versions=', '# this version was deleted (soft delete). Bring it back: vault kv undelete -versions=') + r.data.metadata.version + ' ' + t.full);
       return;
     }
     if (s === 'list') {
@@ -1935,7 +1936,7 @@
   function report(e) {
     if (e && e.cli) { err(e.message); if (e.hint) hint(e.hint); }
     else if (e && (e.api || e.net)) { err(e.msg || fmtApi(e)); if (e.hint) hint(e.hint); }
-    else { err('simulasi error: ' + (e && e.message || e)); if (window.console) console.error(e); }
+    else { err(tr('simulasi error: ', 'simulation error: ') + (e && e.message || e)); if (window.console) console.error(e); }
   }
   function onCmd(line) {
     if (W.pending) { pendingInput(line); tick(); return; }
@@ -1947,8 +1948,8 @@
   function tick() {
     if (!W.sealed) {
       var t = now();
-      W.leases.slice().forEach(function (L) { if (L.expires <= t) endLease(L, 'kedaluwarsa'); });
-      Object.keys(W.tokens).forEach(function (id) { var k = W.tokens[id]; if (k && k.expires && k.expires <= t) revokeToken(id, 'kedaluwarsa'); });
+      W.leases.slice().forEach(function (L) { if (L.expires <= t) endLease(L, tr('kedaluwarsa', 'expired')); });
+      Object.keys(W.tokens).forEach(function (id) { var k = W.tokens[id]; if (k && k.expires && k.expires <= t) revokeToken(id, tr('kedaluwarsa', 'expired')); });
     }
     W.dbUsers = W.dbUsers.filter(function (u) { return !u.gone || now() - u.gone < 6000; });
     render();
@@ -1965,7 +1966,7 @@
       .replace(/creation_statements="[^"]*(\\"[^"]*)*"/, 'creation_statements="CREATE ROLE …"')
       .replace(/connection_url="[^"]*"/, 'connection_url="postgresql://…"');
   }
-  function stateTxt() { return !W.init ? 'belum di-init' : W.sealed ? 'sealed ' + W.parts.length + '/' + W.threshold : 'unsealed'; }
+  function stateTxt() { return !W.init ? tr('belum di-init', 'not initialized') : W.sealed ? 'sealed ' + W.parts.length + '/' + W.threshold : 'unsealed'; }
   function tokLabel(t) {
     if (!t) return null;
     if (isRoot(t)) return 'root';
@@ -1973,7 +1974,7 @@
   }
   function render() {
     var env = vEnv(), tok = curTok(), id = curTokId();
-    var tl = !env.VAULT_ADDR ? 'VAULT_ADDR kosong' : tok ? 'token: ' + tokLabel(tok) : id ? 'token ga valid' : 'belum login';
+    var tl = !env.VAULT_ADDR ? tr('VAULT_ADDR kosong', 'VAULT_ADDR empty') : tok ? 'token: ' + tokLabel(tok) : id ? tr('token ga valid', 'invalid token') : tr('belum login', 'not logged in');
     var tc = $('vt-tok');
     setText(tc, tl);
     tc.classList.toggle('is-on', !!tok && !W.sealed);
@@ -2002,25 +2003,25 @@
   }
   function renderFlow(env, tok) {
     var c = $('vt-f-cli');
-    setText(c, !env.VAULT_ADDR ? 'VAULT_ADDR kosong' : tok ? tokLabel(tok) : 'tanpa token');
+    setText(c, !env.VAULT_ADDR ? tr('VAULT_ADDR kosong', 'VAULT_ADDR empty') : tok ? tokLabel(tok) : tr('tanpa token', 'no token'));
     c.dataset.s = !env.VAULT_ADDR ? 'warn' : tok ? 'ok' : '';
     var v = $('vt-f-vault');
     setText(v, stateTxt());
     v.dataset.s = !W.init ? 'warn' : W.sealed ? 'bad' : 'ok';
     var s = $('vt-f-sto');
-    setText(s, !W.init ? 'kosong' : W.sealed ? 'terkunci' : storeCount() + ' entri');
+    setText(s, !W.init ? tr('kosong', 'empty') : W.sealed ? tr('terkunci', 'locked') : storeCount() + tr(' entri', ' entries'));
     s.dataset.s = !W.init ? '' : W.sealed ? 'warn' : 'ok';
     var d = $('vt-f-db');
     var db = W.mounts['database/'], cfg = db && Object.keys(db.configs).length;
     var live = W.dbUsers.filter(function (u) { return !u.gone; }).length;
-    setText(d, live ? live + ' user dinamis' : cfg ? 'terhubung' : 'belum terhubung');
+    setText(d, live ? live + tr(' user dinamis', ' dynamic users') : cfg ? tr('terhubung', 'connected') : tr('belum terhubung', 'not connected'));
     d.dataset.s = live ? 'info' : cfg ? 'ok' : '';
   }
   function renderQuick() {
     var q;
     if (W.pending) {
-      if (W.pending.kind === 'unseal') q = W.keys.filter(function (k) { return W.parts.indexOf(k) < 0; }).slice(0, 3).map(function (k) { return [k, 'isi key ' + (W.keys.indexOf(k) + 1) + ' (' + k.slice(0, 6) + '…)']; });
-      else q = W.root && W.tokens[W.root] ? [[W.root, 'isi root token']] : [];
+      if (W.pending.kind === 'unseal') q = W.keys.filter(function (k) { return W.parts.indexOf(k) < 0; }).slice(0, 3).map(function (k) { return [k, tr('isi key ', 'enter key ') + (W.keys.indexOf(k) + 1) + ' (' + k.slice(0, 6) + '…)']; });
+      else q = W.root && W.tokens[W.root] ? [[W.root, tr('isi root token', 'enter root token')]] : [];
       q.push(['^C', 'batal (Ctrl+C)']);
       setHTML($('vt-quick'), q.map(function (x) { return '<button type="button" data-act="cmd" data-cmd="' + esc(x[0]) + '">' + esc(x[1]) + '</button>'; }).join(''));
       return;
@@ -2095,29 +2096,29 @@
   var LOCK = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path class="vt-shackle" d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/><path d="M12 14.5v2.5"/></svg>';
   function gate(txt, cmd) { return '<div class="vt-gate"><p>' + txt + '</p>' + (cmd ? cmdBtn(cmd, null, 'gx-primary') : '') + '</div>'; }
   function lockedGate() {
-    if (!W.init) return gate('Vault belum di-init, jadi belum ada apa-apa di sini.', vEnv().VAULT_ADDR === ADDR_OK ? 'vault operator init' : 'export VAULT_ADDR=' + ADDR_OK);
-    return gate('Vault <b>tersegel</b>. Semua data di storage terenkripsi, dan Vault sendiri ga bisa membacanya sampai di-unseal.', 'vault operator unseal');
+    if (!W.init) return gate(tr('Vault belum di-init, jadi belum ada apa-apa di sini.', 'Vault isn\'t initialized, so there\'s nothing here yet.'), vEnv().VAULT_ADDR === ADDR_OK ? 'vault operator init' : 'export VAULT_ADDR=' + ADDR_OK);
+    return gate(tr('Vault <b>tersegel</b>. Semua data di storage terenkripsi, dan Vault sendiri ga bisa membacanya sampai di-unseal.', 'Vault is <b>sealed</b>. All data in storage is encrypted, and Vault itself can\'t read it until it\'s unsealed.'), 'vault operator unseal');
   }
   function info(rows) { return '<div class="vt-info">' + rows.map(function (r) { return '<span>' + r[0] + '</span><b>' + r[1] + '</b>'; }).join('') + '</div>'; }
   function renderStatus(env) {
     var st = !W.init ? 'uninit' : W.sealed ? 'sealed' : 'open';
-    var title = { uninit: 'BELUM DI-INIT', sealed: 'SEALED', open: 'UNSEALED' }[st];
-    var desc = !W.init ? 'Storage masih kosong. <code>vault operator init</code> bakal membuat root key, memecahnya jadi unseal key, dan memberi kamu root token.'
-      : W.sealed ? 'Data di storage terenkripsi dan Vault ga bisa membacanya. Masukkan ' + W.threshold + ' dari ' + W.shares + ' unseal key buat menyusun ulang root key.'
-        : 'Vault terbuka dan melayani permintaan. Root key cuma ada di memori, ga pernah ditulis ke disk.';
+    var title = { uninit: tr('BELUM DI-INIT', 'NOT INITIALIZED'), sealed: 'SEALED', open: 'UNSEALED' }[st];
+    var desc = !W.init ? tr('Storage masih kosong. <code>vault operator init</code> bakal membuat root key, memecahnya jadi unseal key, dan memberi kamu root token.', 'Storage is still empty. <code>vault operator init</code> will create the root key, split it into unseal keys, and give you a root token.')
+      : W.sealed ? tr('Data di storage terenkripsi dan Vault ga bisa membacanya. Masukkan ', 'The data in storage is encrypted and Vault can\'t read it. Enter ') + W.threshold + tr(' dari ', ' of ') + W.shares + tr(' unseal key buat menyusun ulang root key.', ' unseal keys to rebuild the root key.')
+        : tr('Vault terbuka dan melayani permintaan. Root key cuma ada di memori, ga pernah ditulis ke disk.', 'Vault is unsealed and serving requests. The root key only lives in memory, it is never written to disk.');
     var h = '<div class="vt-seal" data-s="' + st + '">' + LOCK + '<div><b>' + title + '</b><span>' + desc + '</span></div></div>';
-    if (env.VAULT_ADDR !== ADDR_OK) h += '<p class="vt-note is-warn">CLI di laptop belum tahu alamat Vault. Tanpa <code>VAULT_ADDR</code>, perintah vault mencoba https://127.0.0.1:8200. ' + cmdBtn('export VAULT_ADDR=' + ADDR_OK, 'set VAULT_ADDR') + '</p>';
+    if (env.VAULT_ADDR !== ADDR_OK) h += tr('<p class="vt-note is-warn">CLI di laptop belum tahu alamat Vault. Tanpa <code>VAULT_ADDR</code>, perintah vault mencoba https://127.0.0.1:8200. ', '<p class="vt-note is-warn">The CLI on the laptop doesn\'t know Vault\'s address yet. Without <code>VAULT_ADDR</code>, the vault command tries https://127.0.0.1:8200. ') + cmdBtn('export VAULT_ADDR=' + ADDR_OK, 'set VAULT_ADDR') + '</p>';
     if (W.init) {
-      h += '<p class="vt-sub">unseal key <span>butuh ' + W.threshold + ' dari ' + W.shares + '</span></p><div class="vt-keys">';
+      h += tr('<p class="vt-sub">unseal key <span>butuh ', '<p class="vt-sub">unseal keys <span>need ') + W.threshold + tr(' dari ', ' of ') + W.shares + '</span></p><div class="vt-keys">';
       W.keys.forEach(function (k, i) {
         var used = W.parts.indexOf(k) >= 0;
-        h += '<button type="button" class="vt-key' + (used ? ' is-used' : '') + (W.sealed ? '' : ' is-open') + '" data-act="unseal" data-i="' + i + '"' + (W.sealed && !used ? '' : ' disabled') + ' aria-label="unseal pakai key ' + (i + 1) + '"><b>key ' + (i + 1) + '</b><small>' + esc(k.slice(0, 6)) + '…</small></button>';
+        h += '<button type="button" class="vt-key' + (used ? ' is-used' : '') + (W.sealed ? '' : ' is-open') + '" data-act="unseal" data-i="' + i + '"' + (W.sealed && !used ? '' : ' disabled') + tr(' aria-label="unseal pakai key ', ' aria-label="unseal with key ') + (i + 1) + '"><b>key ' + (i + 1) + '</b><small>' + esc(k.slice(0, 6)) + '…</small></button>';
       });
       h += '</div>';
       if (W.sealed) {
         var pct = W.parts.length / W.threshold * 100;
         h += '<div class="vt-prog" role="progressbar" aria-valuemin="0" aria-valuemax="' + W.threshold + '" aria-valuenow="' + W.parts.length + '"><i style="width:' + pct.toFixed(1) + '%"></i></div>' +
-          '<p class="vt-note">Progress ' + W.parts.length + '/' + W.threshold + '. Klik key buat menjalankan <code>vault operator unseal</code>. Di dunia nyata, tiap key dipegang orang yang berbeda supaya ga ada satu orang pun yang bisa membuka Vault sendirian.</p>';
+          '<p class="vt-note">Progress ' + W.parts.length + '/' + W.threshold + tr('. Klik key buat menjalankan <code>vault operator unseal</code>. Di dunia nyata, tiap key dipegang orang yang berbeda supaya ga ada satu orang pun yang bisa membuka Vault sendirian.</p>', '. Click a key to run <code>vault operator unseal</code>. In real life, each key is held by a different person so nobody can unseal Vault alone.</p>');
       }
     } else if (env.VAULT_ADDR === ADDR_OK) h += '<p class="vt-note">' + cmdBtn('vault operator init', 'vault operator init', 'gx-primary') + '</p>';
     var aud = Object.keys(W.audits);
@@ -2125,11 +2126,11 @@
       ['node', 'vault-1 · ' + HOST],
       ['api', 'http://' + HOST + ':8200'],
       ['storage', 'raft · 1 node' + (W.init && !W.sealed ? ' · index ' + W.raftIdx : '')],
-      ['mode HA', W.init && !W.sealed ? 'active' : 'standby (sealed)'],
+      [tr('mode HA', 'HA mode'), W.init && !W.sealed ? 'active' : 'standby (sealed)'],
       ['versi', VERSION],
-      ['audit', aud.length ? aud.map(function (k) { return esc(W.audits[k].path) + ' (' + W.audits[k].n + ' entri)'; }).join(', ') : 'belum ada' + (W.init && !W.sealed ? ' ' + cmdBtn('vault audit enable file file_path=/var/log/vault_audit.log', 'aktifkan') : '')]
+      ['audit', aud.length ? aud.map(function (k) { return esc(W.audits[k].path) + ' (' + W.audits[k].n + tr(' entri)', ' entries)'); }).join(', ') : tr('belum ada', 'none yet') + (W.init && !W.sealed ? ' ' + cmdBtn('vault audit enable file file_path=/var/log/vault_audit.log', tr('aktifkan', 'enable')) : '')]
     ]);
-    if (W.init && !W.sealed) h += '<p class="vt-note">Kalau ada insiden, satu perintah ini menghentikan semua akses: ' + cmdBtn('vault operator seal', 'vault operator seal', 'vt-del') + '</p>';
+    if (W.init && !W.sealed) h += tr('<p class="vt-note">Kalau ada insiden, satu perintah ini menghentikan semua akses: ', '<p class="vt-note">If there is an incident, this one command stops all access: ') + cmdBtn('vault operator seal', 'vault operator seal', 'vt-del') + '</p>';
     setHTML($('vt-v-status'), h);
   }
   function mask(n) { return new Array(Math.min(8, Math.max(4, n)) + 1).join('•'); }
@@ -2147,7 +2148,7 @@
         any = true;
         var names = Object.keys(m.secrets).sort();
         h += '<p class="vt-sub"><b>' + esc(k) + '</b> kv v' + m.version + '</p>';
-        if (!names.length) { h += '<p class="vt-none">Belum ada secret. ' + cmdBtn('vault kv put ' + k + 'app/db username=app password=rahasia123', 'simpan app/db') + '</p>'; return; }
+        if (!names.length) { h += tr('<p class="vt-none">Belum ada secret. ', '<p class="vt-none">No secrets yet. ') + cmdBtn('vault kv put ' + k + 'app/db username=app password=rahasia123', tr('simpan app/db', 'store app/db')) + '</p>'; return; }
         h += '<div class="vt-cards">' + names.map(function (n) {
           var s = m.secrets[n], full = k + n;
           if (m.version !== 2) {
@@ -2156,7 +2157,7 @@
           var cur = s.versions[s.cur - 1];
           var vers = s.versions.map(function (v, i) {
             var cls = v.destroyed ? ' is-gone' : v.deleted ? ' is-del' : i + 1 === s.cur ? ' is-cur' : '';
-            return '<span class="vt-ver' + cls + '" title="' + (v.destroyed ? 'destroyed' : v.deleted ? 'deleted' : 'versi ' + (i + 1)) + '">v' + (i + 1) + '</span>';
+            return '<span class="vt-ver' + cls + '" title="' + (v.destroyed ? 'destroyed' : v.deleted ? 'deleted' : tr('versi ', 'version ') + (i + 1)) + '">v' + (i + 1) + '</span>';
           }).join('');
           var data = cur.data || {};
           var acts = [cmdBtn('vault kv get ' + full, 'get')];
@@ -2164,8 +2165,8 @@
           acts.push(cmdBtn('vault kv metadata get ' + full, 'metadata'));
           if (cur.deleted && !cur.destroyed) acts.push(cmdBtn('vault kv undelete -versions=' + s.cur + ' ' + full, 'undelete v' + s.cur));
           else if (!cur.destroyed) acts.push(cmdBtn('vault kv delete ' + full, 'delete', 'vt-del'));
-          return '<div class="vt-card"><div class="vt-ch"><b>' + esc(n) + '</b><em>versi ' + s.cur + '</em></div><div class="vt-vers">' + vers + '</div>' +
-            '<div class="vt-row">' + (cur.destroyed ? '<span class="vt-none">versi ini sudah di-destroy</span>' : cur.deleted ? '<span class="vt-none">versi terbaru di-delete (masih bisa di-undelete)</span>' : Object.keys(data).sort().map(function (x) { return '<span class="vt-k">' + esc(x) + ' <i>' + mask(String(data[x]).length) + '</i></span>'; }).join('')) + '</div>' +
+          return '<div class="vt-card"><div class="vt-ch"><b>' + esc(n) + tr('</b><em>versi ', '</b><em>version ') + s.cur + '</em></div><div class="vt-vers">' + vers + '</div>' +
+            '<div class="vt-row">' + (cur.destroyed ? tr('<span class="vt-none">versi ini sudah di-destroy</span>', '<span class="vt-none">this version was destroyed</span>') : cur.deleted ? tr('<span class="vt-none">versi terbaru di-delete (masih bisa di-undelete)</span>', '<span class="vt-none">the latest version was deleted (it can still be undeleted)</span>') : Object.keys(data).sort().map(function (x) { return '<span class="vt-k">' + esc(x) + ' <i>' + mask(String(data[x]).length) + '</i></span>'; }).join('')) + '</div>' +
             '<div class="sw-act">' + acts.join('') + '</div></div>';
         }).join('') + '</div>';
       }
@@ -2173,12 +2174,12 @@
         any = true;
         var tk = Object.keys(m.keys).sort();
         h += '<p class="vt-sub"><b>' + esc(k) + '</b> transit</p>';
-        if (!tk.length) { h += '<p class="vt-none">Belum ada kunci. ' + cmdBtn('vault write -f ' + k + 'keys/app', 'bikin kunci app') + '</p>'; return; }
+        if (!tk.length) { h += tr('<p class="vt-none">Belum ada kunci. ', '<p class="vt-none">No keys yet. ') + cmdBtn('vault write -f ' + k + 'keys/app', tr('bikin kunci app', 'create key app')) + '</p>'; return; }
         h += '<div class="vt-cards">' + tk.map(function (n) {
           var key = m.keys[n], vs = [];
           for (var i = 1; i <= key.latest; i++) vs.push('<span class="vt-ver' + (i === key.latest ? ' is-cur' : i < key.minDec ? ' is-gone' : '') + '">v' + i + '</span>');
           return '<div class="vt-card"><div class="vt-ch"><b>' + esc(n) + '</b><em>aes256-gcm96</em></div><div class="vt-vers">' + vs.join('') + '</div>' +
-            '<div class="vt-meta">' + key.count + ' kali enkripsi · datanya ga disimpan Vault</div><div class="sw-act">' +
+            '<div class="vt-meta">' + key.count + tr(' kali enkripsi · datanya ga disimpan Vault</div><div class="sw-act">', ' encryptions · Vault does not store the data</div><div class="sw-act">') +
             cmdBtn('vault write ' + k + 'encrypt/' + n + ' plaintext=$(echo -n "halo vault" | base64)', 'encrypt') + cmdBtn('vault write -f ' + k + 'keys/' + n + '/rotate', 'rotate') + cmdBtn('vault read ' + k + 'keys/' + n, 'info') + '</div></div>';
         }).join('') + '</div>';
       }
@@ -2186,17 +2187,17 @@
         any = true;
         var cs = Object.keys(m.configs), rsn = Object.keys(m.roles);
         h += '<p class="vt-sub"><b>' + esc(k) + '</b> database</p>';
-        if (!cs.length) { h += '<p class="vt-none">Belum terhubung ke database. ' + cmdBtn(DB_CMD, 'hubungkan postgres') + '</p>'; return; }
+        if (!cs.length) { h += tr('<p class="vt-none">Belum terhubung ke database. ', '<p class="vt-none">Not connected to a database yet. ') + cmdBtn(DB_CMD, tr('hubungkan postgres', 'connect postgres')) + '</p>'; return; }
         h += '<div class="vt-cards">' + cs.map(function (n) {
           var c = m.configs[n];
-          return '<div class="vt-card"><div class="vt-ch"><b>config/' + esc(n) + '</b><em>postgresql</em></div><div class="vt-meta">' + DB_HOST + ':5432/app · admin ' + esc(c.user) + '</div><div class="vt-row">allowed_roles ' + (c.roles.length ? c.roles.map(function (r) { return '<span class="vt-k">' + esc(r) + '</span>'; }).join('') : '<span class="vt-none">kosong, ga ada role yang boleh</span>') + '</div></div>';
+          return '<div class="vt-card"><div class="vt-ch"><b>config/' + esc(n) + '</b><em>postgresql</em></div><div class="vt-meta">' + DB_HOST + ':5432/app · admin ' + esc(c.user) + '</div><div class="vt-row">allowed_roles ' + (c.roles.length ? c.roles.map(function (r) { return '<span class="vt-k">' + esc(r) + '</span>'; }).join('') : tr('<span class="vt-none">kosong, ga ada role yang boleh</span>', '<span class="vt-none">empty, no role is allowed</span>')) + '</div></div>';
         }).join('') + rsn.map(function (n) {
           var r = m.roles[n];
-          return '<div class="vt-card"><div class="vt-ch"><b>roles/' + esc(n) + '</b><em>TTL ' + dur(r.ttl) + ' / maks ' + dur(r.max) + '</em></div><div class="vt-meta">db ' + esc(r.db) + ' · ' + esc(r.grant) + '</div><div class="sw-act">' + cmdBtn('vault read ' + k + 'creds/' + n, 'minta kredensial') + '</div></div>';
-        }).join('') + (rsn.length ? '' : '<p class="vt-none">Belum ada role. ' + cmdBtn(ROLE_CMD, 'bikin role readonly') + '</p>') + '</div>';
+          return '<div class="vt-card"><div class="vt-ch"><b>roles/' + esc(n) + '</b><em>TTL ' + dur(r.ttl) + tr(' / maks ', ' / max ') + dur(r.max) + '</em></div><div class="vt-meta">db ' + esc(r.db) + ' · ' + esc(r.grant) + '</div><div class="sw-act">' + cmdBtn('vault read ' + k + 'creds/' + n, tr('minta kredensial', 'request credentials')) + '</div></div>';
+        }).join('') + (rsn.length ? '' : tr('<p class="vt-none">Belum ada role. ', '<p class="vt-none">No roles yet. ') + cmdBtn(ROLE_CMD, tr('bikin role readonly', 'create role readonly')) + '</p>') + '</div>';
       }
     });
-    if (!any) h += '<p class="vt-none">Selain mount bawaan (sys, identity, cubbyhole), belum ada secrets engine. Aktifkan KV v2 dulu buat menyimpan secret.</p>';
+    if (!any) h += tr('<p class="vt-none">Selain mount bawaan (sys, identity, cubbyhole), belum ada secrets engine. Aktifkan KV v2 dulu buat menyimpan secret.</p>', '<p class="vt-none">Apart from the built-in mounts (sys, identity, cubbyhole), there are no secrets engines yet. Enable KV v2 first to store secrets.</p>');
     setHTML($('vt-v-secrets'), h);
   }
   function ttlBar(t0, t1) {
@@ -2209,48 +2210,48 @@
     var h = '<p class="vt-sub">auth method</p><div class="vt-chips">' + Object.keys(W.auths).sort().map(function (k) { return '<span class="vt-chip"><b>' + esc(k) + '</b> ' + W.auths[k].type + '</span>'; }).join('') + (W.auths['approle/'] ? '' : cmdBtn('vault auth enable approle', '+ approle')) + '</div>';
     h += '<p class="vt-sub">policy</p><div class="vt-chips">' + Object.keys(W.policies).sort().map(function (k) {
       var sys = k === 'root' || k === 'default';
-      return '<button type="button" class="vt-chip' + (sys ? ' is-sys' : '') + '" data-act="cmd" data-cmd="vault policy read ' + esc(k) + '"><b>' + esc(k) + '</b> ' + (k === 'root' ? 'boleh semua' : W.policies[k].rules.length + ' path') + '</button>';
+      return '<button type="button" class="vt-chip' + (sys ? ' is-sys' : '') + '" data-act="cmd" data-cmd="vault policy read ' + esc(k) + '"><b>' + esc(k) + '</b> ' + (k === 'root' ? tr('boleh semua', 'allows everything') : W.policies[k].rules.length + ' path') + '</button>';
     }).join('') + '</div>';
     var ar = W.auths['approle/'];
     if (ar) {
       var roles = Object.keys(ar.roles);
       h += '<p class="vt-sub">role approle</p>' + (roles.length ? '<div class="vt-cards">' + roles.map(function (n) {
         var r = ar.roles[n];
-        return '<div class="vt-card"><div class="vt-ch"><b>' + esc(n) + '</b><em>TTL ' + dur(r.ttl || SYS_TTL) + '</em></div><div class="vt-row"><span class="vt-k">' + esc(r.policies.join(', ') || 'tanpa policy') + '</span><span class="vt-k">role_id ' + esc(r.roleId.slice(0, 8)) + '…</span><span class="vt-k">' + r.sids.length + ' secret-id</span></div><div class="sw-act">' +
-          cmdBtn('vault read auth/approle/role/' + n + '/role-id', 'role-id') + cmdBtn('vault write -f auth/approle/role/' + n + '/secret-id', 'secret-id baru') + '</div></div>';
-      }).join('') + '</div>' : '<p class="vt-none">Belum ada role. ' + cmdBtn('vault write auth/approle/role/web token_policies=app-read token_ttl=20m', 'bikin role web') + '</p>');
+        return '<div class="vt-card"><div class="vt-ch"><b>' + esc(n) + '</b><em>TTL ' + dur(r.ttl || SYS_TTL) + '</em></div><div class="vt-row"><span class="vt-k">' + esc(r.policies.join(', ') || tr('tanpa policy', 'no policy')) + '</span><span class="vt-k">role_id ' + esc(r.roleId.slice(0, 8)) + '…</span><span class="vt-k">' + r.sids.length + ' secret-id</span></div><div class="sw-act">' +
+          cmdBtn('vault read auth/approle/role/' + n + '/role-id', 'role-id') + cmdBtn('vault write -f auth/approle/role/' + n + '/secret-id', tr('secret-id baru', 'new secret-id')) + '</div></div>';
+      }).join('') + '</div>' : tr('<p class="vt-none">Belum ada role. ', '<p class="vt-none">No roles yet. ') + cmdBtn('vault write auth/approle/role/web token_policies=app-read token_ttl=20m', tr('bikin role web', 'create role web')) + '</p>');
     }
     var toks = Object.keys(W.tokens).map(function (k) { return W.tokens[k]; });
     var cur = curTokId();
-    h += '<p class="vt-sub">token aktif <span>' + toks.length + '</span></p><div class="vt-cards">' + toks.map(function (t) {
+    h += tr('<p class="vt-sub">token aktif <span>', '<p class="vt-sub">active tokens <span>') + toks.length + '</span></p><div class="vt-cards">' + toks.map(function (t) {
       var acts = [];
-      if (t.id !== cur) acts.push(cmdBtn('vault login ' + t.id, 'login pakai ini'));
+      if (t.id !== cur) acts.push(cmdBtn('vault login ' + t.id, tr('login pakai ini', 'log in with this')));
       if (!isRoot(t)) acts.push(cmdBtn('vault token revoke ' + t.id, 'revoke', 'vt-del'));
-      return '<div class="vt-card' + (t.id === cur ? ' is-me' : '') + '"><div class="vt-ch"><b>' + esc(t.display) + '</b><em>' + (t.id === cur ? 'dipakai CLI' : esc(t.id.slice(0, 8)) + '…') + '</em></div>' +
+      return '<div class="vt-card' + (t.id === cur ? ' is-me' : '') + '"><div class="vt-ch"><b>' + esc(t.display) + '</b><em>' + (t.id === cur ? tr('dipakai CLI', 'used by CLI') : esc(t.id.slice(0, 8)) + '…') + '</em></div>' +
         '<div class="vt-row">' + t.policies.map(function (p) { return '<span class="vt-k' + (p === 'root' ? ' is-root' : '') + '">' + esc(p) + '</span>'; }).join('') + '</div>' +
-        '<div class="vt-meta">' + (t.expires ? 'sisa ' + dur((t.expires - now()) / 1000) + ' dari ' + dur(t.ttl) : 'ga pernah kedaluwarsa') + ' · ' + esc(t.path) + '</div>' + (t.expires ? ttlBar(t.created, t.expires) : '') +
+        '<div class="vt-meta">' + (t.expires ? tr('sisa ', 'remaining ') + dur((t.expires - now()) / 1000) + tr(' dari ', ' of ') + dur(t.ttl) : tr('ga pernah kedaluwarsa', 'never expires')) + ' · ' + esc(t.path) + '</div>' + (t.expires ? ttlBar(t.created, t.expires) : '') +
         (acts.length ? '<div class="sw-act">' + acts.join('') + '</div>' : '') + '</div>';
     }).join('') + '</div>';
     setHTML($('vt-akses'), h);
   }
   function renderLease() {
     if (!W.init || W.sealed) { setHTML($('vt-v-lease'), lockedGate()); return; }
-    var h = '<p class="vt-sub">lease aktif <span>' + W.leases.length + '</span></p>';
-    if (!W.leases.length) h += '<p class="vt-none">Belum ada lease. Secret dinamis, misalnya kredensial database dari <code>vault read database/creds/readonly</code>, selalu datang dengan lease yang punya masa berlaku.</p>';
+    var h = tr('<p class="vt-sub">lease aktif <span>', '<p class="vt-sub">active leases <span>') + W.leases.length + '</span></p>';
+    if (!W.leases.length) h += tr('<p class="vt-none">Belum ada lease. Secret dinamis, misalnya kredensial database dari <code>vault read database/creds/readonly</code>, selalu datang dengan lease yang punya masa berlaku.</p>', '<p class="vt-none">No leases yet. Dynamic secrets, like database credentials from <code>vault read database/creds/readonly</code>, always come with a lease that has an expiry.</p>');
     else {
       h += '<div class="vt-cards">' + W.leases.map(function (L) {
         var left = (L.expires - now()) / 1000;
         return '<div class="vt-card"><div class="vt-ch"><b>' + esc(L.path) + '/' + esc(L.id.slice(-24, -18)) + '…</b><em>' + dur(left) + '</em></div>' + ttlBar(L.renewed || L.issued, L.expires) +
-          '<div class="vt-meta">' + (L.info && L.info.user ? 'user ' + esc(L.info.user) : '') + ' · maks sampai ' + dur((L.maxAt - now()) / 1000) + ' lagi</div><div class="sw-act">' +
+          '<div class="vt-meta">' + (L.info && L.info.user ? 'user ' + esc(L.info.user) : '') + tr(' · maks sampai ', ' · max ') + dur((L.maxAt - now()) / 1000) + tr(' lagi</div><div class="sw-act">', ' left</div><div class="sw-act">') +
           cmdBtn('vault lease renew ' + L.id, 'renew') + cmdBtn('vault lease revoke ' + L.id, 'revoke', 'vt-del') + '</div></div>';
       }).join('') + '</div>';
     }
     var db = W.mounts['database/'];
     if (db && Object.keys(db.configs).length) {
-      h += '<p class="vt-sub">user di PostgreSQL ' + DB_HOST + '</p><div class="vt-pg"><div class="vt-pgh"><span>role</span><span>dibuat oleh</span><span>izin</span></div>' +
-        '<div><b>postgres</b><span>instalasi</span><span>superuser</span></div><div><b>vault</b><span>admin DB</span><span>CREATEROLE</span></div>' +
+      h += tr('<p class="vt-sub">user di PostgreSQL ', '<p class="vt-sub">users in PostgreSQL ') + DB_HOST + tr('</p><div class="vt-pg"><div class="vt-pgh"><span>role</span><span>dibuat oleh</span><span>izin</span></div>', '</p><div class="vt-pg"><div class="vt-pgh"><span>role</span><span>created by</span><span>grants</span></div>') +
+        tr('<div><b>postgres</b><span>instalasi</span><span>superuser</span></div><div><b>vault</b><span>admin DB</span><span>CREATEROLE</span></div>', '<div><b>postgres</b><span>install</span><span>superuser</span></div><div><b>vault</b><span>DB admin</span><span>CREATEROLE</span></div>') +
         W.dbUsers.map(function (u) {
-          return '<div class="' + (u.gone ? 'is-gone' : 'is-new') + '"><b>' + esc(u.name) + '</b><span>Vault (' + esc(u.role) + ')</span><span>' + (u.gone ? 'dihapus, ' + esc(u.why || '') : esc(u.grant)) + '</span></div>';
+          return '<div class="' + (u.gone ? 'is-gone' : 'is-new') + '"><b>' + esc(u.name) + '</b><span>Vault (' + esc(u.role) + ')</span><span>' + (u.gone ? tr('dihapus, ', 'deleted, ') + esc(u.why || '') : esc(u.grant)) + '</span></div>';
         }).join('') + '</div>';
     }
     setHTML($('vt-v-lease'), h);
@@ -2263,7 +2264,7 @@
     if (!b || b.disabled) return;
     var act = b.dataset.act;
     if (act === 'cmd') {
-      if (W.pending && b.closest('.vt-dash')) { toast('jawab dulu prompt di terminal, atau klik batal'); return; }
+      if (W.pending && b.closest('.vt-dash')) { toast(tr('jawab dulu prompt di terminal, atau klik batal', 'answer the prompt in the terminal first, or click cancel')); return; }
       term.submit(b.dataset.cmd);
     }
     else if (act === 'tab') { W.tab = b.dataset.tab; render(); }
@@ -2272,7 +2273,7 @@
       if (!k) return;
       term.submit(W.pending && W.pending.kind === 'unseal' ? k : 'vault operator unseal ' + k);
     }
-    else if (act === 'snip') { ed.set(SNIPS[b.dataset.snip]); toast(b.dataset.snip === 'v1' ? 'Coba tulis policy ini, lalu baca secret pakai token-nya. Lihat apa yang terjadi.' : 'Contoh policy baca saja dimuat ke editor'); }
+    else if (act === 'snip') { ed.set(SNIPS[b.dataset.snip]); toast(b.dataset.snip === 'v1' ? tr('Coba tulis policy ini, lalu baca secret pakai token-nya. Lihat apa yang terjadi.', 'Try writing this policy, then read the secret with its token. See what happens.') : tr('Contoh policy baca saja dimuat ke editor', 'Read-only policy example loaded into the editor')); }
     else if (act === 'reset') reset();
   });
   app.querySelector('.vt-tabs').addEventListener('keydown', function (e) {
@@ -2294,8 +2295,8 @@
     M.reset();
     ed.set(SNIPS.ro);
     term.lines([
-      '<span class="sx-dim"># Lab Vault bohongan: server vault-1 di ' + HOST + ' (storage raft) dan PostgreSQL di ' + DB_HOST + '. Vault-nya baru diinstal: belum di-init dan masih tersegel.</span>',
-      '<span class="sx-dim"># Ini terminal laptop kamu. Mulai dengan </span><b>export VAULT_ADDR=' + ADDR_OK + '</b><span class="sx-dim">, lalu </span><b>vault status</b><span class="sx-dim">. Ketik </span><b>help</b><span class="sx-dim"> buat daftar perintah.</span>'
+      tr('<span class="sx-dim"># Lab Vault bohongan: server vault-1 di ', '<span class="sx-dim"># A pretend Vault lab: server vault-1 at ') + HOST + tr(' (storage raft) dan PostgreSQL di ', ' (raft storage) and PostgreSQL at ') + DB_HOST + tr('. Vault-nya baru diinstal: belum di-init dan masih tersegel.</span>', '. Vault is freshly installed: not initialized and still sealed.</span>'),
+      tr('<span class="sx-dim"># Ini terminal laptop kamu. Mulai dengan </span><b>export VAULT_ADDR=', '<span class="sx-dim"># This is your laptop\'s terminal. Start with </span><b>export VAULT_ADDR=') + ADDR_OK + tr('</b><span class="sx-dim">, lalu </span><b>vault status</b><span class="sx-dim">. Ketik </span><b>help</b><span class="sx-dim"> buat daftar perintah.</span>', '</b><span class="sx-dim">, then </span><b>vault status</b><span class="sx-dim">. Type </span><b>help</b><span class="sx-dim"> for the command list.</span>')
     ]);
     render();
   }
