@@ -6,6 +6,8 @@
 
   var app = document.getElementById('topo');
   if (!app) return;
+  var EN = (document.documentElement.lang || '').slice(0, 2) === 'en';
+  function tr(id, en) { return EN ? en : id; }
 
   var NS = 'http://www.w3.org/2000/svg';
   var svg = document.getElementById('topo-svg');
@@ -77,7 +79,7 @@
   // ---------- catalog ----------
   // d = colour on dark theme, l = colour on light theme
   var CATS = [
-    { id: 'umum', name: 'Umum', d: '#3fb950', l: '#1a7f37' },
+    { id: 'umum', name: tr('Umum', 'General'), d: '#3fb950', l: '#1a7f37' },
     { id: 'aws', name: 'AWS', d: '#f5a524', l: '#b45309' },
     { id: 'gcp', name: 'GCP', d: '#58a6ff', l: '#1d4ed8' },
     { id: 'k8s', name: 'Kubernetes', d: '#8b93ff', l: '#4338ca' },
@@ -89,13 +91,13 @@
 
   // [type, category, name, glyph, isGroup]
   var ITEMS = [
-    ['user', 'umum', 'Pengguna', 'user'], ['internet', 'umum', 'Internet', 'globe'],
+    ['user', 'umum', tr('Pengguna', 'Users'), 'user'], ['internet', 'umum', 'Internet', 'globe'],
     ['server', 'umum', 'Server', 'server'], ['db', 'umum', 'Database', 'db'],
     ['lb', 'umum', 'Load Balancer', 'lb'], ['fw', 'umum', 'Firewall', 'shield'],
     ['laptop', 'umum', 'Laptop Dev', 'laptop'], ['git', 'umum', 'Repo Git', 'git'],
     ['cicd', 'umum', 'CI/CD', 'pipeline'], ['monitor', 'umum', 'Monitoring', 'chart'],
     ['cron', 'umum', 'Cron Job', 'clock'], ['cloud', 'umum', 'Cloud', 'cloud'],
-    ['zona', 'umum', 'Zona / Grup', 'frame', 1],
+    ['zona', 'umum', tr('Zona / Grup', 'Zone / Group'), 'frame', 1],
 
     ['aws-region', 'aws', 'Region', 'frame', 1], ['aws-vpc', 'aws', 'VPC', 'frame', 1],
     ['aws-subnet', 'aws', 'Subnet', 'frame', 1], ['ec2', 'aws', 'EC2', 'chip'],
@@ -517,7 +519,7 @@
     var dup = state.edges.some(function (e) {
       return (e.from === from && e.to === to) || (e.from === to && e.to === from);
     });
-    if (dup) { toast('Dua komponen itu sudah tersambung.'); return; }
+    if (dup) { toast(tr('Dua komponen itu sudah tersambung.', 'Those two components are already connected.')); return; }
     checkpoint();
     var e = { id: uid('e'), from: from, to: to, label: '', arrow: 'end', dashed: false };
     state.edges.push(e);
@@ -566,10 +568,10 @@
     if (!item) return;
     insp.dataset.kind = sel.kind === 'edge' ? 'edge' : item.group ? 'group' : 'node';
     if (document.activeElement !== labelIn) labelIn.value = item.label || '';
-    labelIn.placeholder = sel.kind === 'edge' ? 'label garis (opsional)' : 'nama komponen';
+    labelIn.placeholder = sel.kind === 'edge' ? tr('label garis (opsional)', 'line label (optional)') : tr('nama komponen', 'component name');
     if (sel.kind === 'edge') {
-      app.querySelector('[data-act="arrow"]').textContent = { end: 'panah →', both: 'panah ↔', none: 'tanpa panah' }[item.arrow || 'end'];
-      app.querySelector('[data-act="dash"]').textContent = item.dashed ? 'garis - -' : 'garis ──';
+      app.querySelector('[data-act="arrow"]').textContent = { end: tr('panah →', 'arrow →'), both: tr('panah ↔', 'arrow ↔'), none: tr('tanpa panah', 'no arrow') }[item.arrow || 'end'];
+      app.querySelector('[data-act="dash"]').textContent = item.dashed ? tr('garis - -', 'line - -') : tr('garis ──', 'line ──');
     }
     app.querySelector('[data-act="link"]').classList.toggle('is-on', !!linkFrom);
   }
@@ -793,7 +795,7 @@
       b.type = 'button';
       b.className = 'topo-item' + (t.group ? ' is-group' : '');
       b.dataset.type = t.type;
-      b.title = 'Tambah ' + t.name + (t.group ? ' (area/grup)' : '');
+      b.title = tr('Tambah ', 'Add ') + t.name + (t.group ? tr(' (area/grup)', ' (area/group)') : '');
       b.innerHTML = '<span class="topo-item-ic">' + iconSVG(t, 22) + '</span><span class="topo-item-name"></span>';
       b.querySelector('.topo-item-name').textContent = t.name;
       itemsEl.appendChild(b);
@@ -847,23 +849,23 @@
     if (!b || suppressClick) return;
     var t = TYPE[b.dataset.type];
     addNode(b.dataset.type, centerWorld(t.group));
-    if (window.matchMedia('(max-width: 760px)').matches) toast(t.name + ' ditambahkan ke kanvas');
+    if (window.matchMedia('(max-width: 760px)').matches) toast(t.name + tr(' ditambahkan ke kanvas', ' added to the canvas'));
   });
 
   // ---------- templates ----------
   var TPL = {
     aws: {
       g: [['rg', 'aws-region', 230, 40, 680, 460, 'Region'], ['vpc', 'aws-vpc', 255, 80, 630, 400, 'VPC 10.0.0.0/16'],
-        ['pub', 'aws-subnet', 280, 130, 240, 320, 'Subnet publik'], ['prv', 'aws-subnet', 560, 130, 300, 320, 'Subnet privat']],
-      n: [['u', 'user', 50, 270, 'Pengguna'], ['dns', 'route53', 50, 120, 'Route 53'], ['cf', 'cloudfront', 170, 270, 'CloudFront'],
-        ['s3', 's3', 170, 430, 'S3 aset statis'], ['alb', 'alb', 400, 210, 'ALB'], ['nat', 'natgw', 400, 360, 'NAT Gateway'],
+        ['pub', 'aws-subnet', 280, 130, 240, 320, tr('Subnet publik', 'Public subnet')], ['prv', 'aws-subnet', 560, 130, 300, 320, tr('Subnet privat', 'Private subnet')]],
+      n: [['u', 'user', 50, 270, tr('Pengguna', 'Users')], ['dns', 'route53', 50, 120, 'Route 53'], ['cf', 'cloudfront', 170, 270, 'CloudFront'],
+        ['s3', 's3', 170, 430, tr('S3 aset statis', 'S3 static assets')], ['alb', 'alb', 400, 210, 'ALB'], ['nat', 'natgw', 400, 360, 'NAT Gateway'],
         ['a1', 'ec2', 640, 210, 'app-1'], ['a2', 'ec2', 640, 350, 'app-2'], ['db', 'rds', 790, 280, 'RDS Postgres']],
       e: [['u', 'dns', 'DNS', 1], ['u', 'cf', 'HTTPS'], ['cf', 'alb'], ['cf', 's3', '', 1], ['alb', 'a1'], ['alb', 'a2'],
         ['a1', 'db'], ['a2', 'db'], ['a2', 'nat', 'egress', 1]]
     },
     gcp: {
       g: [['pj', 'gcp-project', 190, 40, 800, 440, 'Project: demo-prod'], ['vpc', 'gcp-vpc', 400, 90, 420, 340, 'VPC']],
-      n: [['u', 'user', 70, 250, 'Pengguna'], ['lb', 'glb', 280, 250, 'HTTPS LB'], ['gcs', 'gcs', 280, 400, 'Cloud Storage'],
+      n: [['u', 'user', 70, 250, tr('Pengguna', 'Users')], ['lb', 'glb', 280, 250, 'HTTPS LB'], ['gcs', 'gcs', 280, 400, 'Cloud Storage'],
         ['run', 'cloudrun', 500, 170, 'Cloud Run api'], ['gce', 'gce', 500, 340, 'worker VM'], ['sql', 'cloudsql', 710, 170, 'Cloud SQL'],
         ['ps', 'pubsub', 710, 340, 'Pub/Sub'], ['bq', 'bigquery', 910, 250, 'BigQuery']],
       e: [['u', 'lb', 'HTTPS'], ['lb', 'run'], ['lb', 'gcs', 'aset', 1], ['run', 'sql'], ['run', 'ps', 'event'],
@@ -880,7 +882,7 @@
     },
     tf: {
       g: [['ws', 'tf-ws', 440, 40, 520, 380, 'Workspace: prod']],
-      n: [['lp', 'laptop', 70, 220, 'Laptop kamu'], ['git', 'git', 210, 220, 'Repo infra'], ['ci', 'cicd', 350, 220, 'Pipeline'],
+      n: [['lp', 'laptop', 70, 220, tr('Laptop kamu', 'Your laptop')], ['git', 'git', 210, 220, 'Repo infra'], ['ci', 'cicd', 350, 220, 'Pipeline'],
         ['var', 'tf-var', 520, 110, 'variables'], ['plan', 'tf-plan', 520, 230, 'terraform plan'], ['apply', 'tf-apply', 520, 350, 'terraform apply'],
         ['mod', 'tf-module', 690, 110, 'module network'], ['st', 'tf-backend', 690, 350, 'Remote state'], ['out', 'tf-output', 690, 230, 'outputs'],
         ['paws', 'tf-provider', 870, 110, 'provider aws'], ['pgcp', 'tf-provider', 870, 270, 'provider google']],
@@ -929,7 +931,7 @@
     var v = tplSel.value;
     tplSel.value = '';
     if (!v) return;
-    if (state.nodes.length && !window.confirm('Ganti isi kanvas dengan contoh ini? (masih bisa diurungkan)')) return;
+    if (state.nodes.length && !window.confirm(tr('Ganti isi kanvas dengan contoh ini? (masih bisa diurungkan)', 'Replace the canvas with this example? (you can still undo)'))) return;
     loadTemplate(v);
   });
   emptyEl.addEventListener('click', function (e) {
@@ -948,7 +950,7 @@
       case 'redo': redo(); break;
       case 'clear':
         if (!state.nodes.length) break;
-        if (!window.confirm('Kosongkan kanvas? (masih bisa diurungkan)')) break;
+        if (!window.confirm(tr('Kosongkan kanvas? (masih bisa diurungkan)', 'Clear the canvas? (you can still undo)'))) break;
         checkpoint(); state = { nodes: [], edges: [] }; sel = null; linkFrom = null; render(); fit();
         break;
       case 'zin': zoomAt(view.k * 1.2, stageSize().w / 2, stageSize().h / 2); break;
@@ -1095,7 +1097,7 @@
   }
   function shareText() {
     var t = titleIn.value.trim();
-    return (t ? 'Topologi "' + t + '" yang barusan aku gambar.' : 'Barusan iseng gambar topologi infra.') + ' Coba bikin punyamu di';
+    return (t ? tr('Topologi "', 'The "') + t + tr('" yang barusan aku gambar.', '" topology I just drew.') : tr('Barusan iseng gambar topologi infra.', 'Just sketched an infra topology for fun.')) + tr(' Coba bikin punyamu di', ' Make your own at');
   }
   function refreshPreview() {
     var token = ++renderToken;
@@ -1111,11 +1113,11 @@
       shareBtn.hidden = !(file && navigator.canShare && navigator.canShare({ files: [file] }));
     }).catch(function () {
       previewEl.classList.remove('is-busy');
-      toast('Gagal bikin gambar, coba lagi ya.');
+      toast(tr('Gagal bikin gambar, coba lagi ya.', 'Couldn\'t create the image, please try again.'));
     });
   }
   function openShare() {
-    if (!state.nodes.length) { toast('Kanvasnya masih kosong. Tambah komponen dulu, ya.'); return; }
+    if (!state.nodes.length) { toast(tr('Kanvasnya masih kosong. Tambah komponen dulu, ya.', 'The canvas is still empty. Add some components first.')); return; }
     linkFrom = null;
     render();
     copyBtn.hidden = !(window.ClipboardItem && navigator.clipboard && navigator.clipboard.write);
@@ -1153,7 +1155,7 @@
     document.body.appendChild(a);
     a.click();
     a.remove();
-    toast('Gambar diunduh. Tinggal lampirkan di postinganmu.');
+    toast(tr('Gambar diunduh. Tinggal lampirkan di postinganmu.', 'Image downloaded. Just attach it to your post.'));
   }
   dialog.addEventListener('click', function (e) {
     if (e.target === dialog) { dialog.close(); return; }
@@ -1163,13 +1165,13 @@
     if (kind === 'download') download();
     else if (kind === 'native') {
       var file = new File([current.blob], fileName(), { type: 'image/png' });
-      navigator.share({ files: [file], title: 'Topologi', text: shareText() + ' ' + PAGE_URL }).catch(function (err) {
-        if (err && err.name !== 'AbortError') toast('Gagal membagikan. Coba unduh gambarnya saja.');
+      navigator.share({ files: [file], title: tr('Topologi', 'Topology'), text: shareText() + ' ' + PAGE_URL }).catch(function (err) {
+        if (err && err.name !== 'AbortError') toast(tr('Gagal membagikan. Coba unduh gambarnya saja.', 'Sharing failed. Try downloading the image instead.'));
       });
     } else if (kind === 'copy') {
       navigator.clipboard.write([new ClipboardItem({ 'image/png': current.blob })]).then(function () {
-        toast('Gambar tersalin. Tempel (paste) langsung di postinganmu.');
-      }, function () { toast('Browser ga ngizinin salin gambar. Unduh saja, ya.'); });
+        toast(tr('Gambar tersalin. Tempel (paste) langsung di postinganmu.', 'Image copied. Paste it straight into your post.'));
+      }, function () { toast(tr('Browser ga ngizinin salin gambar. Unduh saja, ya.', 'Your browser won\'t let me copy the image. Download it instead.')); });
     }
   });
   // social networks only take a link, so hand over the image first

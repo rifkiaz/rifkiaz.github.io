@@ -1,5 +1,6 @@
 {{- define "main" }}
 {{- $data := index site.Data "hargacloud" }}
+{{- $en := eq site.Language.Lang "en" }}
 <header class="page-header">
     <h1>{{ .Title }}</h1>
     {{- with .Description }}
@@ -8,52 +9,68 @@
 </header>
 
 <div class="kalk" id="kalk">
-    <div class="kalk-bar" role="toolbar" aria-label="Pengaturan kalkulator">
+    <div class="kalk-bar" role="toolbar" aria-label="{{ cond $en "Calculator settings" "Pengaturan kalkulator" }}">
         <label class="kalk-opt">
             <span>region</span>
             <select id="kalk-region" aria-label="Region"></select>
         </label>
         <label class="kalk-opt">
-            <span>harga VM</span>
-            <select id="kalk-model" aria-label="Model harga VM">
+            <span>{{ cond $en "VM pricing" "harga VM" }}</span>
+            <select id="kalk-model" aria-label="{{ cond $en "VM pricing model" "Model harga VM" }}">
                 <option value="od">on-demand</option>
-                <option value="y1">komitmen 1 tahun</option>
-                <option value="y3">komitmen 3 tahun</option>
+                <option value="y1">{{ cond $en "1-year commitment" "komitmen 1 tahun" }}</option>
+                <option value="y3">{{ cond $en "3-year commitment" "komitmen 3 tahun" }}</option>
             </select>
         </label>
-        <div class="kalk-cur" role="group" aria-label="Mata uang">
+        <div class="kalk-cur" role="group" aria-label="{{ cond $en "Currency" "Mata uang" }}">
             <button type="button" data-cur="usd" aria-pressed="true">USD</button>
             <button type="button" data-cur="idr" aria-pressed="false">IDR</button>
         </div>
         <label class="kalk-opt kalk-kurs" id="kalk-kurs-wrap" hidden>
-            <span>kurs Rp</span>
-            <input id="kalk-kurs" type="number" inputmode="numeric" min="1000" max="100000" step="50" aria-label="Kurs rupiah per 1 USD">
+            <span>{{ cond $en "Rp rate" "kurs Rp" }}</span>
+            <input id="kalk-kurs" type="number" inputmode="numeric" min="1000" max="100000" step="50" aria-label="{{ cond $en "Rupiah per 1 USD" "Kurs rupiah per 1 USD" }}">
         </label>
         <span class="kalk-spacer"></span>
         <label class="kalk-opt">
-            <span>contoh</span>
-            <select id="kalk-preset" aria-label="Muat contoh">
-                <option value="">pilih…</option>
-                <option value="web">web app kecil</option>
-                <option value="k8s">kubernetes produksi</option>
-                <option value="data">penyimpanan & backup</option>
-                <option value="kosong">kosongkan semua</option>
+            <span>{{ cond $en "example" "contoh" }}</span>
+            <select id="kalk-preset" aria-label="{{ cond $en "Load an example" "Muat contoh" }}">
+                <option value="">{{ cond $en "pick…" "pilih…" }}</option>
+                <option value="web">{{ cond $en "small web app" "web app kecil" }}</option>
+                <option value="k8s">{{ cond $en "production kubernetes" "kubernetes produksi" }}</option>
+                <option value="data">{{ cond $en "storage & backup" "penyimpanan & backup" }}</option>
+                <option value="kosong">{{ cond $en "clear everything" "kosongkan semua" }}</option>
             </select>
         </label>
-        <button type="button" data-act="link" title="Salin tautan berisi isian ini">salin tautan</button>
+        <button type="button" data-act="link" title="{{ cond $en "Copy a link with these inputs" "Salin tautan berisi isian ini" }}">{{ cond $en "copy link" "salin tautan" }}</button>
     </div>
 
     <div class="kalk-wrap">
         <div class="kalk-main" id="kalk-main"></div>
-        <aside class="kalk-sum" id="kalk-sum" aria-label="Ringkasan biaya"></aside>
+        <aside class="kalk-sum" id="kalk-sum" aria-label="{{ cond $en "Cost summary" "Ringkasan biaya" }}"></aside>
     </div>
 
     <div class="kalk-dock" id="kalk-dock" aria-hidden="true"></div>
 
     <div class="kalk-notes">
+        {{- if $en }}
+        <p class="kalk-warn"><b>⚠ This is a rough estimate, not a bill.</b> The numbers come from AWS and GCP public price lists as of <span id="kalk-asof"></span>, in USD, before tax, contract discounts, credits, or free tier. Cloud prices can change any time, so double-check with the official calculators before you decide anything: <a href="https://calculator.aws/" target="_blank" rel="noopener">AWS Pricing Calculator</a> and <a href="https://cloud.google.com/products/calculator" target="_blank" rel="noopener">Google Cloud Pricing Calculator</a>.</p>
+        <details class="kalk-help">
+            <summary>assumptions used</summary>
+            <ul>
+                <li><b>Virtual machines:</b> Linux, default tenancy. AWS uses EC2 on-demand prices, GCP uses Compute Engine prices. The N2 series on GCP automatically gets a <i>sustained use discount</i> when it runs more than 25% of the month, E2 doesn't. Commitment modes are counted at a full 730 hours/month: AWS uses standard no-upfront Reserved Instances, GCP uses resource-based committed use discounts.</li>
+                <li><b>Block storage:</b> SSD = EBS gp3 vs Persistent Disk balanced, HDD = EBS st1 vs Persistent Disk standard. IOPS and throughput above the gp3 baseline aren't counted.</li>
+                <li><b>Object storage:</b> storage cost per GB only. Request, retrieval, and minimum storage duration charges aren't included. Archive class: S3 Glacier Flexible Retrieval vs GCS Archive.</li>
+                <li><b>Database:</b> RDS (MySQL or PostgreSQL) with gp3 storage vs Cloud SQL Enterprise with SSD. HA means Multi-AZ on AWS and a regional instance on GCP. Backups aren't counted.</li>
+                <li><b>Load balancer:</b> AWS Application Load Balancer, assuming 1 LCU-hour ≈ 1 GB of data processed. GCP is counted from forwarding rules (the first 5 at one price, the rest per rule) plus data processed.</li>
+                <li><b>Egress:</b> data out to the internet. AWS has one rate to everywhere, GCP Premium Tier rates depend on the destination. Inter-zone and inter-region transfer isn't counted.</li>
+                <li><b>Kubernetes:</b> EKS and GKE control plane cost only (both $0.10/hour per cluster). Count the nodes as VMs above.</li>
+            </ul>
+        </details>
+        <p class="kalk-note">All the math runs in your browser and nothing is saved. Want to share your inputs? Use <b>copy link</b>, the inputs travel in the link.</p>
+    {{- else }}
         <p class="kalk-warn"><b>⚠ Ini estimasi kasar, bukan tagihan.</b> Angkanya diambil dari daftar harga publik AWS dan GCP per <span id="kalk-asof"></span>, dalam USD, belum termasuk pajak, diskon kontrak, kredit, maupun free tier. Harga cloud bisa berubah kapan saja, jadi cek lagi di kalkulator resminya sebelum ambil keputusan: <a href="https://calculator.aws/" target="_blank" rel="noopener">AWS Pricing Calculator</a> dan <a href="https://cloud.google.com/products/calculator" target="_blank" rel="noopener">Google Cloud Pricing Calculator</a>.</p>
         <details class="kalk-help">
-            <summary>asumsi yang dipakai</summary>
+            <summary>{{ cond $en "assumptions used" "asumsi yang dipakai" }}</summary>
             <ul>
                 <li><b>Mesin virtual:</b> Linux, tenancy biasa. AWS pakai harga EC2 on-demand, GCP pakai harga Compute Engine. Seri N2 di GCP otomatis dapat <i>sustained use discount</i> kalau nyala lebih dari 25% sebulan, E2 tidak. Mode komitmen dihitung penuh 730 jam/bulan: AWS pakai Reserved Instance standar tanpa uang muka, GCP pakai committed use discount berbasis resource.</li>
                 <li><b>Block storage:</b> SSD = EBS gp3 vs Persistent Disk balanced, HDD = EBS st1 vs Persistent Disk standard. IOPS dan throughput di atas baseline gp3 tidak dihitung.</li>
@@ -65,12 +82,13 @@
             </ul>
         </details>
         <p class="kalk-note">Semua hitungan jalan di browser kamu dan ga ada yang disimpan. Mau berbagi isian? Pakai <b>salin tautan</b>, isiannya ikut di tautan itu.</p>
+    {{- end }}
     </div>
 
     <div class="kalk-toast" id="kalk-toast" role="status" aria-live="polite"></div>
 </div>
 <script type="application/json" id="kalk-data">{{ $data | jsonify | safeJS }}</script>
-<noscript><p class="term-noscript">Kalkulator ini butuh JavaScript.</p></noscript>
+<noscript><p class="term-noscript">{{ cond $en "This calculator needs JavaScript." "Kalkulator ini butuh JavaScript." }}</p></noscript>
 
 {{- $js := resources.Get "js/kalkulator.js" | minify | fingerprint }}
 <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
