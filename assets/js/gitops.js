@@ -368,7 +368,7 @@
     var f = '';
     if (l === '@replicas') {
       f = 'replicas';
-      body = '  ' + k('replicas') + ': <span class="gx-num"><button type="button" data-act="rep-" aria-label="Kurangi replicas">−</button><output id="gx-rep">3</output><button type="button" data-act="rep+" aria-label="Tambah replicas">+</button></span>';
+      body = '  ' + k('replicas') + ': <span class="gx-num"><button type="button" data-act="rep-" aria-label="' + tr('Kurangi replicas', 'Fewer replicas') + '">−</button><output id="gx-rep">3</output><button type="button" data-act="rep+" aria-label="' + tr('Tambah replicas', 'More replicas') + '">+</button></span>';
     } else if (l === '@tag') {
       f = 'tag';
       body = '          ' + k('image') + ': toko-web:<select id="gx-tag" aria-label="Tag image">' +

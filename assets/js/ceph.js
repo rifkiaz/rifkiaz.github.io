@@ -962,7 +962,7 @@
     setText($('cp-f-pool'), userPools.length ? userPools.length + ' pool · ' + gib(userPools.reduce(function (a, p) { return a + poolStored(p); }, 0)) : tr('cuma .mgr', 'only .mgr'));
     var fp = $('cp-f-pg');
     var cleanN = S.counts['active+clean'] || 0;
-    setText(fp, cleanN === S.tot ? S.tot + ' clean' : (S.tot - cleanN) + ' ga clean');
+    setText(fp, cleanN === S.tot ? S.tot + ' clean' : (S.tot - cleanN) + tr(' ga clean', ' not clean'));
     fp.dataset.s = S.inact ? 'bad' : cleanN === S.tot ? 'ok' : groups.rec ? 'info' : 'warn';
     var fo = $('cp-f-osd');
     var upN = W.osds.filter(function (o) { return o.up; }).length, inN = W.osds.filter(function (o) { return o.in; }).length;
@@ -1004,7 +1004,7 @@
     buildCards();
     term.lines([
       tr('<span class="sx-dim"># Cluster Ceph bohongan: 3 node (node1 sampai node3), tiap node 2 disk 100 GiB dan 1 monitor. node4 masih nganggur.</span>', '<span class="sx-dim"># A pretend Ceph cluster: 3 nodes (node1 to node3), each with 2 × 100 GiB disks and 1 monitor. node4 is still idle.</span>'),
-      tr('<span class="sx-dim"># Mulai dengan </span><b>ceph -s</b><span class="sx-dim">. Ketik </span><b>help</b><span class="sx-dim"> buat daftar perintah.</span>', tr('<span class="sx-dim"># Start with </span><b>ceph -s</b><span class="sx-dim">. Ketik </span><b>help</b><span class="sx-dim"> buat daftar perintah.</span>', '<span class="sx-dim"># Start with </span><b>ceph -s</b><span class="sx-dim">. Ketik </span><b>help</b><span class="sx-dim"> for the command list.</span>'))
+      tr('<span class="sx-dim"># Mulai dengan </span><b>ceph -s</b><span class="sx-dim">. Ketik </span><b>help</b><span class="sx-dim"> buat daftar perintah.</span>', '<span class="sx-dim"># Start with </span><b>ceph -s</b><span class="sx-dim">. Type </span><b>help</b><span class="sx-dim"> for the command list.</span>')
     ]);
     last = Date.now();
     render();

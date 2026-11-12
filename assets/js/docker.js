@@ -1794,7 +1794,7 @@
     setHTML($('dk-tabs'), TABS.map(function (t) {
       var bad = (W.errs[t.f] || []).length;
       var mod = W.files[t.f] !== FILES0[t.f];
-      return '<button type="button" role="tab" data-act="tab" data-f="' + t.f + '" aria-selected="' + (t.f === curTab) + '">' + esc(t.f) + (bad ? ' <i>●</i>' : mod ? ' <i title="diubah">*</i>' : '') + '</button>';
+      return '<button type="button" role="tab" data-act="tab" data-f="' + t.f + '" aria-selected="' + (t.f === curTab) + '">' + esc(t.f) + (bad ? ' <i>●</i>' : mod ? tr(' <i title="diubah">*</i>', ' <i title="modified">*</i>') : '') + '</button>';
     }).join(''));
   }
   function markErr(file, line) {
@@ -1842,7 +1842,7 @@
     void ms;
     if (c.net !== 'bridge') body += '<div class="dk-row"><small>net</small><span class="dk-net">' + esc(c.net) + '</span></div>';
     var last = c.logs.filter(function (l) { return /Error|SyntaxError|can't open/.test(l); })[0] || c.logs[c.logs.length - 1];
-    if (c.state !== 'running' && c.code && last) body += '<div class="dk-log" title="baris log terakhir">' + esc(last) + '</div>';
+    if (c.state !== 'running' && c.code && last) body += tr('<div class="dk-log" title="baris log terakhir">', '<div class="dk-log" title="last log line">') + esc(last) + '</div>';
     setHTML(el.querySelector('.dk-body'), body);
     var n = esc(c.name);
     setHTML(el.querySelector('.dk-acts'),
@@ -1940,7 +1940,7 @@
     openTab('Dockerfile');
     term.lines([
       tr('<span class="sx-dim"># Docker host bohongan di laptop kamu. Folder ~/app berisi Dockerfile, app Flask kecil, dan compose.yaml.</span>', '<span class="sx-dim"># A pretend Docker host on your laptop. The ~/app folder has a Dockerfile, a small Flask app, and compose.yaml.</span>'),
-      tr('<span class="sx-dim"># Mulai dari </span><b>docker run -d -p 8080:80 nginx</b><span class="sx-dim">. Ketik </span><b>help</b><span class="sx-dim"> buat daftar perintah.</span>', tr('<span class="sx-dim"># Start with </span><b>docker run -d -p 8080:80 nginx</b><span class="sx-dim">. Ketik </span><b>help</b><span class="sx-dim"> buat daftar perintah.</span>', '<span class="sx-dim"># Start with </span><b>docker run -d -p 8080:80 nginx</b><span class="sx-dim">. Ketik </span><b>help</b><span class="sx-dim"> for the command list.</span>'))
+      tr('<span class="sx-dim"># Mulai dari </span><b>docker run -d -p 8080:80 nginx</b><span class="sx-dim">. Ketik </span><b>help</b><span class="sx-dim"> buat daftar perintah.</span>', '<span class="sx-dim"># Start with </span><b>docker run -d -p 8080:80 nginx</b><span class="sx-dim">. Type </span><b>help</b><span class="sx-dim"> for the command list.</span>')
     ]);
     renderAll();
   }

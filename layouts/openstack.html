@@ -1,4 +1,5 @@
 {{- define "main" }}
+{{- $en := eq site.Language.Lang "en" }}
 <header class="page-header">
     <h1>{{ .Title }}</h1>
     {{- with .Description }}
@@ -7,7 +8,7 @@
 </header>
 
 <div class="gx sx os" id="os">
-    <div class="gx-flow" aria-label="Alur permintaan di OpenStack">
+    <div class="gx-flow" aria-label="{{ cond $en `Request flow in OpenStack` `Alur permintaan di OpenStack` }}">
         <div class="gx-node" data-node="keystone">
             <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="12" r="3.5"/><path d="M11.5 12H21M17 12v3M20 12v2"/></svg>
             <b>keystone</b><span id="os-f-key"></span>
@@ -30,7 +31,7 @@
     </div>
 
     <details class="gx-missions" open>
-        <summary>misi <span id="os-m-count">0/9</span></summary>
+        <summary>{{ cond $en `missions ` `misi ` }}<span id="os-m-count">0/9</span></summary>
         <ol id="os-m-list"></ol>
     </details>
 
@@ -40,16 +41,16 @@
                 <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3M12 15h5"/></svg>
                 <h2 id="os-sh-title">terminal</h2>
                 <span class="gx-chip" id="os-where">laptop</span>
-                <button type="button" class="gx-reset" data-act="reset">reset simulasi</button>
+                <button type="button" class="gx-reset" data-act="reset">{{ cond $en `reset simulation` `reset simulasi` }}</button>
             </header>
             <div class="sx-tbox">
                 <div class="sx-out" id="os-out" role="log" aria-live="off"></div>
                 <div class="sx-prompt">
-                    <label for="os-in" id="os-ps">kamu@laptop:~$</label>
-                    <input id="os-in" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="ketik perintah, misal source demo-openrc">
+                    <label for="os-in" id="os-ps">{{ cond $en `you@laptop:~$` `kamu@laptop:~$` }}</label>
+                    <input id="os-in" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="{{ cond $en `type a command, e.g. source demo-openrc` `ketik perintah, misal source demo-openrc` }}">
                 </div>
             </div>
-            <p class="os-qh">langkah berikutnya</p>
+            <p class="os-qh">{{ cond $en `next steps` `langkah berikutnya` }}</p>
             <div class="sx-quick" id="os-quick"></div>
         </section>
 
@@ -57,36 +58,36 @@
             <header class="gx-ph">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18.5h10.5a4 4 0 0 0 .6-7.95A6 6 0 0 0 6.6 9.1 4.75 4.75 0 0 0 7 18.5z"/></svg>
                 <h2 id="os-d-title">dashboard</h2>
-                <span class="gx-chip" id="os-proj">belum login</span>
+                <span class="gx-chip" id="os-proj">{{ cond $en `not logged in` `belum login` }}</span>
             </header>
-            <div class="sx-tabs os-tabs" role="tablist" aria-label="Menu dashboard">
-                <button type="button" role="tab" id="os-tab-ringkasan" aria-controls="os-v-ringkasan" data-act="tab" data-tab="ringkasan" aria-selected="true">ringkasan</button>
+            <div class="sx-tabs os-tabs" role="tablist" aria-label="{{ cond $en `Dashboard menu` `Menu dashboard` }}">
+                <button type="button" role="tab" id="os-tab-ringkasan" aria-controls="os-v-ringkasan" data-act="tab" data-tab="ringkasan" aria-selected="true">{{ cond $en `overview` `ringkasan` }}</button>
                 <button type="button" role="tab" id="os-tab-instance" aria-controls="os-v-instance" data-act="tab" data-tab="instance" aria-selected="false">instance <i id="os-n-inst"></i></button>
-                <button type="button" role="tab" id="os-tab-topologi" aria-controls="os-v-topologi" data-act="tab" data-tab="topologi" aria-selected="false">topologi</button>
+                <button type="button" role="tab" id="os-tab-topologi" aria-controls="os-v-topologi" data-act="tab" data-tab="topologi" aria-selected="false">{{ cond $en `topology` `topologi` }}</button>
                 <button type="button" role="tab" id="os-tab-volume" aria-controls="os-v-volume" data-act="tab" data-tab="volume" aria-selected="false">volume <i id="os-n-vol"></i></button>
             </div>
             <div class="os-body">
                 <div class="os-gate" id="os-gate">
-                    <p>Dashboard masih kosong karena kamu belum login. Di OpenStack, semua akses lewat <b>Keystone</b>: kamu login sebagai user, lalu dapat token untuk satu <b>project</b>.</p>
+                    <p>{{ cond $en `The dashboard is empty because you aren't logged in yet. In OpenStack, all access goes through ` `Dashboard masih kosong karena kamu belum login. Di OpenStack, semua akses lewat ` }}<b>Keystone</b>{{ cond $en `: you log in as a user, then get a token for one ` `: kamu login sebagai user, lalu dapat token untuk satu ` }}<b>project</b>.</p>
                     <button type="button" class="gx-primary" data-act="cmd" data-cmd="source demo-openrc">source demo-openrc</button>
                 </div>
                 <div class="os-view" id="os-v-ringkasan" role="tabpanel" aria-labelledby="os-tab-ringkasan" data-view="ringkasan"></div>
                 <div class="os-view" id="os-v-instance" role="tabpanel" aria-labelledby="os-tab-instance" data-view="instance" hidden>
                     <div class="os-bar">
-                        <button type="button" class="gx-primary" data-act="launch">+ luncurkan instance</button>
+                        <button type="button" class="gx-primary" data-act="launch">{{ cond $en `+ launch instance` `+ luncurkan instance` }}</button>
                         <span id="os-inst-sum"></span>
                     </div>
                     <form class="os-form" id="os-form" hidden>
-                        <label>nama<input id="os-fm-name" type="text" value="web1" autocomplete="off" autocapitalize="off" spellcheck="false"></label>
+                        <label>{{ cond $en `name` `nama` }}<input id="os-fm-name" type="text" value="web1" autocomplete="off" autocapitalize="off" spellcheck="false"></label>
                         <label>image<select id="os-fm-image"></select></label>
                         <label>flavor<select id="os-fm-flavor"></select></label>
                         <label>network<select id="os-fm-net"></select></label>
                         <label>keypair<select id="os-fm-key"></select></label>
                         <label>security group<select id="os-fm-sg"></select></label>
                         <div class="os-fm-act">
-                            <button type="submit" class="gx-primary">luncurkan</button>
-                            <button type="button" data-act="launch">batal</button>
-                            <span>Tombol ini cuma mengetik perintah <code>openstack server create</code> ke terminal. Horizon juga begitu: semua klik jadi panggilan API.</span>
+                            <button type="submit" class="gx-primary">{{ cond $en `launch` `luncurkan` }}</button>
+                            <button type="button" data-act="launch">{{ cond $en `cancel` `batal` }}</button>
+                            <span>{{ cond $en `This button just types an ` `Tombol ini cuma mengetik perintah ` }}<code>openstack server create</code>{{ cond $en ` command into the terminal. Horizon works the same way: every click becomes an API call.` ` ke terminal. Horizon juga begitu: semua klik jadi panggilan API.` }}</span>
                         </div>
                     </form>
                     <div class="os-vms" id="os-vms"></div>
@@ -106,22 +107,22 @@
     </div>
 
     <details class="gx-help">
-        <summary>apa itu Keystone, Nova, Neutron, dan kawan-kawan?</summary>
+        <summary>{{ cond $en `what are Keystone, Nova, Neutron, and friends?` `apa itu Keystone, Nova, Neutron, dan kawan-kawan?` }}</summary>
         <ul>
-            <li><b>Keystone</b> mengurus login. File <code>demo-openrc</code> berisi alamat Keystone, user, dan project. Setelah di-<code>source</code>, perintah <code>openstack</code> minta <b>token</b> dulu, lalu token itu dipakai ke semua service lain. Semua resource milik satu <b>project</b>, dan tiap project punya <b>quota</b>.</li>
-            <li><b>Nova</b> menjalankan server (instance) di compute node. Ukurannya dipilih dari <b>flavor</b> (vCPU, RAM, disk), isinya dari <b>image</b> yang disimpan <b>Glance</b>.</li>
-            <li><b>Neutron</b> mengurus jaringan. Network dan subnet project kamu itu privat, misalnya <code>10.0.0.0/24</code>. Supaya bisa keluar ke internet, subnet itu harus disambungkan ke <b>router</b> yang punya gateway ke network eksternal <code>public</code>.</li>
-            <li><b>Floating IP</b> itu IP publik dari network <code>public</code> yang di-NAT oleh router ke IP privat server. Tanpa router yang tersambung, floating IP ga bisa dipasang.</li>
-            <li><b>Security group</b> itu firewall per port server. Grup <code>default</code> cuma mengizinkan trafik dari sesama anggota grup, jadi SSH dari laptop bakal timeout sampai kamu menambah rule port 22.</li>
-            <li><b>Keypair</b> disuntikkan ke server saat boot lewat cloud-init. Lupa <code>--key-name</code> waktu bikin server? Kuncinya ga bisa ditambah belakangan; bikin ulang servernya.</li>
-            <li><b>Cinder</b> menyediakan volume (block storage) yang bisa dicopot dan dipasang ke server lain. Datanya tetap ada walau servernya dihapus.</li>
+            <li><b>Keystone</b>{{ cond $en ` handles login. The ` ` mengurus login. File ` }}<code>demo-openrc</code>{{ cond $en ` file holds the Keystone address, user, and project. Once you ` ` berisi alamat Keystone, user, dan project. Setelah di-` }}<code>source</code>{{ cond $en ` it, the ` `, perintah ` }}<code>openstack</code>{{ cond $en ` command first asks for a ` ` minta ` }}<b>token</b>{{ cond $en `, then uses that token with every other service. Every resource belongs to a ` ` dulu, lalu token itu dipakai ke semua service lain. Semua resource milik satu ` }}<b>project</b>{{ cond $en `, and each project has a ` `, dan tiap project punya ` }}<b>quota</b>.</li>
+            <li><b>Nova</b>{{ cond $en ` runs servers (instances) on compute nodes. Their size comes from a ` ` menjalankan server (instance) di compute node. Ukurannya dipilih dari ` }}<b>flavor</b>{{ cond $en ` (vCPU, RAM, disk), their contents from an ` ` (vCPU, RAM, disk), isinya dari ` }}<b>image</b>{{ cond $en ` stored in ` ` yang disimpan ` }}<b>Glance</b>.</li>
+            <li><b>Neutron</b>{{ cond $en ` handles networking. Your project's networks and subnets are private, e.g. ` ` mengurus jaringan. Network dan subnet project kamu itu privat, misalnya ` }}<code>10.0.0.0/24</code>{{ cond $en `. To reach the internet, the subnet has to be connected to a ` `. Supaya bisa keluar ke internet, subnet itu harus disambungkan ke ` }}<b>router</b>{{ cond $en ` with a gateway to the external ` ` yang punya gateway ke network eksternal ` }}<code>public</code>{{ cond $en ` network.` `.` }}</li>
+            <li>{{ cond $en `A <b>floating IP</b> is a public IP from the <code>public</code> network that the router NATs to a server's private IP. Without a connected router, a floating IP can't be attached.` `<b>Floating IP</b> itu IP publik dari network <code>public</code> yang di-NAT oleh router ke IP privat server. Tanpa router yang tersambung, floating IP ga bisa dipasang.` | safeHTML }}</li>
+            <li>{{ cond $en `A <b>security group</b> is a firewall on each server port. The <code>default</code> group only allows traffic from other members of the group, so SSH from your laptop times out until you add a port 22 rule.` `<b>Security group</b> itu firewall per port server. Grup <code>default</code> cuma mengizinkan trafik dari sesama anggota grup, jadi SSH dari laptop bakal timeout sampai kamu menambah rule port 22.` | safeHTML }}</li>
+            <li>{{ cond $en `A <b>keypair</b> is injected into the server at boot through cloud-init. Forgot <code>--key-name</code> when creating a server? The key can't be added later; recreate the server.` `<b>Keypair</b> disuntikkan ke server saat boot lewat cloud-init. Lupa <code>--key-name</code> waktu bikin server? Kuncinya ga bisa ditambah belakangan; bikin ulang servernya.` | safeHTML }}</li>
+            <li><b>Cinder</b>{{ cond $en ` provides volumes (block storage) that can be detached and attached to other servers. The data stays even if the server is deleted.` ` menyediakan volume (block storage) yang bisa dicopot dan dipasang ke server lain. Datanya tetap ada walau servernya dihapus.` }}</li>
         </ul>
     </details>
-    <p class="gx-note">Ini simulasi, bukan OpenStack beneran. Cloud-nya bohongan, IP-nya pakai rentang contoh, waktunya dipercepat, dan perintahnya cuma sebagian. Semua cuma ada di browser kamu dan ga disimpan di mana pun.</p>
+    <p class="gx-note">{{ cond $en `This is a simulation, not real OpenStack. The cloud is pretend, the IPs use example ranges, time is sped up, and only some commands exist. Everything lives only in your browser and isn't saved anywhere.` `Ini simulasi, bukan OpenStack beneran. Cloud-nya bohongan, IP-nya pakai rentang contoh, waktunya dipercepat, dan perintahnya cuma sebagian. Semua cuma ada di browser kamu dan ga disimpan di mana pun.` }}</p>
 
     <div class="gx-toast" id="os-toast" role="status" aria-live="polite"></div>
 </div>
-<noscript><p class="term-noscript">Simulasi ini butuh JavaScript.</p></noscript>
+<noscript><p class="term-noscript">{{ cond $en `This simulation needs JavaScript.` `Simulasi ini butuh JavaScript.` }}</p></noscript>
 
 {{- $kit := resources.Get "js/simkit.js" | minify | fingerprint }}
 <script src="{{ $kit.RelPermalink }}" integrity="{{ $kit.Data.Integrity }}" defer></script>

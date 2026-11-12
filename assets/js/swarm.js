@@ -1117,7 +1117,7 @@
     renderQuick();
     term.lines([
       tr('<span class="sx-dim"># Ada 4 mesin dengan Docker: manager1 (tempat terminal ini), worker1, worker2, worker3. Belum ada yang jadi swarm.</span>', '<span class="sx-dim"># There are 4 machines with Docker: manager1 (where this terminal is), worker1, worker2, worker3. None of them is a swarm yet.</span>'),
-      tr('<span class="sx-dim"># Mulai dengan </span><b>docker swarm init</b><span class="sx-dim">. Ketik </span><b>help</b><span class="sx-dim"> buat daftar perintah.</span>', tr('<span class="sx-dim"># Start with </span><b>docker swarm init</b><span class="sx-dim">. Ketik </span><b>help</b><span class="sx-dim"> buat daftar perintah.</span>', '<span class="sx-dim"># Start with </span><b>docker swarm init</b><span class="sx-dim">. Ketik </span><b>help</b><span class="sx-dim"> for the command list.</span>'))
+      tr('<span class="sx-dim"># Mulai dengan </span><b>docker swarm init</b><span class="sx-dim">. Ketik </span><b>help</b><span class="sx-dim"> buat daftar perintah.</span>', '<span class="sx-dim"># Start with </span><b>docker swarm init</b><span class="sx-dim">. Type </span><b>help</b><span class="sx-dim"> for the command list.</span>')
     ]);
     render();
   }

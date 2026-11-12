@@ -157,7 +157,7 @@
             side('gcp', sel(p + 'g', opts(gce, v.g, function (k) { return k + ' · ' + spec(D.spec.gce[k]); }), tr('tipe GCE', 'GCE type'))) +
             '<div class="kalk-common">' + num(p + 'n', v.n, tr('jumlah', 'count'), 'unit') +
             num(p + 'h', v.h, tr('nyala', 'running'), tr('jam/bln', 'hrs/mo'), HRS) +
-            '<button type="button" class="kalk-del" data-del="vm.' + i + tr('" aria-label="Hapus VM ini">hapus</button></div></div>', tr('" aria-label="Remove this VM">hapus</button></div></div>', '" aria-label="Remove this VM">remove</button></div></div>'));
+            '<button type="button" class="kalk-del" data-del="vm.' + i + tr('" aria-label="Hapus VM ini">hapus</button></div></div>', '" aria-label="Remove this VM">remove</button></div></div>');
         }).join('') + tr('<button type="button" class="kalk-add" data-add="vm">+ tambah VM</button>', '<button type="button" class="kalk-add" data-add="vm">+ add VM</button>');
       case 'disk':
         return '<div class="kalk-common">' + num('ssd', S.ssd, 'SSD (gp3 / balanced)', 'GB') + num('hdd', S.hdd, 'HDD (st1 / standard)', 'GB') + '</div>';
@@ -175,7 +175,7 @@
             sel(p + 'e', opts(['my', 'po'], d.e, function (k) { return k === 'my' ? 'MySQL' : 'PostgreSQL'; }), 'engine') +
             num(p + 'gb', d.gb, 'storage', 'GB') + num(p + 'n', d.n, tr('jumlah', 'count'), 'unit') + num(p + 'h', d.h, tr('nyala', 'running'), tr('jam/bln', 'hrs/mo'), HRS) +
             '<label class="kalk-chk"><input type="checkbox" data-k="' + p + 'ha"' + (d.ha ? ' checked' : '') + '> HA (Multi-AZ / regional)</label>' +
-            '<button type="button" class="kalk-del" data-del="db.' + i + tr('" aria-label="Hapus database ini">hapus</button></div></div>', tr('" aria-label="Hapus database ini">remove</button></div></div>', '" aria-label="Remove this database">remove</button></div></div>'));
+            '<button type="button" class="kalk-del" data-del="db.' + i + tr('" aria-label="Hapus database ini">hapus</button></div></div>', '" aria-label="Remove this database">remove</button></div></div>');
         }).join('') + tr('<button type="button" class="kalk-add" data-add="db">+ tambah database</button>', '<button type="button" class="kalk-add" data-add="db">+ add database</button>');
       case 'lb':
         return '<div class="kalk-common">' + num('lb.n', S.lb.n, tr('jumlah LB', 'load balancers'), 'unit') + num('lb.gb', S.lb.gb, tr('data diproses', 'data processed'), tr('GB/bln', 'GB/mo')) + '</div>';

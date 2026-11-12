@@ -44,7 +44,7 @@
                 <button type="button" class="gx-reset" data-act="file-reset">{{ cond $en `restore files` `kembalikan file` }}</button>
             </header>
             <div class="sx-snips">
-                <span>tambah:</span>
+                <span>{{ cond $en `add:` `tambah:` }}</span>
                 <button type="button" data-act="snip" data-k="bucket">+ s3 bucket</button>
                 <button type="button" data-act="snip" data-k="sg">+ security group</button>
                 <button type="button" data-act="snip" data-k="count">count = 2</button>
@@ -88,7 +88,7 @@
             <div class="tf-cloud" id="tf-cloud">
                 <p class="tf-empty" id="tf-empty">{{ cond $en `Still empty. Resources show up here after ` `Masih kosong. Resource bakal muncul di sini setelah ` }}<b>terraform apply</b>.</p>
                 <div class="tf-net" id="tf-net"></div>
-                <div class="tf-zone" hidden><h3>VPC default</h3><div class="tf-loose" id="tf-loose"></div></div>
+                <div class="tf-zone" hidden><h3>{{ cond $en `Default VPC` `VPC default` }}</h3><div class="tf-loose" id="tf-loose"></div></div>
                 <div class="tf-zone" hidden><h3>S3</h3><div class="tf-s3s" id="tf-s3"></div></div>
             </div>
         </section>

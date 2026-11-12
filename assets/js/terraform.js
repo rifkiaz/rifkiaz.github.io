@@ -1731,7 +1731,7 @@
     M.reset();
     term.lines([
       tr('<span class="sx-dim"># Ini akun AWS bohongan, region Jakarta. Ga ada yang beneran dibuat atau ditagih.</span>', '<span class="sx-dim"># This is a pretend AWS account, Jakarta region. Nothing is really created or billed.</span>'),
-      tr('<span class="sx-dim"># Mulai dengan </span><b>terraform init</b><span class="sx-dim">, lalu </span><b>terraform plan</b><span class="sx-dim">. Ketik </span><b>help</b><span class="sx-dim"> buat daftar perintah.</span>', tr('<span class="sx-dim"># Start with </span><b>terraform init</b><span class="sx-dim">, lalu </span><b>terraform plan</b><span class="sx-dim">. Ketik </span><b>help</b><span class="sx-dim"> buat daftar perintah.</span>', tr('<span class="sx-dim"># Start with </span><b>terraform init</b><span class="sx-dim">, then </span><b>terraform plan</b><span class="sx-dim">. Ketik </span><b>help</b><span class="sx-dim"> buat daftar perintah.</span>', '<span class="sx-dim"># Start with </span><b>terraform init</b><span class="sx-dim">, then </span><b>terraform plan</b><span class="sx-dim">. Ketik </span><b>help</b><span class="sx-dim"> for the command list.</span>')))
+      tr('<span class="sx-dim"># Mulai dengan </span><b>terraform init</b><span class="sx-dim">, lalu </span><b>terraform plan</b><span class="sx-dim">. Ketik </span><b>help</b><span class="sx-dim"> buat daftar perintah.</span>', '<span class="sx-dim"># Start with </span><b>terraform init</b><span class="sx-dim">, then </span><b>terraform plan</b><span class="sx-dim">. Type </span><b>help</b><span class="sx-dim"> for the command list.</span>')
     ]);
     render();
   }

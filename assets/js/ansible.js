@@ -1328,7 +1328,7 @@
     W.recap = null;
     term.lines([
       tr('<span class="sx-dim"># Control node ini terhubung ke 5 server lab: web1, web2, web3, db1, db2.</span>', '<span class="sx-dim"># This control node is connected to 5 lab servers: web1, web2, web3, db1, db2.</span>'),
-      tr('<span class="sx-dim"># Mulai dengan </span><b>ansible all -m ping</b><span class="sx-dim">. Ketik </span><b>help</b><span class="sx-dim"> buat daftar perintah.</span>', tr('<span class="sx-dim"># Start with </span><b>ansible all -m ping</b><span class="sx-dim">. Ketik </span><b>help</b><span class="sx-dim"> buat daftar perintah.</span>', '<span class="sx-dim"># Start with </span><b>ansible all -m ping</b><span class="sx-dim">. Ketik </span><b>help</b><span class="sx-dim"> for the command list.</span>'))
+      tr('<span class="sx-dim"># Mulai dengan </span><b>ansible all -m ping</b><span class="sx-dim">. Ketik </span><b>help</b><span class="sx-dim"> buat daftar perintah.</span>', '<span class="sx-dim"># Start with </span><b>ansible all -m ping</b><span class="sx-dim">. Type </span><b>help</b><span class="sx-dim"> for the command list.</span>')
     ]);
     renderAll();
   }
