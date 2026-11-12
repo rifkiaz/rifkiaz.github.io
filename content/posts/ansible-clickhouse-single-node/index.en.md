@@ -16,7 +16,7 @@ Oh, and every IP, ID, username, and password in this post is just an example, so
 
 The architecture looks roughly like this:
 
-![Architecture: a laptop runs Ansible over SSH through a VPN to an EC2 Ubuntu 24.04 instance with ClickHouse, node_exporter, a root EBS volume, and a data EBS volume mounted at /var/lib/clickhouse. Airflow, BI, Grafana, and Prometheus connect to their respective ports](assets/arsitektur.svg)
+![Architecture: a laptop runs Ansible over SSH through a VPN to an EC2 Ubuntu 24.04 instance with ClickHouse, node_exporter, a root EBS volume, and a data EBS volume mounted at /var/lib/clickhouse. Airflow, BI, Grafana, and Prometheus connect to their respective ports](assets/arsitektur-en.svg)
 
 ### Requirements
 - EC2 with Ubuntu 24.04
@@ -106,7 +106,7 @@ ansible-clickhouse-deployment/
 ````
 The `clickhouse` role runs these stages in order:
 
-![Role flow: preflight, OS tuning, storage, install, then config. If the config is valid, the service is restarted and post-install runs. If not, the play stops and the server isn't restarted](assets/alur-role.svg)
+![Role flow: preflight, OS tuning, storage, install, then config. If the config is valid, the service is restarted and post-install runs. If not, the play stops and the server isn't restarted](assets/alur-role-en.svg)
 
 - **preflight**: checks the OS is Ubuntu 24.04, the architecture is supported, and the passwords are filled in (at least 12 characters).
 - **OS tuning**: sysctl, Transparent Huge Pages set to `madvise`, and swap turned off.
@@ -274,7 +274,7 @@ Note: a user without `grants` gets full access, so always fill in `grants` for a
 
 The ansible-vault flow looks like this:
 
-![ansible-vault flow: the encrypted vault.yml is opened by ansible-playbook with the vault password, decrypted in memory, then rendered into users.d on the server, which only stores SHA-256 hashes](assets/alur-vault.svg)
+![ansible-vault flow: the encrypted vault.yml is opened by ansible-playbook with the vault password, decrypted in memory, then rendered into users.d on the server, which only stores SHA-256 hashes](assets/alur-vault-en.svg)
 
 `vault.yml` is AES-256 encrypted, so it's safe to commit to git. The only thing you really have to protect is the vault password. And on the server, ClickHouse only stores SHA-256 hashes, not the actual passwords. A few commands I use a lot:
 ```

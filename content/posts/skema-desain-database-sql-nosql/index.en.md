@@ -81,7 +81,7 @@ The part that gave me the biggest headache was that two-way sync. The easy way i
 
 So I set up the flow like this:
 
-![Skema's data flow: code and canvas go into an internal model, which becomes the diagram and various exports](assets/alur-skema.svg "One model, many outputs")
+![Skema's data flow: code and canvas go into an internal model, which becomes the diagram and various exports](assets/alur-skema-en.svg "One model, many outputs")
 
 1. The `.skema` code is read by a parser and turned into a single **internal model** (IR).
 2. Canvas edits don't rewrite all the code; they only change a small piece of text at the right spot. The result is parsed again, so it still goes through the same path.

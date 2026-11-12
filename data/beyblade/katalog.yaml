@@ -61,6 +61,7 @@ kategori:
           - {s: "blade-silverwolf", nama: "Silver Wolf", w: "Blade_-_SilverWolf", t: "Stamina", k: "UX-08"}
           - {s: "blade-wizardrod", nama: "Wizard Rod", w: "Blade_-_WizardRod", t: "Stamina", k: "UX-03"}
       - judul: "Blade + Ratchet menyatu (UX Expand)"
+        judul_en: "Blade + Ratchet in one (UX Expand)"
         part:
           - {s: "ratchet-integrated-blade-bulletgriffon", nama: "Bullet Griffon", w: "Ratchet-Integrated_Blade_-_BulletGriffon", t: "Balance", k: "UX-19"}
           - {s: "ratchet-integrated-blade-gloryvalkyrie", nama: "Glory Valkyrie", w: "Ratchet-Integrated_Blade_-_GloryValkyrie", t: "Attack", k: "UX-20"}
@@ -70,6 +71,7 @@ kategori:
           - {s: "ratchet-integrated-blade-seize-jaguar", nama: "Seize Jaguar", w: "Ratchet-Integrated_Blade_-_Seize_Jaguar", t: "Defense", k: "G4570"}
           - {s: "ratchet-integrated-blade-valor-bison", nama: "Valor Bison", w: "Ratchet-Integrated_Blade_-_Valor_Bison", t: "Stamina", k: "G3497"}
       - judul: "Rilisan pertama Hasbro"
+        judul_en: "Hasbro's first releases"
         part:
           - {s: "blade-bite-croc", nama: "Bite Croc", w: "Blade_-_Bite_Croc", t: "Attack", k: "G0199"}
           - {s: "blade-clamp-crab", nama: "Clamp Crab", w: "Blade_-_Clamp_Crab", t: "Stamina", k: "G2759"}
@@ -89,6 +91,7 @@ kategori:
           - {s: "blade-hover-wyvern", nama: "Hover Wyvern", w: "Blade_-_Hover_Wyvern", t: "Defense", k: "UX-00"}
           - {s: "blade-stun-medusa", nama: "Stun Medusa", w: "Blade_-_Stun_Medusa", t: "Stamina", k: "G2738"}
       - judul: "X-Over (blade generasi lama versi X)"
+        judul_en: "X-Over (older-generation blades in X form)"
         part:
           - {s: "blade-dracielshield", nama: "Draciel Shield", w: "Blade_-_DracielShield", t: "Defense", k: "BX-00"}
           - {s: "blade-dragoonstorm", nama: "Dragoon Storm", w: "Blade_-_DragoonStorm", t: "Attack", k: "BX-00", kiri: true}
@@ -103,6 +106,7 @@ kategori:
           - {s: "blade-victoryvalkyrie", nama: "Victory Valkyrie", w: "Blade_-_VictoryValkyrie", t: "Attack", k: "BX-00"}
           - {s: "blade-xenoxcalibur", nama: "Xeno Xcalibur", w: "Blade_-_XenoXcalibur", t: "Attack", k: "BX-00"}
       - judul: "Kolaborasi Hasbro"
+        judul_en: "Hasbro collaborations"
         part:
           - {s: "blade-bumblebee", nama: "Bumblebee", w: "Blade_-_Bumblebee", t: "Defense", k: "G1692"}
           - {s: "blade-captain-america", nama: "Captain America", w: "Blade_-_Captain_America", t: "Attack", k: "G1690"}
@@ -223,6 +227,7 @@ kategori:
     judul: "Ratchet"
     grup:
       - judul: "Semua ratchet"
+        judul_en: "All ratchets"
         part:
           - {s: "ratchet-0-60", nama: "0-60", w: "Ratchet_-_0-60", k: "CX-10"}
           - {s: "ratchet-0-70", nama: "0-70", w: "Ratchet_-_0-70", k: "UX-14"}
@@ -266,6 +271,7 @@ kategori:
     judul: "Bit"
     grup:
       - judul: "Semua bit"
+        judul_en: "All bits"
         part:
           - {s: "bit-accel", nama: "Accel", w: "Bit_-_Accel", t: "Attack", k: "UX-01"}
           - {s: "bit-ball", nama: "Ball", w: "Bit_-_Ball", t: "Stamina", k: "BX-03"}

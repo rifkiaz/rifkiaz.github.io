@@ -22,7 +22,7 @@ In this post I'll share how I automate it with Ansible. Oh, and all the hostname
 
 The architecture looks roughly like this:
 
-![Architecture: Ansible installs three Elasticsearch containers on three hosts, connected to each other over port 9300 with TLS](assets/arsitektur.svg)
+![Architecture: Ansible installs three Elasticsearch containers on three hosts, connected to each other over port 9300 with TLS](assets/arsitektur-en.svg)
 
 ### Requirements
 - Three Linux servers (Ubuntu LTS in this example) with Docker installed, able to reach each other on ports 9200 and 9300.

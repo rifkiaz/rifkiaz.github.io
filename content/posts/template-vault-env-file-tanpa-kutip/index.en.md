@@ -40,7 +40,7 @@ So when this file is used as `--env-file` in Docker, `DB_HOST` is literally `"db
 
 It looks roughly like this:
 
-![The .env file from Vault: Docker env-file reads the quotes as part of the value, while bash and dotenv strip them](assets/alur-env.svg)
+![The .env file from Vault: Docker env-file reads the quotes as part of the value, while bash and dotenv strip them](assets/alur-env-en.svg)
 
 ### The fixed template
 The quotes are gone, **except** for multiline values like private keys or certificates. Those still need quotes so the escaped `\n` doesn't break the file format.

@@ -31,7 +31,7 @@ Before picking tools, I wrote down the requirements first:
 For most teams, my advice is to start with an existing app, then put authentication and house rules in front of it.
 
 ### Architecture
-![Internal paste architecture: users go over HTTPS to a reverse proxy, then to the paste app and storage on an internal server](assets/arsitektur.svg)
+![Internal paste architecture: users go over HTTPS to a reverse proxy, then to the paste app and storage on an internal server](assets/arsitektur-en.svg)
 
 - The **reverse proxy** (Nginx, HAProxy, or Caddy) handles TLS, authentication, rate limiting, and security headers.
 - The **paste app** only listens on `127.0.0.1` or a private network, never directly facing the internet.

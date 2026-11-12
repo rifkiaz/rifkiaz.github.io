@@ -1,0 +1,10 @@
+{{- /* Indonesian month names in generated data ("1 Mei 2026") to English on the
+       English site; returns the string unchanged on the Indonesian site. */ -}}
+{{- $s := . -}}
+{{- if eq site.Language.Lang "en" -}}
+{{- range $id, $en := dict "Januari" "January" "Februari" "February" "Maret" "March" "Mei" "May" "Juni" "June" "Juli" "July" "Agustus" "August" "Oktober" "October" "Desember" "December" "Agu" "Aug" "Okt" "Oct" "Des" "Dec" -}}
+{{- $s = replaceRE (printf `\b%s\b` $id) $en $s -}}
+{{- end -}}
+{{- $s = replace $s "(blade tidak tercantum)" "(blade not listed)" -}}
+{{- end -}}
+{{- return $s -}}

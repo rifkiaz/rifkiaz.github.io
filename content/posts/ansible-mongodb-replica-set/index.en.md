@@ -20,7 +20,7 @@ Oh, and all the hostnames, users, and values below are just examples, so adjust 
 
 The architecture looks roughly like this:
 
-![Architecture: Ansible on a laptop installs three MongoDB nodes in replica set rs0, one primary and two secondaries](assets/arsitektur.svg)
+![Architecture: Ansible on a laptop installs three MongoDB nodes in replica set rs0, one primary and two secondaries](assets/arsitektur-en.svg)
 
 ### Requirements
 - Three Ubuntu LTS servers that can reach each other on port 27017 and resolve each other by hostname.

@@ -8,6 +8,7 @@ line:
   - kode: BX
     nama: Basic Line
     rilis: "Juli 2023"
+    inti_en: "The first and most common line. A one-piece blade with its metal weight pushed toward the center for stability."
     inti: "Line pertama dan paling umum. Blade satu bagian, besi beratnya ditaruh ke arah tengah supaya stabil."
     contoh: "BX-01 Dran Sword 3-60F, BX-23 Phoenix Wing, BX-34 Cobalt Dragoon"
     meta: "Cobalt Dragoon, Phoenix Wing, Dran Strike"
@@ -20,6 +21,7 @@ line:
   - kode: UX
     nama: Unique Line
     rilis: "2024"
+    inti_en: "Still Blade, Ratchet, Bit, but the metal moves out to the edge of the blade and every release has its own gimmick."
     inti: "Susunannya masih Blade, Ratchet, Bit, tapi besinya dipindah ke pinggir blade dan tiap rilis punya gimmick sendiri."
     contoh: "UX-01 Dran Buster 1-60A, UX-17 Meteor Dragoon 3-70J"
     meta: "Meteor Dragoon, Hells Nether, Bullet Griffon"
@@ -32,6 +34,7 @@ line:
   - kode: CX
     nama: Custom Line
     rilis: "April 2025"
+    inti_en: "The blade is split into three mix-and-match parts: Lock Chip, Main Blade, and Assist Blade. The letter in front of the ratchet (the S in S6-60V, for example) is the Assist Blade."
     inti: "Blade-nya dipecah jadi tiga bagian yang bisa dicampur: Lock Chip, Main Blade, dan Assist Blade. Huruf di depan ratchet (misalnya S di S6-60V) adalah Assist Blade-nya."
     contoh: "CX-01 Dran Brave S6-60V (Lock Chip Dran, Main Blade Brave, Assist Blade Slash)"
     meta: "Emperor Blast Heavy, Cerberus Flame Wheel, Emperor Might Wheel"
@@ -46,10 +49,12 @@ line:
       - { nama: Ratchet, jenis: ratchet }
       - { nama: Bit, jenis: bit }
 expand:
+  intro_en: "Expand isn't a new line but a construction change that reached all three lines from 2026. Product codes stay BX, UX, or CX, and bits still swap between lines."
   intro: "Expand bukan line baru, tapi perubahan konstruksi yang masuk ke ketiga line mulai 2026. Kode produknya tetap BX, UX, atau CX. Bit tetap bisa ditukar antar line."
   daftar:
     - kode: BX Expand
       rilis: "Mei 2026"
+      inti_en: "The blade's metal reaches all the way to the center instead of being just a ring in a plastic frame. The ratchet is still separate."
       inti: "Besi blade tembus sampai tengah, bukan cuma jadi lingkaran di rangka plastik. Ratchet masih terpisah."
       contoh: "BX-49 Dran Strike"
       gambar:
@@ -60,6 +65,7 @@ expand:
         - { nama: Bit, jenis: bit }
     - kode: UX Expand
       rilis: "April 2026"
+      inti_en: "The ratchet is fused to the blade, so there are only two parts. That's why Hells Nether or Glory Valkyrie combos are written without a ratchet, like Glory Valkyrie Kick."
       inti: "Ratchet menyatu dengan blade, jadi cuma dua bagian. Itu sebabnya combo Hells Nether atau Glory Valkyrie ditulis tanpa ratchet, misalnya Glory Valkyrie Kick."
       contoh: "UX-19 Bullet Griffon, UX-21 Hells Nether"
       gambar:
@@ -69,6 +75,7 @@ expand:
         - { nama: Bit, jenis: bit }
     - kode: CX Expand
       rilis: "Maret 2026"
+      inti_en: "The Main Blade becomes a Metal Blade, plus an Over Blade mounted on top, so the blade has four parts. In BK1-50I, B is the Over Blade Break and K is the Assist Blade Knuckle."
       inti: "Main Blade diganti Metal Blade, dan ada tambahan Over Blade yang dipasang di atasnya, jadi blade-nya empat bagian. Di BK1-50I, B adalah Over Blade Break dan K adalah Assist Blade Knuckle."
       contoh: "CX-13 Bahamut Blitz BK1-50I"
       gambar:
@@ -84,14 +91,15 @@ expand:
         - { nama: Ratchet, jenis: ratchet }
         - { nama: Bit, jenis: bit }
 part:
+  intro_en: "Ratchets and bits work with any line. These are the ones that show up most in winning decks."
   intro: "Ratchet dan bit bisa dipakai di line mana pun. Ini yang paling sering muncul di deck juara."
   ratchet:
-    - { f: ratchet-1-60, nama: "1-60", ket: "Satu tonjolan, tinggi 6 mm. Berat sebelah, aslinya dibuat untuk Dran Buster.", wiki: "https://beyblade.fandom.com/wiki/Ratchet_-_1-60" }
-    - { f: ratchet-3-60, nama: "3-60", ket: "Tiga tonjolan sama besar, tinggi 6 mm. Ratchet standar sejak BX-01.", wiki: "https://beyblade.fandom.com/wiki/Ratchet_-_3-60" }
-    - { f: ratchet-9-60, nama: "9-60", ket: "Sembilan tonjolan kecil yang tidak menonjol keluar, jadi paling jarang kena burst di antara ratchet tinggi 60.", wiki: "https://beyblade.fandom.com/wiki/Ratchet_-_9-60" }
+    - { f: ratchet-1-60, nama: "1-60", ket: "Satu tonjolan, tinggi 6 mm. Berat sebelah, aslinya dibuat untuk Dran Buster.", ket_en: "One protrusion, 6 mm tall. Off-balance, originally made for Dran Buster.", wiki: "https://beyblade.fandom.com/wiki/Ratchet_-_1-60" }
+    - { f: ratchet-3-60, nama: "3-60", ket: "Tiga tonjolan sama besar, tinggi 6 mm. Ratchet standar sejak BX-01.", ket_en: "Three equal protrusions, 6 mm tall. The standard ratchet since BX-01.", wiki: "https://beyblade.fandom.com/wiki/Ratchet_-_3-60" }
+    - { f: ratchet-9-60, nama: "9-60", ket: "Sembilan tonjolan kecil yang tidak menonjol keluar, jadi paling jarang kena burst di antara ratchet tinggi 60.", ket_en: "Nine small protrusions that don't stick out, so it bursts least often among the 60-height ratchets.", wiki: "https://beyblade.fandom.com/wiki/Ratchet_-_9-60" }
   bit:
-    - { f: bit-hexa, nama: "Hexa (H)", tipe: Balance, ket: "Ujung segi enam yang meruncing, cenderung menegakkan diri supaya putaran stabil.", wiki: "https://beyblade.fandom.com/wiki/Bit_-_Hexa" }
-    - { f: bit-kick, nama: "Kick (K)", tipe: Balance, ket: "Ujung datar dengan permukaan segi enam yang halus. Gerakannya agresif tapi stamina tetap awet.", wiki: "https://beyblade.fandom.com/wiki/Bit_-_Kick" }
-    - { f: bit-free-ball, nama: "Free Ball (FB)", tipe: Stamina, ket: "Ujung bola yang berputar bebas, betah di tengah stadium dan hemat stamina.", wiki: "https://beyblade.fandom.com/wiki/Bit_-_Free_Ball" }
-    - { f: bit-rush, nama: "Rush (R)", tipe: Attack, ket: "Ujung datar kecil dengan gear lebih sedikit, jadi lebih sering Xtreme Dash tanpa boros stamina.", wiki: "https://beyblade.fandom.com/wiki/Bit_-_Rush" }
-    - { f: bit-low-rush, nama: "Low Rush (LR)", tipe: Attack, ket: "Versi Rush yang sekitar 1 mm lebih pendek, lebih gampang melakukan upper attack.", wiki: "https://beyblade.fandom.com/wiki/Bit_-_Low_Rush" }
+    - { f: bit-hexa, nama: "Hexa (H)", tipe: Balance, ket: "Ujung segi enam yang meruncing, cenderung menegakkan diri supaya putaran stabil.", ket_en: "A tapered hexagonal tip that tends to right itself for a stable spin.", wiki: "https://beyblade.fandom.com/wiki/Bit_-_Hexa" }
+    - { f: bit-kick, nama: "Kick (K)", tipe: Balance, ket: "Ujung datar dengan permukaan segi enam yang halus. Gerakannya agresif tapi stamina tetap awet.", ket_en: "A flat tip with a smooth hexagonal surface. Aggressive movement that still keeps its stamina.", wiki: "https://beyblade.fandom.com/wiki/Bit_-_Kick" }
+    - { f: bit-free-ball, nama: "Free Ball (FB)", tipe: Stamina, ket: "Ujung bola yang berputar bebas, betah di tengah stadium dan hemat stamina.", ket_en: "A free-spinning ball tip that stays in the center of the stadium and saves stamina.", wiki: "https://beyblade.fandom.com/wiki/Bit_-_Free_Ball" }
+    - { f: bit-rush, nama: "Rush (R)", tipe: Attack, ket: "Ujung datar kecil dengan gear lebih sedikit, jadi lebih sering Xtreme Dash tanpa boros stamina.", ket_en: "A small flat tip with fewer gear teeth, so it Xtreme Dashes more often without burning stamina.", wiki: "https://beyblade.fandom.com/wiki/Bit_-_Rush" }
+    - { f: bit-low-rush, nama: "Low Rush (LR)", tipe: Attack, ket: "Versi Rush yang sekitar 1 mm lebih pendek, lebih gampang melakukan upper attack.", ket_en: "A version of Rush about 1 mm shorter, which makes upper attacks easier.", wiki: "https://beyblade.fandom.com/wiki/Bit_-_Low_Rush" }

@@ -93,7 +93,7 @@ Yep, **failing nonstop for two years** and nobody noticed 🥲
 - this job (let's call it `markExpired`) marks expired data by calling another service. Since the request always returned 502, the status in the database never changed, so the same data got picked up again on the next run. Every hour, over and over.
 - the 502 came back in ~40 ms (`finishedOn - processedOn`). That fast usually means the proxy rejected it immediately because the service behind it was down, not a timeout.
 
-![A vicious circle: an hourly cron fails with 502, failed jobs are kept, the data is picked up again, and Redis swells until the server hangs](assets/lingkaran-setan.svg)
+![A vicious circle: an hourly cron fails with 502, failed jobs are kept, the data is picked up again, and Redis swells until the server hangs](assets/lingkaran-setan-en.svg)
 
 Note: be careful if you paste a job's `data` into team chat. It usually holds real data (names, amounts, links), so sharing just the `failedReason` is enough.
 
