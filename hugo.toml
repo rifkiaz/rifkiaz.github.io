@@ -263,7 +263,7 @@ I'm also an [openSUSE Member](https://kudos.opensuse.org/user/Rifkiaz) and activ
         { name = "projects", url = "/projects/" },
         { name = "about", url = "/about/" },
         { name = "lab", url = "/lab/", nolang = true },
-        { name = "terminal", url = "/terminal/", nolang = true },
+        { name = "terminal", url = "/terminal/" },
       ]
 
     [languages.en.params.editPost]

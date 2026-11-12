@@ -1,16 +1,17 @@
 {{- define "main" }}
 {{- $home := site.Params.homeInfoParams }}
+{{- $en := eq site.Language.Lang "en" }}
 {{- $posts := slice }}
 {{- range (where site.RegularPages "Section" "posts").ByDate.Reverse }}
-{{- $posts = $posts | append (dict "name" .File.ContentBaseName "title" .Title "date" (.Date.Format "2006-01-02") "url" .RelPermalink "summary" (.Description | default (.Summary | plainify | htmlUnescape | truncate 180))) }}
+{{- $posts = $posts | append (dict "name" (cond $en (path.Base (strings.TrimSuffix "/" .RelPermalink)) .File.ContentBaseName) "title" .Title "date" (.Date.Format "2006-01-02") "url" .RelPermalink "summary" (.Description | default (.Summary | plainify | htmlUnescape | truncate 180))) }}
 {{- end }}
 {{- $sheets := slice }}
 {{- range (where site.RegularPages "Section" "cheatsheet").ByWeight }}
-{{- $sheets = $sheets | append (dict "name" .File.ContentBaseName "title" .Title "date" (.Date.Format "2006-01-02") "url" .RelPermalink "summary" (.Description | default "")) }}
+{{- $sheets = $sheets | append (dict "name" (cond $en (path.Base (strings.TrimSuffix "/" .RelPermalink)) .File.ContentBaseName) "title" .Title "date" (.Date.Format "2006-01-02") "url" .RelPermalink "summary" (.Description | default "")) }}
 {{- end }}
 {{- $pageList := slice }}
-{{- with site.GetPage "/tentang" }}{{ $pageList = $pageList | append (dict "name" "tentang" "title" .Title "url" .RelPermalink "summary" .Description) }}{{ end }}
-{{- with site.GetPage "/proyek" }}{{ $pageList = $pageList | append (dict "name" "proyek" "title" .Title "url" .RelPermalink "summary" .Description) }}{{ end }}
+{{- with site.GetPage "/tentang" }}{{ $pageList = $pageList | append (dict "name" (cond $en "about" "tentang") "title" .Title "url" .RelPermalink "summary" .Description) }}{{ end }}
+{{- with site.GetPage "/proyek" }}{{ $pageList = $pageList | append (dict "name" (cond $en "projects" "proyek") "title" .Title "url" .RelPermalink "summary" .Description) }}{{ end }}
 {{- $socials := slice }}
 {{- range site.Params.socialIcons }}{{ $socials = $socials | append (dict "name" .name "url" .url) }}{{ end }}
 {{- $data := dict
@@ -42,16 +43,16 @@
         <form class="term-input-line" id="term-form" autocomplete="off">
             <label class="term-ps1" id="term-ps1" for="term-input"></label>
             <input id="term-input" class="term-input" type="text" spellcheck="false" autocapitalize="off"
-                autocorrect="off" enterkeyhint="send" aria-label="Ketik perintah">
+                autocorrect="off" enterkeyhint="send" aria-label="{{ cond $en "Type a command" "Ketik perintah" }}">
         </form>
     </div>
 </div>
-<div class="term-chips" id="term-chips" aria-label="Perintah cepat">
+<div class="term-chips" id="term-chips" aria-label="{{ cond $en "Quick commands" "Perintah cepat" }}">
     {{- range slice "help" "whoami" "ls posts" "neofetch" "htop" "game" "quiz" "clear" }}
     <button type="button" data-cmd="{{ . }}">{{ . }}</button>
     {{- end }}
 </div>
-<noscript><p class="term-noscript">Terminal ini butuh JavaScript. Tanpa itu, kamu tetap bisa baca semua <a href="{{ "posts/" | relLangURL }}">tulisan</a>.</p></noscript>
+<noscript><p class="term-noscript">{{ if $en }}This terminal needs JavaScript. Without it, you can still read all the <a href="{{ "posts/" | relLangURL }}">posts</a>.{{ else }}Terminal ini butuh JavaScript. Tanpa itu, kamu tetap bisa baca semua <a href="{{ "posts/" | relLangURL }}">tulisan</a>.{{ end }}</p></noscript>
 
 <script type="application/json" id="term-data">{{ $data | jsonify | safeJS }}</script>
 {{- $js := resources.Get "js/terminal.js" | minify | fingerprint }}
