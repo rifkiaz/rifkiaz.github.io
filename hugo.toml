@@ -237,8 +237,8 @@ Saya juga [member openSUSE](https://kudos.opensuse.org/user/Rifkiaz) dan aktif d
     guessSyntax = true
 
 # English. Pages and posts with an .en.md file get an English version under /en/.
-# The interactive labs and /terminal/ are still Indonesian only,
-# so the English menu links to them with nolang (no /en/ prefix).
+# Labs without an English page yet are listed on /en/lab/ and in the Lab
+# dropdown with a link to the Indonesian page (layouts/_partials/lab-items.html).
 [languages.en]
   languageName = "English"
   languageCode = "en-US"
@@ -262,7 +262,7 @@ I'm also an [openSUSE Member](https://kudos.opensuse.org/user/Rifkiaz) and activ
       Buttons = [
         { name = "projects", url = "/projects/" },
         { name = "about", url = "/about/" },
-        { name = "lab", url = "/lab/", nolang = true },
+        { name = "lab", url = "/lab/" },
         { name = "terminal", url = "/terminal/" },
       ]
 
@@ -289,13 +289,10 @@ I'm also an [openSUSE Member](https://kudos.opensuse.org/user/Rifkiaz) and activ
       weight = 25
 
     [[languages.en.menus.main]]
-      identifier = "lab-id"
+      identifier = "lab"
       name = "Lab"
-      title = "Interactive DevOps labs (in Indonesian)"
       url = "/lab/"
       weight = 27
-      [languages.en.menus.main.params]
-        nolang = true
 
     [[languages.en.menus.main]]
       identifier = "hobi"

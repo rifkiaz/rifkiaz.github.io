@@ -3,7 +3,7 @@
 // tap, so a refresh or a locked screen picks up where the game left off.
 (function () {
   'use strict';
-  var P = window.Party, esc = P.esc;
+  var P = window.Party, esc = P.esc, tr = P.tr;
   var root = document.getElementById('pg');
   if (!P || !root) return;
 
@@ -25,6 +25,22 @@
     penjaga: 'Penjaga, bangun. Tunjuk satu orang yang mau kamu lindungi malam ini.',
     peramal: 'Peramal, bangun. Tunjuk satu orang yang mau kamu terawang.'
   };
+
+  if (P.EN) {
+    ROLES.serigala.name = 'Werewolf';
+    ROLES.serigala.desc = 'Every night, together with the other werewolves, pick one person to eat. During the day, act like an ordinary villager and don\'t get caught.';
+    ROLES.warga.name = 'Villager';
+    ROLES.warga.desc = 'No special ability. Your only weapons are logic, instinct, and your vote. Find the werewolves!';
+    ROLES.peramal.name = 'Seer';
+    ROLES.peramal.desc = 'Every night, pick one person to look into: werewolf or not. Share what you learn carefully, the werewolves will come for you.';
+    ROLES.penjaga.name = 'Guardian';
+    ROLES.penjaga.desc = 'Every night, pick one person to protect from the werewolves. You can pick yourself, but not the same person two nights in a row.';
+    ROLES.pemburu.name = 'Hunter';
+    ROLES.pemburu.desc = 'If you die, whether eaten or voted out, you immediately get to shoot one person to take with you.';
+    SCRIPT.serigala = 'Werewolves, wake up. Recognize each other, then point to one victim.';
+    SCRIPT.penjaga = 'Guardian, wake up. Point to the person you want to protect tonight.';
+    SCRIPT.peramal = 'Seer, wake up. Point to the person you want to look into.';
+  }
 
   function suggestWolves(n) { return n <= 6 ? 1 : n <= 11 ? 2 : 3; }
 
@@ -64,7 +80,7 @@
   function afterDeaths(s, next) {
     if (s.hunterPending != null) { s.hunter = { who: s.hunterPending, next: next, pick: null }; s.hunterPending = null; s.phase = 'hunter'; return; }
     var w = winner(s);
-    if (w) { s.winner = w; s.phase = 'end'; log(s, w === 'wolf' ? 'Serigala menang.' : 'Warga menang.'); return; }
+    if (w) { s.winner = w; s.phase = 'end'; log(s, w === 'wolf' ? tr('Serigala menang.', 'Werewolves win.') : tr('Warga menang.', 'Villagers win.')); return; }
     if (next === 'night') startNight(s); else { s.phase = 'day'; s.timer = P.newTimer(s.cfg.discuss); }
   }
 
@@ -74,7 +90,7 @@
     s.timer = null;
     s.night = { step: 0, wolf: null, guard: null, seer: null, seen: false, votes: {}, sus: {}, pass: { i: 0, shown: false, done: false } };
     if (s.cfg.mode === 'pass') s.night.order = alive(s);
-    log(s, '— Malam ' + s.round + ' —');
+    log(s, tr('— Malam ', '— Night ') + s.round + ' —');
   }
 
   function resolveNight(s) {
@@ -96,8 +112,8 @@
     s.dawn = [];
     s.saved = false;
     if (victim != null) {
-      if (victim === n.guard) { s.saved = true; log(s, 'Serangan ke ' + nameOf(s, victim) + ' digagalkan penjaga'); }
-      else { kill(s, victim, 'dimangsa serigala'); s.dawn.push(victim); }
+      if (victim === n.guard) { s.saved = true; log(s, tr('Serangan ke ', 'The attack on ') + nameOf(s, victim) + tr(' digagalkan penjaga', ' was blocked by the guardian')); }
+      else { kill(s, victim, tr('dimangsa serigala', 'eaten by the werewolves')); s.dawn.push(victim); }
     }
     s.night = null;
     s.phase = 'dawn';
@@ -118,9 +134,9 @@
   }
   function setupProblem(s, n) {
     var c = s.cfg, specials = c.wolves + (c.peramal ? 1 : 0) + (c.penjaga ? 1 : 0) + (c.pemburu ? 1 : 0);
-    if (n < 5) return 'Minimal 5 pemain' + (c.mode === 'mod' ? ' (moderator ga dihitung)' : '') + '.';
-    if (c.wolves * 2 >= n) return 'Serigalanya kebanyakan, harus kurang dari setengah pemain.';
-    if (specials > n) return 'Peran spesial lebih banyak dari pemain.';
+    if (n < 5) return tr('Minimal 5 pemain', 'At least 5 players') + (c.mode === 'mod' ? tr(' (moderator ga dihitung)', ' (the moderator doesn\'t count)') : '') + '.';
+    if (c.wolves * 2 >= n) return tr('Serigalanya kebanyakan, harus kurang dari setengah pemain.', 'Too many werewolves, they must be fewer than half the players.');
+    if (specials > n) return tr('Peran spesial lebih banyak dari pemain.', 'There are more special roles than players.');
     return '';
   }
 
@@ -138,39 +154,39 @@
       return '<label class="pg-check"><input type="checkbox" data-set="' + key + '"' + (c[key] ? ' checked' : '') + '>' +
         '<span><b>' + ROLES[role].ico + ' ' + ROLES[role].name + '</b><small>' + ROLES[role].desc + '</small></span></label>';
     }
-    return P.rosterHTML(5, c.mode === 'mod' ? 'Moderator ga ikut main, jadi jangan masukkan namanya.' : 'Semua yang main, urut sesuai posisi duduk.') +
-      '<section class="pg-card"><h2 class="pg-h">cara main</h2>' +
-      '<div class="pg-seg" role="radiogroup" aria-label="Mode permainan">' +
-      '<button type="button" role="radio" aria-checked="' + (c.mode === 'mod') + '" data-act="mode" data-v="mod"><b>ada moderator</b><small>Satu orang pegang HP dan memandu. HP ini jadi naskah dan catatannya.</small></button>' +
-      '<button type="button" role="radio" aria-checked="' + (c.mode === 'pass') + '" data-act="mode" data-v="pass"><b>tanpa moderator</b><small>Semua ikut main. Tiap malam HP dioper keliling, semua orang menekan sesuatu supaya ga ketahuan siapa perannya apa.</small></button>' +
+    return P.rosterHTML(5, c.mode === 'mod' ? tr('Moderator ga ikut main, jadi jangan masukkan namanya.', 'The moderator doesn\'t play, so don\'t add their name.') : tr('Semua yang main, urut sesuai posisi duduk.', 'Everyone who plays, in seating order.')) +
+      tr('<section class="pg-card"><h2 class="pg-h">cara main</h2>', '<section class="pg-card"><h2 class="pg-h">how to play</h2>') +
+      tr('<div class="pg-seg" role="radiogroup" aria-label="Mode permainan">', '<div class="pg-seg" role="radiogroup" aria-label="Game mode">') +
+      '<button type="button" role="radio" aria-checked="' + (c.mode === 'mod') + tr('" data-act="mode" data-v="mod"><b>ada moderator</b><small>Satu orang pegang HP dan memandu. HP ini jadi naskah dan catatannya.</small></button>', '" data-act="mode" data-v="mod"><b>with a moderator</b><small>One person holds the phone and runs the game. The phone is their script and notes.</small></button>') +
+      '<button type="button" role="radio" aria-checked="' + (c.mode === 'pass') + tr('" data-act="mode" data-v="pass"><b>tanpa moderator</b><small>Semua ikut main. Tiap malam HP dioper keliling, semua orang menekan sesuatu supaya ga ketahuan siapa perannya apa.</small></button>', '" data-act="mode" data-v="pass"><b>no moderator</b><small>Everyone plays. Each night the phone goes around the circle and everyone taps something, so nobody can tell who has which role.</small></button>') +
       '</div></section>' +
-      '<section class="pg-card"><h2 class="pg-h">peran</h2>' +
-      '<div class="pg-stepper"><span><b>🐺 Serigala</b><small>' + ROLES.serigala.desc + '</small></span>' +
-      '<div class="pg-num"><button type="button" class="pg-mini" data-act="wolves" data-d="-1" aria-label="Kurangi serigala"' + (c.wolves <= 1 ? ' disabled' : '') + '>−</button>' +
+      tr('<section class="pg-card"><h2 class="pg-h">peran</h2>', '<section class="pg-card"><h2 class="pg-h">roles</h2>') +
+      tr('<div class="pg-stepper"><span><b>🐺 Serigala</b><small>', '<div class="pg-stepper"><span><b>🐺 Werewolf</b><small>') + ROLES.serigala.desc + '</small></span>' +
+      tr('<div class="pg-num"><button type="button" class="pg-mini" data-act="wolves" data-d="-1" aria-label="Kurangi serigala"', '<div class="pg-num"><button type="button" class="pg-mini" data-act="wolves" data-d="-1" aria-label="Fewer werewolves"') + (c.wolves <= 1 ? ' disabled' : '') + '>−</button>' +
       '<b aria-live="polite">' + c.wolves + '</b>' +
-      '<button type="button" class="pg-mini" data-act="wolves" data-d="1" aria-label="Tambah serigala"' + (c.wolves >= maxW ? ' disabled' : '') + '>+</button></div></div>' +
-      (n >= 5 && c.wolves !== suggestWolves(n) ? '<p class="pg-sub">Saran untuk ' + n + ' pemain: ' + suggestWolves(n) + ' serigala.</p>' : '') +
+      tr('<button type="button" class="pg-mini" data-act="wolves" data-d="1" aria-label="Tambah serigala"', '<button type="button" class="pg-mini" data-act="wolves" data-d="1" aria-label="More werewolves"') + (c.wolves >= maxW ? ' disabled' : '') + '>+</button></div></div>' +
+      (n >= 5 && c.wolves !== suggestWolves(n) ? tr('<p class="pg-sub">Saran untuk ', '<p class="pg-sub">Suggested for ') + n + tr(' pemain: ', ' players: ') + suggestWolves(n) + tr(' serigala.</p>', ' werewolves.</p>') : '') +
       chk('peramal', 'peramal') + chk('penjaga', 'penjaga') + chk('pemburu', 'pemburu') +
-      '<p class="pg-sub">Sisanya jadi Warga. ' + ROLES.warga.desc + '</p>' +
+      tr('<p class="pg-sub">Sisanya jadi Warga. ', '<p class="pg-sub">Everyone else is a Villager. ') + ROLES.warga.desc + '</p>' +
       (n ? '<div class="pg-tags">' + sum + '</div>' : '') +
       '</section>' +
-      '<section class="pg-card"><h2 class="pg-h">aturan</h2>' +
-      '<label class="pg-check"><input type="checkbox" data-set="open"' + (c.open ? ' checked' : '') + '><span><b>Buka peran yang mati</b><small>Saat seseorang keluar, perannya diumumkan. Matikan kalau mau lebih seru dan penuh tebakan.</small></span></label>' +
-      '<label class="pg-field"><span>Waktu diskusi siang</span><select data-set="discuss">' +
-      [60, 120, 180, 240, 300, 420].map(function (t) { return '<option value="' + t + '"' + (c.discuss === t ? ' selected' : '') + '>' + (t / 60) + ' menit</option>'; }).join('') +
+      tr('<section class="pg-card"><h2 class="pg-h">aturan</h2>', '<section class="pg-card"><h2 class="pg-h">rules</h2>') +
+      '<label class="pg-check"><input type="checkbox" data-set="open"' + (c.open ? ' checked' : '') + tr('><span><b>Buka peran yang mati</b><small>Saat seseorang keluar, perannya diumumkan. Matikan kalau mau lebih seru dan penuh tebakan.</small></span></label>', '><span><b>Reveal roles of the dead</b><small>When someone is out, their role is announced. Turn this off for more guessing and drama.</small></span></label>') +
+      tr('<label class="pg-field"><span>Waktu diskusi siang</span><select data-set="discuss">', '<label class="pg-field"><span>Day discussion time</span><select data-set="discuss">') +
+      [60, 120, 180, 240, 300, 420].map(function (t) { return '<option value="' + t + '"' + (c.discuss === t ? ' selected' : '') + '>' + (t / 60) + tr(' menit</option>', ' min</option>'); }).join('') +
       '</select></label></section>' +
       '<div class="pg-cta">' + (prob ? '<p class="pg-warn">' + prob + '</p>' : '') +
-      '<button type="button" class="pg-primary pg-wide" data-act="start"' + (prob ? ' disabled' : '') + '>bagikan peran</button></div>' +
+      '<button type="button" class="pg-primary pg-wide" data-act="start"' + (prob ? ' disabled' : '') + tr('>bagikan peran</button></div>', '>deal roles</button></div>') +
       rules();
   }
 
   function rules() {
-    return '<details class="pg-help"><summary>aturan singkat</summary><ul>' +
-      '<li><b>Tujuan.</b> Warga menang kalau semua serigala keluar. Serigala menang kalau jumlah mereka sudah sama dengan atau lebih banyak dari sisa pemain lain.</li>' +
-      '<li><b>Malam.</b> Semua menutup mata. Serigala memilih korban, penjaga melindungi satu orang, peramal menerawang satu orang. Kalau korban serigala kebetulan dilindungi, malam itu ga ada yang mati.</li>' +
-      '<li><b>Siang.</b> Diumumkan siapa yang mati semalam. Semua berdiskusi, saling tuduh, lalu voting satu orang untuk dikeluarkan. Boleh juga sepakat ga mengeluarkan siapa pun.</li>' +
-      '<li><b>Yang sudah mati</b> diam saja dan ga boleh kasih kode. Mereka boleh tetap menonton.</li>' +
-      '<li><b>Tanpa moderator.</b> Di malam hari HP dioper ke semua yang masih hidup. Peran tanpa aksi malam diminta menunjuk orang yang paling dicurigai, jadi lama memegang HP-nya kurang lebih sama. Kalau ada satu nama yang paling banyak dicurigai, paginya diumumkan.</li>' +
+    return tr('<details class="pg-help"><summary>aturan singkat</summary><ul>', '<details class="pg-help"><summary>quick rules</summary><ul>') +
+      tr('<li><b>Tujuan.</b> Warga menang kalau semua serigala keluar. Serigala menang kalau jumlah mereka sudah sama dengan atau lebih banyak dari sisa pemain lain.</li>', '<li><b>Goal.</b> Villagers win when every werewolf is out. Werewolves win once they equal or outnumber everyone else still alive.</li>') +
+      tr('<li><b>Malam.</b> Semua menutup mata. Serigala memilih korban, penjaga melindungi satu orang, peramal menerawang satu orang. Kalau korban serigala kebetulan dilindungi, malam itu ga ada yang mati.</li>', '<li><b>Night.</b> Everyone closes their eyes. The werewolves pick a victim, the guardian protects one person, the seer looks into one person. If the victim happens to be protected, nobody dies that night.</li>') +
+      tr('<li><b>Siang.</b> Diumumkan siapa yang mati semalam. Semua berdiskusi, saling tuduh, lalu voting satu orang untuk dikeluarkan. Boleh juga sepakat ga mengeluarkan siapa pun.</li>', '<li><b>Day.</b> Whoever died overnight is announced. Everyone discusses, accuses each other, then votes one person out. You can also agree to vote nobody out.</li>') +
+      tr('<li><b>Yang sudah mati</b> diam saja dan ga boleh kasih kode. Mereka boleh tetap menonton.</li>', '<li><b>The dead</b> stay quiet and can\'t give hints. They can keep watching.</li>') +
+      tr('<li><b>Tanpa moderator.</b> Di malam hari HP dioper ke semua yang masih hidup. Peran tanpa aksi malam diminta menunjuk orang yang paling dicurigai, jadi lama memegang HP-nya kurang lebih sama. Kalau ada satu nama yang paling banyak dicurigai, paginya diumumkan.</li>', '<li><b>No moderator.</b> At night the phone goes to everyone still alive. Roles without a night action point to the person they suspect most, so everyone holds the phone for about the same time. If one name gets the most suspicion, it\'s announced in the morning.</li>') +
       '</ul></details>';
   }
 
@@ -186,15 +202,15 @@
   function roleCard(s, i) {
     var r = ROLES[roleOf(s, i)];
     var mates = isWolf(s, i) ? s.players.map(function (p, k) { return k !== i && p.role === 'serigala' ? p.name : null; }).filter(Boolean) : [];
-    return '<p class="pg-sub">' + esc(nameOf(s, i)) + ', peranmu</p>' +
+    return '<p class="pg-sub">' + esc(nameOf(s, i)) + tr(', peranmu</p>', ', your role</p>') +
       '<div class="pg-role pg-t-' + r.team + '"><span class="pg-rico" aria-hidden="true">' + r.ico + '</span><b>' + r.name + '</b></div>' +
       '<p class="pg-desc">' + r.desc + '</p>' +
-      (isWolf(s, i) ? '<p class="pg-desc"><b>Teman serigalamu:</b> ' + (mates.length ? mates.map(esc).join(', ') : 'ga ada, kamu sendirian') + '</p>' : '');
+      (isWolf(s, i) ? tr('<p class="pg-desc"><b>Teman serigalamu:</b> ', '<p class="pg-desc"><b>Your fellow werewolves:</b> ') + (mates.length ? mates.map(esc).join(', ') : tr('ga ada, kamu sendirian', 'none, you\'re on your own')) + '</p>' : '');
   }
 
   function viewReveal(s) {
     return P.revealHTML(s.players.map(function (p) { return p.name; }), P.range(s.players.length), s.rv, function (i) { return roleCard(s, i); },
-      s.cfg.mode === 'mod' ? 'tutup, kembalikan ke moderator' : 'tutup, taruh HP di tengah');
+      s.cfg.mode === 'mod' ? tr('tutup, kembalikan ke moderator', 'close, hand back to the moderator') : tr('tutup, taruh HP di tengah', 'close, put the phone in the middle'));
   }
 
   function stepsOf(s) {
@@ -204,51 +220,51 @@
 
   function viewNightMod(s) {
     var n = s.night, steps = stepsOf(s), role = steps[n.step], a = alive(s);
-    var head = '<section class="pg-card" data-scrolltop><h2 class="pg-h">🌙 malam ' + s.round + ' <span class="pg-chip">' + (n.step + 1) + '/' + steps.length + '</span></h2>';
+    var head = tr('<section class="pg-card" data-scrolltop><h2 class="pg-h">🌙 malam ', '<section class="pg-card" data-scrolltop><h2 class="pg-h">🌙 night ') + s.round + ' <span class="pg-chip">' + (n.step + 1) + '/' + steps.length + '</span></h2>';
     if (n.step === 0 && !n.started) {
-      return head + '<p class="pg-script">"Malam tiba. Semua tutup mata dan tundukkan kepala."</p>' +
-        '<button type="button" class="pg-primary pg-wide" data-act="n-go">semua sudah tidur</button></section>' + modPanel(s);
+      return head + tr('<p class="pg-script">"Malam tiba. Semua tutup mata dan tundukkan kepala."</p>', '<p class="pg-script">"Night falls. Everyone close your eyes and bow your heads."</p>') +
+        tr('<button type="button" class="pg-primary pg-wide" data-act="n-go">semua sudah tidur</button></section>', '<button type="button" class="pg-primary pg-wide" data-act="n-go">everyone is asleep</button></section>') + modPanel(s);
     }
     var holders = s.players.map(function (p, i) { return p.alive && p.role === role ? i : -1; }).filter(function (i) { return i >= 0; });
     var who = holders.length ? holders.map(function (i) { return esc(nameOf(s, i)); }).join(', ') : null;
     var body = '<p class="pg-script">"' + SCRIPT[role] + '"</p>' +
-      '<p class="pg-sub">' + ROLES[role].ico + ' ' + ROLES[role].name + ': ' + (who || '<b>sudah mati</b>') + '</p>';
+      '<p class="pg-sub">' + ROLES[role].ico + ' ' + ROLES[role].name + ': ' + (who || tr('<b>sudah mati</b>', '<b>dead</b>')) + '</p>';
     var ready = false;
     if (!who) {
-      body += '<p class="pg-note">Tetap bacakan naskahnya dan tunggu beberapa detik, supaya pemain lain ga tahu perannya sudah ga ada.</p>';
+      body += tr('<p class="pg-note">Tetap bacakan naskahnya dan tunggu beberapa detik, supaya pemain lain ga tahu perannya sudah ga ada.</p>', '<p class="pg-note">Read the script anyway and wait a few seconds, so the others can\'t tell this role is gone.</p>');
       ready = true;
     } else if (role === 'serigala') {
-      body += playerBtns(s, a, n.wolf, 'n-wolf', function (i) { return isWolf(s, i) ? 'serigala' : ''; });
+      body += playerBtns(s, a, n.wolf, 'n-wolf', function (i) { return isWolf(s, i) ? tr('serigala', 'werewolf') : ''; });
       ready = n.wolf != null;
     } else if (role === 'penjaga') {
-      body += playerBtns(s, a, n.guard, 'n-guard', function (i) { return i === s.lastGuard ? 'dijaga semalam' : ''; });
+      body += playerBtns(s, a, n.guard, 'n-guard', function (i) { return i === s.lastGuard ? tr('dijaga semalam', 'guarded last night') : ''; });
       ready = n.guard != null;
     } else if (role === 'peramal') {
-      body += playerBtns(s, a, n.seer, 'n-seer', function (i) { return roleOf(s, i) === 'peramal' ? 'diri sendiri' : ''; });
+      body += playerBtns(s, a, n.seer, 'n-seer', function (i) { return roleOf(s, i) === 'peramal' ? tr('diri sendiri', 'yourself') : ''; });
       if (n.seer != null) {
         body += '<div class="pg-result ' + (isWolf(s, n.seer) ? 'is-wolf' : 'is-ok') + '">' + esc(nameOf(s, n.seer)) + ' ' +
-          (isWolf(s, n.seer) ? 'adalah <b>SERIGALA</b> 👎' : '<b>bukan serigala</b> 👍') + '</div>' +
-          '<p class="pg-note">Kasih isyarat jempol ke peramal: jempol bawah = serigala.</p>';
+          (isWolf(s, n.seer) ? tr('adalah <b>SERIGALA</b> 👎', 'is a <b>WEREWOLF</b> 👎') : tr('<b>bukan serigala</b> 👍', 'is <b>not a werewolf</b> 👍')) + '</div>' +
+          tr('<p class="pg-note">Kasih isyarat jempol ke peramal: jempol bawah = serigala.</p>', '<p class="pg-note">Give the seer a thumbs signal: thumbs down = werewolf.</p>');
       }
       ready = n.seer != null;
     }
     var last = n.step === steps.length - 1;
-    body += '<p class="pg-script pg-dim">"' + ROLES[role].name + ', tidur lagi."</p>' +
-      '<button type="button" class="pg-primary pg-wide" data-act="n-next"' + (ready ? '' : ' disabled') + '>' + (last ? 'pagi tiba ☀️' : 'lanjut') + '</button>';
+    body += '<p class="pg-script pg-dim">"' + ROLES[role].name + tr(', tidur lagi."</p>', ', go back to sleep."</p>') +
+      '<button type="button" class="pg-primary pg-wide" data-act="n-next"' + (ready ? '' : ' disabled') + '>' + (last ? tr('pagi tiba ☀️', 'morning comes ☀️') : tr('lanjut', 'continue')) + '</button>';
     return head + body + '</section>' + modPanel(s);
   }
 
   function viewNightPass(s) {
     var n = s.night, ps = n.pass, order = n.order;
-    var head = '<section class="pg-card pg-pass" data-scrolltop><h2 class="pg-h">🌙 malam ' + s.round + ' <span class="pg-chip">' + Math.min(ps.i + 1, order.length) + '/' + order.length + '</span></h2>';
+    var head = tr('<section class="pg-card pg-pass" data-scrolltop><h2 class="pg-h">🌙 malam ', '<section class="pg-card pg-pass" data-scrolltop><h2 class="pg-h">🌙 night ') + s.round + ' <span class="pg-chip">' + Math.min(ps.i + 1, order.length) + '/' + order.length + '</span></h2>';
     if (ps.i >= order.length) {
-      return head + '<p class="pg-big">Semua sudah</p><p class="pg-sub">Taruh HP di tengah dan semua buka mata.</p>' +
+      return head + tr('<p class="pg-big">Semua sudah</p><p class="pg-sub">Taruh HP di tengah dan semua buka mata.</p>', '<p class="pg-big">Everyone\'s done</p><p class="pg-sub">Put the phone in the middle and everyone open your eyes.</p>') +
         '<button type="button" class="pg-primary pg-wide" data-act="np-dawn">pagi tiba ☀️</button></section>';
     }
     var me = order[ps.i], nm = esc(nameOf(s, me));
     if (!ps.shown) {
-      return head + '<p class="pg-sub">semua tutup mata, oper HP ke</p><p class="pg-big">' + nm + '</p>' +
-        '<button type="button" class="pg-primary pg-wide" data-act="np-show">saya ' + nm + '</button></section>';
+      return head + tr('<p class="pg-sub">semua tutup mata, oper HP ke</p><p class="pg-big">', '<p class="pg-sub">everyone close your eyes, pass the phone to</p><p class="pg-big">') + nm + '</p>' +
+        tr('<button type="button" class="pg-primary pg-wide" data-act="np-show">saya ', '<button type="button" class="pg-primary pg-wide" data-act="np-show">I\'m ') + nm + '</button></section>';
     }
     var role = roleOf(s, me), a = alive(s), body = '', ready;
     var others = a.filter(function (i) { return i !== me; });
@@ -256,73 +272,73 @@
       var votes = Object.keys(n.votes).filter(function (k) { return +k !== me; }).map(function (k) {
         return esc(nameOf(s, +k)) + ' → ' + esc(nameOf(s, n.votes[k]));
       });
-      body = '<p class="pg-desc">🐺 Kamu serigala. Pilih korban malam ini.</p>' +
-        (votes.length ? '<p class="pg-note">Pilihan serigala lain: ' + votes.join(', ') + '. Korban = pilihan terbanyak.</p>' : '') +
-        playerBtns(s, a, n.votes[me], 'np-pick', function (i) { return isWolf(s, i) ? 'serigala' : ''; });
+      body = tr('<p class="pg-desc">🐺 Kamu serigala. Pilih korban malam ini.</p>', '<p class="pg-desc">🐺 You\'re a werewolf. Pick tonight\'s victim.</p>') +
+        (votes.length ? tr('<p class="pg-note">Pilihan serigala lain: ', '<p class="pg-note">Other werewolves picked: ') + votes.join(', ') + tr('. Korban = pilihan terbanyak.</p>', '. The victim = the most picked.</p>') : '') +
+        playerBtns(s, a, n.votes[me], 'np-pick', function (i) { return isWolf(s, i) ? tr('serigala', 'werewolf') : ''; });
       ready = n.votes[me] != null;
     } else if (role === 'penjaga') {
-      body = '<p class="pg-desc">🛡️ Kamu penjaga. Pilih satu orang untuk dilindungi.</p>' +
-        playerBtns(s, a, n.guard, 'np-pick', function (i) { return i === s.lastGuard ? 'dijaga semalam' : ''; });
+      body = tr('<p class="pg-desc">🛡️ Kamu penjaga. Pilih satu orang untuk dilindungi.</p>', '<p class="pg-desc">🛡️ You\'re the guardian. Pick one person to protect.</p>') +
+        playerBtns(s, a, n.guard, 'np-pick', function (i) { return i === s.lastGuard ? tr('dijaga semalam', 'guarded last night') : ''; });
       ready = n.guard != null;
     } else if (role === 'peramal') {
-      body = '<p class="pg-desc">🔮 Kamu peramal. Pilih satu orang untuk diterawang.</p>' +
+      body = tr('<p class="pg-desc">🔮 Kamu peramal. Pilih satu orang untuk diterawang.</p>', '<p class="pg-desc">🔮 You\'re the seer. Pick one person to look into.</p>') +
         (n.seer == null ? playerBtns(s, others, null, 'np-pick') :
           '<div class="pg-result ' + (isWolf(s, n.seer) ? 'is-wolf' : 'is-ok') + '">' + esc(nameOf(s, n.seer)) + ' ' +
-          (isWolf(s, n.seer) ? 'adalah <b>SERIGALA</b>' : '<b>bukan serigala</b>') + '</div>');
+          (isWolf(s, n.seer) ? tr('adalah <b>SERIGALA</b>', 'is a <b>WEREWOLF</b>') : tr('<b>bukan serigala</b>', 'is <b>not a werewolf</b>')) + '</div>');
       ready = n.seer != null;
     } else {
-      body = '<p class="pg-desc">' + ROLES[role].ico + ' Kamu ' + ROLES[role].name.toLowerCase() + ', ga ada aksi malam ini. Biar ga ketahuan, tunjuk orang yang paling kamu curigai.</p>' +
+      body = '<p class="pg-desc">' + ROLES[role].ico + tr(' Kamu ', ' You\'re the ') + ROLES[role].name.toLowerCase() + tr(', ga ada aksi malam ini. Biar ga ketahuan, tunjuk orang yang paling kamu curigai.</p>', ', no action tonight. So nobody can tell, point to the person you suspect most.</p>') +
         playerBtns(s, others, n.sus[me], 'np-pick');
       ready = n.sus[me] != null;
     }
     var nextName = ps.i + 1 < order.length ? esc(nameOf(s, order[ps.i + 1])) : null;
     return head.replace('pg-pass"', 'pg-pass pg-secret"') + body +
       '<button type="button" class="pg-primary pg-wide" data-act="np-next"' + (ready ? '' : ' disabled') + '>' +
-      (nextName ? 'selesai, oper ke ' + nextName : 'selesai') + '</button></section>';
+      (nextName ? tr('selesai, oper ke ', 'done, pass to ') + nextName : tr('selesai', 'done')) + '</button></section>';
   }
 
   function viewDawn(s) {
     var txt;
     if (s.dawn.length) {
       txt = s.dawn.map(function (i) {
-        return '<p class="pg-big">💀 ' + esc(nameOf(s, i)) + '</p><p class="pg-sub">dimangsa serigala semalam' +
-          (s.cfg.open ? '. Perannya: <b>' + ROLES[roleOf(s, i)].ico + ' ' + ROLES[roleOf(s, i)].name + '</b>' : '') + '</p>';
+        return '<p class="pg-big">💀 ' + esc(nameOf(s, i)) + tr('</p><p class="pg-sub">dimangsa serigala semalam', '</p><p class="pg-sub">eaten by the werewolves last night') +
+          (s.cfg.open ? tr('. Perannya: <b>', '. Role: <b>') + ROLES[roleOf(s, i)].ico + ' ' + ROLES[roleOf(s, i)].name + '</b>' : '') + '</p>';
       }).join('');
     } else {
-      txt = '<p class="pg-big">Semua selamat</p><p class="pg-sub">Semalam ga ada yang mati.' + (s.cfg.mode === 'mod' && s.saved ? ' (Penjaga berhasil menyelamatkan korban, jangan bilang-bilang.)' : '') + '</p>';
+      txt = tr('<p class="pg-big">Semua selamat</p><p class="pg-sub">Semalam ga ada yang mati.', '<p class="pg-big">Everyone survived</p><p class="pg-sub">Nobody died last night.') + (s.cfg.mode === 'mod' && s.saved ? tr(' (Penjaga berhasil menyelamatkan korban, jangan bilang-bilang.)', ' (The guardian saved the victim, keep it to yourself.)') : '') + '</p>';
     }
-    var sus = s.suspect && s.players[s.suspect.who].alive ? '<p class="pg-note">🤔 Paling dicurigai semalam: <b>' + esc(nameOf(s, s.suspect.who)) + '</b> (' + s.suspect.n + ' orang).</p>' : '';
-    return '<section class="pg-card pg-center-card" data-scrolltop><h2 class="pg-h">☀️ pagi hari ke-' + s.round + '</h2>' +
-      '<p class="pg-script">"Pagi tiba, semua buka mata."</p>' + txt + sus +
+    var sus = s.suspect && s.players[s.suspect.who].alive ? tr('<p class="pg-note">🤔 Paling dicurigai semalam: <b>', '<p class="pg-note">🤔 Most suspected last night: <b>') + esc(nameOf(s, s.suspect.who)) + tr('</b> (', '</b> (') + s.suspect.n + tr(' orang).</p>', ' people).</p>') : '';
+    return tr('<section class="pg-card pg-center-card" data-scrolltop><h2 class="pg-h">☀️ pagi hari ke-', '<section class="pg-card pg-center-card" data-scrolltop><h2 class="pg-h">☀️ morning of day ') + s.round + '</h2>' +
+      tr('<p class="pg-script">"Pagi tiba, semua buka mata."</p>', '<p class="pg-script">"Morning comes, everyone open your eyes."</p>') + txt + sus +
       '<button type="button" class="pg-primary pg-wide" data-act="dawn-ok">lanjut</button></section>' + modPanel(s);
   }
 
   function viewHunter(s) {
     var h = s.hunter, a = alive(s);
-    return '<section class="pg-card" data-scrolltop><h2 class="pg-h">🏹 tembakan terakhir</h2>' +
-      '<p class="pg-desc"><b>' + esc(nameOf(s, h.who)) + '</b> adalah pemburu! Sebelum pergi, pilih satu orang untuk ditembak.</p>' +
+    return tr('<section class="pg-card" data-scrolltop><h2 class="pg-h">🏹 tembakan terakhir</h2>', '<section class="pg-card" data-scrolltop><h2 class="pg-h">🏹 last shot</h2>') +
+      '<p class="pg-desc"><b>' + esc(nameOf(s, h.who)) + tr('</b> adalah pemburu! Sebelum pergi, pilih satu orang untuk ditembak.</p>', '</b> is the hunter! Before leaving, pick one person to shoot.</p>') +
       playerBtns(s, a, h.pick, 'h-pick') +
-      '<div class="pg-row"><button type="button" class="pg-primary" data-act="h-shoot"' + (h.pick == null ? ' disabled' : '') + '>tembak</button>' +
-      '<button type="button" data-act="h-skip">ga nembak</button></div></section>';
+      '<div class="pg-row"><button type="button" class="pg-primary" data-act="h-shoot"' + (h.pick == null ? ' disabled' : '') + tr('>tembak</button>', '>shoot</button>') +
+      tr('<button type="button" data-act="h-skip">ga nembak</button></div></section>', '<button type="button" data-act="h-skip">don\'t shoot</button></div></section>');
   }
 
   function viewDay(s) {
     var a = alive(s), sel = s.vote;
-    return '<section class="pg-card" data-scrolltop><h2 class="pg-h">💬 siang hari ke-' + s.round + ' <span class="pg-chip">' + a.length + ' hidup</span></h2>' +
-      P.timerHTML(s.timer, 'diskusi') +
-      '<p class="pg-sub">Diskusi, lalu voting. Tunjuk bareng-bareng di hitungan ketiga, atau voting satu per satu.</p>' +
+    return tr('<section class="pg-card" data-scrolltop><h2 class="pg-h">💬 siang hari ke-', '<section class="pg-card" data-scrolltop><h2 class="pg-h">💬 day ') + s.round + ' <span class="pg-chip">' + a.length + tr(' hidup</span></h2>', ' alive</span></h2>') +
+      P.timerHTML(s.timer, tr('diskusi', 'discussion')) +
+      tr('<p class="pg-sub">Diskusi, lalu voting. Tunjuk bareng-bareng di hitungan ketiga, atau voting satu per satu.</p>', '<p class="pg-sub">Discuss, then vote. Everyone points on the count of three, or vote one by one.</p>') +
       playerBtns(s, a, sel, 'v-pick') +
       '<div class="pg-row"><button type="button" class="pg-primary" data-act="v-out"' + (sel == null ? ' disabled' : '') + '>' +
-      (sel == null ? 'keluarkan' : 'keluarkan ' + esc(nameOf(s, sel))) + '</button>' +
-      '<button type="button" data-act="v-none">ga ada yang keluar</button></div></section>' + modPanel(s);
+      (sel == null ? tr('keluarkan', 'vote out') : tr('keluarkan ', 'vote out ') + esc(nameOf(s, sel))) + '</button>' +
+      tr('<button type="button" data-act="v-none">ga ada yang keluar</button></div></section>', '<button type="button" data-act="v-none">nobody goes out</button></div></section>') + modPanel(s);
   }
 
   function viewOut(s) {
     var i = s.out;
-    return '<section class="pg-card pg-center-card" data-scrolltop><h2 class="pg-h">⚖️ hasil voting</h2>' +
-      (i == null ? '<p class="pg-big">Ga ada yang keluar</p><p class="pg-sub">Warga ga sepakat. Malam pun tiba.</p>' :
-        '<p class="pg-big">👋 ' + esc(nameOf(s, i)) + '</p><p class="pg-sub">keluar dari desa' +
-        (s.cfg.open ? '. Perannya: <b>' + ROLES[roleOf(s, i)].ico + ' ' + ROLES[roleOf(s, i)].name + '</b>' : '') + '</p>') +
+    return tr('<section class="pg-card pg-center-card" data-scrolltop><h2 class="pg-h">⚖️ hasil voting</h2>', '<section class="pg-card pg-center-card" data-scrolltop><h2 class="pg-h">⚖️ vote result</h2>') +
+      (i == null ? tr('<p class="pg-big">Ga ada yang keluar</p><p class="pg-sub">Warga ga sepakat. Malam pun tiba.</p>', '<p class="pg-big">Nobody goes out</p><p class="pg-sub">The village couldn\'t agree. Night falls.</p>') :
+        '<p class="pg-big">👋 ' + esc(nameOf(s, i)) + tr('</p><p class="pg-sub">keluar dari desa', '</p><p class="pg-sub">leaves the village') +
+        (s.cfg.open ? tr('. Perannya: <b>', '. Role: <b>') + ROLES[roleOf(s, i)].ico + ' ' + ROLES[roleOf(s, i)].name + '</b>' : '') + '</p>') +
       '<button type="button" class="pg-primary pg-wide" data-act="out-ok">lanjut</button></section>' + modPanel(s);
   }
 
@@ -331,12 +347,12 @@
     var rows = s.players.map(function (p) {
       var r = ROLES[p.role];
       return '<li class="' + (p.alive ? '' : 'is-dead') + '"><span>' + r.ico + '</span><b>' + esc(p.name) + '</b><span class="pg-tag pg-t-' + r.team + '">' + r.name + '</span>' +
-        '<small>' + (p.alive ? 'hidup' : 'mati') + '</small></li>';
+        '<small>' + (p.alive ? tr('hidup', 'alive') : tr('mati', 'dead')) + '</small></li>';
     }).join('');
-    return '<section class="pg-card pg-center-card" data-scrolltop><p class="pg-win ' + (wolf ? 'is-wolf' : 'is-ok') + '">' + (wolf ? '🐺 Serigala menang!' : '🎉 Warga menang!') + '</p>' +
-      '<p class="pg-sub">' + (wolf ? 'Desa jatuh ke tangan serigala.' : 'Semua serigala sudah keluar dari desa.') + '</p>' +
+    return '<section class="pg-card pg-center-card" data-scrolltop><p class="pg-win ' + (wolf ? 'is-wolf' : 'is-ok') + '">' + (wolf ? tr('🐺 Serigala menang!', '🐺 Werewolves win!') : tr('🎉 Warga menang!', '🎉 Villagers win!')) + '</p>' +
+      '<p class="pg-sub">' + (wolf ? tr('Desa jatuh ke tangan serigala.', 'The village falls to the werewolves.') : tr('Semua serigala sudah keluar dari desa.', 'Every werewolf is out of the village.')) + '</p>' +
       '<ul class="pg-list">' + rows + '</ul>' +
-      '<div class="pg-row pg-center"><button type="button" class="pg-primary" data-act="again">main lagi</button><button type="button" data-act="quit">ubah pengaturan</button></div></section>' +
+      tr('<div class="pg-row pg-center"><button type="button" class="pg-primary" data-act="again">main lagi</button><button type="button" data-act="quit">ubah pengaturan</button></div></section>', '<div class="pg-row pg-center"><button type="button" class="pg-primary" data-act="again">play again</button><button type="button" data-act="quit">change settings</button></div></section>') +
       logView(s, true);
   }
 
@@ -346,29 +362,29 @@
       var r = ROLES[p.role];
       return '<li class="' + (p.alive ? '' : 'is-dead') + '"><span>' + r.ico + '</span><b>' + esc(p.name) + '</b><span class="pg-tag pg-t-' + r.team + '">' + r.name + '</span></li>';
     }).join('');
-    return '<details class="pg-help"><summary>contekan moderator (rahasia)</summary><ul class="pg-list">' + rows + '</ul></details>' + logView(s);
+    return tr('<details class="pg-help"><summary>contekan moderator (rahasia)</summary><ul class="pg-list">', '<details class="pg-help"><summary>moderator cheat sheet (secret)</summary><ul class="pg-list">') + rows + '</ul></details>' + logView(s);
   }
 
   function logView(s, open) {
     if (!s.log.length) return '';
-    return '<details class="pg-help"' + (open ? ' open' : '') + '><summary>catatan permainan</summary><ol class="pg-log">' +
+    return '<details class="pg-help"' + (open ? ' open' : '') + tr('><summary>catatan permainan</summary><ol class="pg-log">', '><summary>game log</summary><ol class="pg-log">') +
       s.log.map(function (l) { return '<li>' + esc(l) + '</li>'; }).join('') + '</ol></details>';
   }
 
   function topbar(s) {
     if (s.phase === 'setup') return '';
-    return '<div class="pg-top"><span class="pg-chip">' + (s.cfg.mode === 'mod' ? 'ada moderator' : 'tanpa moderator') + '</span>' +
-      '<span class="pg-chip">' + s.players.length + ' pemain</span>' +
-      '<button type="button" class="pg-mini pg-push" data-act="quit">akhiri game</button></div>';
+    return '<div class="pg-top"><span class="pg-chip">' + (s.cfg.mode === 'mod' ? tr('ada moderator', 'with moderator') : tr('tanpa moderator', 'no moderator')) + '</span>' +
+      '<span class="pg-chip">' + s.players.length + tr(' pemain</span>', ' players</span>') +
+      tr('<button type="button" class="pg-mini pg-push" data-act="quit">akhiri game</button></div>', '<button type="button" class="pg-mini pg-push" data-act="quit">end game</button></div>');
   }
 
   function render(s) {
     var v;
     switch (s.phase) {
       case 'reveal': v = viewReveal(s); break;
-      case 'ready': v = '<section class="pg-card pg-center-card" data-scrolltop><p class="pg-big">Semua sudah tahu perannya</p>' +
-        '<p class="pg-sub">' + (s.cfg.mode === 'mod' ? 'Moderator, mulai malam pertama.' : 'Taruh HP di tengah. Malam pertama dimulai, HP akan dioper keliling.') + '</p>' +
-        '<button type="button" class="pg-primary pg-wide" data-act="night">mulai malam pertama 🌙</button></section>' + modPanel(s); break;
+      case 'ready': v = tr('<section class="pg-card pg-center-card" data-scrolltop><p class="pg-big">Semua sudah tahu perannya</p>', '<section class="pg-card pg-center-card" data-scrolltop><p class="pg-big">Everyone knows their role</p>') +
+        '<p class="pg-sub">' + (s.cfg.mode === 'mod' ? tr('Moderator, mulai malam pertama.', 'Moderator, start the first night.') : tr('Taruh HP di tengah. Malam pertama dimulai, HP akan dioper keliling.', 'Put the phone in the middle. The first night begins and the phone will go around.')) + '</p>' +
+        tr('<button type="button" class="pg-primary pg-wide" data-act="night">mulai malam pertama 🌙</button></section>', '<button type="button" class="pg-primary pg-wide" data-act="night">start the first night 🌙</button></section>') + modPanel(s); break;
       case 'night': v = s.cfg.mode === 'pass' ? viewNightPass(s) : viewNightMod(s); break;
       case 'dawn': v = viewDawn(s); break;
       case 'hunter': v = viewHunter(s); break;
@@ -407,7 +423,7 @@
       case 'n-go': n.started = true; break;
       case 'n-wolf': n.wolf = i; break;
       case 'n-guard': n.guard = i; break;
-      case 'n-seer': if (n.seer == null) { n.seer = i; log(s, 'Peramal menerawang ' + nameOf(s, i) + ': ' + (isWolf(s, i) ? 'serigala' : 'bukan serigala')); } break;
+      case 'n-seer': if (n.seer == null) { n.seer = i; log(s, tr('Peramal menerawang ', 'The seer looked into ') + nameOf(s, i) + ': ' + (isWolf(s, i) ? tr('serigala', 'werewolf') : tr('bukan serigala', 'not a werewolf'))); } break;
       case 'n-next':
         if (n.step < stepsOf(s).length - 1) n.step++; else resolveNight(s);
         break;
@@ -427,15 +443,15 @@
       case 'h-pick': s.hunter.pick = i; break;
       case 'h-shoot': case 'h-skip': {
         var h = s.hunter;
-        if (a === 'h-shoot' && h.pick != null) { kill(s, h.pick, 'ditembak pemburu'); if (s.hunterPending === h.pick) s.hunterPending = null; }
-        else log(s, 'Pemburu ga menembak');
+        if (a === 'h-shoot' && h.pick != null) { kill(s, h.pick, tr('ditembak pemburu', 'shot by the hunter')); if (s.hunterPending === h.pick) s.hunterPending = null; }
+        else log(s, tr('Pemburu ga menembak', 'The hunter didn\'t shoot'));
         s.hunter = null;
         afterDeaths(s, h.next);
         break;
       }
       case 'v-pick': s.vote = s.vote === i ? null : i; break;
-      case 'v-out': if (s.vote == null) return false; s.out = s.vote; s.vote = null; kill(s, s.out, 'keluar lewat voting'); s.timer = null; s.phase = 'out'; break;
-      case 'v-none': s.out = null; s.vote = null; log(s, 'Voting: ga ada yang keluar'); s.timer = null; s.phase = 'out'; break;
+      case 'v-out': if (s.vote == null) return false; s.out = s.vote; s.vote = null; kill(s, s.out, tr('keluar lewat voting', 'voted out')); s.timer = null; s.phase = 'out'; break;
+      case 'v-none': s.out = null; s.vote = null; log(s, tr('Voting: ga ada yang keluar', 'Vote: nobody went out')); s.timer = null; s.phase = 'out'; break;
       case 'out-ok': afterDeaths(s, 'night'); break;
       case 'again': {
         var fresh = Object.assign(init(), { cfg: s.cfg });
@@ -443,7 +459,7 @@
         api.replace(fresh); return true;
       }
       case 'quit':
-        if (s.phase !== 'end' && !window.confirm('Akhiri game ini? Daftar pemain tetap tersimpan.')) return false;
+        if (s.phase !== 'end' && !window.confirm(tr('Akhiri game ini? Daftar pemain tetap tersimpan.', 'End this game? The player list stays saved.'))) return false;
         var c = s.cfg; api.replace(Object.assign(init(), { cfg: c })); return true;
       default: return false;
     }

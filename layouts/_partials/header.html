@@ -95,8 +95,9 @@
             {{- range site.Data.lab.groups }}
             {{- $items := slice }}
             {{- $open := false }}
-            {{- range .items }}{{ if site.GetPage .url }}{{ $items = $items | append . }}{{ if eq (.url | absLangURL) $page_url }}{{ $open = true }}{{ $active = true }}{{ end }}{{ end }}{{ end }}
-            {{- if $items }}{{ $groups = $groups | append (dict "id" .id "name" .name "items" $items "open" $open) }}{{ end }}
+            {{- $items = partial "lab-items.html" . }}
+            {{- range $items }}{{ if eq .href $page_url }}{{ $open = true }}{{ $active = true }}{{ end }}{{ end }}
+            {{- if $items }}{{ $groups = $groups | append (dict "id" .id "name" (cond (eq site.Language.Lang "en") (.name_en | default .name) .name) "items" $items "open" $open) }}{{ end }}
             {{- end }}
             <li class="has-sub">
                 <button type="button" class="sub-toggle" aria-expanded="false" aria-controls="sub-lab">
@@ -109,7 +110,7 @@
                         <button type="button" class="group-toggle" aria-expanded="{{ .open }}" aria-controls="sub-lab-{{ .id }}">{{ .name }}<span class="sub-caret" aria-hidden="true">▸</span></button>
                         <ul class="sub-nested" id="sub-lab-{{ .id }}" {{- if not .open }} hidden{{ end }}>
                             {{- range .items }}
-                            <li><a href="{{ .url | absLangURL }}" {{- if eq (.url | absLangURL) $page_url }} aria-current="page"{{ end }}>{{ partial "lab-icon.html" .icon }}{{ .name }}</a></li>
+                            <li><a href="{{ .href }}" {{- if .id }} hreflang="id"{{ end }} {{- if eq .href $page_url }} aria-current="page"{{ end }}>{{ partial "lab-icon.html" .icon }}{{ .name }}</a></li>
                             {{- end }}
                         </ul>
                     </li>

@@ -6,6 +6,8 @@
   'use strict';
 
   var PREFIX = 'pg:';
+  var EN = (document.documentElement.lang || '').slice(0, 2) === 'en';
+  function tr(id, en) { return EN ? en : id; }
 
   function esc(s) {
     return String(s).replace(/[&<>"']/g, function (c) {
@@ -51,19 +53,19 @@
     var p = getPlayers();
     var rows = p.map(function (name, i) {
       return '<li><span class="pg-seat">' + (i + 1) + '</span><span class="pg-pname">' + esc(name) + '</span>' +
-        '<button type="button" class="pg-mini" data-act="p-up" data-i="' + i + '" aria-label="Naikkan ' + esc(name) + '"' + (i ? '' : ' disabled') + '>↑</button>' +
-        '<button type="button" class="pg-mini" data-act="p-del" data-i="' + i + '" aria-label="Hapus ' + esc(name) + '">×</button></li>';
+        '<button type="button" class="pg-mini" data-act="p-up" data-i="' + i + tr('" aria-label="Naikkan ', '" aria-label="Move up ') + esc(name) + '"' + (i ? '' : ' disabled') + '>↑</button>' +
+        '<button type="button" class="pg-mini" data-act="p-del" data-i="' + i + tr('" aria-label="Hapus ', '" aria-label="Remove ') + esc(name) + '">×</button></li>';
     }).join('');
     var need = Math.max(0, min - p.length);
-    return '<section class="pg-card"><h2 class="pg-h">pemain <span class="pg-chip">' + p.length + ' orang</span></h2>' +
+    return tr('<section class="pg-card"><h2 class="pg-h">pemain <span class="pg-chip">', '<section class="pg-card"><h2 class="pg-h">players <span class="pg-chip">') + p.length + tr(' orang</span></h2>', ' people</span></h2>') +
       (note ? '<p class="pg-sub">' + note + '</p>' : '') +
-      '<form class="pg-add" data-form="p-add"><label class="sr-only" for="pg-name">Nama pemain</label>' +
-      '<input id="pg-name" type="text" maxlength="16" autocomplete="off" placeholder="nama pemain" enterkeyhint="done">' +
-      '<button type="submit"' + (p.length >= MAX_PLAYERS ? ' disabled' : '') + '>+ tambah</button></form>' +
-      (p.length ? '<ol class="pg-roster">' + rows + '</ol>' : '<p class="pg-empty">Belum ada pemain. Tambahkan nama sesuai urutan duduk.</p>') +
+      tr('<form class="pg-add" data-form="p-add"><label class="sr-only" for="pg-name">Nama pemain</label>', '<form class="pg-add" data-form="p-add"><label class="sr-only" for="pg-name">Player name</label>') +
+      tr('<input id="pg-name" type="text" maxlength="16" autocomplete="off" placeholder="nama pemain" enterkeyhint="done">', '<input id="pg-name" type="text" maxlength="16" autocomplete="off" placeholder="player name" enterkeyhint="done">') +
+      '<button type="submit"' + (p.length >= MAX_PLAYERS ? ' disabled' : '') + tr('>+ tambah</button></form>', '>+ add</button></form>') +
+      (p.length ? '<ol class="pg-roster">' + rows + '</ol>' : tr('<p class="pg-empty">Belum ada pemain. Tambahkan nama sesuai urutan duduk.</p>', '<p class="pg-empty">No players yet. Add names in seating order.</p>')) +
       '<div class="pg-row">' +
-      (need ? '<span class="pg-warn">butuh ' + need + ' pemain lagi</span>' : '<span class="pg-ok">siap, minimal ' + min + ' pemain</span>') +
-      (p.length ? '<button type="button" class="pg-mini pg-push" data-act="p-shuffle">acak urutan</button><button type="button" class="pg-mini" data-act="p-clear">kosongkan</button>' : '') +
+      (need ? tr('<span class="pg-warn">butuh ', '<span class="pg-warn">need ') + need + tr(' pemain lagi</span>', ' more players</span>') : tr('<span class="pg-ok">siap, minimal ', '<span class="pg-ok">ready, at least ') + min + tr(' pemain</span>', ' players</span>')) +
+      (p.length ? tr('<button type="button" class="pg-mini pg-push" data-act="p-shuffle">acak urutan</button><button type="button" class="pg-mini" data-act="p-clear">kosongkan</button>', '<button type="button" class="pg-mini pg-push" data-act="p-shuffle">shuffle order</button><button type="button" class="pg-mini" data-act="p-clear">clear</button>') : '') +
       '</div></section>';
   }
 
@@ -75,7 +77,7 @@
       var name = (input.value || '').replace(/\s+/g, ' ').trim().slice(0, 16);
       if (!name) return false;
       var lower = p.map(function (x) { return x.toLowerCase(); });
-      if (lower.indexOf(name.toLowerCase()) >= 0) { toast('Nama "' + name + '" sudah ada'); return false; }
+      if (lower.indexOf(name.toLowerCase()) >= 0) { toast(tr('Nama "', 'Name "') + name + tr('" sudah ada', '" is already taken')); return false; }
       if (p.length >= MAX_PLAYERS) return false;
       p.push(name);
     } else if (act === 'p-del') {
@@ -86,7 +88,7 @@
     } else if (act === 'p-shuffle') {
       p = shuffle(p);
     } else if (act === 'p-clear') {
-      if (!window.confirm('Hapus semua nama pemain?')) return false;
+      if (!window.confirm(tr('Hapus semua nama pemain?', 'Remove every player name?'))) return false;
       p = [];
     } else return false;
     setPlayers(p);
@@ -103,14 +105,14 @@
     }).join('');
     if (!st.shown) {
       return '<section class="pg-card pg-pass"><div class="pg-dots" aria-hidden="true">' + dots + '</div>' +
-        '<p class="pg-sub">oper HP ke</p><p class="pg-big">' + esc(names[who]) + '</p>' +
-        '<p class="pg-sub">Pastikan cuma ' + esc(names[who]) + ' yang lihat layar.</p>' +
-        '<button type="button" class="pg-primary pg-wide" data-act="rv-show">saya ' + esc(names[who]) + ', lihat</button></section>';
+        tr('<p class="pg-sub">oper HP ke</p><p class="pg-big">', '<p class="pg-sub">pass the phone to</p><p class="pg-big">') + esc(names[who]) + '</p>' +
+        tr('<p class="pg-sub">Pastikan cuma ', '<p class="pg-sub">Make sure only ') + esc(names[who]) + tr(' yang lihat layar.</p>', ' can see the screen.</p>') +
+        tr('<button type="button" class="pg-primary pg-wide" data-act="rv-show">saya ', '<button type="button" class="pg-primary pg-wide" data-act="rv-show">I\'m ') + esc(names[who]) + tr(', lihat</button></section>', ', show me</button></section>');
     }
     return '<section class="pg-card pg-pass pg-secret"><div class="pg-dots" aria-hidden="true">' + dots + '</div>' +
       cardFn(who) +
       '<button type="button" class="pg-primary pg-wide" data-act="rv-next">' +
-      (nextName ? 'tutup, oper ke ' + esc(nextName) : esc(doneLabel || 'tutup')) + '</button></section>';
+      (nextName ? tr('tutup, oper ke ', 'close, pass to ') + esc(nextName) : esc(doneLabel || tr('tutup', 'close'))) + '</button></section>';
   }
   function revealStep(act, st, total) {
     if (act === 'rv-show') { st.shown = true; return 'shown'; }
@@ -136,10 +138,10 @@
       '<span class="pg-tnum" data-tnum>' + fmt(left) + '</span>' +
       '<div class="pg-tbar"><i data-tbar style="width:' + (t.total ? Math.round(left / t.total * 100) : 0) + '%"></i></div>' +
       '<div class="pg-row pg-center">' +
-      (t.endAt ? '<button type="button" class="pg-mini" data-act="t-pause">jeda</button>'
-        : '<button type="button" class="pg-mini" data-act="t-start"' + (left ? '' : ' disabled') + '>' + (left === t.total ? 'mulai' : 'lanjut') + '</button>') +
-      '<button type="button" class="pg-mini" data-act="t-add">+30 detik</button>' +
-      '<button type="button" class="pg-mini" data-act="t-reset">ulang</button></div></div>';
+      (t.endAt ? tr('<button type="button" class="pg-mini" data-act="t-pause">jeda</button>', '<button type="button" class="pg-mini" data-act="t-pause">pause</button>')
+        : '<button type="button" class="pg-mini" data-act="t-start"' + (left ? '' : ' disabled') + '>' + (left === t.total ? tr('mulai', 'start') : tr('lanjut', 'resume')) + '</button>') +
+      tr('<button type="button" class="pg-mini" data-act="t-add">+30 detik</button>', '<button type="button" class="pg-mini" data-act="t-add">+30 sec</button>') +
+      tr('<button type="button" class="pg-mini" data-act="t-reset">ulang</button></div></div>', '<button type="button" class="pg-mini" data-act="t-reset">reset</button></div></div>');
   }
   function timerAction(act, t) {
     if (act === 't-start') { if (t.left > 0) t.endAt = Date.now() + t.left * 1000; }
@@ -208,7 +210,7 @@
       if (state.timer.endAt && left === 0) {
         state.timer.left = 0; state.timer.endAt = null; save();
         if (navigator.vibrate) { try { navigator.vibrate([200, 100, 200]); } catch (e) { /* ignore */ } }
-        toast('Waktu habis!');
+        toast(tr('Waktu habis!', 'Time\'s up!'));
         render();
       }
     }
@@ -250,6 +252,7 @@
   }
 
   window.Party = {
+    EN: EN, tr: tr,
     esc: esc, store: store, shuffle: shuffle, pick: pick, range: range,
     getPlayers: getPlayers, setPlayers: setPlayers, rosterHTML: rosterHTML,
     revealHTML: revealHTML, revealStep: revealStep,
