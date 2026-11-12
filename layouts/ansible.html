@@ -1,4 +1,5 @@
 {{- define "main" }}
+{{- $en := eq site.Language.Lang "en" }}
 <header class="page-header">
     <h1>{{ .Title }}</h1>
     {{- with .Description }}
@@ -7,7 +8,7 @@
 </header>
 
 <div class="gx sx an" id="an">
-    <div class="gx-flow" aria-label="Alur Ansible">
+    <div class="gx-flow" aria-label="{{ cond $en `Ansible flow` `Alur Ansible` }}">
         <div class="gx-node" data-node="inv">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01"/></svg>
             <b>inventory</b><span id="an-f-inv"></span>
@@ -22,7 +23,7 @@
             <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="7" rx="1.5"/><rect x="3" y="13" width="18" height="7" rx="1.5"/><path d="M7 7.5h.01M7 16.5h.01"/></svg>
             <b>server</b><span id="an-f-srv"></span>
         </div>
-        <div class="gx-link" data-link="recap"><span>hasil</span></div>
+        <div class="gx-link" data-link="recap"><span>{{ cond $en `result` `hasil` }}</span></div>
         <div class="gx-node" data-node="recap">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
             <b>recap</b><span id="an-f-rc"></span>
@@ -30,7 +31,7 @@
     </div>
 
     <details class="gx-missions" open>
-        <summary>misi <span id="an-m-count">0/6</span></summary>
+        <summary>{{ cond $en `missions ` `misi ` }}<span id="an-m-count">0/6</span></summary>
         <ol id="an-m-list"></ol>
     </details>
 
@@ -40,7 +41,7 @@
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
                 <h2 id="an-code-title">~/lab</h2>
                 <span class="gx-chip">control node</span>
-                <button type="button" class="gx-reset" data-act="file-reset">kembalikan file</button>
+                <button type="button" class="gx-reset" data-act="file-reset">{{ cond $en `restore files` `kembalikan file` }}</button>
             </header>
             <div class="sx-tabs" id="an-tabs" role="tablist" aria-label="File"></div>
             <div id="an-ed"></div>
@@ -50,23 +51,23 @@
             <header class="gx-ph">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3M12 15h5"/></svg>
                 <h2 id="an-sh-title">terminal</h2>
-                <button type="button" class="gx-reset" data-act="reset">reset simulasi</button>
+                <button type="button" class="gx-reset" data-act="reset">{{ cond $en `reset simulation` `reset simulasi` }}</button>
             </header>
             <div class="sx-tbox">
                 <div class="sx-out" id="an-out" role="log" aria-live="off"></div>
                 <div class="sx-prompt">
                     <label for="an-in">deploy@control:~/lab$</label>
-                    <input id="an-in" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="ketik perintah, misal ansible all -m ping">
+                    <input id="an-in" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="{{ cond $en `type a command, e.g. ansible all -m ping` `ketik perintah, misal ansible all -m ping` }}">
                 </div>
             </div>
             <div class="sx-opts">
                 <button type="button" class="gx-primary" data-act="play">▶ ansible-playbook site.yml</button>
                 <label class="gx-sw"><input type="checkbox" id="an-check"><span aria-hidden="true"></span>--check</label>
                 <label class="gx-sw"><input type="checkbox" id="an-diff"><span aria-hidden="true"></span>--diff</label>
-                <label class="an-lim">--limit <select id="an-limit" aria-label="Batasi host"></select></label>
+                <label class="an-lim">--limit <select id="an-limit" aria-label="{{ cond $en `Limit hosts` `Batasi host` }}"></select></label>
             </div>
             <div class="sx-quick" id="an-quick">
-                <button type="button" data-act="cmd" data-cmd="ansible all -m ping">ping semua</button>
+                <button type="button" data-act="cmd" data-cmd="ansible all -m ping">{{ cond $en `ping all` `ping semua` }}</button>
                 <button type="button" data-act="cmd" data-cmd="ansible all -a &quot;uptime&quot;">uptime</button>
                 <button type="button" data-act="cmd" data-cmd="ansible-inventory --graph">inventory --graph</button>
                 <button type="button" data-act="cmd" data-cmd="ansible-playbook site.yml --syntax-check">--syntax-check</button>
@@ -79,29 +80,29 @@
         <header class="gx-ph">
             <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="7" rx="1.5"/><rect x="3" y="13" width="18" height="7" rx="1.5"/><path d="M7 7.5h.01M7 16.5h.01"/></svg>
             <h2 id="an-lab-title">server lab</h2>
-            <span class="gx-chip">5 mesin</span>
+            <span class="gx-chip">{{ cond $en `5 machines` `5 mesin` }}</span>
         </header>
-        <p class="gx-kube-note">Isi tiap server ikut berubah saat playbook jalan. Matikan satu server pakai tombolnya buat lihat <b>UNREACHABLE</b>.</p>
+        <p class="gx-kube-note">{{ cond $en `Each server's contents change as the playbook runs. Turn a server off with its switch to see ` `Isi tiap server ikut berubah saat playbook jalan. Matikan satu server pakai tombolnya buat lihat ` }}<b>UNREACHABLE</b>.</p>
         <div class="an-hosts" id="an-hosts"></div>
     </section>
 
     <details class="gx-help">
-        <summary>apa itu Ansible, playbook, dan idempotent?</summary>
+        <summary>{{ cond $en `what are Ansible, playbooks, and idempotence?` `apa itu Ansible, playbook, dan idempotent?` }}</summary>
         <ul>
-            <li><b>Ansible</b> mengatur banyak server sekaligus lewat SSH, tanpa agent. Cukup ada Python di server tujuan.</li>
-            <li><b>Inventory</b> berisi daftar host dan grupnya. <b>Playbook</b> berisi play: "di grup ini, jalankan task-task ini". Tiap task memanggil satu modul, misal <code>apt</code>, <code>template</code>, atau <code>service</code>.</li>
-            <li>Hasil per host: <code>ok</code> (sudah sesuai, ga diubah), <code>changed</code> (diubah), <code>failed</code> (gagal, host itu berhenti di play ini), <code>unreachable</code> (ga bisa SSH), <code>skipping</code> (kondisi <code>when</code> ga terpenuhi).</li>
-            <li><b>Idempotent</b> artinya dijalankan berkali-kali hasilnya sama. Modul seperti <code>apt</code> dan <code>template</code> cek dulu sebelum mengubah, jadi run kedua harusnya <code>changed=0</code>. Modul <code>shell</code> dan <code>command</code> ga tahu apa-apa soal kondisi server, jadi selalu <i>changed</i>, kecuali dikasih <code>creates:</code> atau <code>changed_when: false</code>.</li>
-            <li><b>Handler</b> cuma jalan kalau ada task yang <i>changed</i> dan memanggilnya lewat <code>notify</code>, dan jalannya sekali di akhir play. Cocok buat restart service setelah config berubah.</li>
-            <li><code>--check</code> menjalankan playbook tanpa mengubah apa pun, <code>--diff</code> menampilkan isi file yang bakal berubah, dan <code>--limit</code> membatasi host yang dikerjakan.</li>
-            <li>Modul <code>apt</code> cuma ada di keluarga Debian/Ubuntu. Buat server campuran, pakai modul <code>package</code>, atau pisahkan dengan <code>when: ansible_os_family == "Debian"</code>.</li>
+            <li><b>Ansible</b>{{ cond $en ` manages many servers at once over SSH, with no agent. The target servers just need Python.` ` mengatur banyak server sekaligus lewat SSH, tanpa agent. Cukup ada Python di server tujuan.` }}</li>
+            <li><b>Inventory</b>{{ cond $en ` lists the hosts and their groups. ` ` berisi daftar host dan grupnya. ` }}<b>Playbook</b>{{ cond $en ` holds plays: ` ` berisi play: ` }}"{{ cond $en `on this group, run these tasks` `di grup ini, jalankan task-task ini` }}"{{ cond $en `. Each task calls one module, e.g. ` `. Tiap task memanggil satu modul, misal ` }}<code>apt</code>, <code>template</code>{{ cond $en `, or ` `, atau ` }}<code>service</code>.</li>
+            <li>{{ cond $en `Results per host: ` `Hasil per host: ` }}<code>ok</code>{{ cond $en ` (already right, not changed), ` ` (sudah sesuai, ga diubah), ` }}<code>changed</code>{{ cond $en ` (changed), ` ` (diubah), ` }}<code>failed</code>{{ cond $en ` (failed, that host stops in this play), ` ` (gagal, host itu berhenti di play ini), ` }}<code>unreachable</code>{{ cond $en ` (can't SSH), ` ` (ga bisa SSH), ` }}<code>skipping</code>{{ cond $en ` (the ` ` (kondisi ` }}<code>when</code>{{ cond $en ` condition wasn't met).` ` ga terpenuhi).` }}</li>
+            <li><b>Idempotent</b>{{ cond $en ` means running it many times gives the same result. Modules like ` ` artinya dijalankan berkali-kali hasilnya sama. Modul seperti ` }}<code>apt</code>{{ cond $en ` and ` ` dan ` }}<code>template</code>{{ cond $en ` check before changing anything, so the second run should be ` ` cek dulu sebelum mengubah, jadi run kedua harusnya ` }}<code>changed=0</code>{{ cond $en `. The ` `. Modul ` }}<code>shell</code>{{ cond $en ` and ` ` dan ` }}<code>command</code>{{ cond $en ` modules know nothing about the server's state, so they're always ` ` ga tahu apa-apa soal kondisi server, jadi selalu ` }}<i>changed</i>{{ cond $en `, unless you give them ` `, kecuali dikasih ` }}<code>creates:</code>{{ cond $en ` or ` ` atau ` }}<code>changed_when: false</code>.</li>
+            <li>{{ cond $en `A <b>handler</b> only runs when a task is <i>changed</i> and calls it with <code>notify</code>, and it runs once at the end of the play. Handy for restarting a service after its config changes.` `<b>Handler</b> cuma jalan kalau ada task yang <i>changed</i> dan memanggilnya lewat <code>notify</code>, dan jalannya sekali di akhir play. Cocok buat restart service setelah config berubah.` | safeHTML }}</li>
+            <li><code>--check</code>{{ cond $en ` runs the playbook without changing anything, ` ` menjalankan playbook tanpa mengubah apa pun, ` }}<code>--diff</code>{{ cond $en ` shows the file contents that would change, and ` ` menampilkan isi file yang bakal berubah, dan ` }}<code>--limit</code>{{ cond $en ` narrows down which hosts are touched.` ` membatasi host yang dikerjakan.` }}</li>
+            <li>{{ cond $en `The ` `Modul ` }}<code>apt</code>{{ cond $en ` module only exists on the Debian/Ubuntu family. For mixed servers, use the ` ` cuma ada di keluarga Debian/Ubuntu. Buat server campuran, pakai modul ` }}<code>package</code>{{ cond $en ` module, or split them with ` `, atau pisahkan dengan ` }}<code>when: ansible_os_family == "Debian"</code>.</li>
         </ul>
     </details>
-    <p class="gx-note">Ini simulasi, bukan Ansible beneran. YAML dan Jinja-nya versi mini, modulnya cuma sebagian, dan servernya bohongan. Semua cuma ada di browser kamu dan ga disimpan di mana pun.</p>
+    <p class="gx-note">{{ cond $en `This is a simulation, not real Ansible. The YAML and Jinja are mini versions, only some modules exist, and the servers are pretend. Everything lives only in your browser and isn't saved anywhere.` `Ini simulasi, bukan Ansible beneran. YAML dan Jinja-nya versi mini, modulnya cuma sebagian, dan servernya bohongan. Semua cuma ada di browser kamu dan ga disimpan di mana pun.` }}</p>
 
     <div class="gx-toast" id="an-toast" role="status" aria-live="polite"></div>
 </div>
-<noscript><p class="term-noscript">Simulasi ini butuh JavaScript.</p></noscript>
+<noscript><p class="term-noscript">{{ cond $en `This simulation needs JavaScript.` `Simulasi ini butuh JavaScript.` }}</p></noscript>
 
 {{- $kit := resources.Get "js/simkit.js" | minify | fingerprint }}
 <script src="{{ $kit.RelPermalink }}" integrity="{{ $kit.Data.Integrity }}" defer></script>

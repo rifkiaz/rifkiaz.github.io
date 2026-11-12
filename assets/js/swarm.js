@@ -6,6 +6,7 @@
   'use strict';
 
   var K = window.SimKit;
+  var tr = K.tr;
   var app = document.getElementById('sw');
   if (!app || !K) return;
   var esc = K.esc, setHTML = K.setHTML, setText = K.setText;
@@ -69,14 +70,14 @@
   ].join('\n');
 
   var MISSIONS = [
-    { id: 'init', text: '<b>docker swarm init</b> di manager1, lalu gabungkan worker1 dan worker2 (tombol <i>gabung</i> di kartunya).' },
-    { id: 'svc', text: 'Bikin service <b>web</b> 3 replika dengan <i>-p 8080:80</i>.' },
-    { id: 'mesh', text: 'Gabungkan <b>worker3</b>, lalu curl ke worker3:8080. Dia ga punya task web tapi tetap menjawab. Itu <b>routing mesh</b>.' },
-    { id: 'scale', text: 'Scale <b>web</b> jadi 6 replika.' },
-    { id: 'heal', text: 'Matikan satu worker dan tunggu task-nya pindah ke node lain.' },
-    { id: 'update', text: 'Rolling update <b>web</b> ke <i>nginx:1.27</i> sampai selesai.' },
-    { id: 'rollback', text: 'Update ke image yang ga ada (misal <i>nginx:9.9</i>), lihat update berhenti, lalu <b>rollback</b>.' },
-    { id: 'drain', text: '<b>drain</b> satu worker buat maintenance, lalu deploy <i>stack.yml</i> pakai docker stack deploy.' }
+    { id: 'init', text: tr('<b>docker swarm init</b> di manager1, lalu gabungkan worker1 dan worker2 (tombol <i>gabung</i> di kartunya).', '<b>docker swarm init</b> on manager1, then join worker1 and worker2 (the <i>join</i> button on their cards).') },
+    { id: 'svc', text: tr('Bikin service <b>web</b> 3 replika dengan <i>-p 8080:80</i>.', 'Create a <b>web</b> service with 3 replicas and <i>-p 8080:80</i>.') },
+    { id: 'mesh', text: tr('Gabungkan <b>worker3</b>, lalu curl ke worker3:8080. Dia ga punya task web tapi tetap menjawab. Itu <b>routing mesh</b>.', 'Join <b>worker3</b>, then curl worker3:8080. It has no web task but still answers. That\'s the <b>routing mesh</b>.') },
+    { id: 'scale', text: tr('Scale <b>web</b> jadi 6 replika.', 'Scale <b>web</b> to 6 replicas.') },
+    { id: 'heal', text: tr('Matikan satu worker dan tunggu task-nya pindah ke node lain.', 'Turn off a worker and wait for its tasks to move to other nodes.') },
+    { id: 'update', text: tr('Rolling update <b>web</b> ke <i>nginx:1.27</i> sampai selesai.', 'Rolling-update <b>web</b> to <i>nginx:1.27</i> until it finishes.') },
+    { id: 'rollback', text: tr('Update ke image yang ga ada (misal <i>nginx:9.9</i>), lihat update berhenti, lalu <b>rollback</b>.', 'Update to an image that doesn\'t exist (e.g. <i>nginx:9.9</i>), watch the update stop, then <b>rollback</b>.') },
+    { id: 'drain', text: tr('<b>drain</b> satu worker buat maintenance, lalu deploy <i>stack.yml</i> pakai docker stack deploy.', '<b>drain</b> a worker for maintenance, then deploy <i>stack.yml</i> with docker stack deploy.') }
   ];
 
   // ---------- state ----------
@@ -154,10 +155,10 @@
       if (!n.joined) return;
       if (!n.power && n.status === 'ready' && now - n.offAt > HEARTBEAT) {
         n.status = 'down';
-        sys(n.name + ' ga kirim heartbeat lagi, ditandai Down');
+        sys(n.name + tr(' ga kirim heartbeat lagi, ditandai Down', ' stopped sending heartbeats, marked Down'));
         K.flash(app, 'node', 'warn');
       }
-      if (n.power && n.status === 'down') { n.status = 'ready'; sys(n.name + ' kembali Ready'); }
+      if (n.power && n.status === 'down') { n.status = 'ready'; sys(n.name + tr(' kembali Ready', ' is Ready again')); }
     });
     W.svcs.forEach(function (s) {
       // tasks on dead or drained nodes
@@ -279,7 +280,7 @@
         if (cfg.failure === 'continue') { u.cur.splice(i, 1); continue; }
         var msg = 'update paused due to failure or early termination of task ' + bad.id;
         if (cfg.failure === 'rollback') {
-          sys('service ' + s.name + ': update gagal (' + bad.err + '), otomatis rollback');
+          sys('service ' + s.name + tr(': update gagal (', ': update failed (') + bad.err + tr('), otomatis rollback', '), rolling back automatically'));
           s.updating = null;
           startUpdate(s, s.prev.image, true);
           s.autoRolled = true;
@@ -298,7 +299,7 @@
       if (!u.cur.length) {
         s.updating = null;
         s.updState = u.rollback ? 'rollback_completed' : 'completed';
-        sys('service ' + s.name + ': ' + (u.rollback ? 'rollback' : 'update') + ' selesai');
+        sys('service ' + s.name + ': ' + (u.rollback ? 'rollback' : 'update') + tr(' selesai', ' completed'));
         if (u.rollback && (W.pausedOnce || s.autoRolled)) M.hit('rollback');
         if (!u.rollback && s.name === 'web' && normRef(s.image) === 'nginx:1.27') M.hit('update');
       }
@@ -324,7 +325,7 @@
   // ---------- terminal ----------
   var term = new K.Term($('sw-out'), $('sw-in'), { onCmd: onCmd });
   var toast = K.makeToast($('sw-toast'));
-  var M = new K.Missions($('sw-m-list'), $('sw-m-count'), MISSIONS, toast, '🐝 Semua misi Swarm beres. Keren!');
+  var M = new K.Missions($('sw-m-list'), $('sw-m-count'), MISSIONS, toast, tr('🐝 Semua misi Swarm beres. Keren!', '🐝 All Swarm missions done. Awesome!'));
   function err(t) { term.line('<span class="sx-err">' + esc(t) + '</span>'); }
   function dim(t) { term.line('<span class="sx-dim">' + esc(t) + '</span>'); }
   function hint(t) { term.line('<span class="sx-warn">' + esc(t) + '</span>'); }
@@ -338,7 +339,7 @@
     var w = words(line);
     if (w[0] === 'sudo') w.shift();
     try { exec(w, W.at); } catch (e) {
-      err('simulasi error: ' + (e && e.message || e));
+      err(tr('simulasi error: ', 'simulation error: ') + (e && e.message || e));
       if (window.console) console.error(e);
     }
     tick();
@@ -352,12 +353,12 @@
       if (w.length > 2) { exec(w.slice(2), to); return; }
       W.at = to;
       $('sw-ps').textContent = ps();
-      dim('# sekarang kamu di ' + to + '. Ketik exit buat balik ke ' + (to === 'manager1' ? 'laptop' : 'manager1') + '.');
+      dim(tr('# sekarang kamu di ', '# you\'re now on ') + to + tr('. Ketik exit buat balik ke ', '. Type exit to go back to ') + (to === 'manager1' ? 'laptop' : 'manager1') + '.');
       renderQuick();
       return;
     }
     if (c === 'exit' || c === 'logout') {
-      if (W.at === 'manager1') { dim('# ini sudah di manager1, tetap di sini ya'); return; }
+      if (W.at === 'manager1') { dim(tr('# ini sudah di manager1, tetap di sini ya', '# you\'re already on manager1, staying here')); return; }
       out('logout');
       out('Connection to ' + W.at + ' closed.');
       W.at = 'manager1';
@@ -371,13 +372,13 @@
     if (c === 'hostname') { out(host); return; }
     if (c === 'cat' && w[1] === 'stack.yml') { term.lines(W.file.replace(/\n$/, '').split('\n').map(esc)); return; }
     if (c === 'ls') { out(host === 'manager1' ? 'stack.yml' : ''); return; }
-    if (c === 'kubectl') { dim('# ini Swarm, bukan Kubernetes. Coba docker service ls'); return; }
+    if (c === 'kubectl') { dim(tr('# ini Swarm, bukan Kubernetes. Coba docker service ls', '# this is Swarm, not Kubernetes. Try docker service ls')); return; }
     if (c !== 'docker') { err(c + ': command not found'); return; }
     docker(w.slice(1), host);
   }
   function help() {
     term.lines([
-      '<b>Perintah yang bisa dicoba</b>',
+      tr('<b>Perintah yang bisa dicoba</b>', '<b>Commands you can try</b>'),
       '  docker swarm init  ·  docker swarm join-token worker  ·  docker swarm leave',
       '  docker node ls  ·  docker node ps NODE  ·  docker node update --availability drain|active NODE',
       '  docker node promote|demote NODE',
@@ -387,7 +388,7 @@
       '  docker service rollback web  ·  docker service logs web  ·  docker service rm web',
       '  docker stack deploy -c stack.yml shop  ·  docker stack ls|ps|services|rm shop',
       '  curl NODE:PORT  ·  ssh worker1  ·  exit  ·  clear',
-      '<span class="sx-dim">Image yang ada: nginx:1.25, nginx:1.27, traefik/whoami, redis:7, alpine, httpd:2.4, prom/node-exporter.</span>'
+      tr('<span class="sx-dim">Image yang ada: nginx:1.25, nginx:1.27, traefik/whoami, redis:7, alpine, httpd:2.4, prom/node-exporter.</span>', '<span class="sx-dim">Available images: nginx:1.25, nginx:1.27, traefik/whoami, redis:7, alpine, httpd:2.4, prom/node-exporter.</span>')
     ]);
   }
   function needMgr(host) {
@@ -415,8 +416,8 @@
         return;
       }
       case 'version': out('Docker version 27.3.1, build ce12230'); return;
-      case 'run': dim('# di Swarm, pakai docker service create supaya container-nya diatur manager. docker run cuma jalan di satu mesin.'); return;
-      case 'compose': dim('# Compose buat satu mesin. Di Swarm, file yang sama dipakai lewat docker stack deploy -c stack.yml NAMA'); return;
+      case 'run': dim(tr('# di Swarm, pakai docker service create supaya container-nya diatur manager. docker run cuma jalan di satu mesin.', '# in Swarm, use docker service create so the manager schedules the containers. docker run only runs on one machine.')); return;
+      case 'compose': dim(tr('# Compose buat satu mesin. Di Swarm, file yang sama dipakai lewat docker stack deploy -c stack.yml NAMA', '# Compose is for one machine. In Swarm, the same file is used with docker stack deploy -c stack.yml NAME')); return;
       case 'network':
         if (args[0] === 'ls') {
           var rows = [['NETWORK ID', 'NAME', 'DRIVER', 'SCOPE'], [digest('nb').slice(0, 12), 'bridge', 'bridge', 'local']];
@@ -425,7 +426,7 @@
           term.table(rows);
           return;
         }
-        dim('# yang didukung cuma docker network ls');
+        dim(tr('# yang didukung cuma docker network ls', '# only docker network ls is supported'));
         return;
     }
     err('docker: unknown command: docker ' + (sub || ''));
@@ -435,8 +436,8 @@
     var op = a[0], n = W.nodes[host];
     if (op === 'init') {
       if (n.joined) { err('Error response from daemon: This node is already part of a swarm. Use "docker swarm leave" to leave this swarm and join another one.'); return; }
-      if (W.swarm) { err('Error response from daemon: This node is not part of the swarm. Use "docker swarm join" to join the existing swarm.'); dim('# swarm sudah di-init di manager1, node ini tinggal join'); return; }
-      if (host !== 'manager1') { dim('# di simulasi ini, init swarm dari manager1 ya (ketik exit dulu)'); return; }
+      if (W.swarm) { err('Error response from daemon: This node is not part of the swarm. Use "docker swarm join" to join the existing swarm.'); dim(tr('# swarm sudah di-init di manager1, node ini tinggal join', '# the swarm is already initialized on manager1, this node just needs to join')); return; }
+      if (host !== 'manager1') { dim(tr('# di simulasi ini, init swarm dari manager1 ya (ketik exit dulu)', '# in this simulation, init the swarm from manager1 (type exit first)')); return; }
       W.swarm = true;
       n.joined = true; n.role = 'manager'; n.leader = true;
       if (host !== 'manager1') { /* fine, but keep manager1 as the leader name in docs */ }
@@ -451,7 +452,7 @@
         '',
         'To add a manager to this swarm, run \'docker swarm join-token manager\' and follow the instructions.'
       ]);
-      dim('# perintah join itu dijalankan di worker. Pakai tombol "gabung" di kartu worker, atau ssh worker1 lalu tempel perintahnya.');
+      dim(tr('# perintah join itu dijalankan di worker. Pakai tombol "gabung" di kartu worker, atau ssh worker1 lalu tempel perintahnya.', '# the join command runs on the worker. Use the "join" button on a worker card, or ssh worker1 and paste the command.'));
       K.flash(app, 'mgr');
       renderQuick();
       return;
@@ -460,7 +461,7 @@
       if (n.joined) { err('Error response from daemon: This node is already part of a swarm. Use "docker swarm leave" to leave this swarm and join another one.'); return; }
       var ti = a.indexOf('--token'), tok = ti >= 0 ? a[ti + 1] : null, addr = a.filter(function (x, i) { return i > 0 && x[0] !== '-' && x !== tok; })[0];
       if (!tok || !addr) { err('"docker swarm join" requires exactly 1 argument.'); dim('Usage:  docker swarm join [OPTIONS] HOST:PORT'); return; }
-      if (!W.swarm) { err('Error response from daemon: rpc error: code = Unavailable desc = connection error: dial tcp ' + addr + ': connect: connection refused'); dim('# belum ada swarm. Jalankan docker swarm init di manager1 dulu.'); return; }
+      if (!W.swarm) { err('Error response from daemon: rpc error: code = Unavailable desc = connection error: dial tcp ' + addr + ': connect: connection refused'); dim(tr('# belum ada swarm. Jalankan docker swarm init di manager1 dulu.', '# there is no swarm yet. Run docker swarm init on manager1 first.')); return; }
       var mh = addr.split(':')[0];
       if (mh !== IPS.manager1 && mh !== 'manager1') { err('Error response from daemon: Timeout was reached before node joined. The attempt to join the swarm will continue in the background.'); return; }
       if (tok !== W.tok.w && tok !== W.tok.m) { err('Error response from daemon: rpc error: code = InvalidArgument desc = A valid join token is necessary to join this cluster'); return; }
@@ -490,17 +491,17 @@
         nodes().forEach(function (x) { x.joined = false; x.role = x.name === 'manager1' ? 'manager' : 'worker'; });
         W.svcs = [];
         out('Node left the swarm.');
-        dim('# manager terakhir keluar, jadi seluruh state swarm (service, token) ikut hilang');
+        dim(tr('# manager terakhir keluar, jadi seluruh state swarm (service, token) ikut hilang', '# the last manager left, so the whole swarm state (services, tokens) is gone too'));
         renderQuick();
         return;
       }
       n.joined = false;
       out('Node left the swarm.');
-      dim('# di manager, node ini masih kelihatan sebagai Down sampai dihapus pakai docker node rm ' + host);
+      dim(tr('# di manager, node ini masih kelihatan sebagai Down sampai dihapus pakai docker node rm ', '# on the manager, this node still shows as Down until it is removed with docker node rm ') + host);
       n.left = true;
       return;
     }
-    if (op === 'ca' || op === 'unlock' || op === 'update') { dim('# perintah ini belum didukung di simulasi'); return; }
+    if (op === 'ca' || op === 'unlock' || op === 'update') { dim(tr('# perintah ini belum didukung di simulasi', '# this command isn\'t supported in the simulation')); return; }
     err('docker: unknown command: docker swarm ' + (op || ''));
   }
 
@@ -539,12 +540,12 @@
         if (['active', 'drain', 'pause'].indexOf(avail) < 0) { err('invalid argument "' + avail + '" for "--availability" flag: invalid value, must be one of active, pause, drain'); return; }
         nd.avail = avail;
         if (avail === 'drain') {
-          sys(nd.name + ' di-drain: task di sini dihentikan dan dijadwalkan ulang ke node lain');
+          sys(nd.name + tr(' di-drain: task di sini dihentikan dan dijadwalkan ulang ke node lain', ' drained: its tasks are stopped and rescheduled to other nodes'));
           if (nd.role === 'worker') W.drained = true;
         }
-        if (avail === 'active') sys(nd.name + ' aktif lagi. Task lama ga otomatis balik ke sini; cuma task baru yang bisa dijadwalkan ke sini.');
+        if (avail === 'active') sys(nd.name + tr(' aktif lagi. Task lama ga otomatis balik ke sini; cuma task baru yang bisa dijadwalkan ke sini.', ' is active again. Old tasks don\'t move back on their own; only new tasks can be scheduled here.'));
       }
-      if (add) dim('# label ' + add + ' dicatat (constraint label belum dipakai di simulasi)');
+      if (add) dim('# label ' + add + tr(' dicatat (constraint label belum dipakai di simulasi)', ' recorded (label constraints are not used in the simulation)'));
       out(nd.name);
       K.flash(app, 'node');
       return;
@@ -556,7 +557,7 @@
       p.role = op === 'promote' ? 'manager' : 'worker';
       out('Node ' + p.name + ' ' + (op === 'promote' ? 'promoted to a manager' : 'demoted') + ' in the swarm.');
       var mg = members().filter(function (x) { return x.role === 'manager'; }).length;
-      if (op === 'promote' && mg === 2) hint('# 2 manager malah lebih rapuh dari 1: Raft butuh mayoritas (2 dari 2). Pakai 3 manager supaya tahan 1 mati.');
+      if (op === 'promote' && mg === 2) hint(tr('# 2 manager malah lebih rapuh dari 1: Raft butuh mayoritas (2 dari 2). Pakai 3 manager supaya tahan 1 mati.', '# 2 managers are actually more fragile than 1: Raft needs a majority (2 of 2). Use 3 managers to survive 1 going down.'));
       return;
     }
     if (op === 'rm') {
@@ -650,13 +651,13 @@
       if (isNaN(reps) || reps < 0) { err('invalid argument "' + o.replicas + '" for "--replicas" flag'); return; }
       if (o.mode === 'global' && o.replicas !== undefined) { err('Error response from daemon: rpc error: code = InvalidArgument desc = replicas can only be used with replicated mode'); return; }
       var bad = o.cons.filter(function (c) { return !validCons(c); })[0];
-      if (bad) { err('Error response from daemon: rpc error: code = InvalidArgument desc = invalid constraint: ' + bad); dim('# contoh: --constraint node.role==worker atau node.hostname==worker1'); return; }
+      if (bad) { err('Error response from daemon: rpc error: code = InvalidArgument desc = invalid constraint: ' + bad); dim(tr('# contoh: --constraint node.role==worker atau node.hostname==worker1', '# e.g. --constraint node.role==worker or node.hostname==worker1')); return; }
       var pr = portsFrom(o.p, null);
       if (pr.err) { err(pr.err); return; }
       var upd = { par: o.par ? Math.max(0, parseInt(o.par, 10)) || 1 : 1, delay: o.delay ? Math.min(parseDelay(o.delay) || 0, 8000) * 0.25 : 0, delayLabel: o.delay || '0s', failure: o.fail || 'pause' };
       var s = createService({ name: name, image: image, mode: o.mode, replicas: reps, ports: pr.ports, env: o.env, cons: o.cons, upd: upd });
       out(s.id);
-      if (!IMG[normRef(image)]) hint('# image ' + normRef(image) + ' ga ada di registry simulasi. Task-nya bakal Rejected terus.');
+      if (!IMG[normRef(image)]) hint('# image ' + normRef(image) + tr(' ga ada di registry simulasi. Task-nya bakal Rejected terus.', ' isn\'t in the simulated registry. Its tasks will keep getting Rejected.'));
       K.pulse(app, 'sched');
       if (name === 'web' && reps >= 3 && pr.ports.some(function (p) { return p.p === 8080; })) M.hit('svc');
       if (!o.detach) convergeNote(s);
@@ -684,7 +685,7 @@
         K.pulse(app, 'sched');
         if (sv.name === 'web' && +m[2] >= 6) M.hit('scale');
       });
-      dim('overall progress: lihat kartu node di samping, atau docker service ps ' + (o.args[0] || '').split('=')[0]);
+      dim(tr('overall progress: lihat kartu node di samping, atau docker service ps ', 'overall progress: see the node cards, or docker service ps ') + (o.args[0] || '').split('=')[0]);
       return;
     }
     if (!s) { err('Error: No such service: ' + (o.args[o.args.length - 1] || '')); return; }
@@ -723,16 +724,16 @@
       }
       out(s.name);
       if (s.updating && s.updating.paused && !o.image && !o.force) {
-        dim('# update sebelumnya masih paused. Pakai --image lain, --force, atau docker service rollback ' + s.name);
+        dim(tr('# update sebelumnya masih paused. Pakai --image lain, --force, atau docker service rollback ', '# the previous update is still paused. Use another --image, --force, or docker service rollback ') + s.name);
       }
       if (o.image || o.env.length || o.force) {
         var img = o.image || s.image;
         if (o.env.length) s.env = s.env.concat(o.env);
         s.updating = null;
         startUpdate(s, img, false);
-        if (!IMG[normRef(img)]) hint('# image ' + normRef(img) + ' ga ada di registry. Lihat apa yang terjadi di docker service ps ' + s.name);
-        dim('overall progress: rolling update ' + s.upd.par + ' task sekali jalan, jeda ' + s.upd.delayLabel + ' (dipercepat), kalau gagal: ' + s.upd.failure);
-      } else if (!changed && !o.p.length && !o.rmP.length && !o.par && !o.delay && !o.fail) dim('# ga ada yang berubah');
+        if (!IMG[normRef(img)]) hint('# image ' + normRef(img) + tr(' ga ada di registry. Lihat apa yang terjadi di docker service ps ', ' isn\'t in the registry. See what happens in docker service ps ') + s.name);
+        dim('overall progress: rolling update ' + s.upd.par + tr(' task sekali jalan, jeda ', ' tasks at a time, delay ') + s.upd.delayLabel + tr(' (dipercepat), kalau gagal: ', ' (sped up), on failure: ') + s.upd.failure);
+      } else if (!changed && !o.p.length && !o.rmP.length && !o.par && !o.delay && !o.fail) dim(tr('# ga ada yang berubah', '# nothing changed'));
       K.pulse(app, 'sched');
       return;
     }
@@ -748,7 +749,7 @@
     }
     if (op === 'logs') {
       var r = runningTasks(s).slice(0, 4);
-      if (!r.length) { dim('# belum ada task yang jalan'); return; }
+      if (!r.length) { dim(tr('# belum ada task yang jalan', '# no tasks running yet')); return; }
       r.forEach(function (t) {
         var pre = '<span class="dk-svc">' + esc(s.name + '.' + (t.slot || t.node) + '.' + t.id.slice(0, 12) + '@' + t.node) + '</span>    | ';
         var meta = IMG[normRef(t.image)] || {};
@@ -771,14 +772,14 @@
   }
   function convergeNote(s) {
     dim('overall progress: 0 out of ' + want(s) + ' tasks');
-    dim('verify: Waiting… (lihat task-nya muncul di kartu node, atau docker service ps ' + s.name + ')');
+    dim(tr('verify: Waiting… (lihat task-nya muncul di kartu node, atau docker service ps ', 'verify: Waiting… (watch the tasks appear on the node cards, or docker service ps ') + s.name + ')');
   }
   function taskState(t) {
     var map = { new: 'New', pending: 'Pending', assigned: 'Assigned', preparing: 'Preparing', starting: 'Starting', running: 'Running', shutdown: 'Shutdown', rejected: 'Rejected', failed: 'Failed', orphaned: 'Running' };
     return map[t.state] + ' ' + ago(t.since);
   }
   function taskTable(list, mark) {
-    if (!list.length) { dim('# belum ada task'); return; }
+    if (!list.length) { dim(tr('# belum ada task', '# no tasks yet')); return; }
     var rows = [['ID', 'NAME', 'IMAGE', 'NODE', 'DESIRED STATE', 'CURRENT STATE', 'ERROR']];
     var groups = {};
     list.forEach(function (t) { var k = t.svc.name + '|' + slotKey(t); (groups[k] = groups[k] || []).push(t); });
@@ -805,7 +806,7 @@
       });
     });
     term.table(rows);
-    if (rows.length === 1 && W.swarm) dim('# ga ada task di ' + host + '. Task bisa jalan di node mana pun, lihat docker service ps NAMA di manager.');
+    if (rows.length === 1 && W.swarm) dim(tr('# ga ada task di ', '# no tasks on ') + host + tr('. Task bisa jalan di node mana pun, lihat docker service ps NAMA di manager.', '. Tasks can run on any node, see docker service ps NAME on the manager.'));
   }
 
   // --- stack ---
@@ -860,7 +861,7 @@
     for (var i = 0; i < names.length; i++) {
       var n = names[i], s = doc.services[n] || {}, ln = K.yamlLine(doc.services, n);
       if (typeof s !== 'object') { err('services.' + n + ' must be a mapping'); markErr(ln); return; }
-      if (s.build && !s.image) { err('service ' + n + ': build ga didukung di swarm, pakai image yang sudah di-push ke registry'); markErr(K.yamlLine(s, 'build')); return; }
+      if (s.build && !s.image) { err('service ' + n + tr(': build ga didukung di swarm, pakai image yang sudah di-push ke registry', ': build isn\'t supported in swarm, use an image that\'s already pushed to a registry')); markErr(K.yamlLine(s, 'build')); return; }
       if (!s.image) { err('Service ' + n + ' has neither an image nor a build context specified. At least one must be provided.'); markErr(ln); return; }
       var d = s.deploy || {};
       var known = ['replicas', 'mode', 'update_config', 'placement', 'resources', 'restart_policy', 'labels', 'rollback_config'];
@@ -873,7 +874,7 @@
       var cons = (d.placement && d.placement.constraints) || [];
       if (!Array.isArray(cons)) { err('services.' + n + '.deploy.placement.constraints must be a list'); markErr(K.yamlLine(d.placement, 'constraints')); return; }
       var bc = cons.filter(function (c) { return !validCons(String(c)); })[0];
-      if (bc) { err('invalid constraint: ' + bc + '. Contoh: node.role == worker'); markErr(K.yamlLine(d.placement, 'constraints')); return; }
+      if (bc) { err('invalid constraint: ' + bc + tr('. Contoh: node.role == worker', '. Example: node.role == worker')); markErr(K.yamlLine(d.placement, 'constraints')); return; }
       var env = [];
       if (Array.isArray(s.environment)) env = s.environment.map(String);
       else if (s.environment) Object.keys(s.environment).forEach(function (k) { env.push(k + '=' + s.environment[k]); });
@@ -904,7 +905,7 @@
     }
     K.pulse(app, 'sched');
     if (W.drained) M.hit('drain');
-    else hint('# stack ter-deploy. Misi terakhir juga minta satu worker di-drain dulu.');
+    else hint(tr('# stack ter-deploy. Misi terakhir juga minta satu worker di-drain dulu.', '# stack deployed. The last mission also wants a worker drained first.'));
   }
 
   // ---------- routing mesh ----------
@@ -918,10 +919,10 @@
     if (!nd) { err('curl: (6) Could not resolve host: ' + m[1]); return; }
     if (!nd.power) { err('curl: (28) Failed to connect to ' + m[1] + ' port ' + port + ' after 3002 ms: Timeout was reached'); return; }
     var s = W.svcs.filter(function (x) { return x.ports.some(function (p) { return p.p === port; }); })[0];
-    if (!s || !nd.joined) { err('curl: (7) Failed to connect to ' + m[1] + ' port ' + port + ' after 0 ms: Couldn\'t connect to server'); if (s && !nd.joined) dim('# ' + nd.name + ' belum gabung swarm, jadi routing mesh ga ada di sana'); return; }
+    if (!s || !nd.joined) { err('curl: (7) Failed to connect to ' + m[1] + ' port ' + port + ' after 0 ms: Couldn\'t connect to server'); if (s && !nd.joined) dim('# ' + nd.name + tr(' belum gabung swarm, jadi routing mesh ga ada di sana', ' hasn\'t joined the swarm, so there\'s no routing mesh there')); return; }
     var tp = s.ports.filter(function (p) { return p.p === port; })[0].t;
     var pool = runningTasks(s);
-    if (!pool.length) { err('curl: (7) Failed to connect to ' + m[1] + ' port ' + port + ' after 0 ms: Couldn\'t connect to server'); dim('# belum ada task ' + s.name + ' yang Running'); return; }
+    if (!pool.length) { err('curl: (7) Failed to connect to ' + m[1] + ' port ' + port + ' after 0 ms: Couldn\'t connect to server'); dim(tr('# belum ada task ', '# no task of ') + s.name + tr(' yang Running', ' is Running yet')); return; }
     W.rr[s.id] = ((W.rr[s.id] || 0) + 1) % pool.length;
     var t = pool[W.rr[s.id]];
     var meta = IMG[normRef(t.image)] || {};
@@ -931,7 +932,7 @@
     hitTask(t);
     if (meta.port !== tp || !meta.http) {
       err(meta.port === 6379 ? 'curl: (52) Empty reply from server' : 'curl: (56) Recv failure: Connection reset by peer');
-      if (meta.port !== tp) hint('# app di image ' + normRef(t.image) + ' listen di port ' + (meta.port || '?') + ', bukan ' + tp + '. Cek -p PUBLISHED:TARGET');
+      if (meta.port !== tp) hint(tr('# app di image ', '# the app in image ') + normRef(t.image) + tr(' listen di port ', ' listens on port ') + (meta.port || '?') + tr(', bukan ', ', not ') + tp + tr('. Cek -p PUBLISHED:TARGET', '. Check -p PUBLISHED:TARGET'));
       return;
     }
     if (meta.http === 'nginx') term.lines(['&lt;title&gt;Welcome to nginx!&lt;/title&gt;', '&lt;h1&gt;Welcome to nginx!&lt;/h1&gt; <span class="sx-dim">(nginx/' + meta.ver + ')</span>']);
@@ -939,13 +940,13 @@
     else if (meta.http === 'httpd') term.line('&lt;html&gt;&lt;body&gt;&lt;h1&gt;It works!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;');
     else term.line('<span class="sx-dim"># HELP</span> node_cpu_seconds_total Seconds the CPUs spent in each mode.');
     var here = t.node === nd.name;
-    dim('# dijawab ' + s.name + '.' + (t.slot || t.node) + ' di ' + t.node + (here ? '' : ', diteruskan routing mesh dari ' + nd.name));
+    dim(tr('# dijawab ', '# answered by ') + s.name + '.' + (t.slot || t.node) + tr(' di ', ' on ') + t.node + (here ? '' : tr(', diteruskan routing mesh dari ', ', forwarded by the routing mesh from ') + nd.name));
     if (!here && s.name === 'web' && !runningTasks(s).some(function (x) { return x.node === nd.name; })) M.hit('mesh');
   }
 
   // ---------- editor ----------
   var ed = new K.Editor($('sw-ed'), {
-    value: STACK0, label: 'Isi stack.yml', highlight: K.hlYAML,
+    value: STACK0, label: tr('Isi stack.yml', 'stack.yml contents'), highlight: K.hlYAML,
     onChange: function (v) { W.file = v; W.errs = []; }
   });
   function markErr(line) { W.errs = line ? [line] : []; ed.mark(W.errs); }
@@ -966,7 +967,7 @@
       var el = document.createElement('div');
       el.className = 'sw-node';
       el.innerHTML = '<div class="sw-nh"><i class="an-dot" aria-hidden="true"></i><b>' + n + '</b><span class="sw-role"></span>' +
-        (n === 'manager1' ? '' : '<label class="gx-sw sw-pw" title="nyalakan / matikan mesin"><input type="checkbox" data-act="power" data-n="' + n + '" checked><span aria-hidden="true"></span><i class="sr">daya ' + n + '</i></label>') +
+        (n === 'manager1' ? '' : tr('<label class="gx-sw sw-pw" title="nyalakan / matikan mesin"><input type="checkbox" data-act="power" data-n="', '<label class="gx-sw sw-pw" title="turn the machine on / off"><input type="checkbox" data-act="power" data-n="') + n + tr('" checked><span aria-hidden="true"></span><i class="sr">daya ', '" checked><span aria-hidden="true"></span><i class="sr">power ') + n + '</i></label>') +
         '</div><div class="sw-meta"></div><div class="sw-tasks"></div><div class="sw-act"></div>';
       box.appendChild(el);
       cards[n] = { el: el, role: el.querySelector('.sw-role'), meta: el.querySelector('.sw-meta'), tasks: el.querySelector('.sw-tasks'), act: el.querySelector('.sw-act'), pw: el.querySelector('input') };
@@ -979,9 +980,9 @@
       var n = W.nodes[name], c = cards[name];
       var st = !n.power ? 'off' : !n.joined ? 'out' : n.status === 'down' ? 'down' : n.avail !== 'active' ? 'drain' : 'ok';
       c.el.className = 'sw-node is-' + st + (name === W.at ? ' is-here' : '');
-      setText(c.role, n.joined ? (n.role === 'manager' ? (n.leader ? 'Leader' : 'manager') : 'worker') : 'belum gabung');
+      setText(c.role, n.joined ? (n.role === 'manager' ? (n.leader ? 'Leader' : 'manager') : 'worker') : tr('belum gabung', 'not joined'));
       c.role.className = 'sw-role' + (n.joined && n.role === 'manager' ? ' is-mgr' : '');
-      var meta = IPS[name] + ' · ' + (!n.power ? 'mati' : !n.joined ? 'docker biasa' : n.status === 'down' ? 'Down' : n.power && now - n.offAt < 0 ? '' : 'Ready') + (n.joined && n.avail !== 'active' ? ' · ' + n.avail : '') + (name === W.at ? ' · kamu di sini' : '');
+      var meta = IPS[name] + ' · ' + (!n.power ? tr('mati', 'off') : !n.joined ? tr('docker biasa', 'plain docker') : n.status === 'down' ? 'Down' : n.power && now - n.offAt < 0 ? '' : 'Ready') + (n.joined && n.avail !== 'active' ? ' · ' + n.avail : '') + (name === W.at ? tr(' · kamu di sini', ' · you are here') : '');
       setText(c.meta, meta);
       if (c.pw && c.pw.checked !== n.power) c.pw.checked = n.power;
       // task chips, keyed so they animate in and out
@@ -1006,12 +1007,12 @@
         if (c.tasks.children[i] !== el) c.tasks.insertBefore(el, c.tasks.children[i] || null);
       });
       Array.prototype.slice.call(c.tasks.children).forEach(function (ch) { if (!ch.classList.contains('sw-none') && mine.every(function (t) { return chips[t.id] !== ch; })) c.tasks.removeChild(ch); });
-      if (!mine.length) { if (!c.tasks.querySelector('.sw-none')) { var e = document.createElement('span'); e.className = 'sw-none'; e.textContent = n.joined ? 'belum ada task' : ''; c.tasks.appendChild(e); } }
+      if (!mine.length) { if (!c.tasks.querySelector('.sw-none')) { var e = document.createElement('span'); e.className = 'sw-none'; e.textContent = n.joined ? tr('belum ada task', 'no tasks yet') : ''; c.tasks.appendChild(e); } }
       else { var nn = c.tasks.querySelector('.sw-none'); if (nn) c.tasks.removeChild(nn); }
       all = all.concat(mine);
       var act = '';
-      if (!n.joined && W.swarm && name !== 'manager1' && n.power) act = '<button type="button" data-act="join" data-n="' + name + '">gabung ke swarm</button>';
-      else if (n.joined && n.role === 'worker' && n.power) act = n.avail === 'active' ? '<button type="button" data-act="cmd" data-cmd="docker node update --availability drain ' + name + '">drain</button>' : '<button type="button" data-act="cmd" data-cmd="docker node update --availability active ' + name + '">aktifkan</button>';
+      if (!n.joined && W.swarm && name !== 'manager1' && n.power) act = '<button type="button" data-act="join" data-n="' + name + tr('">gabung ke swarm</button>', '">join the swarm</button>');
+      else if (n.joined && n.role === 'worker' && n.power) act = n.avail === 'active' ? '<button type="button" data-act="cmd" data-cmd="docker node update --availability drain ' + name + '">drain</button>' : '<button type="button" data-act="cmd" data-cmd="docker node update --availability active ' + name + tr('">aktifkan</button>', '">activate</button>');
       if (n.joined && n.power) act += '<button type="button" data-act="cmd" data-cmd="curl ' + name + ':' + (W.svcs[0] && W.svcs[0].ports[0] ? W.svcs[0].ports[0].p : 8080) + '">curl</button>';
       setHTML(c.act, act);
     });
@@ -1021,7 +1022,7 @@
     var box = $('sw-svcs');
     setHTML(box, W.svcs.map(function (s) {
       var r = runningTasks(s).length, wnt = want(s);
-      var stt = s.updating ? (s.updating.paused ? 'paused' : s.updating.rollback ? 'rollback…' : 'updating…') : s.updState === 'rollback_completed' ? 'rollback selesai' : s.updState === 'completed' ? 'update selesai' : '';
+      var stt = s.updating ? (s.updating.paused ? 'paused' : s.updating.rollback ? 'rollback…' : 'updating…') : s.updState === 'rollback_completed' ? tr('rollback selesai', 'rollback completed') : s.updState === 'completed' ? tr('update selesai', 'update completed') : '';
       var pct = wnt ? Math.round(r / wnt * 100) : 100;
       var cls = s.updating && s.updating.paused ? 'bad' : r < wnt ? 'warn' : 'ok';
       var newV = s.tasks.filter(function (t) { return t.ver === s.ver && t.state === 'running' && t.desired === 'running'; }).length;
@@ -1037,22 +1038,22 @@
 
     // flow
     var fm = $('sw-f-mgr'), mgrs = members().filter(function (n) { return n.role === 'manager'; }).length;
-    setText(fm, W.swarm ? 'Leader' + (mgrs > 1 ? ' + ' + (mgrs - 1) : '') : 'belum init');
+    setText(fm, W.swarm ? 'Leader' + (mgrs > 1 ? ' + ' + (mgrs - 1) : '') : tr('belum init', 'not initialized'));
     fm.dataset.s = W.swarm ? 'ok' : '';
     var fs = $('sw-f-svc');
-    setText(fs, W.svcs.length ? W.svcs.length + ' service' : 'belum ada');
+    setText(fs, W.svcs.length ? W.svcs.length + ' service' : tr('belum ada', 'none yet'));
     var upd = W.svcs.some(function (s) { return s.updating && !s.updating.paused; }), paused = W.svcs.some(function (s) { return s.updating && s.updating.paused; });
     fs.dataset.s = paused ? 'bad' : upd ? 'info' : W.svcs.length ? 'ok' : '';
     var ft = $('sw-f-node');
     var mem = members(), ready = mem.filter(function (n) { return n.status === 'ready' && n.power; }).length;
-    setText(ft, mem.length ? ready + '/' + mem.length + ' Ready' : '1 mesin');
+    setText(ft, mem.length ? ready + '/' + mem.length + ' Ready' : tr('1 mesin', '1 machine'));
     ft.dataset.s = mem.length && ready < mem.length ? 'warn' : mem.length ? 'ok' : '';
     var ports = [];
     W.svcs.forEach(function (s) { s.ports.forEach(function (p) { ports.push(':' + p.p); }); });
     var fp = $('sw-f-mesh');
-    setText(fp, ports.length ? ports.slice(0, 3).join(' ') : 'belum ada');
+    setText(fp, ports.length ? ports.slice(0, 3).join(' ') : tr('belum ada', 'none yet'));
     fp.dataset.s = ports.length ? 'ok' : '';
-    setText($('sw-cl-chip'), mem.length ? mem.length + ' node di swarm' : '4 mesin');
+    setText($('sw-cl-chip'), mem.length ? mem.length + tr(' node di swarm', ' nodes in swarm') : tr('4 mesin', '4 machines'));
 
     // heal mission: a task was lost with its node and the service is whole again
     W.svcs.forEach(function (s) {
@@ -1084,7 +1085,7 @@
     var act = b.dataset.act;
     if (act === 'cmd') term.submit(b.dataset.cmd);
     else if (act === 'join') term.submit('ssh ' + b.dataset.n + ' docker swarm join --token ' + W.tok.w + ' ' + IPS.manager1 + ':2377');
-    else if (act === 'file-reset') { W.file = STACK0; ed.set(STACK0); markErr(0); toast('stack.yml balik ke versi awal'); }
+    else if (act === 'file-reset') { W.file = STACK0; ed.set(STACK0); markErr(0); toast(tr('stack.yml balik ke versi awal', 'stack.yml reset to the original')); }
     else if (act === 'reset') reset();
   });
   app.addEventListener('change', function (e) {
@@ -1094,10 +1095,10 @@
       n.power = t.checked;
       if (!n.power) {
         n.offAt = Date.now();
-        term.line('<span class="sx-dim"># ' + n.name + ' dimatikan. Manager baru sadar setelah heartbeat-nya hilang beberapa detik.</span>');
-        if (W.at === n.name) { W.at = 'manager1'; $('sw-ps').textContent = ps(); dim('# koneksi ssh ke ' + n.name + ' putus, balik ke manager1'); renderQuick(); }
+        term.line('<span class="sx-dim"># ' + n.name + tr(' dimatikan. Manager baru sadar setelah heartbeat-nya hilang beberapa detik.</span>', ' turned off. The manager only notices after its heartbeats are missing for a few seconds.</span>'));
+        if (W.at === n.name) { W.at = 'manager1'; $('sw-ps').textContent = ps(); dim(tr('# koneksi ssh ke ', '# ssh connection to ') + n.name + tr(' putus, balik ke manager1', ' dropped, back on manager1')); renderQuick(); }
       } else {
-        term.line('<span class="sx-dim"># ' + n.name + ' dinyalakan lagi.' + (n.joined ? ' Task yang sudah dipindah ga balik sendiri; Swarm ga rebalance otomatis.' : '') + '</span>');
+        term.line('<span class="sx-dim"># ' + n.name + tr(' dinyalakan lagi.', ' turned back on.') + (n.joined ? tr(' Task yang sudah dipindah ga balik sendiri; Swarm ga rebalance otomatis.', ' Tasks that moved don\'t come back on their own; Swarm doesn\'t rebalance automatically.') : '') + '</span>');
       }
       tick();
     }
@@ -1115,8 +1116,8 @@
     $('sw-ps').textContent = ps();
     renderQuick();
     term.lines([
-      '<span class="sx-dim"># Ada 4 mesin dengan Docker: manager1 (tempat terminal ini), worker1, worker2, worker3. Belum ada yang jadi swarm.</span>',
-      '<span class="sx-dim"># Mulai dengan </span><b>docker swarm init</b><span class="sx-dim">. Ketik </span><b>help</b><span class="sx-dim"> buat daftar perintah.</span>'
+      tr('<span class="sx-dim"># Ada 4 mesin dengan Docker: manager1 (tempat terminal ini), worker1, worker2, worker3. Belum ada yang jadi swarm.</span>', '<span class="sx-dim"># There are 4 machines with Docker: manager1 (where this terminal is), worker1, worker2, worker3. None of them is a swarm yet.</span>'),
+      tr('<span class="sx-dim"># Mulai dengan </span><b>docker swarm init</b><span class="sx-dim">. Ketik </span><b>help</b><span class="sx-dim"> buat daftar perintah.</span>', tr('<span class="sx-dim"># Start with </span><b>docker swarm init</b><span class="sx-dim">. Ketik </span><b>help</b><span class="sx-dim"> buat daftar perintah.</span>', '<span class="sx-dim"># Start with </span><b>docker swarm init</b><span class="sx-dim">. Ketik </span><b>help</b><span class="sx-dim"> for the command list.</span>'))
     ]);
     render();
   }

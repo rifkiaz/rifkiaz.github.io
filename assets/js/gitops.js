@@ -5,6 +5,8 @@
   'use strict';
 
   var app = document.getElementById('gx');
+  var EN = (document.documentElement.lang || '').slice(0, 2) === 'en';
+  function tr(id, en) { return EN ? en : id; }
   if (!app) return;
 
   function $(id) { return document.getElementById(id); }
@@ -24,11 +26,11 @@
   var MAX_REP = 6;
 
   var MISSIONS = [
-    { id: 'commit', text: 'Ubah <b>replicas</b> di Git, lalu <i>commit &amp; push</i>.' },
-    { id: 'manual', text: 'Tunggu Argo CD jadi <b>OutOfSync</b> (atau klik <i>refresh</i>), lalu <i>sync</i> manual.' },
-    { id: 'auto', text: 'Nyalakan <b>auto-sync</b>, lalu rilis <b>v1.1.0</b> tanpa klik sync.' },
-    { id: 'heal', text: 'Ubah cluster pakai <b>kubectl</b>, lalu biarkan <b>self-heal</b> membereskannya.' },
-    { id: 'recover', text: 'Rilis <b>v2.0.0</b> (yang ada bug), lalu pulihkan aplikasinya.' }
+    { id: 'commit', text: tr('Ubah <b>replicas</b> di Git, lalu <i>commit &amp; push</i>.', 'Change <b>replicas</b> in Git, then <i>commit &amp; push</i>.') },
+    { id: 'manual', text: tr('Tunggu Argo CD jadi <b>OutOfSync</b> (atau klik <i>refresh</i>), lalu <i>sync</i> manual.', 'Wait for Argo CD to go <b>OutOfSync</b> (or click <i>refresh</i>), then <i>sync</i> manually.') },
+    { id: 'auto', text: tr('Nyalakan <b>auto-sync</b>, lalu rilis <b>v1.1.0</b> tanpa klik sync.', 'Turn on <b>auto-sync</b>, then release <b>v1.1.0</b> without clicking sync.') },
+    { id: 'heal', text: tr('Ubah cluster pakai <b>kubectl</b>, lalu biarkan <b>self-heal</b> membereskannya.', 'Change the cluster with <b>kubectl</b>, then let <b>self-heal</b> fix it.') },
+    { id: 'recover', text: tr('Rilis <b>v2.0.0</b> (yang ada bug), lalu pulihkan aplikasinya.', 'Release <b>v2.0.0</b> (the buggy one), then recover the app.') }
   ];
 
   // ---------- helpers ----------
@@ -63,8 +65,8 @@
   }
   function ago(t) {
     var s = Math.round((Date.now() - t) / 1000);
-    if (s < 60) return 'baru saja';
-    return Math.floor(s / 60) + ' mnt lalu';
+    if (s < 60) return tr('baru saja', 'just now');
+    return Math.floor(s / 60) + tr(' mnt lalu', ' min ago');
   }
   function setHTML(el, html) {
     if (el._h === html) return;
@@ -160,8 +162,8 @@
     S.done[id] = true;
     var n = 0, idx = 0;
     MISSIONS.forEach(function (m, i) { if (S.done[m.id]) n++; if (m.id === id) idx = i; });
-    if (n === MISSIONS.length) toast('🎉 Semua misi beres. Kamu udah paham alur GitOps!');
-    else toast('✓ Misi ' + (idx + 1) + ' beres (' + n + '/' + MISSIONS.length + ')');
+    if (n === MISSIONS.length) toast(tr('🎉 Semua misi beres. Kamu udah paham alur GitOps!', '🎉 All missions done. You\'ve got the GitOps flow down!'));
+    else toast(tr('✓ Misi ', '✓ Mission ') + (idx + 1) + tr(' beres (', ' done (') + n + '/' + MISSIONS.length + ')');
   }
 
   // ---------- pods & deployment controller ----------
@@ -203,7 +205,7 @@
       var seen = S.rsOrder.indexOf(tag) >= 0;
       S.rsOrder = S.rsOrder.filter(function (t) { return t !== tag; });
       S.rsOrder.push(tag);
-      log('k8s', (seen ? 'pakai lagi ReplicaSet lama' : 'ReplicaSet baru') + ' <b>toko-web-' + hashOf(tag) + '</b> untuk image ' + tag);
+      log('k8s', (seen ? tr('pakai lagi ReplicaSet lama', 'reusing old ReplicaSet') : tr('ReplicaSet baru', 'new ReplicaSet')) + ' <b>toko-web-' + hashOf(tag) + tr('</b> untuk image ', '</b> for image ') + tag);
     }
 
     if (!old.length) {
@@ -220,11 +222,11 @@
     }
 
     // rolling update: maxSurge 1, maxUnavailable 0
-    old.forEach(function (p) { if (!p.ready) kill(p, 'hapus pod lama yang ga sehat'); });
+    old.forEach(function (p) { if (!p.ready) kill(p, tr('hapus pod lama yang ga sehat', 'delete unhealthy old pod')); });
     old = old.filter(function (p) { return !p.term; });
     if (fresh.length < R && fresh.length + old.length < R + 1) S.pods.push(newPod(tag));
-    if (old.length && readyAll - 1 >= R) kill(old[0], 'matikan pod lama');
-    else if (old.length && fresh.length >= R && fresh.every(function (p) { return p.ready; })) kill(old[0], 'matikan pod lama');
+    if (old.length && readyAll - 1 >= R) kill(old[0], tr('matikan pod lama', 'stop old pod'));
+    else if (old.length && fresh.length >= R && fresh.every(function (p) { return p.ready; })) kill(old[0], tr('matikan pod lama', 'stop old pod'));
   }
   function healthNow() {
     var R = S.live.replicas;
@@ -247,25 +249,25 @@
   }
   function autoMsg() {
     var h = head().spec, d = S.draft, parts = [];
-    if (d.tag !== h.tag) parts.push('rilis ' + d.tag);
-    if (d.replicas !== h.replicas) parts.push('scale ke ' + d.replicas + ' replicas');
+    if (d.tag !== h.tag) parts.push(tr('rilis ', 'release ') + d.tag);
+    if (d.replicas !== h.replicas) parts.push(tr('scale ke ', 'scale to ') + d.replicas + ' replicas');
     return parts.length ? parts.join(', ') : '';
   }
   var msgEl = $('gx-msg'), msgTouched = false;
 
   function commit() {
     var h = head();
-    if (same(S.draft, h.spec)) { toast('Belum ada yang diubah di manifest.'); return; }
+    if (same(S.draft, h.spec)) { toast(tr('Belum ada yang diubah di manifest.', 'Nothing has changed in the manifest yet.')); return; }
     var msg = msgEl.value.trim() || autoMsg();
     var c = { sha: hex(7), msg: msg, spec: copy(S.draft), at: Date.now() };
     S.commits.push(c);
     if (c.spec.replicas !== h.spec.replicas) mission('commit');
-    log('git', 'push <b>' + c.sha + '</b> ke main: ' + esc(msg));
+    log('git', 'push <b>' + c.sha + tr('</b> ke main: ', '</b> to main: ') + esc(msg));
     pulse('push'); flash('git');
     msgTouched = false; msgEl.value = '';
     if (!S.auto) {
       var left = Math.max(1, Math.ceil((S.nextPoll - Date.now()) / 1000));
-      log('argo', 'belum tahu ada commit baru, polling berikutnya ' + left + ' detik lagi');
+      log('argo', tr('belum tahu ada commit baru, polling berikutnya ', 'doesn\'t know about the new commit yet, next poll in ') + left + tr(' detik lagi', ' seconds'));
     }
   }
   function revertHead() {
@@ -284,10 +286,10 @@
     pulse('pull');
     if (h.sha !== S.known) {
       S.known = h.sha;
-      log('argo', (manual ? 'refresh' : 'polling') + ': revisi baru <b>' + h.sha + '</b> di Git' + (diffs().length ? ' → <em class="gx-warn">OutOfSync</em>' : ''));
+      log('argo', (manual ? 'refresh' : 'polling') + tr(': revisi baru <b>', ': new revision <b>') + h.sha + tr('</b> di Git', '</b> in Git') + (diffs().length ? ' → <em class="gx-warn">OutOfSync</em>' : ''));
       flash('argo');
     } else if (manual) {
-      log('argo', 'refresh: Git masih di <b>' + h.sha + '</b>, ga ada yang baru');
+      log('argo', tr('refresh: Git masih di <b>', 'refresh: Git is still at <b>') + h.sha + tr('</b>, ga ada yang baru', '</b>, nothing new'));
     }
     if (S.auto && S.known !== S.synced) sync('auto-sync');
   }
@@ -295,7 +297,7 @@
     if (S.syncing) return;
     var to = sha || S.known;
     S.syncing = { reason: reason, sha: to };
-    log('argo', reason + ': menerapkan revisi <b>' + to + '</b> ke cluster…');
+    log('argo', reason + tr(': menerapkan revisi <b>', ': applying revision <b>') + to + tr('</b> ke cluster…', '</b> to the cluster…'));
     pulse('apply');
     setTimeout(function () {
       var spec = commitOf(to).spec;
@@ -304,7 +306,7 @@
       S.syncing = null;
       S.healAt = 0;
       S.history.push({ n: S.history.length + 1, sha: to, at: Date.now(), rb: reason === 'rollback' });
-      log('argo', 'sync selesai' + (changed ? ', rollout dimulai' : ', ga ada perubahan') + ' → <em class="gx-ok">Synced</em>');
+      log('argo', tr('sync selesai', 'sync finished') + (changed ? tr(', rollout dimulai', ', rollout started') : tr(', ga ada perubahan', ', no changes')) + ' → <em class="gx-ok">Synced</em>');
       flash('k8s');
       if (reason === 'sync manual' && changed) mission('manual');
       if (reason === 'auto-sync' && changed && spec.tag === 'v1.1.0') mission('auto');
@@ -312,14 +314,14 @@
     }, SYNC_TIME);
   }
   function rollback(n) {
-    if (S.auto) { toast('Matikan auto-sync dulu. Kalau nyala, Argo CD bakal langsung balik ke HEAD.'); return; }
+    if (S.auto) { toast(tr('Matikan auto-sync dulu. Kalau nyala, Argo CD bakal langsung balik ke HEAD.', 'Turn off auto-sync first. While it\'s on, Argo CD goes straight back to HEAD.')); return; }
     var h = S.history[n - 1];
     if (!h) return;
     log('argo', 'rollback ke history #' + n + ' (' + h.sha + ')');
     sync('rollback', h.sha);
   }
   function drifted(what) {
-    log('argo', 'live state beda dengan Git (' + what + ') → <em class="gx-warn">OutOfSync</em>' + (S.heal ? ', self-heal dalam ' + HEAL_DELAY / 1000 + ' detik' : ''));
+    log('argo', tr('live state beda dengan Git (', 'live state differs from Git (') + what + ') → <em class="gx-warn">OutOfSync</em>' + (S.heal ? tr(', self-heal dalam ', ', self-heal in ') + HEAL_DELAY / 1000 + tr(' detik', ' seconds') : ''));
     flash('k8s', 'warn');
   }
   function kubectl(kind) {
@@ -338,7 +340,7 @@
       if (!p) return;
       log('kubectl', 'delete pod ' + podName(p));
       kill(p);
-      log('k8s', 'ReplicaSet bikin pod pengganti (ini bukan drift, spec Deployment ga berubah)');
+      log('k8s', tr('ReplicaSet bikin pod pengganti (ini bukan drift, spec Deployment ga berubah)', 'ReplicaSet creates a replacement pod (this isn\'t drift, the Deployment spec didn\'t change)'));
     }
   }
 
@@ -370,7 +372,7 @@
     } else if (l === '@tag') {
       f = 'tag';
       body = '          ' + k('image') + ': toko-web:<select id="gx-tag" aria-label="Tag image">' +
-        '<option value="v1.0.0">v1.0.0</option><option value="v1.1.0">v1.1.0</option><option value="v2.0.0">v2.0.0 (ada bug)</option></select>';
+        tr('<option value="v1.0.0">v1.0.0</option><option value="v1.1.0">v1.1.0</option><option value="v2.0.0">v2.0.0 (ada bug)</option></select>', '<option value="v1.0.0">v1.0.0</option><option value="v1.1.0">v1.1.0</option><option value="v2.0.0">v2.0.0 (buggy)</option></select>');
     }
     return '<div class="gx-l' + (f ? ' gx-edit' : '') + '"' + (f ? ' data-f="' + f + '"' : '') + '><span class="gx-no">' + (i + 1) + '</span><code>' + body + '</code></div>';
   }).join('');
@@ -407,7 +409,7 @@
     var ready = alive.filter(function (p) { return p.ready; }).length;
 
     // flow strip
-    setText(els.fDev, dirty ? 'ada perubahan' : 'bersih');
+    setText(els.fDev, dirty ? tr('ada perubahan', 'changed') : tr('bersih', 'clean'));
     setText(els.fGit, h.sha);
     setText(els.fArgo, st);
     setText(els.fK8s, hl + ' ' + ready + '/' + S.live.replicas);
@@ -426,7 +428,7 @@
     btn('discard').disabled = !dirty;
     if (!msgTouched) {
       var am = autoMsg();
-      if (msgEl.placeholder !== (am || 'pesan commit')) msgEl.placeholder = am || 'pesan commit';
+      if (msgEl.placeholder !== (am || tr('pesan commit', 'commit message'))) msgEl.placeholder = am || tr('pesan commit', 'commit message');
     }
 
     setHTML(els.commits, S.commits.slice().reverse().map(function (c, i) {
@@ -441,7 +443,7 @@
     // argo
     badge(els.sync, 'sync', st);
     badge(els.health, 'health', hl);
-    setHTML(els.rev, 'target <code>' + S.known + '</code>' + (S.known !== h.sha ? ' <span class="gx-stale">Git sudah di ' + h.sha + '</span>' : ''));
+    setHTML(els.rev, 'target <code>' + S.known + '</code>' + (S.known !== h.sha ? tr(' <span class="gx-stale">Git sudah di ', ' <span class="gx-stale">Git is already at ') + h.sha + '</span>' : ''));
     els.auto.checked = S.auto;
     els.heal.checked = S.heal;
     els.heal.disabled = !S.auto;
@@ -450,21 +452,21 @@
     btn('refresh').disabled = !!S.syncing;
     var left = Math.max(0, S.nextPoll - now);
     els.pollBar.style.transform = 'scaleX(' + (1 - left / POLL).toFixed(3) + ')';
-    setText(els.pollTxt, 'polling Git dalam ' + Math.ceil(left / 1000) + ' dtk (aslinya tiap 3 menit)');
+    setText(els.pollTxt, tr('polling Git dalam ', 'polling Git in ') + Math.ceil(left / 1000) + tr(' dtk (aslinya tiap 3 menit)', ' s (really every 3 minutes)'));
 
     var d = diffs();
     var diffHTML = '';
     if (S.syncing) {
-      diffHTML = '<p class="gx-diff-h">↻ ' + S.syncing.reason + ' ke <code>' + S.syncing.sha + '</code>…</p>';
+      diffHTML = '<p class="gx-diff-h">↻ ' + S.syncing.reason + tr(' ke <code>', ' to <code>') + S.syncing.sha + '</code>…</p>';
     } else if (d.length) {
       diffHTML = '<p class="gx-diff-h">diff: Git <code>' + S.known + '</code> vs cluster</p>' + d.map(function (x) {
         return '<div class="gx-dl gx-del">- ' + x.f + ': ' + esc(x.live) + '</div><div class="gx-dl gx-add">+ ' + x.f + ': ' + esc(x.git) + '</div>';
       }).join('');
-      if (S.heal && S.healAt) diffHTML += '<p class="gx-diff-n">self-heal dalam ' + Math.max(1, Math.ceil((S.healAt - now) / 1000)) + ' dtk…</p>';
-      else if (S.auto && S.known === S.synced) diffHTML += '<p class="gx-diff-n">Auto-sync cuma jalan kalau ada commit baru. Drift manual dibiarkan kecuali self-heal nyala.</p>';
-      else if (!S.auto) diffHTML += '<p class="gx-diff-n">Klik <b>sync</b> buat menyamakan cluster dengan Git.</p>';
+      if (S.heal && S.healAt) diffHTML += tr('<p class="gx-diff-n">self-heal dalam ', '<p class="gx-diff-n">self-heal in ') + Math.max(1, Math.ceil((S.healAt - now) / 1000)) + tr(' dtk…</p>', ' s…</p>');
+      else if (S.auto && S.known === S.synced) diffHTML += tr('<p class="gx-diff-n">Auto-sync cuma jalan kalau ada commit baru. Drift manual dibiarkan kecuali self-heal nyala.</p>', '<p class="gx-diff-n">Auto-sync only runs when there\'s a new commit. Manual drift is left alone unless self-heal is on.</p>');
+      else if (!S.auto) diffHTML += tr('<p class="gx-diff-n">Klik <b>sync</b> buat menyamakan cluster dengan Git.</p>', '<p class="gx-diff-n">Click <b>sync</b> to bring the cluster in line with Git.</p>');
     } else if (hl === 'Degraded') {
-      diffHTML = '<p class="gx-diff-h gx-diff-bad">Synced tapi Degraded: pod baru crash, rollout macet. Pod lama tetap melayani traffic karena maxUnavailable: 0. Coba <b>revert</b> commit-nya di Git (atau rollback di Argo CD).</p>';
+      diffHTML = tr('<p class="gx-diff-h gx-diff-bad">Synced tapi Degraded: pod baru crash, rollout macet. Pod lama tetap melayani traffic karena maxUnavailable: 0. Coba <b>revert</b> commit-nya di Git (atau rollback di Argo CD).</p>', '<p class="gx-diff-h gx-diff-bad">Synced but Degraded: the new pods crash and the rollout is stuck. The old pods keep serving traffic because maxUnavailable: 0. Try a <b>revert</b> of the commit in Git (or a rollback in Argo CD).</p>');
     }
     setHTML(els.diff, diffHTML);
     els.diff.hidden = !diffHTML;
@@ -475,20 +477,20 @@
       var c = commitOf(x.sha);
       var cur = x.n === S.history.length;
       return '<li><span class="gx-hn">#' + x.n + '</span><code>' + x.sha + '</code><span class="gx-cmsg">' + esc(c.msg) + (x.rb ? ' <em>(rollback)</em>' : '') + '</span>' +
-        (cur ? '<span class="gx-tagc gx-tagc-ok">aktif</span>' : '<button type="button" data-act="rollback" data-n="' + x.n + '"' + (S.auto ? ' disabled' : '') + '>rollback</button>') + '</li>';
+        (cur ? tr('<span class="gx-tagc gx-tagc-ok">aktif</span>', '<span class="gx-tagc gx-tagc-ok">active</span>') : '<button type="button" data-act="rollback" data-n="' + x.n + '"' + (S.auto ? ' disabled' : '') + '>rollback</button>') + '</li>';
     }).join(''));
     setText(els.histNote, S.auto
-      ? 'Rollback dikunci selama auto-sync nyala, karena Argo CD bakal langsung menyamakan lagi dengan HEAD di Git.'
-      : 'Rollback mengembalikan cluster ke revisi lama, tapi Git tetap di HEAD. Hasilnya OutOfSync sampai kamu revert di Git.');
+      ? tr('Rollback dikunci selama auto-sync nyala, karena Argo CD bakal langsung menyamakan lagi dengan HEAD di Git.', 'Rollback is locked while auto-sync is on, because Argo CD would immediately sync back to HEAD in Git.')
+      : tr('Rollback mengembalikan cluster ke revisi lama, tapi Git tetap di HEAD. Hasilnya OutOfSync sampai kamu revert di Git.', 'Rollback takes the cluster back to an old revision, but Git stays at HEAD. The result is OutOfSync until you revert in Git.'));
 
     // kubectl
     var nScale = S.live.replicas >= MAX_REP ? 1 : MAX_REP;
     var tImg = S.live.tag === 'v1.0.1-hotfix' ? target().tag : 'v1.0.1-hotfix';
     var first = alive[0];
     setHTML(els.cmds,
-      cmd('scale', 'kubectl scale deploy/toko-web --replicas=' + nScale, 'ubah jumlah pod') +
-      cmd('image', 'kubectl set image deploy/toko-web web=toko-web:' + tImg, 'ganti image diam-diam') +
-      cmd('delete', 'kubectl delete pod ' + (first ? podName(first) : '…'), 'hapus satu pod', !first));
+      cmd('scale', 'kubectl scale deploy/toko-web --replicas=' + nScale, tr('ubah jumlah pod', 'change the pod count')) +
+      cmd('image', 'kubectl set image deploy/toko-web web=toko-web:' + tImg, tr('ganti image diam-diam', 'swap the image quietly')) +
+      cmd('delete', 'kubectl delete pod ' + (first ? podName(first) : '…'), tr('hapus satu pod', 'delete one pod'), !first));
 
     // missions
     var n = 0;
@@ -542,7 +544,7 @@
       var mine = S.pods.filter(function (p) { return p.tag === tag; });
       var rd = mine.filter(function (p) { return p.ready; }).length;
       var want = tag === S.live.tag ? R : 0;
-      setHTML(el.querySelector('.gx-res-meta'), '<span class="gx-hue" data-hue="' + TAGS[tag].hue + '">' + tag + '</span> · ' + (tag === S.live.tag ? rd + '/' + want + ' ready' : mine.length ? rd + ' ready, RS lama' : 'RS lama'));
+      setHTML(el.querySelector('.gx-res-meta'), '<span class="gx-hue" data-hue="' + TAGS[tag].hue + '">' + tag + '</span> · ' + (tag === S.live.tag ? rd + '/' + want + ' ready' : mine.length ? rd + tr(' ready, RS lama', ' ready, old RS') : tr('RS lama', 'old RS')));
       el.classList.toggle('is-old', tag !== S.live.tag);
       var podsEl = el.querySelector('.gx-pods');
       mine.forEach(function (p) {
@@ -557,7 +559,7 @@
         if (pe.parentNode !== podsEl) podsEl.appendChild(pe);
         var cls = 'gx-pod ' + (p.term ? 'is-term' : PHASE[p.phase] + (p.ready ? ' is-ready' : ''));
         if (pe.className !== cls) pe.className = cls;
-        setText(pe.querySelector('span'), p.term ? 'Terminating' : p.phase === 'Running' && !p.ready ? 'Running (belum siap)' : p.phase);
+        setText(pe.querySelector('span'), p.term ? 'Terminating' : p.phase === 'Running' && !p.ready ? tr('Running (belum siap)', 'Running (not ready)') : p.phase);
         setText(pe.querySelector('em'), p.restarts ? '↻ ' + p.restarts : '');
       });
       if (!mine.length) setHTML(podsEl, '<span class="gx-pods-empty">0 pod</span>');
@@ -621,13 +623,13 @@
   els.auto.addEventListener('change', function () {
     S.auto = els.auto.checked;
     if (!S.auto) S.heal = false;
-    log('argo', 'auto-sync ' + (S.auto ? '<em class="gx-ok">nyala</em>' : 'mati'));
+    log('argo', 'auto-sync ' + (S.auto ? tr('<em class="gx-ok">nyala</em>', '<em class="gx-ok">on</em>') : tr('mati', 'off')));
     if (S.auto && S.known !== S.synced) sync('auto-sync');
     render();
   });
   els.heal.addEventListener('change', function () {
     S.heal = els.heal.checked && S.auto;
-    log('argo', 'self-heal ' + (S.heal ? '<em class="gx-ok">nyala</em>' : 'mati'));
+    log('argo', 'self-heal ' + (S.heal ? tr('<em class="gx-ok">nyala</em>', '<em class="gx-ok">on</em>') : tr('mati', 'off')));
     render();
   });
 
@@ -639,8 +641,8 @@
     termEl.innerHTML = '';
     msgTouched = false; msgEl.value = '';
     initState();
-    log('argo', 'app <b>toko-web</b> Synced ke <b>' + S.known + '</b>, 3/3 pod Running');
-    log('git', 'repo <b>toko-gitops</b> siap. Ubah manifest di panel Git buat mulai.');
+    log('argo', tr('app <b>toko-web</b> Synced ke <b>', 'app <b>toko-web</b> Synced to <b>') + S.known + '</b>, 3/3 pod Running');
+    log('git', tr('repo <b>toko-gitops</b> siap. Ubah manifest di panel Git buat mulai.', 'repo <b>toko-gitops</b> is ready. Edit the manifest in the Git panel to start.'));
     render();
   }
   reset();

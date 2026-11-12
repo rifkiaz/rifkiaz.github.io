@@ -6,6 +6,7 @@
   'use strict';
 
   var K = window.SimKit;
+  var tr = K.tr;
   var app = document.getElementById('dk');
   if (!app || !K) return;
   var esc = K.esc, setHTML = K.setHTML, setText = K.setText;
@@ -28,7 +29,7 @@
   }
   function durID(t) {
     var s = Math.max(1, Math.round((Date.now() - t) / 1000));
-    return s < 60 ? s + ' dtk' : Math.floor(s / 60) + ' mnt';
+    return s < 60 ? s + tr(' dtk', 's') : Math.floor(s / 60) + tr(' mnt', ' min');
   }
   // ---------- registry ----------
   // base: shared bottom layer (Debian bookworm or Alpine), so pulls can say
@@ -90,7 +91,7 @@
       'from flask import Flask',
       '',
       'app = Flask(__name__)',
-      'PESAN = os.environ.get("PESAN", "Halo dari container!")',
+      tr('PESAN = os.environ.get("PESAN", "Halo dari container!")', 'MESSAGE = os.environ.get("MESSAGE", "Hello from the container!")'),
       'DATA = "/data/hits.txt"',
       '',
       '@app.route("/")',
@@ -99,7 +100,7 @@
       '    hits = int(open(DATA).read()) if os.path.exists(DATA) else 0',
       '    hits += 1',
       '    open(DATA, "w").write(str(hits))',
-      '    return f"{PESAN} Kunjungan ke-{hits}\\n"',
+      tr('    return f"{PESAN} Kunjungan ke-{hits}\\n"', '    return f"{MESSAGE} Visit number {hits}\\n"'),
       '',
       'app.run(host="0.0.0.0", port=5000)',
       ''
@@ -112,7 +113,7 @@
       '    ports:',
       '      - "8000:5000"',
       '    environment:',
-      '      PESAN: "Halo dari Compose!"',
+      tr('      PESAN: "Halo dari Compose!"', '      MESSAGE: "Hello from Compose!"'),
       '    volumes:',
       '      - hits:/data',
       '    depends_on:',
@@ -135,12 +136,12 @@
   ];
 
   var MISSIONS = [
-    { id: 'run', text: 'Jalankan nginx dengan <b>-p 8080:80</b>, lalu buka pakai <i>curl localhost:8080</i>.' },
-    { id: 'build', text: 'Build image dari Dockerfile: <b>docker build -t app:1.0 .</b>' },
-    { id: 'app', text: 'Jalankan image app kamu dan dapatkan balasannya lewat <i>curl</i>.' },
-    { id: 'vol', text: 'Hapus container app, bikin lagi, dan hitungan kunjungan ga balik ke 1. Pakai <b>volume</b>.' },
-    { id: 'cache', text: 'Ubah <b>PESAN</b> di app.py lalu build ulang. Atur Dockerfile supaya <i>pip install</i> tetap CACHED.' },
-    { id: 'compose', text: 'Naikkan semua service di compose.yaml pakai <b>docker compose up -d</b>, lalu curl port 8000.' }
+    { id: 'run', text: tr('Jalankan nginx dengan <b>-p 8080:80</b>, lalu buka pakai <i>curl localhost:8080</i>.', 'Run nginx with <b>-p 8080:80</b>, then open it with <i>curl localhost:8080</i>.') },
+    { id: 'build', text: tr('Build image dari Dockerfile: <b>docker build -t app:1.0 .</b>', 'Build an image from the Dockerfile: <b>docker build -t app:1.0 .</b>') },
+    { id: 'app', text: tr('Jalankan image app kamu dan dapatkan balasannya lewat <i>curl</i>.', 'Run your app image and get its reply with <i>curl</i>.') },
+    { id: 'vol', text: tr('Hapus container app, bikin lagi, dan hitungan kunjungan ga balik ke 1. Pakai <b>volume</b>.', 'Remove the app container, create it again, and keep the visit count from going back to 1. Use a <b>volume</b>.') },
+    { id: 'cache', text: tr('Ubah <b>PESAN</b> di app.py lalu build ulang. Atur Dockerfile supaya <i>pip install</i> tetap CACHED.', 'Change <b>MESSAGE</b> in app.py and rebuild. Arrange the Dockerfile so <i>pip install</i> stays CACHED.') },
+    { id: 'compose', text: tr('Naikkan semua service di compose.yaml pakai <b>docker compose up -d</b>, lalu curl port 8000.', 'Bring up every service in compose.yaml with <b>docker compose up -d</b>, then curl port 8000.') }
   ];
 
   // ---------- state ----------
@@ -193,7 +194,7 @@
       } else {
         var near = Object.keys(REPOS).filter(function (r) { return edit(r, repo) <= 2; })[0];
         err('Error response from daemon: pull access denied for ' + repo + ', repository does not exist or may require \'docker login\': denied: requested access to the resource is denied');
-        if (near) dim('# mungkin maksudnya ' + near + '?');
+        if (near) dim(tr('# mungkin maksudnya ', '# did you mean ') + near + '?');
       }
       return false;
     }
@@ -271,7 +272,7 @@
     if (!froms.length) throw { line: 1, msg: 'no build stage in current context' };
     var first = out.filter(function (x) { return x.ins !== 'ARG'; })[0];
     if (first.ins !== 'FROM') throw { line: first.line, msg: 'no build stage in current context' };
-    if (froms.length > 1) throw { line: froms[1].line, msg: 'multi-stage build (FROM kedua) belum didukung di simulasi ini' };
+    if (froms.length > 1) throw { line: froms[1].line, msg: tr('multi-stage build (FROM kedua) belum didukung di simulasi ini', 'multi-stage builds (a second FROM) aren\'t supported in this simulation') };
     return out;
   }
   function execForm(arg) {
@@ -335,12 +336,12 @@
         out.push('Successfully installed ' + Object.keys(st.pkgs).sort().map(function (x) { return x + (x === 'flask' ? '-3.0.3' : ''); }).join(' '));
         size += 9 + pk.length * 3; d += 5.5 + pk.length * 1.2;
       } else if (c === 'apt-get' || c === 'apt') {
-        if (alp) return { code: 127, out: ['/bin/sh: ' + c + ': not found', '# image Alpine pakai apk, bukan apt'], dur: 0.1 };
+        if (alp) return { code: 127, out: ['/bin/sh: ' + c + ': not found', tr('# image Alpine pakai apk, bukan apt', '# Alpine images use apk, not apt')], dur: 0.1 };
         if (w[1] === 'update') { st.aptOk = true; out.push('Get:1 http://deb.debian.org/debian bookworm InRelease [151 kB]', 'Reading package lists...'); d += 3.2; size += 18; continue; }
         if (w[1] === 'install') {
           var pk2 = w.slice(2).filter(function (x) { return x[0] !== '-'; });
-          if (!st.aptOk) return { code: 100, out: ['Reading package lists...', 'E: Unable to locate package ' + (pk2[0] || ''), '# di image slim, daftar paket apt masih kosong. Jalankan apt-get update dulu di RUN yang sama.'], dur: 0.8 };
-          if (w.indexOf('-y') < 0 && w.indexOf('--yes') < 0) return { code: 1, out: ['The following NEW packages will be installed:', '  ' + pk2.join(' '), 'Do you want to continue? [Y/n] Abort.', '# di build ga ada yang bisa jawab Y. Tambahkan -y.'], dur: 1.2 };
+          if (!st.aptOk) return { code: 100, out: ['Reading package lists...', 'E: Unable to locate package ' + (pk2[0] || ''), tr('# di image slim, daftar paket apt masih kosong. Jalankan apt-get update dulu di RUN yang sama.', '# in a slim image the apt package list is empty. Run apt-get update first in the same RUN.')], dur: 0.8 };
+          if (w.indexOf('-y') < 0 && w.indexOf('--yes') < 0) return { code: 1, out: ['The following NEW packages will be installed:', '  ' + pk2.join(' '), 'Do you want to continue? [Y/n] Abort.', tr('# di build ga ada yang bisa jawab Y. Tambahkan -y.', '# nobody can answer Y during a build. Add -y.')], dur: 1.2 };
           pk2.forEach(function (p) { st.bins[p] = true; out.push('Setting up ' + p + ' ...'); });
           d += 4 + pk2.length * 2; size += 12 * pk2.length;
           continue;
@@ -348,7 +349,7 @@
         if (w[1] === 'clean' || w[1] === 'autoremove') continue;
         out.push(c + ' ' + w.slice(1).join(' '));
       } else if (c === 'apk') {
-        if (!alp) return { code: 127, out: ['/bin/sh: 1: apk: not found', '# apk cuma ada di image Alpine'], dur: 0.1 };
+        if (!alp) return { code: 127, out: ['/bin/sh: 1: apk: not found', tr('# apk cuma ada di image Alpine', '# apk only exists in Alpine images')], dur: 0.1 };
         w.slice(2).filter(function (x) { return x[0] !== '-'; }).forEach(function (p) { st.bins[p] = true; out.push('(1/1) Installing ' + p); });
         d += 1.5; size += 6;
       } else if (c === 'mkdir' || c === 'touch' || c === 'chmod' || c === 'chown' || c === 'useradd' || c === 'adduser' || c === 'groupadd' || c === 'rm' || c === 'cp' || c === 'mv' || c === 'true' || c === 'cd' || c === 'ln') {
@@ -481,7 +482,7 @@
         var cw = words(arg).filter(function (x) { return !/^--(chown|chmod|link)/.test(x); });
         if (cw.some(function (x) { return /^--from/.test(x); })) {
           bk('<span class="sx-err">ERROR ' + stepLine(n, tot, ins + ' ' + esc(arg)) + '</span>', 0);
-          term.line('<span class="sx-err">ERROR: COPY --from butuh multi-stage build, belum didukung di simulasi ini</span>');
+          term.line(tr('<span class="sx-err">ERROR: COPY --from butuh multi-stage build, belum didukung di simulasi ini</span>', '<span class="sx-err">ERROR: COPY --from needs a multi-stage build, which isn\'t supported in this simulation</span>'));
           markErr('Dockerfile', d.line);
           return null;
         }
@@ -580,10 +581,10 @@
     M.hit('build');
     if (cachedPip && freshCopy) M.hit('cache');
     else if (W.prevBuilt && !cachedPip && copyAllBeforePip(df)) {
-      hint('# pip install dibangun ulang karena layer COPY di atasnya berubah. Coba pindahkan COPY requirements.txt + RUN pip install sebelum COPY . .');
+      hint(tr('# pip install dibangun ulang karena layer COPY di atasnya berubah. Coba pindahkan COPY requirements.txt + RUN pip install sebelum COPY . .', '# pip install was rebuilt because a COPY layer above it changed. Try moving COPY requirements.txt + RUN pip install before COPY . .'));
     }
     W.prevBuilt = true;
-    if (cached && !o.quiet) dim('# ' + cached + ' layer diambil dari cache');
+    if (cached && !o.quiet) dim('# ' + cached + tr(' layer diambil dari cache', ' layers taken from cache'));
     renderAll();
     return img;
   }
@@ -882,7 +883,7 @@
     var p = c.p;
     if (!p || !p.serve) return { err: 7 };
     if (port !== p.port) return { err: fromInside ? 7 : 56 };
-    if (!fromInside && p.host !== '0.0.0.0') return { err: 56, hint: 'app di container cuma listen di ' + p.host + ', jadi ga bisa dijangkau dari luar container. Ubah jadi host="0.0.0.0".' };
+    if (!fromInside && p.host !== '0.0.0.0') return { err: 56, hint: tr('app di container cuma listen di ', 'the app in the container only listens on ') + p.host + tr(', jadi ga bisa dijangkau dari luar container. Ubah jadi host="0.0.0.0".', ', so it can\'t be reached from outside the container. Change it to host="0.0.0.0".') };
     var ip = fromInside ? '127.0.0.1' : '172.17.0.1';
     var stamp = '[' + new Date().toUTCString().slice(5, 25).replace(' ', '/').replace(' ', '/') + ']';
     if (p.serve === 'web') {
@@ -931,14 +932,14 @@
     } else {
       if (!/^(localhost|127\.0\.0\.1|0\.0\.0\.0)$/.test(host)) {
         err('curl: (6) Could not resolve host: ' + host);
-        if (findCtr(host)) dim('# nama container cuma bisa dipanggil dari container lain di network yang sama. Dari laptop, pakai localhost:PORT_HOST.');
+        if (findCtr(host)) dim(tr('# nama container cuma bisa dipanggil dari container lain di network yang sama. Dari laptop, pakai localhost:PORT_HOST.', '# a container name only resolves from other containers on the same network. From your laptop, use localhost:HOST_PORT.'));
         return;
       }
       var hit = W.ctrs.filter(function (c) { return running(c) && c.ports.some(function (p) { return p.h === port; }); })[0];
       if (!hit) {
         err('curl: (7) Failed to connect to ' + host + ' port ' + port + ' after 0 ms: Couldn\'t connect to server');
         var down = W.ctrs.filter(function (c) { return !running(c) && c.ports.some(function (p) { return p.h === port; }); })[0];
-        if (down) dim('# container ' + down.name + ' yang pegang port ' + port + ' lagi ' + (down.state === 'created' ? 'belum jalan' : 'mati (Exited ' + down.code + '). Cek docker logs ' + down.name) + '.');
+        if (down) dim('# container ' + down.name + tr(' yang pegang port ', ' holding port ') + port + tr(' lagi ', ' is ') + (down.state === 'created' ? tr('belum jalan', 'not started yet') : tr('mati (Exited ', 'stopped (Exited ') + down.code + tr('). Cek docker logs ', '). Check docker logs ') + down.name) + '.');
         return;
       }
       target = hit;
@@ -951,8 +952,8 @@
       else if (r.err === 52) err('curl: (52) Empty reply from server');
       else err('curl: (7) Failed to connect to ' + host + ' port ' + (m[2] || 80) + ' after 0 ms: Couldn\'t connect to server');
       if (r.hint) hint('# ' + r.hint);
-      else if (r.err === 56 && target.p && target.p.port) hint('# port container yang di-publish salah. App di ' + target.name + ' listen di port ' + target.p.port + ', bukan ' + port + '.');
-      else if (r.err === 52) dim('# ' + target.name + ' bukan server HTTP');
+      else if (r.err === 56 && target.p && target.p.port) hint(tr('# port container yang di-publish salah. App di ', '# the wrong container port is published. The app in ') + target.name + tr(' listen di port ', ' listens on port ') + target.p.port + tr(', bukan ', ', not ') + port + '.');
+      else if (r.err === 52) dim('# ' + target.name + tr(' bukan server HTTP', ' is not an HTTP server'));
       return;
     }
     if (showHead) term.lines(['HTTP/1.1 200 OK', 'Server: ' + (r.kind === 'web' ? 'nginx/1.27.2' : 'Werkzeug/3.0.4 Python/3.12.7'), 'Content-Type: ' + r.type, '']);
@@ -974,7 +975,7 @@
   // ---------- terminal ----------
   var term = new K.Term($('dk-out'), $('dk-in'), { onCmd: onCmd });
   var toast = K.makeToast($('dk-toast'));
-  var M = new K.Missions($('dk-m-list'), $('dk-m-count'), MISSIONS, toast, '🐳 Semua misi Docker beres. Mantap!');
+  var M = new K.Missions($('dk-m-list'), $('dk-m-count'), MISSIONS, toast, tr('🐳 Semua misi Docker beres. Mantap!', '🐳 All Docker missions done. Nice!'));
   function err(t) { term.line('<span class="sx-err">' + esc(t) + '</span>'); }
   function dim(t) { term.line('<span class="sx-dim">' + esc(t) + '</span>'); }
   function hint(t) { term.line('<span class="sx-warn">' + esc(t) + '</span>'); }
@@ -993,9 +994,9 @@
     }
     term.echo(PS, line);
     if (!line) return;
-    if (W.busy) { dim('# tunggu perintah sebelumnya selesai dulu'); return; }
+    if (W.busy) { dim(tr('# tunggu perintah sebelumnya selesai dulu', '# wait for the previous command to finish first')); return; }
     var w = words(line);
-    if (w[0] === 'sudo') { w.shift(); dim('# ga perlu sudo, user rifki sudah ada di grup docker'); }
+    if (w[0] === 'sudo') { w.shift(); dim(tr('# ga perlu sudo, user rifki sudah ada di grup docker', '# no sudo needed, user rifki is already in the docker group')); }
     var c = w[0];
     W.busy = true;
     renderBusy();
@@ -1010,14 +1011,14 @@
         var f = w[1];
         if (W.files[f] === undefined) err('cat: ' + (f || '') + ': No such file or directory');
         else term.lines(W.files[f].replace(/\n$/, '').split('\n').map(esc));
-      } else if (c === 'vim' || c === 'nano' || c === 'code' || c === 'vi') dim('# edit file-nya langsung di panel ~/app ya');
+      } else if (c === 'vim' || c === 'nano' || c === 'code' || c === 'vi') dim(tr('# edit file-nya langsung di panel ~/app ya', '# edit the file directly in the ~/app panel'));
       else if (c === 'pwd') out('/home/rifki/app');
       else if (c === 'whoami') out('rifki');
-      else if (c === 'podman') dim('# podman hampir sama perintahnya, tapi di sini adanya docker');
-      else if (c === 'kubectl') dim('# Kubernetes ada di simulasi GitOps. Di sini cuma docker.');
+      else if (c === 'podman') dim(tr('# podman hampir sama perintahnya, tapi di sini adanya docker', '# podman commands are almost the same, but here we have docker'));
+      else if (c === 'kubectl') dim(tr('# Kubernetes ada di simulasi GitOps. Di sini cuma docker.', '# Kubernetes lives in the GitOps simulation. Here it\'s just docker.'));
       else err(c + ': command not found');
     } catch (e) {
-      err('simulasi error: ' + (e && e.message || e));
+      err(tr('simulasi error: ', 'simulation error: ') + (e && e.message || e));
       if (window.console) console.error(e);
     }
     W.busy = false;
@@ -1025,17 +1026,17 @@
   }
   function help() {
     term.lines([
-      '<b>Perintah yang bisa dicoba</b>',
+      tr('<b>Perintah yang bisa dicoba</b>', '<b>Commands you can try</b>'),
       '  docker run [-d] [-p 8080:80] [--name x] [-e K=V] [-v vol:/path] [--rm] IMAGE [cmd]',
-      '  docker ps [-a]  ·  docker logs NAMA  ·  docker exec NAMA cmd',
-      '  docker stop|start|restart|rm [-f] NAMA',
-      '  docker build -t nama:tag [--no-cache] .',
+      tr('  docker ps [-a]  ·  docker logs NAMA  ·  docker exec NAMA cmd', '  docker ps [-a]  ·  docker logs NAME  ·  docker exec NAME cmd'),
+      tr('  docker stop|start|restart|rm [-f] NAMA', '  docker stop|start|restart|rm [-f] NAME'),
+      tr('  docker build -t nama:tag [--no-cache] .', '  docker build -t name:tag [--no-cache] .'),
       '  docker images  ·  docker pull IMAGE  ·  docker rmi IMAGE  ·  docker tag A B',
       '  docker volume ls|create|rm|inspect  ·  docker network ls|create|rm',
       '  docker compose up [-d] [--build]  ·  docker compose ps|logs|down [-v]',
       '  docker system df  ·  docker image prune  ·  docker container prune',
       '  curl localhost:PORT  ·  cat FILE  ·  clear',
-      '<span class="sx-dim">Image yang ada di registry: nginx, httpd, redis, postgres, python, ubuntu, alpine, hello-world.</span>'
+      tr('<span class="sx-dim">Image yang ada di registry: nginx, httpd, redis, postgres, python, ubuntu, alpine, hello-world.</span>', '<span class="sx-dim">Images in the registry: nginx, httpd, redis, postgres, python, ubuntu, alpine, hello-world.</span>')
     ]);
   }
 
@@ -1055,7 +1056,7 @@
       case 'version': case '-v': case '--version':
         out('Docker version 27.3.1, build ce12230'); return;
       case 'info':
-        term.lines(['Server:', ' Containers: ' + W.ctrs.length, '  Running: ' + W.ctrs.filter(running).length, '  Stopped: ' + W.ctrs.filter(function (c) { return !running(c); }).length, ' Images: ' + W.images.length, ' Server Version: 27.3.1', ' Storage Driver: overlay2', ' Kernel Version: 6.10.14-linuxkit', ' Operating System: Docker Desktop (simulasi)'].map(esc)); return;
+        term.lines(['Server:', ' Containers: ' + W.ctrs.length, '  Running: ' + W.ctrs.filter(running).length, '  Stopped: ' + W.ctrs.filter(function (c) { return !running(c); }).length, ' Images: ' + W.images.length, ' Server Version: 27.3.1', ' Storage Driver: overlay2', ' Kernel Version: 6.10.14-linuxkit', tr(' Operating System: Docker Desktop (simulasi)', ' Operating System: Docker Desktop (simulated)')].map(esc)); return;
       case 'run': await runCmd(args); return;
       case 'create': await runCmd(args, true); return;
       case 'ps': psCmd(args); return;
@@ -1079,9 +1080,9 @@
         if (args[0] === 'df') { sysDf(); return; }
         if (args[0] === 'prune') { await prune('system', args.slice(1)); return; }
         err('docker: unknown command: docker system ' + (args[0] || '')); return;
-      case 'login': dim('# registry di simulasi ini publik semua, ga perlu login'); return;
-      case 'push': err('denied: requested access to the resource is denied'); dim('# push ga didukung di simulasi. Di dunia nyata, tag dulu jadi user/nama:tag lalu docker login.'); return;
-      case 'search': dim('# image yang tersedia: ' + Object.keys(REPOS).join(', ')); return;
+      case 'login': dim(tr('# registry di simulasi ini publik semua, ga perlu login', '# every registry in this simulation is public, no login needed')); return;
+      case 'push': err('denied: requested access to the resource is denied'); dim(tr('# push ga didukung di simulasi. Di dunia nyata, tag dulu jadi user/nama:tag lalu docker login.', '# push isn\'t supported in the simulation. In real life, tag it as user/name:tag first, then docker login.')); return;
+      case 'search': dim(tr('# image yang tersedia: ', '# available images: ') + Object.keys(REPOS).join(', ')); return;
       case 'stats': table([['CONTAINER ID', 'NAME', 'CPU %', 'MEM USAGE / LIMIT']].concat(W.ctrs.filter(running).map(function (c) { return [c.id.slice(0, 12), c.name, (Math.random() * 2).toFixed(2) + '%', rnd(6, 48) + 'MiB / 7.67GiB']; }))); return;
       case 'top': {
         var tc = findCtr(args[0]);
@@ -1184,7 +1185,7 @@
     if (o.name && findCtr(o.name) && findCtr(o.name).name === o.name) {
       var ex = findCtr(o.name);
       err('docker: Error response from daemon: Conflict. The container name "/' + o.name + '" is already in use by container "' + ex.id + '". You have to remove (or rename) that container to be able to reuse that name.');
-      dim('# hapus dulu: docker rm -f ' + o.name);
+      dim(tr('# hapus dulu: docker rm -f ', '# remove it first: docker rm -f ') + o.name);
       return;
     }
     var pp = parsePorts(o.p);
@@ -1215,7 +1216,7 @@
       err('docker: ' + r.msg + '.');
       if (/port is already allocated/.test(r.msg)) {
         var holder = W.ctrs.filter(function (x) { return x !== c && running(x) && x.ports.some(function (q) { return c.ports.some(function (p) { return p.h === q.h; }); }); })[0];
-        if (holder) hint('# port itu sudah dipakai container ' + holder.name + '. Pakai port host lain (misal -p 8081:80) atau stop container itu dulu. Container baru tetap terbuat dalam status Created.');
+        if (holder) hint(tr('# port itu sudah dipakai container ', '# that port is already used by container ') + holder.name + tr('. Pakai port host lain (misal -p 8081:80) atau stop container itu dulu. Container baru tetap terbuat dalam status Created.', '. Use another host port (e.g. -p 8081:80) or stop that container first. The new container is still created, in Created state.'));
       }
       if (c.rm) removeCtr(c);
       renderAll();
@@ -1227,13 +1228,13 @@
       // foreground: show what the process prints
       (r.p.logs || []).forEach(function (l) { out(l); });
       if (running(c) && (r.p.serve || r.p.long) && !o.t) {
-        dim('# (simulasi) container tetap jalan di background, anggap kamu tekan Ctrl+P Ctrl+Q. Pakai -d biar terminal ga ketahan.');
+        dim(tr('# (simulasi) container tetap jalan di background, anggap kamu tekan Ctrl+P Ctrl+Q. Pakai -d biar terminal ga ketahan.', '# (simulated) the container keeps running in the background, as if you pressed Ctrl+P Ctrl+Q. Use -d so the terminal isn\'t held.'));
       }
     }
-    if (o.t && o.i && r.p.long && !r.p.serve) dim('# shell interaktif ga ada di simulasi ini. Pakai docker exec ' + c.name + ' <perintah> buat jalanin perintah di dalamnya.');
+    if (o.t && o.i && r.p.long && !r.p.serve) dim(tr('# shell interaktif ga ada di simulasi ini. Pakai docker exec ', '# there\'s no interactive shell in this simulation. Use docker exec ') + c.name + tr(' <perintah> buat jalanin perintah di dalamnya.', ' <command> to run a command inside it.'));
     if (r.p.exit !== undefined && !r.p.delay && !c.rm) {
-      if (c.code) hint('# container langsung mati (Exited ' + c.code + '). Lihat penyebabnya: docker logs ' + c.name);
-      else if (o.d || !(r.p.logs || []).length) dim('# container langsung selesai (Exited 0) karena perintah utamanya sudah beres. Container butuh proses yang terus jalan supaya tetap hidup.');
+      if (c.code) hint(tr('# container langsung mati (Exited ', '# the container stopped right away (Exited ') + c.code + tr('). Lihat penyebabnya: docker logs ', '). See why: docker logs ') + c.name);
+      else if (o.d || !(r.p.logs || []).length) dim(tr('# container langsung selesai (Exited 0) karena perintah utamanya sudah beres. Container butuh proses yang terus jalan supaya tetap hidup.', '# the container finished right away (Exited 0) because its main command completed. A container needs a long-running process to stay alive.'));
     }
     if (o.d && r.p.exit) {
       await sleep((r.p.delay || 0) + 60);
@@ -1252,7 +1253,7 @@
       var cmd = c.cmdLine.length > 20 ? c.cmdLine.slice(0, 19) + '…' : c.cmdLine;
       return [c.id.slice(0, 12), imgName(c), '"' + cmd + '"', ago(c.created), status(c), portsTxt(c), c.name];
     })));
-    if (!all && W.ctrs.some(function (c) { return !running(c); }) && !list.length) dim('# ga ada yang jalan. Tambah -a buat lihat container yang sudah berhenti.');
+    if (!all && W.ctrs.some(function (c) { return !running(c); }) && !list.length) dim(tr('# ga ada yang jalan. Tambah -a buat lihat container yang sudah berhenti.', '# nothing is running. Add -a to see stopped containers.'));
   }
   function imagesCmd(a) {
     var showAll = a.indexOf('-a') >= 0;
@@ -1285,14 +1286,14 @@
       else if (ctx === null) ctx = t;
       else { err('ERROR: "docker buildx build" requires exactly 1 argument.'); return; }
     }
-    if (ctx === null) { err('ERROR: "docker buildx build" requires exactly 1 argument.'); dim('# jangan lupa titik di akhir: docker build -t app:1.0 .'); return; }
+    if (ctx === null) { err('ERROR: "docker buildx build" requires exactly 1 argument.'); dim(tr('# jangan lupa titik di akhir: docker build -t app:1.0 .', '# don\'t forget the dot at the end: docker build -t app:1.0 .')); return; }
     if (ctx !== '.' && ctx !== './' && ctx !== '/home/rifki/app') { err('ERROR: unable to prepare context: path "' + ctx + '" not found'); return; }
     if (tag && !/^[a-z0-9][a-z0-9._/-]*(:[\w][\w.-]{0,127})?$/.test(tag)) { err('ERROR: invalid tag "' + tag + '": repository name must be lowercase'); return; }
     var before = tag ? imgByRef(tag) : null;
     var img = await build(tag, { noCache: noCache });
     if (img && before && before !== img) {
       var users = W.ctrs.filter(function (c) { return c.img === before && running(c); });
-      if (users.length) hint('# image ' + normRef(tag) + ' sekarang menunjuk ke build baru, tapi container ' + users.map(function (c) { return c.name; }).join(', ') + ' masih jalan dari image lama. Hapus dan run ulang supaya dapat versi baru.');
+      if (users.length) hint('# image ' + normRef(tag) + tr(' sekarang menunjuk ke build baru, tapi container ', ' now points to the new build, but container ') + users.map(function (c) { return c.name; }).join(', ') + tr(' masih jalan dari image lama. Hapus dan run ulang supaya dapat versi baru.', ' still runs the old image. Remove it and run again to get the new version.'));
     }
   }
   function lifecycle(op, a) {
@@ -1321,7 +1322,7 @@
         removeCtr(c);
         out(n);
       } else {
-        err('Error response from daemon: ' + op + ' belum didukung di simulasi');
+        err('Error response from daemon: ' + op + tr(' belum didukung di simulasi', ' is not supported in the simulation'));
       }
     });
     renderAll();
@@ -1337,8 +1338,8 @@
     var L = c.logs;
     if (tail >= 0 && tail !== null) L = L.slice(-tail);
     L.forEach(function (l) { out(l); });
-    if (a.indexOf('-f') >= 0) dim('# (simulasi) -f ga nge-follow, cuma nampilin log yang sudah ada');
-    if (!L.length) dim('# log kosong');
+    if (a.indexOf('-f') >= 0) dim(tr('# (simulasi) -f ga nge-follow, cuma nampilin log yang sudah ada', '# (simulated) -f doesn\'t follow, it just shows the existing logs'));
+    if (!L.length) dim(tr('# log kosong', '# no logs'));
   }
   function execCmd(a) {
     var i = 0;
@@ -1350,8 +1351,8 @@
     if (argv[0] === 'sh' && argv[1] === '-c') argv = words(argv.slice(2).join(' '));
     var b = argv[0].split('/').pop();
     if ((b === 'sh' || b === 'bash') && argv.length === 1) {
-      if (b === 'bash' && c.img.cfg.os === 'alpine') { err('OCI runtime exec failed: exec failed: unable to start container process: exec: "bash": executable file not found in $PATH: unknown'); dim('# Alpine cuma punya sh'); return; }
-      dim('# shell interaktif ga ada di simulasi ini. Ketik perintahnya langsung, misal: docker exec ' + c.name + ' ls /');
+      if (b === 'bash' && c.img.cfg.os === 'alpine') { err('OCI runtime exec failed: exec failed: unable to start container process: exec: "bash": executable file not found in $PATH: unknown'); dim(tr('# Alpine cuma punya sh', '# Alpine only has sh')); return; }
+      dim(tr('# shell interaktif ga ada di simulasi ini. Ketik perintahnya langsung, misal: docker exec ', '# there\'s no interactive shell in this simulation. Type the command directly, e.g. docker exec ') + c.name + ' ls /');
       return;
     }
     if (b === 'curl') { curl(argv.slice(1), c); return; }
@@ -1361,7 +1362,7 @@
       var t = host === 'localhost' ? c : resolveName(c, host);
       if (!t) {
         err('ping: ' + host + ': Name or service not known');
-        if (c.net === 'bridge' && findCtr(host)) hint('# di network bridge bawaan, container ga bisa saling panggil pakai nama. Bikin network sendiri (docker network create) atau pakai Compose.');
+        if (c.net === 'bridge' && findCtr(host)) hint(tr('# di network bridge bawaan, container ga bisa saling panggil pakai nama. Bikin network sendiri (docker network create) atau pakai Compose.', '# on the default bridge network, containers can\'t reach each other by name. Create your own network (docker network create) or use Compose.'));
         return;
       }
       var ip = t === c ? '127.0.0.1' : t.ip;
@@ -1373,7 +1374,7 @@
       var ref = fileRef(c, '/data/dump.rdb');
       var db = ref.store[ref.key] ? JSON.parse(ref.store[ref.key]) : {};
       var op = (argv[1] || '').toLowerCase(), k = argv[2], res;
-      if (!op) { dim('# redis-cli interaktif ga ada, kasih perintahnya langsung: redis-cli SET kunci nilai'); return; }
+      if (!op) { dim(tr('# redis-cli interaktif ga ada, kasih perintahnya langsung: redis-cli SET kunci nilai', '# interactive redis-cli isn\'t available, give the command directly: redis-cli SET key value')); return; }
       if (op === 'ping') res = 'PONG';
       else if (op === 'set') { db[k] = argv.slice(3).join(' '); res = 'OK'; }
       else if (op === 'get') res = db[k] === undefined ? '(nil)' : '"' + db[k] + '"';
@@ -1467,7 +1468,7 @@
     if (!img) { err('Error response from daemon: No such image: ' + (a[0] || '')); return; }
     var rows = [['IMAGE', 'CREATED', 'CREATED BY', 'SIZE']];
     img.layers.slice().reverse().forEach(function (l, i) {
-      rows.push([i === 0 ? img.id.slice(0, 12) : '<missing>', ago(img.created), l.base ? '/bin/sh -c #(nop) layer dari image dasar' : l.cmd.length > 46 ? l.cmd.slice(0, 45) + '…' : l.cmd, fmtSize(l.size)]);
+      rows.push([i === 0 ? img.id.slice(0, 12) : '<missing>', ago(img.created), l.base ? tr('/bin/sh -c #(nop) layer dari image dasar', '/bin/sh -c #(nop) layer from the base image') : l.cmd.length > 46 ? l.cmd.slice(0, 45) + '…' : l.cmd, fmtSize(l.size)]);
     });
     table(rows);
   }
@@ -1537,7 +1538,7 @@
       renderAll();
       return;
     }
-    if (op === 'connect') { dim('# network connect belum didukung. Jalankan ulang container dengan --network ' + (a[1] || 'NAMA')); return; }
+    if (op === 'connect') { dim(tr('# network connect belum didukung. Jalankan ulang container dengan --network ', '# network connect isn\'t supported. Rerun the container with --network ') + (a[1] || 'NAMA')); return; }
     if (op === 'inspect') {
       if (!W.nets[n]) { err('Error response from daemon: network ' + (n || '') + ' not found'); return; }
       var cs = {};
@@ -1581,7 +1582,7 @@
       if (what === 'system') {
         Object.keys(W.nets).forEach(function (n) { if (!/^(bridge|host|none)$/.test(n) && !W.ctrs.some(function (c) { return c.net === n; })) { delete W.nets[n]; } });
         W.cache = {};
-        lines.push('Deleted build cache objects: semua');
+        lines.push(tr('Deleted build cache objects: semua', 'Deleted build cache objects: all'));
       }
       lines.push('', 'Total reclaimed space: ' + fmtSize(rnd(10, 400)));
       term.lines(lines.map(esc));
@@ -1600,7 +1601,7 @@
     var src = W.files['compose.yaml'], doc;
     try { doc = K.parseYAML(src); }
     catch (e) { return { err: 'yaml: line ' + e.line + ': ' + e.msg, line: e.line }; }
-    if (!doc || typeof doc !== 'object' || !doc.services || typeof doc.services !== 'object') return { err: 'no service selected', line: 1, hint: 'compose.yaml harus punya kunci services:' };
+    if (!doc || typeof doc !== 'object' || !doc.services || typeof doc.services !== 'object') return { err: 'no service selected', line: 1, hint: tr('compose.yaml harus punya kunci services:', 'compose.yaml must have a services: key') };
     var svcs = [], names = Object.keys(doc.services);
     for (var i = 0; i < names.length; i++) {
       var n = names[i], s = doc.services[n] || {};
@@ -1680,7 +1681,7 @@
           if (W.vols[v].compose === PROJ || anon.indexOf(v) >= 0) { delete W.vols[v]; rows.push(['Volume', W.vols[v] && W.vols[v].anon ? v.slice(0, 12) : v, 'Removed']); }
         });
       }
-      if (!rows.length) { dim('# belum ada yang jalan dari compose.yaml'); return; }
+      if (!rows.length) { dim(tr('# belum ada yang jalan dari compose.yaml', '# nothing from compose.yaml is running yet')); return; }
       term.line('[+] Running ' + rows.length + '/' + rows.length);
       rows.forEach(function (r) { term.line(crow(r[0], r[1], r[2], Math.random() * 0.6 + 0.1)); });
       renderAll();
@@ -1714,7 +1715,7 @@
         var have = imgByRef(ref);
         if (!have || forceBuild) {
           var b = await build(ref, { quiet: true });
-          if (!b) { err('failed to solve: service "' + s.name + '" gagal di-build'); return; }
+          if (!b) { err('failed to solve: service "' + s.name + tr('" gagal di-build', '" failed to build')); return; }
           have = b;
         }
         imgs[s.name] = { img: have, ref: ref };
@@ -1767,7 +1768,7 @@
     if (errMsg) err(errMsg);
     if (!detach && !errMsg) {
       composeCtrs().filter(running).forEach(function (c) { c.logs.slice(-3).forEach(function (l) { term.line('<span class="dk-svc">' + esc(pad(c.name, 14)) + '|</span> ' + esc(l)); }); });
-      dim('# (simulasi) tanpa -d, Compose biasanya nempel ke log. Di sini anggap kamu langsung detach.');
+      dim(tr('# (simulasi) tanpa -d, Compose biasanya nempel ke log. Di sini anggap kamu langsung detach.', '# (simulated) without -d, Compose usually attaches to the logs. Here, pretend you detached right away.'));
     }
     K.pulse(app, 'run');
     await sleep(400);
@@ -1777,7 +1778,7 @@
   // ---------- editor ----------
   var curTab = 'Dockerfile';
   var ed = new K.Editor($('dk-ed'), {
-    value: '', label: 'Isi file', highlight: K.hlDocker,
+    value: '', label: tr('Isi file', 'File contents'), highlight: K.hlDocker,
     onChange: function (v) { W.files[curTab] = v; W.errs[curTab] = []; renderTabs(); renderFlow(); }
   });
   function openTab(f) {
@@ -1786,7 +1787,7 @@
     ed.highlight = t.hl;
     ed.ta.value = W.files[f];
     ed.mark(W.errs[f] || []);
-    ed.ta.setAttribute('aria-label', 'Isi file ' + f);
+    ed.ta.setAttribute('aria-label', tr('Isi file ', 'File contents: ') + f);
     renderTabs();
   }
   function renderTabs() {
@@ -1808,18 +1809,18 @@
     var df, bad = false;
     try { df = parseDockerfile(W.files.Dockerfile); } catch (e) { bad = true; }
     var fs = $('dk-f-df');
-    setText(fs, bad ? 'ada error' : df.length + ' instruksi');
+    setText(fs, bad ? tr('ada error', 'has errors') : df.length + tr(' instruksi', ' instructions'));
     fs.dataset.s = bad ? 'bad' : '';
     var nb = W.images.length, own = W.images.filter(function (i) { return i.built; }).length;
-    setText($('dk-f-img'), nb ? nb + ' image' + (own ? ', ' + own + ' buatanmu' : '') : 'belum ada');
+    setText($('dk-f-img'), nb ? nb + ' image' + (own ? ', ' + own + tr(' buatanmu', ' yours') : '') : tr('belum ada', 'none yet'));
     var up = W.ctrs.filter(running).length, dn = W.ctrs.length - up;
     var fc = $('dk-f-ctr');
-    setText(fc, W.ctrs.length ? up + ' jalan' + (dn ? ', ' + dn + ' mati' : '') : 'belum ada');
+    setText(fc, W.ctrs.length ? up + tr(' jalan', ' running') + (dn ? ', ' + dn + tr(' mati', ' stopped') : '') : tr('belum ada', 'none yet'));
     fc.dataset.s = up ? 'ok' : dn ? 'warn' : '';
     var ports = [];
     W.ctrs.filter(running).forEach(function (c) { c.ports.forEach(function (p) { ports.push(':' + p.h); }); });
     var fp = $('dk-f-port');
-    setText(fp, ports.length ? ports.slice(0, 3).join(' ') + (ports.length > 3 ? ' …' : '') : 'belum ada');
+    setText(fp, ports.length ? ports.slice(0, 3).join(' ') + (ports.length > 3 ? ' …' : '') : tr('belum ada', 'none yet'));
     fp.dataset.s = ports.length ? 'ok' : '';
   }
   function ctrCard(c) {
@@ -1833,7 +1834,7 @@
     var st = c.state === 'running' ? 'run' : c.state === 'created' ? 'new' : c.code ? 'bad' : 'off';
     el.className = 'dk-c is-' + st + (c.compose ? ' is-compose' : '');
     setText(el.querySelector('b'), c.name);
-    setText(el.querySelector('em'), c.state === 'running' ? 'jalan · ' + durID(c.started) : c.state === 'created' ? 'dibuat, belum jalan' : 'keluar (' + c.code + ')');
+    setText(el.querySelector('em'), c.state === 'running' ? tr('jalan · ', 'running · ') + durID(c.started) : c.state === 'created' ? tr('dibuat, belum jalan', 'created, not started') : tr('keluar (', 'exited (') + c.code + ')');
     var body = '<div class="dk-meta"><span class="dk-imgref">' + esc(c.ref) + '</span> · ' + c.id.slice(0, 12) + (c.compose ? ' · <span class="dk-svc">compose</span>' : '') + '</div>';
     if (c.ports.length) body += '<div class="dk-row"><small>port</small>' + c.ports.map(function (p) { return '<span class="dk-port' + (running(c) ? ' is-on' : '') + '">:' + p.h + ' → ' + p.c + '</span>'; }).join('') + '</div>';
     var ms = c.mounts.filter(function (m) { return !m.anon; });
@@ -1861,10 +1862,10 @@
     el.className = 'dk-i' + (im.built ? ' is-own' : '') + (im.tags.length ? '' : ' is-dangling');
     var tot = im.layers.reduce(function (s, l) { return s + Math.max(l.size, 0.5); }, 0);
     var bar = im.layers.map(function (l) {
-      return '<i class="' + (l.base ? 'is-base' : l.cached ? 'is-cached' : 'is-new') + '" style="flex-grow:' + (Math.max(l.size, 0.5) / tot * 100).toFixed(2) + '" title="' + esc(l.base ? 'layer image dasar' : l.cmd + (l.cached ? ' (CACHED)' : '')) + ' · ' + fmtSize(l.size) + '"></i>';
+      return '<i class="' + (l.base ? 'is-base' : l.cached ? 'is-cached' : 'is-new') + '" style="flex-grow:' + (Math.max(l.size, 0.5) / tot * 100).toFixed(2) + '" title="' + esc(l.base ? tr('layer image dasar', 'base image layer') : l.cmd + (l.cached ? ' (CACHED)' : '')) + ' · ' + fmtSize(l.size) + '"></i>';
     }).join('');
     setHTML(el, '<div class="dk-ih"><b>' + esc(im.tags.length ? im.tags.join(', ') : '<none>') + '</b><em>' + fmtSize(im.size) + '</em></div>' +
-      '<div class="dk-meta">' + im.id.slice(0, 12) + ' · ' + im.layers.length + ' layer' + (used ? ' · dipakai ' + used + ' container' : '') + (im.tags.length ? '' : ' · <span class="dk-dang">dangling</span>') + '</div>' +
+      '<div class="dk-meta">' + im.id.slice(0, 12) + ' · ' + im.layers.length + ' layer' + (used ? tr(' · dipakai ', ' · used by ') + used + ' container' : '') + (im.tags.length ? '' : ' · <span class="dk-dang">dangling</span>') + '</div>' +
       '<div class="dk-layers" aria-hidden="true">' + bar + '</div>');
     return el;
   }
@@ -1888,12 +1889,12 @@
       var d = W.vols[v].data, ks = Object.keys(d);
       var info = ks.indexOf('hits.txt') >= 0 ? 'hits.txt = ' + d['hits.txt'] : ks.length ? ks.length + ' file' : 'kosong';
       return '<span class="dk-chip' + (used[v] ? ' is-on' : '') + (W.vols[v].anon ? ' is-anon' : '') + '" title="' + esc(v) + '"><b>' + esc(W.vols[v].anon ? v.slice(0, 10) + '…' : v) + '</b> ' + esc(info) + '</span>';
-    }).join('') : '<span class="dk-none">belum ada</span>');
+    }).join('') : tr('<span class="dk-none">belum ada</span>', '<span class="dk-none">none yet</span>'));
     setHTML($('dk-nets'), Object.keys(W.nets).map(function (n) {
       var cnt = W.ctrs.filter(function (c) { return c.net === n && running(c); }).length;
       return '<span class="dk-chip' + (cnt ? ' is-on' : '') + '"><b>' + esc(n) + '</b> ' + W.nets[n].driver + (cnt ? ' · ' + cnt + ' container' : '') + '</span>';
     }).join(''));
-    setText($('dk-host-chip'), W.ctrs.filter(running).length + ' jalan · ' + W.images.length + ' image');
+    setText($('dk-host-chip'), W.ctrs.filter(running).length + tr(' jalan · ', ' running · ') + W.images.length + ' image');
     renderBusy();
   }
   function renderBusy() {
@@ -1915,7 +1916,7 @@
       W.errs[curTab] = [];
       openTab(curTab);
       renderAll();
-      toast(curTab + ' balik ke versi awal');
+      toast(curTab + tr(' balik ke versi awal', ' reset to the original'));
     } else if (act === 'reset') reset();
   });
   setInterval(function () {
@@ -1923,7 +1924,7 @@
     // live "Up 12 dtk" labels without touching anything else
     W.ctrs.forEach(function (c) {
       var el = cards['c' + c.id];
-      if (el && running(c)) setText(el.querySelector('em'), 'jalan · ' + durID(c.started));
+      if (el && running(c)) setText(el.querySelector('em'), tr('jalan · ', 'running · ') + durID(c.started));
     });
   }, 1000);
 
@@ -1938,8 +1939,8 @@
     $('dk-imgs').innerHTML = '';
     openTab('Dockerfile');
     term.lines([
-      '<span class="sx-dim"># Docker host bohongan di laptop kamu. Folder ~/app berisi Dockerfile, app Flask kecil, dan compose.yaml.</span>',
-      '<span class="sx-dim"># Mulai dari </span><b>docker run -d -p 8080:80 nginx</b><span class="sx-dim">. Ketik </span><b>help</b><span class="sx-dim"> buat daftar perintah.</span>'
+      tr('<span class="sx-dim"># Docker host bohongan di laptop kamu. Folder ~/app berisi Dockerfile, app Flask kecil, dan compose.yaml.</span>', '<span class="sx-dim"># A pretend Docker host on your laptop. The ~/app folder has a Dockerfile, a small Flask app, and compose.yaml.</span>'),
+      tr('<span class="sx-dim"># Mulai dari </span><b>docker run -d -p 8080:80 nginx</b><span class="sx-dim">. Ketik </span><b>help</b><span class="sx-dim"> buat daftar perintah.</span>', tr('<span class="sx-dim"># Start with </span><b>docker run -d -p 8080:80 nginx</b><span class="sx-dim">. Ketik </span><b>help</b><span class="sx-dim"> buat daftar perintah.</span>', '<span class="sx-dim"># Start with </span><b>docker run -d -p 8080:80 nginx</b><span class="sx-dim">. Ketik </span><b>help</b><span class="sx-dim"> for the command list.</span>'))
     ]);
     renderAll();
   }

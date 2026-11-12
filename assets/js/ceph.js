@@ -6,6 +6,7 @@
   'use strict';
 
   var K = window.SimKit;
+  var tr = K.tr;
   var app = document.getElementById('cp');
   if (!app || !K) return;
   var esc = K.esc, setHTML = K.setHTML, setText = K.setText;
@@ -28,13 +29,13 @@
   ];
 
   var MISSIONS = [
-    { id: 'health', text: 'Cek kondisi cluster pakai <b>ceph -s</b>.' },
-    { id: 'pool', text: 'Bikin pool <b>data</b>, aktifkan application-nya, lalu simpan objek pakai <i>rados put</i>.' },
-    { id: 'map', text: 'Cari tahu objekmu disimpan di OSD mana: <b>ceph osd map data NAMA</b>.' },
-    { id: 'recover', text: 'Isi pool dengan data, rusakkan satu disk OSD, lalu tunggu sampai <b>HEALTH_OK</b> lagi tanpa disk itu.' },
-    { id: 'noout', text: 'Maintenance: <b>ceph osd set noout</b>, matikan satu node, nyalakan lagi, lalu <i>unset noout</i>.' },
-    { id: 'full', text: 'Isi cluster sampai <b>nearfull</b>, lalu tambah node4 dan OSD-nya supaya peringatannya hilang.' },
-    { id: 'quorum', text: 'Matikan node2 dan node3 sekaligus: monitor kehilangan <b>quorum</b>. Lalu pulihkan.' }
+    { id: 'health', text: tr('Cek kondisi cluster pakai <b>ceph -s</b>.', 'Check the cluster\'s state with <b>ceph -s</b>.') },
+    { id: 'pool', text: tr('Bikin pool <b>data</b>, aktifkan application-nya, lalu simpan objek pakai <i>rados put</i>.', 'Create a <b>data</b> pool, enable its application, then store an object with <i>rados put</i>.') },
+    { id: 'map', text: tr('Cari tahu objekmu disimpan di OSD mana: <b>ceph osd map data NAMA</b>.', 'Find out which OSDs hold your object: <b>ceph osd map data NAME</b>.') },
+    { id: 'recover', text: tr('Isi pool dengan data, rusakkan satu disk OSD, lalu tunggu sampai <b>HEALTH_OK</b> lagi tanpa disk itu.', 'Fill the pool with data, break one OSD disk, then wait for <b>HEALTH_OK</b> again without that disk.') },
+    { id: 'noout', text: tr('Maintenance: <b>ceph osd set noout</b>, matikan satu node, nyalakan lagi, lalu <i>unset noout</i>.', 'Maintenance: <b>ceph osd set noout</b>, turn a node off, turn it back on, then <i>unset noout</i>.') },
+    { id: 'full', text: tr('Isi cluster sampai <b>nearfull</b>, lalu tambah node4 dan OSD-nya supaya peringatannya hilang.', 'Fill the cluster until <b>nearfull</b>, then add node4 and its OSDs to clear the warning.') },
+    { id: 'quorum', text: tr('Matikan node2 dan node3 sekaligus: monitor kehilangan <b>quorum</b>. Lalu pulihkan.', 'Turn off node2 and node3 together: the monitors lose <b>quorum</b>. Then recover.') }
   ];
 
   // ---------- state ----------
@@ -105,11 +106,11 @@
     var now = Date.now(), dt = Math.min(1, (now - last) / 1000);
     last = now;
     var q = quorum();
-    if (!q && !W.quorumLost) { W.quorumLost = true; sys('monitor kehilangan quorum (tinggal ' + monsUp().length + '/3 mon). Cluster berhenti melayani.', 'err'); }
+    if (!q && !W.quorumLost) { W.quorumLost = true; sys(tr('monitor kehilangan quorum (tinggal ', 'monitors lost quorum (only ') + monsUp().length + tr('/3 mon). Cluster berhenti melayani.', '/3 mons left). The cluster stops serving.'), 'err'); }
     if (q && W.quorumLost && !W.quorumBack) { /* handled below */ }
     if (q && W.quorumLost) {
       W.quorumLost = false;
-      sys('quorum kembali: ' + monsUp().join(',') + '. Cluster jalan lagi.');
+      sys(tr('quorum kembali: ', 'quorum is back: ') + monsUp().join(',') + tr('. Cluster jalan lagi.', '. The cluster is running again.'));
       if (W.quorumSeen) M.hit('quorum');
     }
     if (!q) W.quorumSeen = true;
@@ -120,16 +121,16 @@
       if (!q) return;
       if (o.up && !alive) {
         if (!o.dying) o.dying = now;
-        if (now - o.dying > HEARTBEAT_MS) { o.up = false; o.downAt = now; o.dying = 0; W.epoch++; sys('osd.' + o.id + ' down (' + (h.power ? 'disk rusak' : o.host + ' mati') + ')', 'warn'); K.flash(app, 'osd', 'warn'); }
+        if (now - o.dying > HEARTBEAT_MS) { o.up = false; o.downAt = now; o.dying = 0; W.epoch++; sys('osd.' + o.id + ' down (' + (h.power ? tr('disk rusak', 'disk failed') : o.host + tr(' mati', ' is down')) + ')', 'warn'); K.flash(app, 'osd', 'warn'); }
       } else if (alive) o.dying = 0;
       if (!o.up && alive) {
         o.up = true; o.upSince = now; W.epoch++;
-        sys('osd.' + o.id + ' up lagi');
-        if (!o.in && o.autoOut) { o.in = true; o.autoOut = false; o.inSince = now; sys('osd.' + o.id + ' otomatis di-in lagi'); }
+        sys('osd.' + o.id + tr(' up lagi', ' up again'));
+        if (!o.in && o.autoOut) { o.in = true; o.autoOut = false; o.inSince = now; sys('osd.' + o.id + tr(' otomatis di-in lagi', ' automatically marked in again')); }
       }
       if (!o.up && o.in && !W.flags.noout && now - o.downAt > DOWN_OUT_MS) {
         o.in = false; o.autoOut = true; W.epoch++;
-        sys('osd.' + o.id + ' ditandai out setelah down 600 dtk (di sini dipercepat). Data-nya mulai disalin ulang ke OSD lain.', 'warn');
+        sys('osd.' + o.id + tr(' ditandai out setelah down 600 dtk (di sini dipercepat). Data-nya mulai disalin ulang ke OSD lain.', ' marked out after being down 600 s (sped up here). Its data starts being copied to other OSDs.'), 'warn');
       }
     });
     if (q) recover(dt);
@@ -291,7 +292,7 @@
   // ---------- terminal ----------
   var term = new K.Term($('cp-out'), $('cp-in'), { onCmd: onCmd });
   var toast = K.makeToast($('cp-toast'));
-  var M = new K.Missions($('cp-m-list'), $('cp-m-count'), MISSIONS, toast, '🐙 Semua misi Ceph beres. Storage engineer nih!');
+  var M = new K.Missions($('cp-m-list'), $('cp-m-count'), MISSIONS, toast, tr('🐙 Semua misi Ceph beres. Storage engineer nih!', '🐙 All Ceph missions done. Look at you, storage engineer!'));
   var PS = 'root@node1:/#';
   function err(t) { term.line('<span class="sx-err">' + esc(t) + '</span>'); }
   function dim(t) { term.line('<span class="sx-dim">' + esc(t) + '</span>'); }
@@ -309,7 +310,7 @@
   function onCmd(line) {
     term.echo(PS, line);
     if (!line) return;
-    if (W.busy) { dim('# tunggu perintah sebelumnya selesai dulu'); return; }
+    if (W.busy) { dim(tr('# tunggu perintah sebelumnya selesai dulu', '# wait for the previous command to finish first')); return; }
     var w = words(line);
     var c = w[0];
     try {
@@ -320,34 +321,34 @@
       else if (c === 'rados') rados(w.slice(1));
       else if (c === 'systemctl' || c === 'reboot') systemctl(w.slice(1), c);
       else if (c === 'ls') out('foto.jpg  backup.tar  notes.txt');
-      else if (c === 'cephadm') dim('# kamu sudah di dalam cephadm shell');
+      else if (c === 'cephadm') dim(tr('# kamu sudah di dalam cephadm shell', '# you\'re already inside cephadm shell'));
       else if (c === 'hostname') out('node1');
       else err('bash: ' + c + ': command not found');
     } catch (e) {
-      err('simulasi error: ' + (e && e.message || e));
+      err(tr('simulasi error: ', 'simulation error: ') + (e && e.message || e));
       if (window.console) console.error(e);
     }
     tick();
   }
   function timeout() {
     W.busy = true;
-    term.play([[0, '<span class="sx-dim">(menunggu monitor…)</span>'], [2200, function () {
+    term.play([[0, tr('<span class="sx-dim">(menunggu monitor…)</span>', '<span class="sx-dim">(waiting for monitors…)</span>')], [2200, function () {
       W.busy = false;
-      if (quorum()) { dim('# quorum sudah balik. Jalankan ulang perintahnya.'); return; }
+      if (quorum()) { dim(tr('# quorum sudah balik. Jalankan ulang perintahnya.', '# quorum is back. Run the command again.')); return; }
       term.lines(['<span class="sx-err">' + esc(new Date().toISOString().replace('Z', '+0000')) + ' 7f2c1b7fe640  0 monclient(hunting): authenticate timed out after 300</span>', '<span class="sx-err">[errno 110] RADOS timed out (error connecting to the cluster)</span>']);
-      hint('# cuma ' + monsUp().length + ' dari 3 monitor yang hidup. Butuh mayoritas (2) supaya ada quorum. Nyalakan lagi node2 atau node3.');
+      hint(tr('# cuma ', '# only ') + monsUp().length + tr(' dari 3 monitor yang hidup. Butuh mayoritas (2) supaya ada quorum. Nyalakan lagi node2 atau node3.', ' of 3 monitors are alive. A majority (2) is needed for quorum. Turn node2 or node3 back on.'));
     }]]);
   }
   function help() {
     term.lines([
-      '<b>Perintah yang bisa dicoba</b>',
+      tr('<b>Perintah yang bisa dicoba</b>', '<b>Commands you can try</b>'),
       '  ceph -s  ·  ceph health detail  ·  ceph df  ·  ceph osd tree  ·  ceph osd df',
-      '  ceph osd pool create NAMA [PG]  ·  ceph osd pool ls detail',
-      '  ceph osd pool set NAMA size|min_size|pg_num N  ·  ceph osd pool application enable NAMA rbd',
-      '  ceph osd pool delete NAMA NAMA --yes-i-really-really-mean-it',
-      '  rados -p POOL put OBJEK FILE  ·  rados -p POOL ls  ·  rados -p POOL rm OBJEK  ·  rados df',
+      tr('  ceph osd pool create NAMA [PG]  ·  ceph osd pool ls detail', '  ceph osd pool create NAME [PG]  ·  ceph osd pool ls detail'),
+      tr('  ceph osd pool set NAMA size|min_size|pg_num N  ·  ceph osd pool application enable NAMA rbd', '  ceph osd pool set NAME size|min_size|pg_num N  ·  ceph osd pool application enable NAME rbd'),
+      tr('  ceph osd pool delete NAMA NAMA --yes-i-really-really-mean-it', '  ceph osd pool delete NAME NAME --yes-i-really-really-mean-it'),
+      tr('  rados -p POOL put OBJEK FILE  ·  rados -p POOL ls  ·  rados -p POOL rm OBJEK  ·  rados df', '  rados -p POOL put OBJECT FILE  ·  rados -p POOL ls  ·  rados -p POOL rm OBJECT  ·  rados df'),
       '  rados bench -p POOL 30 write --no-cleanup  ·  rados -p POOL cleanup',
-      '  ceph osd map POOL OBJEK  ·  ceph pg stat  ·  ceph pg ls [degraded]',
+      tr('  ceph osd map POOL OBJEK  ·  ceph pg stat  ·  ceph pg ls [degraded]', '  ceph osd map POOL OBJECT  ·  ceph pg stat  ·  ceph pg ls [degraded]'),
       '  ceph osd out|in ID  ·  ceph osd set|unset noout',
       '  ceph orch host ls  ·  ceph orch host add node4 10.0.0.24  ·  ceph orch apply osd --all-available-devices',
       '  systemctl restart ceph-osd@ID  ·  clear'
@@ -369,11 +370,11 @@
     }
     if (sub === 'config') {
       if (a[1] === 'set' && a[3] === 'mon_allow_pool_delete') { W.allowDelete = /^(true|1)$/.test(a[4] || ''); return; }
-      if (a[1] === 'set' || a[1] === 'get') { dim('# config dicatat, tapi simulasi ini cuma memakai mon_allow_pool_delete'); return; }
+      if (a[1] === 'set' || a[1] === 'get') { dim(tr('# config dicatat, tapi simulasi ini cuma memakai mon_allow_pool_delete', '# config recorded, but this simulation only uses mon_allow_pool_delete')); return; }
     }
     if (sub === 'versions') { out('{\n    "overall": {\n        "ceph version 19.2.0 squid (stable)": ' + (3 + 2 + W.osds.length) + '\n    }\n}'); return; }
     err('no valid command found; 10 closest matches:');
-    dim('# ketik help buat daftar perintah yang didukung');
+    dim(tr('# ketik help buat daftar perintah yang didukung', '# type help for the list of supported commands'));
   }
   function status() {
     var cs = healthChecks(), h = healthOf(cs), S = pgSummary();
@@ -483,14 +484,14 @@
     if (op === 'set' || op === 'unset') {
       var f = a[1];
       if (['noout', 'norebalance', 'nobackfill', 'norecover', 'noup', 'nodown', 'noscrub', 'nodeep-scrub'].indexOf(f) < 0) { err('Invalid command: ' + (f || '') + ' not in full|pause|noup|nodown|noout|noin|nobackfill|norebalance|norecover|noscrub|nodeep-scrub'); return; }
-      if (f !== 'noout') dim('# flag dicatat, tapi simulasi ini cuma memakai noout');
+      if (f !== 'noout') dim(tr('# flag dicatat, tapi simulasi ini cuma memakai noout', '# flag recorded, but this simulation only uses noout'));
       if (op === 'set') { W.flags[f] = true; out(f + ' is set'); W.nooutCycle = false; W.nooutOut = false; }
       else {
         var had = W.flags[f];
         delete W.flags[f];
         out(f + ' is unset');
         if (f === 'noout' && had && W.nooutCycle && !W.nooutOut) M.hit('noout');
-        else if (f === 'noout' && had && !W.nooutCycle) dim('# misinya: selama noout aktif, matikan satu node lalu nyalakan lagi');
+        else if (f === 'noout' && had && !W.nooutCycle) dim(tr('# misinya: selama noout aktif, matikan satu node lalu nyalakan lagi', '# the mission: while noout is set, turn a node off and back on'));
       }
       W.epoch++;
       return;
@@ -510,7 +511,7 @@
         } else {
           if (!o.up) { out('osd.' + id + ' is already down.'); return; }
           out('marked down osd.' + id + '.');
-          dim('# OSD-nya masih hidup, jadi dia langsung lapor up lagi. Buat mensimulasikan disk rusak, klik kotak OSD-nya.');
+          dim(tr('# OSD-nya masih hidup, jadi dia langsung lapor up lagi. Buat mensimulasikan disk rusak, klik kotak OSD-nya.', '# the OSD is still alive, so it reports up again right away. To simulate a failed disk, click the OSD box.'));
         }
         W.epoch++;
         K.pulse(app, 'crush');
@@ -527,14 +528,14 @@
       out('osdmap e' + W.epoch + " pool '" + p.name + "' (" + p.id + ") object '" + name + "' -> pg " + p.id + '.' + h32('obj' + name).toString(16) + ' (' + g.id + ') -> up ([' + upSet.join(',') + '], p' + (upSet[0] !== undefined ? upSet[0] : -1) + ') acting ([' + act.join(',') + '], p' + (act[0] !== undefined ? act[0] : -1) + ')');
       var exists = p.objects[name] !== undefined;
       W.lastMap = { pool: p.name, obj: name, pg: g.id, osds: act.slice(), exists: exists };
-      if (!exists) dim('# objek ' + name + ' belum ada, tapi lokasinya tetap bisa dihitung. Begitulah CRUSH: lokasi dihitung, bukan dicari.');
+      if (!exists) dim(tr('# objek ', '# object ') + name + tr(' belum ada, tapi lokasinya tetap bisa dihitung. Begitulah CRUSH: lokasi dihitung, bukan dicari.', ' doesn\'t exist yet, but its location can still be computed. That\'s CRUSH: locations are calculated, not looked up.'));
       else M.hit('map');
       K.pulse(app, 'hash'); K.pulse(app, 'crush');
       return;
     }
     if (op === 'pool') { poolCmd(a.slice(1)); return; }
     if (op === 'purge' || op === 'destroy' || op === 'rm') {
-      dim('# mengganti disk belum didukung. Klik kotak OSD-nya buat menghidupkan lagi.');
+      dim(tr('# mengganti disk belum didukung. Klik kotak OSD-nya buat menghidupkan lagi.', '# replacing disks isn\'t supported. Click the OSD box to bring it back.'));
       return;
     }
     if (op === 'crush' && a[1] === 'tree') { osdCmd(['tree']); return; }
@@ -548,8 +549,8 @@
       if (poolBy(name)) { out("pool '" + name + "' already exists"); return; }
       var pgn = a[2] ? parseInt(a[2], 10) : 32;
       if (!(pgn > 0)) { err("Error EINVAL: invalid pg_num '" + a[2] + "'"); return; }
-      if (pgn > 256) { err('Error ERANGE: pg_num ' + pgn + ' size 3 would mean ' + (pgn * 3 + totalPgReplicas()) + ' total pgs, which exceeds max ' + 250 * W.osds.filter(function (o) { return o.in; }).length + ' (mon_max_pg_per_osd 250 * num_in_osds ' + W.osds.filter(function (o) { return o.in; }).length + ')'); dim('# di simulasi, maksimal 256 PG per pool supaya browser ga berat'); return; }
-      if (pgn & (pgn - 1)) hint('# pg_num sebaiknya pangkat dua (32, 64, 128) supaya PG terbagi rata');
+      if (pgn > 256) { err('Error ERANGE: pg_num ' + pgn + ' size 3 would mean ' + (pgn * 3 + totalPgReplicas()) + ' total pgs, which exceeds max ' + 250 * W.osds.filter(function (o) { return o.in; }).length + ' (mon_max_pg_per_osd 250 * num_in_osds ' + W.osds.filter(function (o) { return o.in; }).length + ')'); dim(tr('# di simulasi, maksimal 256 PG per pool supaya browser ga berat', '# in the simulation, at most 256 PGs per pool so the browser stays light')); return; }
+      if (pgn & (pgn - 1)) hint(tr('# pg_num sebaiknya pangkat dua (32, 64, 128) supaya PG terbagi rata', '# pg_num should be a power of two (32, 64, 128) so PGs spread evenly'));
       makePool(name, pgn);
       out("pool '" + name + "' created");
       K.flash(app, 'pool');
@@ -578,7 +579,7 @@
         return;
       }
       if (!W.allowDelete) { err('Error EPERM: pool deletion is disabled; you must first set the mon_allow_pool_delete config option to true before you can destroy a pool'); dim('# ceph config set mon mon_allow_pool_delete true'); return; }
-      if (p.name === '.mgr') { err('Error EBUSY: pool .mgr dipakai manager'); return; }
+      if (p.name === '.mgr') { err(tr('Error EBUSY: pool .mgr dipakai manager', 'Error EBUSY: pool .mgr is used by the manager')); return; }
       W.pools = W.pools.filter(function (x) { return x !== p; });
       out("pool '" + name + "' removed");
       W.epoch++;
@@ -592,18 +593,18 @@
         if (v === 1 && a.indexOf('--yes-i-really-mean-it') < 0) { err('Error EPERM: configuring pool size as 1 is disabled by default.'); return; }
         p.size = v; if (p.min > v) p.min = v;
         out('set pool ' + p.id + ' size to ' + v);
-        if (v > Object.keys(W.hosts).filter(function (h) { return W.hosts[h].joined; }).length) hint('# size ' + v + ' butuh ' + v + ' node berbeda. Cuma ada ' + Object.keys(W.hosts).filter(function (h) { return W.hosts[h].joined; }).length + ', jadi PG-nya bakal undersized terus.');
-        if (v === 2) hint('# size 2 itu berisiko: kalau satu salinan hilang, cuma tersisa satu. Produksi biasanya pakai size 3, min_size 2.');
+        if (v > Object.keys(W.hosts).filter(function (h) { return W.hosts[h].joined; }).length) hint('# size ' + v + tr(' butuh ', ' needs ') + v + tr(' node berbeda. Cuma ada ', ' different nodes. There are only ') + Object.keys(W.hosts).filter(function (h) { return W.hosts[h].joined; }).length + tr(', jadi PG-nya bakal undersized terus.', ', so its PGs will stay undersized.'));
+        if (v === 2) hint(tr('# size 2 itu berisiko: kalau satu salinan hilang, cuma tersisa satu. Produksi biasanya pakai size 3, min_size 2.', '# size 2 is risky: if one copy is lost, only one is left. Production usually uses size 3, min_size 2.'));
       } else if (k === 'min_size') {
         if (!(v >= 1 && v <= p.size)) { err('Error EINVAL: pool min_size must be between 1 and size, which is set to ' + p.size); return; }
         p.min = v;
         out('set pool ' + p.id + ' min_size to ' + v);
-        if (v === 1) hint('# min_size 1 bikin Ceph mau menulis walau cuma ada 1 salinan. Kalau disk itu rusak sebelum recovery, data hilang.');
+        if (v === 1) hint(tr('# min_size 1 bikin Ceph mau menulis walau cuma ada 1 salinan. Kalau disk itu rusak sebelum recovery, data hilang.', '# min_size 1 lets Ceph write even with only 1 copy. If that disk fails before recovery, the data is lost.'));
       } else if (k === 'pg_num' || k === 'pgp_num') {
-        if (!(v > 0 && v <= 256)) { err('Error EINVAL: pg_num ' + a[3] + ' ga didukung (1 sampai 256)'); return; }
+        if (!(v > 0 && v <= 256)) { err('Error EINVAL: pg_num ' + a[3] + tr(' ga didukung (1 sampai 256)', ' not supported (1 to 256)')); return; }
         resplit(p, v);
         out('set pool ' + p.id + ' ' + k + ' to ' + v);
-      } else { err('Error EINVAL: invalid choice: ' + (k || '') + '. Yang didukung: size, min_size, pg_num'); return; }
+      } else { err('Error EINVAL: invalid choice: ' + (k || '') + tr('. Yang didukung: size, min_size, pg_num', '. Supported: size, min_size, pg_num')); return; }
       W.epoch++;
       K.pulse(app, 'crush');
       return;
@@ -652,9 +653,9 @@
           rows.push([g.id, String(Math.round(g.objs)), gib(g.bytes), s, '[' + g.target.filter(function (t) { return osdBy(t).up; }).join(',') + ']p' + (g.target[0] !== undefined ? g.target[0] : -1), '[' + acting(g).join(',') + ']p' + (acting(g)[0] !== undefined ? acting(g)[0] : -1)]);
         });
       });
-      if (rows.length === 1) { dim('# ga ada PG ' + (filt || '')); return; }
+      if (rows.length === 1) { dim(tr('# ga ada PG ', '# no PGs ') + (filt || '')); return; }
       term.table(rows);
-      if (more) dim('# … dan ' + more + ' PG lagi');
+      if (more) dim(tr('# … dan ', '# … and ') + more + tr(' PG lagi', ' more PGs'));
       return;
     }
     if (op === 'repair' || op === 'scrub' || op === 'deep-scrub') { out('instructing pg ' + (a[1] || '') + ' on osd.0 to ' + op); return; }
@@ -675,7 +676,7 @@
       if (!h.power) { err('Error EINVAL: Failed to connect to ' + h.name); return; }
       h.joined = true;
       out("Added host '" + h.name + "' with addr '" + h.ip + "'");
-      dim('# node4 sudah gabung, tapi belum ada OSD. Tambahkan disk-nya: ceph orch apply osd --all-available-devices');
+      dim(tr('# node4 sudah gabung, tapi belum ada OSD. Tambahkan disk-nya: ceph orch apply osd --all-available-devices', '# node4 has joined, but has no OSDs yet. Add its disks: ceph orch apply osd --all-available-devices'));
       return;
     }
     if (op === 'device' && a[1] === 'ls') {
@@ -703,9 +704,9 @@
         }
       });
       if (op === 'apply') out('Scheduled osd.all-available-devices update...');
-      if (!added.length) { if (op === 'daemon') err('Error EINVAL: ' + (a[3] || '') + ': device ga tersedia atau host belum di-add'); else dim('# ga ada disk kosong di host yang sudah gabung. Sudah ceph orch host add node4?'); return; }
+      if (!added.length) { if (op === 'daemon') err('Error EINVAL: ' + (a[3] || '') + tr(': device ga tersedia atau host belum di-add', ': device not available or host not added yet')); else dim(tr('# ga ada disk kosong di host yang sudah gabung. Sudah ceph orch host add node4?', '# no empty disks on the joined hosts. Did you ceph orch host add node4?')); return; }
       if (op === 'daemon') out('Created osd(s) ' + added.map(function (o) { return o.id; }).join(',') + ' on host \'' + added[0].host + '\'');
-      sys('osd baru: ' + added.map(function (o) { return 'osd.' + o.id; }).join(', ') + '. CRUSH menghitung ulang, sebagian PG pindah ke sana (backfill).');
+      sys(tr('osd baru: ', 'new osd: ') + added.map(function (o) { return 'osd.' + o.id; }).join(', ') + tr('. CRUSH menghitung ulang, sebagian PG pindah ke sana (backfill).', '. CRUSH recalculates and some PGs move there (backfill).'));
       K.flash(app, 'osd');
       K.pulse(app, 'crush');
       return;
@@ -727,7 +728,7 @@
     err('Invalid command');
   }
   function systemctl(a, c) {
-    if (c === 'reboot') { dim('# pakai tombol daya di kartu node buat mematikan node'); return; }
+    if (c === 'reboot') { dim(tr('# pakai tombol daya di kartu node buat mematikan node', '# use the power switch on a node card to turn a node off')); return; }
     var m = /^ceph-osd@(\d+)$/.exec(a[1] || '') || /osd\.(\d+)/.exec(a[1] || '');
     if ((a[0] === 'restart' || a[0] === 'start') && m) { restartOsd(osdBy(+m[1])); return; }
     if (a[0] === 'stop' && m && osdBy(+m[1])) { osdBy(+m[1]).failed = true; return; }
@@ -735,9 +736,9 @@
     err('Failed to ' + (a[0] || 'run') + ' ' + (a[1] || '') + ': Unit not found.');
   }
   function restartOsd(o) {
-    if (!o) { err('osd ga ada'); return; }
-    if (o.host !== 'node1') dim('# (simulasi) perintah dijalankan lewat orchestrator di ' + o.host);
-    if (!W.hosts[o.host].power) { err(o.host + ' mati. Nyalakan node-nya dulu.'); return; }
+    if (!o) { err(tr('osd ga ada', 'no such osd')); return; }
+    if (o.host !== 'node1') dim(tr('# (simulasi) perintah dijalankan lewat orchestrator di ', '# (simulated) command run through the orchestrator on ') + o.host);
+    if (!W.hosts[o.host].power) { err(o.host + tr(' mati. Nyalakan node-nya dulu.', ' is off. Turn the node on first.')); return; }
     o.failed = false;
     out('Scheduled to restart osd.' + o.id + ' on host \'' + o.host + '\'');
   }
@@ -753,13 +754,13 @@
       return;
     }
     if (op === 'lspools') { W.pools.forEach(function (x) { out(x.name); }); return; }
-    if (pi < 0) { err('rados: you must give an action. Try --help'); dim('# contoh: rados -p data ls'); return; }
+    if (pi < 0) { err('rados: you must give an action. Try --help'); dim(tr('# contoh: rados -p data ls', '# e.g. rados -p data ls')); return; }
     if (!p) { err("error opening pool " + (a[pi + 1] || '') + ": (2) No such file or directory"); return; }
     if (op === 'ls') {
       var names = Object.keys(p.objects);
       names.forEach(out);
-      if (p.bulkObjs) out('benchmark_data_node1_' + rnd(1000, 9999) + '_object0 … (' + p.bulkObjs + ' objek bench)');
-      if (!names.length && !p.bulkObjs) dim('# pool kosong');
+      if (p.bulkObjs) out('benchmark_data_node1_' + rnd(1000, 9999) + '_object0 … (' + p.bulkObjs + tr(' objek bench)', ' bench objects)'));
+      if (!names.length && !p.bulkObjs) dim(tr('# pool kosong', '# pool is empty'));
       return;
     }
     if (op === 'put') {
@@ -775,7 +776,7 @@
       W.writes = (W.writes || 0) + 1;
       K.pulse(app, 'write'); K.pulse(app, 'hash'); K.pulse(app, 'crush');
       if (p.app) M.hit('pool');
-      else hint('# objek tersimpan, tapi pool ' + p.name + ' belum punya application. Lihat ceph health detail.');
+      else hint(tr('# objek tersimpan, tapi pool ', '# object stored, but pool ') + p.name + tr(' belum punya application. Lihat ceph health detail.', ' has no application yet. See ceph health detail.'));
       return;
     }
     if (op === 'get') {
@@ -809,7 +810,7 @@
       term.lines(['hints = 1', 'Maintaining 16 concurrent writes of 4194304 bytes to objects of size 4194304 for up to ' + secs + ' seconds or 0 objects', 'Object prefix: benchmark_data_node1_' + rnd(1000, 9999), '  sec Cur ops   started  finished  avg MB/s  cur MB/s last lat(s)  avg lat(s)']);
       K.pulse(app, 'write');
       term.play(rows.concat([[200, function () {
-        if (secs > 4) term.line('  … (' + (secs - 4) + ' detik lagi, dipercepat)', 'sx-dim');
+        if (secs > 4) term.line('  … (' + (secs - 4) + tr(' detik lagi, dipercepat)', ' seconds more, sped up)'), 'sx-dim');
         // check again at the end: an OSD may have filled up meanwhile
         var e4 = canWrite(p, p.pgs);
         if (e4) { writeErr(e4, 'bench', 'benchmark_data'); W.busy = false; return; }
@@ -825,7 +826,7 @@
       return;
     }
     if (op === 'cleanup') {
-      if (!p.bulk) { dim('# ga ada data bench di pool ' + p.name); return; }
+      if (!p.bulk) { dim(tr('# ga ada data bench di pool ', '# no bench data in pool ') + p.name); return; }
       p.pgs.forEach(function (g5) { addBytes(p, g5, -p.bulk / p.pgn, -p.bulkObjs / p.pgn); });
       out('Removed ' + p.bulkObjs + ' objects');
       p.bulk = 0; p.bulkObjs = 0;
@@ -837,15 +838,15 @@
     if (e === 'timeout') { timeout(); return; }
     if (e === 'full') {
       err('error ' + (op === 'bench' ? 'during benchmark' : 'putting ' + name) + ': (28) No space left on device');
-      hint('# ada OSD yang sudah 95% (full). Ceph memblokir semua tulisan ke pool supaya OSD itu ga meledak. Tambah kapasitas: node4.');
+      hint(tr('# ada OSD yang sudah 95% (full). Ceph memblokir semua tulisan ke pool supaya OSD itu ga meledak. Tambah kapasitas: node4.', '# an OSD is at 95% (full). Ceph blocks all writes to the pool so that OSD doesn\'t overflow. Add capacity: node4.'));
       return;
     }
     var pg = e.split(':')[1];
     W.busy = true;
-    term.play([[1400, '<span class="sx-dim">(menunggu… I/O ke PG ' + esc(pg) + ' tertahan)</span>'], [600, function () {
+    term.play([[1400, tr('<span class="sx-dim">(menunggu… I/O ke PG ', '<span class="sx-dim">(waiting… I/O to PG ') + esc(pg) + tr(' tertahan)</span>', ' blocked)</span>')], [600, function () {
       W.busy = false;
       err('error ' + (op === 'bench' ? 'during benchmark' : op + 'ting ' + name) + ': (110) Connection timed out');
-      hint('# PG ' + pg + ' inactive: salinan yang hidup kurang dari min_size. Ceph sengaja menahan I/O daripada menulis ke salinan yang terlalu sedikit.');
+      hint('# PG ' + pg + tr(' inactive: salinan yang hidup kurang dari min_size. Ceph sengaja menahan I/O daripada menulis ke salinan yang terlalu sedikit.', ' inactive: fewer live copies than min_size. Ceph deliberately holds I/O rather than write to too few copies.'));
     }]]);
   }
 
@@ -872,7 +873,7 @@
       var el = document.createElement('div');
       el.className = 'cp-host';
       el.innerHTML = '<div class="sw-nh"><i class="an-dot" aria-hidden="true"></i><b>' + h + '</b><span class="cp-mon"></span>' +
-        (h === 'node1' ? '' : '<label class="gx-sw sw-pw" title="nyalakan / matikan node"><input type="checkbox" data-act="power" data-h="' + h + '" checked><span aria-hidden="true"></span><i class="sr">daya ' + h + '</i></label>') +
+        (h === 'node1' ? '' : tr('<label class="gx-sw sw-pw" title="nyalakan / matikan node"><input type="checkbox" data-act="power" data-h="', '<label class="gx-sw sw-pw" title="turn the node on / off"><input type="checkbox" data-act="power" data-h="') + h + tr('" checked><span aria-hidden="true"></span><i class="sr">daya ', '" checked><span aria-hidden="true"></span><i class="sr">power ') + h + '</i></label>') +
         '</div><div class="sw-meta"></div><div class="cp-osds"></div><div class="sw-act"></div>';
       box.appendChild(el);
       cards[h] = { el: el, mon: el.querySelector('.cp-mon'), meta: el.querySelector('.sw-meta'), osds: el.querySelector('.cp-osds'), act: el.querySelector('.sw-act'), pw: el.querySelector('input') };
@@ -885,7 +886,7 @@
     setText(hb, h);
     hb.dataset.s = h === 'HEALTH_OK' ? 'ok' : h === 'HEALTH_ERR' ? 'bad' : 'warn';
     if (h !== W.lastHealth) {
-      if (h === 'HEALTH_OK' && W.lastHealth !== 'HEALTH_OK') sys('cluster kembali HEALTH_OK');
+      if (h === 'HEALTH_OK' && W.lastHealth !== 'HEALTH_OK') sys(tr('cluster kembali HEALTH_OK', 'cluster is back to HEALTH_OK'));
       W.lastHealth = h;
     }
     setHTML($('cp-checks'), cs.map(function (c) { return '<li data-s="' + (c.sev === 'ERR' ? 'bad' : 'warn') + '"><b>' + c.code + '</b> ' + esc(c.msg) + '</li>'; }).join(''));
@@ -909,9 +910,9 @@
       var os = hostOsds(hn);
       var st = !H.power ? 'off' : !H.joined ? 'out' : os.some(function (o) { return !o.up; }) ? 'down' : 'ok';
       c.el.className = 'cp-host is-' + st;
-      setText(c.mon, H.mon ? 'mon' + (H.power ? '' : ' ✕') : H.joined ? '' : 'belum gabung');
+      setText(c.mon, H.mon ? 'mon' + (H.power ? '' : ' ✕') : H.joined ? '' : tr('belum gabung', 'not joined'));
       c.mon.className = 'cp-mon' + (H.mon ? ' is-mon' : '') + (H.mon && !H.power ? ' is-dead' : '');
-      setText(c.meta, H.ip + ' · ' + (!H.power ? 'mati' : !H.joined ? 'belum di cluster' : os.length + ' OSD'));
+      setText(c.meta, H.ip + ' · ' + (!H.power ? tr('mati', 'off') : !H.joined ? tr('belum di cluster', 'not in cluster') : os.length + ' OSD'));
       if (c.pw && c.pw.checked !== H.power) c.pw.checked = H.power;
       setHTML(c.osds, os.map(function (o) {
         var u = osdUtil(o), pct = Math.min(100, u * 100);
@@ -920,14 +921,14 @@
         var s = o.up && o.in ? (u >= FULL ? 'full' : u >= NEARFULL ? 'near' : 'ok') : !o.up && o.in ? 'down' : !o.up ? 'gone' : 'outup';
         var lbl = o.up && o.in ? 'up · in' : !o.up && o.in ? 'down · in' : !o.up ? 'down · out' : 'up · out';
         var mi = mapOsds.indexOf(o.id);
-        return '<button type="button" class="cp-osd is-' + s + (mi >= 0 ? ' is-map' : '') + '" data-act="osd" data-id="' + o.id + '" title="' + (o.failed ? 'klik buat menyalakan ulang osd.' + o.id : 'klik buat merusak disk osd.' + o.id) + '">' +
+        return '<button type="button" class="cp-osd is-' + s + (mi >= 0 ? ' is-map' : '') + '" data-act="osd" data-id="' + o.id + '" title="' + (o.failed ? tr('klik buat menyalakan ulang osd.', 'click to restart osd.') + o.id : tr('klik buat merusak disk osd.', 'click to break the disk of osd.') + o.id) + '">' +
           '<span class="cp-oh"><b>osd.' + o.id + '</b>' + (mi === 0 ? '<em>primary</em>' : mi > 0 ? '<em>replika</em>' : '') + '</span>' +
           '<span class="cp-bar"><i style="width:' + pct.toFixed(1) + '%"></i></span>' +
           '<span class="cp-os">' + (s === 'ok' || s === 'near' || s === 'full' ? '' : lbl + ' · ') + pct.toFixed(0) + '% · ' + pgs + ' PG</span></button>';
-      }).join('') || (H.joined ? '<span class="sw-none">belum ada OSD</span>' : '<span class="sw-none">2 disk 100 GiB nganggur</span>'));
+      }).join('') || (H.joined ? tr('<span class="sw-none">belum ada OSD</span>', '<span class="sw-none">no OSDs yet</span>') : '<span class="sw-none">2 disk 100 GiB nganggur</span>'));
       var act = '';
       if (!H.joined && H.power) act = '<button type="button" data-act="cmd" data-cmd="ceph orch host add ' + hn + ' ' + H.ip + '">ceph orch host add</button>';
-      else if (H.joined && H.power && os.length < H.disks) act = '<button type="button" data-act="cmd" data-cmd="ceph orch apply osd --all-available-devices">tambah OSD</button>';
+      else if (H.joined && H.power && os.length < H.disks) act = tr('<button type="button" data-act="cmd" data-cmd="ceph orch apply osd --all-available-devices">tambah OSD</button>', '<button type="button" data-act="cmd" data-cmd="ceph orch apply osd --all-available-devices">add OSDs</button>');
       setHTML(c.act, act);
     });
 
@@ -937,10 +938,10 @@
       p.pgs.forEach(function (g) { var s = pgState(p, g); var k = inactive(s) ? 'bad' : /backfill|recover/.test(s) ? 'rec' : /clean/.test(s) && !/degraded|remapped/.test(s) ? 'clean' : 'deg'; states[k] = (states[k] || 0) + 1; });
       var bar = ['clean', 'rec', 'deg', 'bad'].filter(function (k) { return states[k]; }).map(function (k) { return '<i class="cp-' + k + '" style="flex-grow:' + states[k] + '"></i>'; }).join('');
       var mine = p.name !== '.mgr';
-      return '<div class="cp-pool' + (mine ? '' : ' is-sys') + '"><div class="sw-sh"><b>' + esc(p.name) + '</b><span class="gx-chip">size ' + p.size + ' · min ' + p.min + '</span><span class="gx-chip">' + p.pgn + ' PG</span>' + (p.app ? '<span class="gx-chip">' + esc(p.app) + '</span>' : mine ? '<span class="gx-chip gx-chip-warn">tanpa application</span>' : '') + '</div>' +
-        '<div class="dk-meta">' + gib(st) + ' tersimpan · ' + gib(st * p.size) + ' raw · ' + kfmt(totalObjs(p)) + ' objek · sisa ' + gib(maxAvail(p)) + '</div>' +
+      return '<div class="cp-pool' + (mine ? '' : ' is-sys') + '"><div class="sw-sh"><b>' + esc(p.name) + '</b><span class="gx-chip">size ' + p.size + ' · min ' + p.min + '</span><span class="gx-chip">' + p.pgn + ' PG</span>' + (p.app ? '<span class="gx-chip">' + esc(p.app) + '</span>' : mine ? tr('<span class="gx-chip gx-chip-warn">tanpa application</span>', '<span class="gx-chip gx-chip-warn">no application</span>') : '') + '</div>' +
+        '<div class="dk-meta">' + gib(st) + tr(' tersimpan · ', ' stored · ') + gib(st * p.size) + ' raw · ' + kfmt(totalObjs(p)) + tr(' objek · sisa ', ' objects · free ') + gib(maxAvail(p)) + '</div>' +
         '<div class="cp-pgbar cp-small" aria-hidden="true">' + bar + '</div>' +
-        (mine ? '<div class="sw-act"><button type="button" data-act="cmd" data-cmd="rados bench -p ' + esc(p.name) + ' 30 write --no-cleanup">tulis 15 GiB</button>' + (p.bulk ? '<button type="button" data-act="cmd" data-cmd="rados -p ' + esc(p.name) + ' cleanup">hapus data bench</button>' : '') + '<button type="button" data-act="cmd" data-cmd="rados -p ' + esc(p.name) + ' ls">ls</button></div>' : '') +
+        (mine ? '<div class="sw-act"><button type="button" data-act="cmd" data-cmd="rados bench -p ' + esc(p.name) + tr(' 30 write --no-cleanup">tulis 15 GiB</button>', ' 30 write --no-cleanup">write 15 GiB</button>') + (p.bulk ? '<button type="button" data-act="cmd" data-cmd="rados -p ' + esc(p.name) + tr(' cleanup">hapus data bench</button>', ' cleanup">delete bench data</button>') : '') + '<button type="button" data-act="cmd" data-cmd="rados -p ' + esc(p.name) + ' ls">ls</button></div>' : '') +
         '</div>';
     }).join(''));
     var raw = W.osds.filter(function (o) { return o.in || o.up; }).length * OSD_GIB, u = W.osds.reduce(function (a, o) { return a + used(o); }, 0);
@@ -949,16 +950,16 @@
     if (W.lastMap) {
       mp.hidden = false;
       var L = W.lastMap;
-      setHTML(mp, '<span class="cp-mapk">objek</span> <b>' + esc(L.pool + '/' + L.obj) + '</b> <span class="cp-arrow">→</span> <span class="cp-mapk">PG</span> <b>' + esc(L.pg) + '</b> <span class="cp-arrow">→</span> ' + L.osds.map(function (id, i) { return '<b class="cp-mo' + (i === 0 ? ' is-p' : '') + '">osd.' + id + '</b>'; }).join(' ') + ' <span class="cp-mapk">(' + L.osds.map(function (id) { return osdBy(id).host; }).join(', ') + ')</span>' + (L.exists ? '' : ' <span class="cp-mapk">· objeknya belum ada</span>'));
+      setHTML(mp, tr('<span class="cp-mapk">objek</span> <b>', '<span class="cp-mapk">object</span> <b>') + esc(L.pool + '/' + L.obj) + '</b> <span class="cp-arrow">→</span> <span class="cp-mapk">PG</span> <b>' + esc(L.pg) + '</b> <span class="cp-arrow">→</span> ' + L.osds.map(function (id, i) { return '<b class="cp-mo' + (i === 0 ? ' is-p' : '') + '">osd.' + id + '</b>'; }).join(' ') + ' <span class="cp-mapk">(' + L.osds.map(function (id) { return osdBy(id).host; }).join(', ') + ')</span>' + (L.exists ? '' : tr(' <span class="cp-mapk">· objeknya belum ada</span>', ' <span class="cp-mapk">· the object doesn\'t exist yet</span>')));
     } else mp.hidden = true;
 
     // flow
     var fc = $('cp-f-cli');
     var noW = !quorum() || cs.some(function (c) { return c.code === 'OSD_FULL'; }) || S.inact;
-    setText(fc, !quorum() ? 'ga ada quorum' : noW ? 'I/O tertahan' : 'bisa nulis');
+    setText(fc, !quorum() ? tr('ga ada quorum', 'no quorum') : noW ? tr('I/O tertahan', 'I/O blocked') : tr('bisa nulis', 'writable'));
     fc.dataset.s = noW ? 'bad' : 'ok';
     var userPools = W.pools.filter(function (p) { return p.name !== '.mgr'; });
-    setText($('cp-f-pool'), userPools.length ? userPools.length + ' pool · ' + gib(userPools.reduce(function (a, p) { return a + poolStored(p); }, 0)) : 'cuma .mgr');
+    setText($('cp-f-pool'), userPools.length ? userPools.length + ' pool · ' + gib(userPools.reduce(function (a, p) { return a + poolStored(p); }, 0)) : tr('cuma .mgr', 'only .mgr'));
     var fp = $('cp-f-pg');
     var cleanN = S.counts['active+clean'] || 0;
     setText(fp, cleanN === S.tot ? S.tot + ' clean' : (S.tot - cleanN) + ' ga clean');
@@ -977,9 +978,9 @@
     if (act === 'cmd') { if (!W.busy) term.submit(b.dataset.cmd); }
     else if (act === 'osd') {
       var o = osdBy(+b.dataset.id);
-      if (!W.hosts[o.host].power) { toast(o.host + ' lagi mati'); return; }
+      if (!W.hosts[o.host].power) { toast(o.host + tr(' lagi mati', ' is off')); return; }
       o.failed = !o.failed;
-      term.line('<span class="sx-dim"># ' + (o.failed ? 'disk osd.' + o.id + ' di ' + o.host + ' rusak. Monitor bakal menandainya down, lalu out kalau ga balik.' : 'osd.' + o.id + ' dinyalakan ulang') + '</span>');
+      term.line('<span class="sx-dim"># ' + (o.failed ? 'disk osd.' + o.id + tr(' di ', ' on ') + o.host + tr(' rusak. Monitor bakal menandainya down, lalu out kalau ga balik.', ' failed. The monitors will mark it down, then out if it doesn\'t come back.') : 'osd.' + o.id + tr(' dinyalakan ulang', ' restarted')) + '</span>');
       tick();
     } else if (act === 'reset') reset();
   });
@@ -990,7 +991,7 @@
       H.power = t.checked;
       if (!H.power) { H.offAt = Date.now(); W.hostWasOff[H.name] = true; if (W.flags.noout) W.nooutHost = H.name; }
       else if (W.flags.noout && W.nooutHost === H.name) W.nooutCycle = true;
-      term.line('<span class="sx-dim"># ' + H.name + (H.power ? ' dinyalakan lagi' : ' dimatikan' + (H.mon ? ' (termasuk monitor-nya)' : '')) + '</span>');
+      term.line('<span class="sx-dim"># ' + H.name + (H.power ? tr(' dinyalakan lagi', ' turned back on') : tr(' dimatikan', ' turned off') + (H.mon ? tr(' (termasuk monitor-nya)', ' (including its monitor)') : '')) + '</span>');
       tick();
     }
   });
@@ -1002,8 +1003,8 @@
     M.reset();
     buildCards();
     term.lines([
-      '<span class="sx-dim"># Cluster Ceph bohongan: 3 node (node1 sampai node3), tiap node 2 disk 100 GiB dan 1 monitor. node4 masih nganggur.</span>',
-      '<span class="sx-dim"># Mulai dengan </span><b>ceph -s</b><span class="sx-dim">. Ketik </span><b>help</b><span class="sx-dim"> buat daftar perintah.</span>'
+      tr('<span class="sx-dim"># Cluster Ceph bohongan: 3 node (node1 sampai node3), tiap node 2 disk 100 GiB dan 1 monitor. node4 masih nganggur.</span>', '<span class="sx-dim"># A pretend Ceph cluster: 3 nodes (node1 to node3), each with 2 × 100 GiB disks and 1 monitor. node4 is still idle.</span>'),
+      tr('<span class="sx-dim"># Mulai dengan </span><b>ceph -s</b><span class="sx-dim">. Ketik </span><b>help</b><span class="sx-dim"> buat daftar perintah.</span>', tr('<span class="sx-dim"># Start with </span><b>ceph -s</b><span class="sx-dim">. Ketik </span><b>help</b><span class="sx-dim"> buat daftar perintah.</span>', '<span class="sx-dim"># Start with </span><b>ceph -s</b><span class="sx-dim">. Ketik </span><b>help</b><span class="sx-dim"> for the command list.</span>'))
     ]);
     last = Date.now();
     render();

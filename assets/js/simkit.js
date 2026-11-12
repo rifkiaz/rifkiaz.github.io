@@ -3,6 +3,8 @@
 // the flow strip and a toast. Exposed as window.SimKit. Nothing is stored.
 (function () {
   'use strict';
+  var EN = (document.documentElement.lang || '').slice(0, 2) === 'en';
+  function tr(id, en) { return EN ? en : id; }
 
   function esc(s) {
     return String(s).replace(/[&<>"]/g, function (c) {
@@ -215,7 +217,7 @@
     this.done[id] = true;
     var n = 0, idx = 0, self = this;
     this.items.forEach(function (m, i) { if (self.done[m.id]) n++; if (m.id === id) idx = i; });
-    this.toast(n === this.items.length ? this.doneMsg : '✓ Misi ' + (idx + 1) + ' beres (' + n + '/' + this.items.length + ')');
+    this.toast(n === this.items.length ? this.doneMsg : tr('✓ Misi ', '✓ Mission ') + (idx + 1) + tr(' beres (', ' done (') + n + '/' + this.items.length + ')');
     this.render();
   };
   Missions.prototype.reset = function () { this.done = {}; this.render(); };
@@ -387,7 +389,7 @@
     var raw = src.split('\n'), L = [];
     raw.forEach(function (r, i) {
       var lead = /^[ \t]*/.exec(r)[0];
-      if (lead.indexOf('\t') >= 0 && r.trim()) throw YErr(i + 1, 'YAML ga boleh pakai tab buat indentasi. Pakai spasi.');
+      if (lead.indexOf('\t') >= 0 && r.trim()) throw YErr(i + 1, tr('YAML ga boleh pakai tab buat indentasi. Pakai spasi.', 'YAML doesn\'t allow tabs for indentation. Use spaces.'));
       var t = stripComment(r).replace(/\s+$/, '');
       if (!t.trim() || t.trim() === '---') return;
       L.push({ n: i + 1, ind: lead.length, text: t.slice(lead.length) });
@@ -415,18 +417,18 @@
           pos++;
         }
       }
-      if (pos < L.length && L[pos].ind > ind) throw YErr(L[pos].n, 'Indentasi baris ini ga cocok dengan item list di atasnya.');
+      if (pos < L.length && L[pos].ind > ind) throw YErr(L[pos].n, tr('Indentasi baris ini ga cocok dengan item list di atasnya.', 'This line\'s indentation doesn\'t match the list item above it.'));
       return arr;
     }
     function map(ind) {
       var obj = {}, keys = {}, first = L[pos].n;
       while (pos < L.length && L[pos].ind === ind) {
         var ln = L[pos];
-        if (isDash(ln.text)) throw YErr(ln.n, 'Ada item list (-) di tempat yang harusnya kunci: nilai. Cek indentasinya.');
+        if (isDash(ln.text)) throw YErr(ln.n, tr('Ada item list (-) di tempat yang harusnya kunci: nilai. Cek indentasinya.', 'There\'s a list item (-) where a key: value should be. Check the indentation.'));
         var m = KEY.exec(ln.text);
         if (!m) {
-          if (/=/.test(ln.text)) throw YErr(ln.n, 'Baris ini harusnya berbentuk "kunci: nilai". Format kunci=nilai cuma boleh sebagai nilai, misal "apt: name=nginx".');
-          throw YErr(ln.n, 'Baris ini harusnya berbentuk "kunci: nilai" (perhatikan spasi setelah titik dua).');
+          if (/=/.test(ln.text)) throw YErr(ln.n, tr('Baris ini harusnya berbentuk "kunci: nilai". Format kunci=nilai cuma boleh sebagai nilai, misal "apt: name=nginx".', 'This line should look like "key: value". The key=value format is only allowed as a value, e.g. "apt: name=nginx".'));
+          throw YErr(ln.n, tr('Baris ini harusnya berbentuk "kunci: nilai" (perhatikan spasi setelah titik dua).', 'This line should look like "key: value" (mind the space after the colon).'));
         }
         var key = m[1].replace(/^(["'])(.*)\1$/, '$2').trim(), val = m[2];
         keys[key] = ln.n;
@@ -451,7 +453,7 @@
           while (pos < L.length && L[pos].n <= j) pos++;
         } else obj[key] = scalar(val, ln.n);
       }
-      if (pos < L.length && L[pos].ind > ind) throw YErr(L[pos].n, 'Indentasi baris ini kelebihan. Cek jumlah spasinya.');
+      if (pos < L.length && L[pos].ind > ind) throw YErr(L[pos].n, tr('Indentasi baris ini kelebihan. Cek jumlah spasinya.', 'This line is indented too far. Check the number of spaces.'));
       return setMeta(obj, first, keys);
     }
     function splitTop(s) {
@@ -470,27 +472,27 @@
     }
     function scalar(s, n) {
       s = s.trim();
-      if (s.slice(0, 2) === '{{') throw YErr(n, 'Nilai yang diawali {{ harus diberi tanda kutip, misal "{{ pesan }}". Tanpa kutip, YAML membacanya sebagai map.');
+      if (s.slice(0, 2) === '{{') throw YErr(n, tr('Nilai yang diawali {{ harus diberi tanda kutip, misal "{{ pesan }}". Tanpa kutip, YAML membacanya sebagai map.', 'A value that starts with {{ must be quoted, e.g. "{{ message }}". Without quotes, YAML reads it as a map.'));
       if (s[0] === '[') {
-        if (s[s.length - 1] !== ']') throw YErr(n, 'List [ belum ditutup dengan ].');
+        if (s[s.length - 1] !== ']') throw YErr(n, tr('List [ belum ditutup dengan ].', 'List [ is not closed with ].'));
         return splitTop(s.slice(1, -1)).map(function (x) { return scalar(x, n); });
       }
       if (s[0] === '{') {
-        if (s[s.length - 1] !== '}') throw YErr(n, 'Map { belum ditutup dengan }.');
+        if (s[s.length - 1] !== '}') throw YErr(n, tr('Map { belum ditutup dengan }.', 'Map { is not closed with }.'));
         var o = {};
         splitTop(s.slice(1, -1)).forEach(function (kv) {
           var i = kv.indexOf(':');
-          if (i < 0) throw YErr(n, 'Isi map harus berbentuk kunci: nilai.');
+          if (i < 0) throw YErr(n, tr('Isi map harus berbentuk kunci: nilai.', 'Map entries must look like key: value.'));
           o[kv.slice(0, i).trim().replace(/^(["'])(.*)\1$/, '$2')] = scalar(kv.slice(i + 1), n);
         });
         return setMeta(o, n);
       }
       if (s[0] === '"') {
-        if (s.length < 2 || s[s.length - 1] !== '"') throw YErr(n, 'Tanda kutip " belum ditutup.');
+        if (s.length < 2 || s[s.length - 1] !== '"') throw YErr(n, tr('Tanda kutip " belum ditutup.', 'Quote " is not closed.'));
         return s.slice(1, -1).replace(/\\n/g, '\n').replace(/\\"/g, '"').replace(/\\\\/g, '\\');
       }
       if (s[0] === "'") {
-        if (s.length < 2 || s[s.length - 1] !== "'") throw YErr(n, "Tanda kutip ' belum ditutup.");
+        if (s.length < 2 || s[s.length - 1] !== "'") throw YErr(n, tr("Tanda kutip ' belum ditutup.", "Quote ' is not closed."));
         return s.slice(1, -1).replace(/''/g, "'");
       }
       if (/^(true|yes|on)$/i.test(s)) return true;
@@ -502,11 +504,12 @@
     }
     if (!L.length) return null;
     var out = node(L[0].ind);
-    if (pos < L.length) throw YErr(L[pos].n, 'Indentasi baris ini ga cocok dengan struktur di atasnya.');
+    if (pos < L.length) throw YErr(L[pos].n, tr('Indentasi baris ini ga cocok dengan struktur di atasnya.', 'This line\'s indentation doesn\'t match the structure above it.'));
     return out;
   }
 
   window.SimKit = {
+    EN: EN, tr: tr,
     esc: esc, setHTML: setHTML, setText: setText, hex: hex,
     digest: digest, pad: pad, words: words, edit: edit, ago: ago,
     Editor: Editor, Term: Term, Missions: Missions,
