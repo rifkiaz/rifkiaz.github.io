@@ -30,9 +30,9 @@ A summary of my career so far, newest first.
 
 ## Open source community
 
-Outside of work I'm active in the FLOSS community, including openSUSE and LibreOffice Indonesia, and I spoke at GNOME.Asia Summit 2022 in Kuala Lumpur about mechanical keyboards. A lot of the posts on this blog came out of tinkering with the community. The openSUSE Indonesia community ([opensuse.id](https://opensuse.id)) also runs a local repository mirror at [download.opensuse.id](https://download.opensuse.id), so users in Indonesia get faster updates. How to use it is in my [Zypper cheat sheet](/cheatsheet/zypper/#mirror-lokal-indonesia) (in Indonesian).
+Outside of work I'm active in the FLOSS community, including openSUSE and LibreOffice Indonesia, and I spoke at GNOME.Asia Summit 2022 in Kuala Lumpur about mechanical keyboards. A lot of the posts on this blog came out of tinkering with the community. The openSUSE Indonesia community ([opensuse.id](https://opensuse.id)) also runs a local repository mirror at [download.opensuse.id](https://download.opensuse.id), so users in Indonesia get faster updates. How to use it is in my [Zypper cheat sheet](/en/cheatsheet/zypper/#indonesian-local-mirror).
 
-I'm also an **openSUSE Member**. You can see my contributions on [openSUSE Kudos](https://kudos.opensuse.org/user/Rifkiaz). The openSUSE commands I use most are collected on the [Cheat Sheet](/cheatsheet/) page (in Indonesian). If you're in Indonesia, come say hi in the community's Telegram group, [@openSUSE_ID](https://t.me/openSUSE_ID).
+I'm also an **openSUSE Member**. You can see my contributions on [openSUSE Kudos](https://kudos.opensuse.org/user/Rifkiaz). The openSUSE commands I use most are collected on the [Cheat Sheet](/en/cheatsheet/) page. If you're in Indonesia, come say hi in the community's Telegram group, [@openSUSE_ID](https://t.me/openSUSE_ID).
 
 ## About this blog
 

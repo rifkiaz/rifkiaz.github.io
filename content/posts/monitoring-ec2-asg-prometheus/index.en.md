@@ -12,7 +12,7 @@ Prometheus is a monitoring tool I've used for a long time. Until now I'd been mo
 
 The solution has three parts, and it looks roughly like this:
 
-![Architecture: Prometheus finds ASG instances through the EC2 API, scrapes node_exporter, and pulls ALB metrics through cloudwatch_exporter](assets/arsitektur.svg)
+![Architecture: Prometheus finds ASG instances through the EC2 API, scrapes node_exporter, and pulls ALB metrics through cloudwatch_exporter](assets/arsitektur-en.svg)
 
 ### Requirements
 - A self-hosted Prometheus on EC2

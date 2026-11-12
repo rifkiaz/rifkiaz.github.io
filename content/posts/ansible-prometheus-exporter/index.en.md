@@ -20,7 +20,7 @@ The example uses `node_exporter`, but the pattern also works for other single-bi
 
 Roughly, the flow looks like this:
 
-![Flow of the node_exporter role and generating Prometheus scrape targets from the inventory](assets/alur-role.svg)
+![Flow of the node_exporter role and generating Prometheus scrape targets from the inventory](assets/alur-role-en.svg)
 
 ### Requirements
 - Ansible on your laptop or a control server

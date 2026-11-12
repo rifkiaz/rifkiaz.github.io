@@ -15,7 +15,7 @@ So I ended up using one pattern for all of them:
 Alert source → n8n Webhook → Code (format embed) → HTTP Request → Discord
 ```
 
-![General flow: Sentry, Grafana, New Relic, and GitHub send webhooks to n8n, then n8n sends embed cards to Discord](assets/alur-umum.svg)
+![General flow: Sentry, Grafana, New Relic, and GitHub send webhooks to n8n, then n8n sends embed cards to Discord](assets/alur-umum-en.svg)
 
 n8n becomes the single "gateway". Every message gets tidied up in a Code node into a Discord **embed card** with a consistent format: what happened, where, the likely cause, and links for investigating. In this post I'll share the setup, including the traps I ran into along the way.
 
@@ -172,7 +172,7 @@ The remaining options:
 
 Since we already had Grafana for Prometheus, the lightest path was to **add Elasticsearch as a data source in Grafana** and build the alerts there. No duplicated data, no changes to the OTel Collector config, and Kibana APM stays the place to investigate.
 
-![Elasticsearch APM alert flow: Grafana reads Elasticsearch as a data source, sends a webhook to n8n, then a Discord card links to Kibana APM](assets/alur-grafana-elasticsearch.svg)
+![Elasticsearch APM alert flow: Grafana reads Elasticsearch as a data source, sends a webhook to n8n, then a Discord card links to Kibana APM](assets/alur-grafana-elasticsearch-en.svg)
 
 I also briefly considered moving to LGTM (Loki, Grafana, Tempo, Mimir), or sending data in parallel via *collector chaining*. That works and is pretty common, but if Elastic already covers your APM needs and the only thing missing is alerting, there's no need to build a whole new stack just for that.
 
@@ -392,7 +392,7 @@ If you only want to mute 400s, change the query to `... AND NOT http.response.st
 
 Same pattern: **NRQL Condition > Alert Policy > Workflow > Destination (Webhook) > n8n**. Alerting is included in the New Relic plan at no extra cost.
 
-![New Relic flow: NRQL Condition, Alert Policy, Workflow, webhook Destination, n8n, then Discord](assets/alur-new-relic.svg)
+![New Relic flow: NRQL Condition, Alert Policy, Workflow, webhook Destination, n8n, then Discord](assets/alur-new-relic-en.svg)
 
 #### Trap: `http.statusCode` is a string
 
@@ -554,7 +554,7 @@ If the Code node output has a `myNewField: 1` field, it's still running n8n's de
 
 Vercel account webhooks are only available on the Pro and Enterprise plans. The free route goes through **GitHub**: if a Vercel project is connected to a GitHub repo, Vercel always reports deploy status to GitHub as a *deployment status*, and GitHub webhooks are free.
 
-![Vercel deploy notification flow: push, Vercel deploys and reports status to GitHub, deployment_status webhook to n8n, n8n fetches commit data from the GitHub API, then a card to Discord](assets/alur-vercel-github.svg)
+![Vercel deploy notification flow: push, Vercel deploys and reports status to GitHub, deployment_status webhook to n8n, n8n fetches commit data from the GitHub API, then a card to Discord](assets/alur-vercel-github-en.svg)
 
 #### GitHub webhook
 

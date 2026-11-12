@@ -27,7 +27,7 @@ Look at `http://localhost:8090/`. The `Origin` header a browser sends **never** 
 
 So write the origin without the slash: `http://localhost:8090`.
 
-![CORS flow: the browser sends an Origin header to the GCS bucket; if the origin matches exactly, Access-Control-Allow-Origin is sent back, otherwise the browser blocks it](assets/alur-cors.svg)
+![CORS flow: the browser sends an Origin header to the GCS bucket; if the origin matches exactly, Access-Control-Allow-Origin is sent back, otherwise the browser blocks it](assets/alur-cors-en.svg)
 
 ### Option 1: the Console
 - Cloud Storage > Buckets > select the bucket > edit the CORS configuration

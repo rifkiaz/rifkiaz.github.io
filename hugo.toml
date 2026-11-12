@@ -237,7 +237,7 @@ Saya juga [member openSUSE](https://kudos.opensuse.org/user/Rifkiaz) dan aktif d
     guessSyntax = true
 
 # English. Pages and posts with an .en.md file get an English version under /en/.
-# The interactive labs, /terminal/ and the Beyblade pages are Indonesian only,
+# The interactive labs and /terminal/ are still Indonesian only,
 # so the English menu links to them with nolang (no /en/ prefix).
 [languages.en]
   languageName = "English"
@@ -283,6 +283,12 @@ I'm also an [openSUSE Member](https://kudos.opensuse.org/user/Rifkiaz) and activ
       weight = 20
 
     [[languages.en.menus.main]]
+      identifier = "cheatsheet"
+      name = "Cheat Sheet"
+      url = "/cheatsheet/"
+      weight = 25
+
+    [[languages.en.menus.main]]
       identifier = "lab-id"
       name = "Lab"
       title = "Interactive DevOps labs (in Indonesian)"
@@ -290,6 +296,25 @@ I'm also an [openSUSE Member](https://kudos.opensuse.org/user/Rifkiaz) and activ
       weight = 27
       [languages.en.menus.main.params]
         nolang = true
+
+    [[languages.en.menus.main]]
+      identifier = "hobi"
+      name = "Hobbies"
+      weight = 28
+
+    [[languages.en.menus.main]]
+      identifier = "beyblade-x-meta"
+      name = "Beyblade X Meta"
+      url = "/hobi/beyblade-x-meta/"
+      parent = "hobi"
+      weight = 10
+
+    [[languages.en.menus.main]]
+      identifier = "beyblade-x-part"
+      name = "Beyblade X Parts Catalogue"
+      url = "/hobi/beyblade-x-part/"
+      parent = "hobi"
+      weight = 20
 
     [[languages.en.menus.main]]
       identifier = "archives"

@@ -3,6 +3,7 @@
 // full list simply shows. A list may have a month filter: buttons in
 // `.bt-filter[data-for=<list id>]` with `data-bulan`, rows with `data-bulan`.
 (function () {
+  var EN = (document.documentElement.lang || '').slice(0, 2) === 'en';
   document.querySelectorAll('[data-per]').forEach(function (list) {
     if (list.dataset.pagerReady) return; // script may be included by both shortcodes
     list.dataset.pagerReady = '1';
@@ -12,7 +13,7 @@
 
     var nav = document.createElement('nav');
     nav.className = 'bt-pager';
-    nav.setAttribute('aria-label', list.dataset.pagerLabel || 'Halaman daftar');
+    nav.setAttribute('aria-label', list.dataset.pagerLabel || (EN ? 'List pages' : 'Halaman daftar'));
     var info = document.createElement('span');
     info.className = 'bt-pager__info';
     info.setAttribute('aria-live', 'polite');
@@ -46,20 +47,20 @@
       all.forEach(function (r) { r.hidden = true; });
       rows.slice(from, to).forEach(function (r) { r.hidden = false; });
       nav.hidden = pages < 2 && rows.length === all.length;
-      info.textContent = rows.length ? (from + 1) + '–' + to + ' dari ' + rows.length : 'Tidak ada data';
+      info.textContent = rows.length ? (from + 1) + '–' + to + (EN ? ' of ' : ' dari ') + rows.length : (EN ? 'No data' : 'Tidak ada data');
       btns.textContent = '';
       if (pages < 2) return;
-      button('‹', 'Halaman sebelumnya', cur - 1, cur === 0);
+      button('‹', EN ? 'Previous page' : 'Halaman sebelumnya', cur - 1, cur === 0);
       // Show first, last, and the pages around the current one.
       var last = -1;
       for (var i = 0; i < pages; i++) {
         if (i === 0 || i === pages - 1 || Math.abs(i - cur) <= 1) {
           if (last >= 0 && i - last > 1) gap();
-          button(String(i + 1), 'Halaman ' + (i + 1), i, false, i === cur);
+          button(String(i + 1), (EN ? 'Page ' : 'Halaman ') + (i + 1), i, false, i === cur);
           last = i;
         }
       }
-      button('›', 'Halaman berikutnya', cur + 1, cur === pages - 1);
+      button('›', EN ? 'Next page' : 'Halaman berikutnya', cur + 1, cur === pages - 1);
       if (focus) {
         var b = btns.querySelector('[aria-current]');
         if (b) b.focus();

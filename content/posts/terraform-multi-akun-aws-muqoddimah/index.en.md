@@ -20,7 +20,7 @@ Oh, and every role, bucket, and resource name here is just an example, so adjust
 ### The Topology
 The end state looks roughly like this:
 
-![Topology: the infra Git repo triggers a Jenkins pipeline per Pull Request. The Jenkins agent on EC2 uses an instance profile, then AssumeRoles into the terraform-deployer role in the DEV and PROD accounts. Each account has its own S3 state bucket holding the network, data, compute, and observability state](assets/topologi.svg)
+![Topology: the infra Git repo triggers a Jenkins pipeline per Pull Request. The Jenkins agent on EC2 uses an instance profile, then AssumeRoles into the terraform-deployer role in the DEV and PROD accounts. Each account has its own S3 state bucket holding the network, data, compute, and observability state](assets/topologi-en.svg)
 
 The key points:
 1. Just **1 infra repo** with a single `main` branch. Environments are separated by folder, not by branch.
@@ -83,7 +83,7 @@ terraform init -migrate-state
 ### The Jenkins Pipeline
 Every change has to go through a Pull Request. The flow looks like this:
 
-![Pipeline flow: open a Pull Request, lint, security scan, plan plus Infracost posted to the PR, review then merge, DEV applied automatically, PROD planned with -out=tfplan and waiting for manual approval, then PROD applied from the approved tfplan](assets/alur-pipeline.svg)
+![Pipeline flow: open a Pull Request, lint, security scan, plan plus Infracost posted to the PR, review then merge, DEV applied automatically, PROD planned with -out=tfplan and waiting for manual approval, then PROD applied from the approved tfplan](assets/alur-pipeline-en.svg)
 
 1. Lint with `terraform fmt -check`, `terraform validate`, and `tflint`.
 2. IaC security scan with `checkov` or `trivy config`.
@@ -135,7 +135,7 @@ These are the ground rules I stick to. Each one gets a deeper look later in the 
 ### Migrating Away from ClickOps
 This is the most challenging part. The infra is already running and in use, so deleting it and rebuilding isn't an option. The way to do it is **import**: resources keep running as normal, and Terraform just "adopts" them into its state.
 
-![Migration flow: prepare, inventory, import with generated config, refactor into modules, check for a zero-diff plan. If there's still an update, replace, or destroy, go back to refactoring. Once it's zero diff, apply through Jenkins, then lock down. Import order by layer: network, data, compute, observability, dev first then prod](assets/alur-migrasi.svg)
+![Migration flow: prepare, inventory, import with generated config, refactor into modules, check for a zero-diff plan. If there's still an update, replace, or destroy, go back to refactoring. Once it's zero diff, apply through Jenkins, then lock down. Import order by layer: network, data, compute, observability, dev first then prod](assets/alur-migrasi-en.svg)
 
 1. **Prepare.** Apply `live/bootstrap`, set up the Jenkins pipeline in plan-only mode first, turn on CloudTrail / AWS Config so manual changes still get recorded, and agree on a change freeze for resources being migrated.
 2. **Inventory.** List every resource per account (AWS Resource Explorer, Tag Editor, Cost Explorer) and track them in a sheet: resource, ID, target stack, owner, and risk. Orphaned resources nobody uses are better deleted than imported.

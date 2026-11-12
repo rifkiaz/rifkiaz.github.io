@@ -11,7 +11,7 @@ The root disk on one of my production MongoDB servers was 85% full (68 of 80 GB)
 
 One thing that often confuses people: after you change the volume size in the console, `df` still shows the old size. That's because there are three layers that need to grow, and AWS only takes care of the first one.
 
-![EBS resize flow: snapshot and modify volume in AWS, then growpart and xfs_growfs inside the instance](assets/alur-resize.svg)
+![EBS resize flow: snapshot and modify volume in AWS, then growpart and xfs_growfs inside the instance](assets/alur-resize-en.svg)
 
 The example in this post uses Amazon Linux 2023 with an XFS root filesystem on `/dev/nvme0n1p1`.
 
