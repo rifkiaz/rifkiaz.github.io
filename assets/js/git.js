@@ -8,28 +8,29 @@
   'use strict';
 
   var K = window.SimKit;
+  var tr = K.tr;
   var app = document.getElementById('gt');
   if (!app || !K) return;
   var esc = K.esc, setHTML = K.setHTML, setText = K.setText, pad = K.pad;
   function $(id) { return document.getElementById(id); }
 
-  var HOME = '/home/kamu', DIR = HOME + '/proyek-web';
+  var HOME = tr('/home/kamu', '/home/you'), DIR = HOME + '/proyek-web';
   var URL_OK = 'https://github.com/kamu/proyek-web.git';
   var URLS = [URL_OK, 'https://github.com/kamu/proyek-web', 'git@github.com:kamu/proyek-web.git'];
   var VERSION = '2.47.1';
   var DINA = { name: 'Dina', email: 'dina@contoh.id' };
 
   var MISSIONS = [
-    { id: 'init', text: 'Bikin repo pakai <i>git init</i>, isi identitas lewat <i>git config</i>, lalu bikin <b>commit pertama</b>.' },
-    { id: 'stage', text: 'Ubah file, intip bedanya pakai <i>git diff</i> dan <i>git diff --staged</i>, lalu commit.' },
-    { id: 'branch', text: 'Bikin <b>branch baru</b>, commit di sana, lalu balik ke <b>main</b>.' },
-    { id: 'merge', text: 'Gabungkan branch itu ke main pakai <i>git merge</i>.' },
-    { id: 'conflict', text: 'Ubah baris yang sama di dua branch, merge, lalu <b>selesaikan konfliknya</b>.' },
-    { id: 'push', text: 'Sambungkan ke <b>origin</b> pakai <i>git remote add</i>, lalu <i>git push -u origin main</i>.' },
-    { id: 'pull', text: 'Dina push duluan, jadi push kamu <b>ditolak</b>. Tarik dulu pakai <i>git pull</i>, lalu push lagi.' },
-    { id: 'stash', text: 'Simpan kerjaan setengah jadi pakai <i>git stash</i>, pindah branch, balik lagi, lalu <i>git stash pop</i>.' },
-    { id: 'undo', text: 'Buang commit pakai <i>git reset --hard</i>, lalu <b>selamatkan lagi</b> lewat <i>git reflog</i>.' },
-    { id: 'rebase', text: 'Rapikan riwayat: jalankan <i>git rebase main</i> di branch fitur supaya garisnya lurus.' }
+    { id: 'init', text: tr('Bikin repo pakai <i>git init</i>, isi identitas lewat <i>git config</i>, lalu bikin <b>commit pertama</b>.', 'Create a repo with <i>git init</i>, set your identity with <i>git config</i>, then make the <b>first commit</b>.') },
+    { id: 'stage', text: tr('Ubah file, intip bedanya pakai <i>git diff</i> dan <i>git diff --staged</i>, lalu commit.', 'Change a file, peek at the difference with <i>git diff</i> and <i>git diff --staged</i>, then commit.') },
+    { id: 'branch', text: tr('Bikin <b>branch baru</b>, commit di sana, lalu balik ke <b>main</b>.', 'Create a <b>new branch</b>, commit there, then go back to <b>main</b>.') },
+    { id: 'merge', text: tr('Gabungkan branch itu ke main pakai <i>git merge</i>.', 'Merge that branch into main with <i>git merge</i>.') },
+    { id: 'conflict', text: tr('Ubah baris yang sama di dua branch, merge, lalu <b>selesaikan konfliknya</b>.', 'Change the same line on two branches, merge, then <b>resolve the conflict</b>.') },
+    { id: 'push', text: tr('Sambungkan ke <b>origin</b> pakai <i>git remote add</i>, lalu <i>git push -u origin main</i>.', 'Connect to <b>origin</b> with <i>git remote add</i>, then <i>git push -u origin main</i>.') },
+    { id: 'pull', text: tr('Dina push duluan, jadi push kamu <b>ditolak</b>. Tarik dulu pakai <i>git pull</i>, lalu push lagi.', 'Dina pushed first, so your push gets <b>rejected</b>. Pull first with <i>git pull</i>, then push again.') },
+    { id: 'stash', text: tr('Simpan kerjaan setengah jadi pakai <i>git stash</i>, pindah branch, balik lagi, lalu <i>git stash pop</i>.', 'Park half-done work with <i>git stash</i>, switch branches, come back, then <i>git stash pop</i>.') },
+    { id: 'undo', text: tr('Buang commit pakai <i>git reset --hard</i>, lalu <b>selamatkan lagi</b> lewat <i>git reflog</i>.', 'Throw a commit away with <i>git reset --hard</i>, then <b>rescue it</b> through <i>git reflog</i>.') },
+    { id: 'rebase', text: tr('Rapikan riwayat: jalankan <i>git rebase main</i> di branch fitur supaya garisnya lurus.', 'Tidy the history: run <i>git rebase main</i> on the feature branch so the line is straight.') }
   ];
 
   var START = {
@@ -38,12 +39,12 @@
       '<html lang="id">',
       '<head>',
       '  <meta charset="utf-8">',
-      '  <title>Proyek Web</title>',
+      tr('  <title>Proyek Web</title>', '  <title>Web Project</title>'),
       '  <link rel="stylesheet" href="style.css">',
       '</head>',
       '<body>',
-      '  <h1>Halo, dunia!</h1>',
-      '  <p>Ini halaman pertama saya.</p>',
+      tr('  <h1>Halo, dunia!</h1>', '  <h1>Hello, world!</h1>'),
+      tr('  <p>Ini halaman pertama saya.</p>', '  <p>This is my first page.</p>'),
       '</body>',
       '</html>',
       ''
@@ -60,9 +61,9 @@
       ''
     ].join('\n'),
     'README.md': [
-      '# Proyek Web',
+      tr('# Proyek Web', '# Web Project'),
       '',
-      'Situs kecil buat latihan Git.',
+      tr('Situs kecil buat latihan Git.', 'A tiny site for practicing Git.'),
       ''
     ].join('\n')
   };
@@ -71,11 +72,11 @@
     '<html lang="id">',
     '<head>',
     '  <meta charset="utf-8">',
-    '  <title>Tentang</title>',
+    tr('  <title>Tentang</title>', '  <title>About</title>'),
     '</head>',
     '<body>',
-    '  <h1>Tentang kami</h1>',
-    '  <p>Dibuat bareng Dina.</p>',
+    tr('  <h1>Tentang kami</h1>', '  <h1>About us</h1>'),
+    tr('  <p>Dibuat bareng Dina.</p>', '  <p>Made together with Dina.</p>'),
     '</body>',
     '</html>',
     ''
@@ -275,7 +276,7 @@
     var verb = op === 'checkout' ? 'switch branches' : op;
     if (e.kind === 'local') err('error: Your local changes to the following files would be overwritten by ' + op + ':\n' + e.files.map(function (f) { return '\t' + f; }).join('\n') + '\nPlease commit your changes or stash them before you ' + verb + '.\nAborting');
     else err('error: The following untracked working tree files would be overwritten by ' + op + ':\n' + e.files.map(function (f) { return '\t' + f; }).join('\n') + '\nPlease move or remove them before you ' + verb + '.\nAborting');
-    hint('Ada perubahan yang belum di-commit di file itu. Commit dulu, atau simpan sementara pakai git stash.');
+    hint(tr('Ada perubahan yang belum di-commit di file itu. Commit dulu, atau simpan sementara pakai git stash.', 'That file has uncommitted changes. Commit first, or park them with git stash.'));
   }
   function logRef(id, msg) { W.repo.reflog.push({ id: id, msg: msg }); }
   function setHead(id, msg) {
@@ -461,7 +462,7 @@
   // ---------- terminal output ----------
   var term = new K.Term($('gt-out'), $('gt-in'), { onCmd: onCmd });
   var toast = K.makeToast($('gt-toast'));
-  var M = new K.Missions($('gt-m-list'), $('gt-m-count'), MISSIONS, toast, '🌳 Semua misi Git beres. Kamu siap kerja bareng tim!');
+  var M = new K.Missions($('gt-m-list'), $('gt-m-count'), MISSIONS, toast, tr('🌳 Semua misi Git beres. Kamu siap kerja bareng tim!', '🌳 All Git missions done. You are ready to work with a team!'));
   var CAP = null, NONL = false;
   function toText(h) { var d = document.createElement('div'); d.innerHTML = h; return d.textContent; }
   function html(h, cls) { if (CAP) { CAP.push(toText(h)); return; } term.line(h, cls); }
@@ -475,7 +476,7 @@
   function needRepo() {
     if (W.repo) return true;
     err('fatal: not a git repository (or any of the parent directories): .git');
-    hint('Folder ini belum jadi repo Git. Mulai dengan git init.');
+    hint(tr('Folder ini belum jadi repo Git. Mulai dengan git init.', 'This folder is not a Git repo yet. Start with git init.'));
     return false;
   }
   function branchLabel() {
@@ -485,7 +486,7 @@
     if (r.op) b += '|' + (r.op.kind === 'rebase' ? 'REBASE ' + Math.min(r.op.done, r.op.total) + '/' + r.op.total : r.op.kind === 'merge' ? 'MERGING' : r.op.kind === 'pick' ? 'CHERRY-PICKING' : 'REVERTING');
     return b;
   }
-  function prompt() { return 'kamu@laptop:~/proyek-web' + (W.repo ? ' (' + branchLabel() + ')' : '') + '$'; }
+  function prompt() { return tr('kamu', 'you') + '@laptop:~/proyek-web' + (W.repo ? ' (' + branchLabel() + ')' : '') + '$'; }
 
   // ---------- args ----------
   function parse(a, valFlags) {
@@ -524,7 +525,7 @@
   }
   function gConfig(a) {
     var P = parse(a, []), g = P.f['--global'], list = P.f['--list'] || P.f['-l'];
-    if (!g && !W.repo && !list) { err('fatal: not in a git directory'); hint('Belum ada repo. Pakai git config --global, atau git init dulu.'); return false; }
+    if (!g && !W.repo && !list) { err('fatal: not in a git directory'); hint(tr('Belum ada repo. Pakai git config --global, atau git init dulu.', 'No repo yet. Use git config --global, or run git init first.')); return false; }
     if (list) {
       var rows = [];
       Object.keys(W.gcfg).forEach(function (k) { if (!P.f['--local']) rows.push(k + '=' + W.gcfg[k]); });
@@ -544,9 +545,9 @@
       delete store[uk];
       return true;
     }
-    if (P.f['--edit'] || P.f['-e']) { err('error: editor belum ada di simulasi ini'); hint('Set nilainya langsung, misal git config --global user.name "Kamu".'); return false; }
+    if (P.f['--edit'] || P.f['-e']) { err(tr('error: editor belum ada di simulasi ini', 'error: no editor in this simulation')); hint(tr('Set nilainya langsung, misal git config --global user.name "Kamu".', 'Set the value directly, e.g. git config --global user.name "Your Name".')); return false; }
     var key = P.rest[0];
-    if (!key) { out('usage: git config [<options>]\n\n    git config --global user.name "Nama Kamu"\n    git config --global user.email kamu@contoh.id\n    git config --list'); return false; }
+    if (!key) { out(tr('usage: git config [<options>]\n\n    git config --global user.name "Nama Kamu"\n    git config --global user.email kamu@contoh.id\n    git config --list', 'usage: git config [<options>]\n\n    git config --global user.name "Your Name"\n    git config --global user.email you@example.com\n    git config --list')); return false; }
     if (key.indexOf('.') < 0) { err('error: key does not contain a section: ' + key); return false; }
     key = key.toLowerCase();
     if (P.rest.length < 2) {
@@ -659,7 +660,7 @@
     else r.index[p] = W.files[p];
     if (r.unmerged[p]) {
       delete r.unmerged[p];
-      if (W.files[p] !== undefined && MARK.test(W.files[p])) hint('Hati-hati: ' + p + ' masih berisi penanda konflik (<<<<<<<, =======, >>>>>>>). Git tetap menerimanya, jadi pastikan memang sudah kamu rapikan.');
+      if (W.files[p] !== undefined && MARK.test(W.files[p])) hint(tr('Hati-hati: ', 'Careful: ') + p + tr(' masih berisi penanda konflik (<<<<<<<, =======, >>>>>>>). Git tetap menerimanya, jadi pastikan memang sudah kamu rapikan.', ' still contains conflict markers (<<<<<<<, =======, >>>>>>>). Git accepts it anyway, so make sure you really cleaned it up.'));
     }
   }
   function gAdd(a) {
@@ -729,14 +730,14 @@
       W.files[p] = v;
       okAny = true;
     });
-    if (okAny) dim('# isi file diganti pakai versi ' + (side === 'ours' ? 'HEAD (ours)' : 'yang masuk (theirs)') + '. Konfliknya baru dianggap selesai setelah git add.');
+    if (okAny) dim(tr('# isi file diganti pakai versi ', '# file content replaced with the ') + (side === 'ours' ? 'HEAD (ours)' : tr('yang masuk (theirs)', 'incoming (theirs)')) + tr('. Konfliknya baru dianggap selesai setelah git add.', ' version. The conflict only counts as resolved after git add.'));
     return okAny;
   }
 
   // ---------- git: commit ----------
   function noIdent() {
     err('Author identity unknown\n\n*** Please tell me who you are.\n\nRun\n\n  git config --global user.email "you@example.com"\n  git config --global user.name "Your Name"\n\nto set your account\'s default identity.\nOmit --global to set the identity only in this repository.\n\nfatal: unable to auto-detect email address (got \'kamu@laptop.(none)\')');
-    hint('Git perlu tahu siapa pembuat commit. Isi user.name dan user.email dulu.');
+    hint(tr('Git perlu tahu siapa pembuat commit. Isi user.name dan user.email dulu.', 'Git needs to know who makes the commit. Set user.name and user.email first.'));
   }
   function gCommit(a) {
     var r = W.repo, P = parse(a, ['-m', '--message', '-C']);
@@ -744,7 +745,7 @@
     if (!me) { noIdent(); return false; }
     if (Object.keys(r.unmerged).length) {
       err('error: Committing is not possible because you have unmerged files.\nhint: Fix them up in the work tree, and then use \'git add/rm <file>\'\nhint: as appropriate to mark resolution and make a commit.\nfatal: Exiting because of an unresolved conflict.');
-      hint('Masih ada konflik di: ' + keys(r.unmerged).join(', ') + '. Rapikan filenya, lalu git add.');
+      hint(tr('Masih ada konflik di: ', 'Still conflicted: ') + keys(r.unmerged).join(', ') + tr('. Rapikan filenya, lalu git add.', '. Clean up the file, then git add.'));
       return false;
     }
     if ((P.v['-m'] || P.v['--message'] || []).some(function (m) { return m === undefined; })) { err('error: switch `m\' requires a value'); return false; }
@@ -762,7 +763,7 @@
     if (!msg && op && op.kind === 'rebase' && op.cur) msg = C[op.cur].msg;
     if (!msg) {
       err('Aborting commit due to empty commit message.');
-      hint('Di simulasi ini ga ada editor teks buat menulis pesan. Tulis langsung: git commit -m "pesan kamu"');
+      hint(tr('Di simulasi ini ga ada editor teks buat menulis pesan. Tulis langsung: git commit -m "pesan kamu"', 'There is no text editor for writing the message in this simulation. Write it inline: git commit -m "your message"'));
       return false;
     }
     var parents = amend ? C[h].parents : h ? [h] : [];
@@ -770,13 +771,13 @@
     var tree = copy(r.index), pt = amend ? treeOf(C[h].parents[0]) : treeOf(h);
     if (!amend && !(op && op.kind === 'merge') && !P.f['--allow-empty'] && sameTree(tree, pt)) {
       var ch = changes();
-      if (op && op.kind === 'rebase') { op.cur = null; out('No changes'); hint('Commit ini jadi kosong. Lanjut pakai git rebase --continue.'); return true; }
+      if (op && op.kind === 'rebase') { op.cur = null; out('No changes'); hint(tr('Commit ini jadi kosong. Lanjut pakai git rebase --continue.', 'This commit became empty. Carry on with git rebase --continue.')); return true; }
       html(h ? esc('On branch ' + (r.head.ref || 'HEAD')) : 'No commits yet');
       if (ch.unstaged.length || ch.untracked.length) {
         ch.unstaged.forEach(function (y) { html(red('        ' + pad(y.k + ':', 12) + y.p)); });
         ch.untracked.forEach(function (p) { html(red('        ' + p) + '  (untracked)'); });
         err(ch.unstaged.length ? 'no changes added to commit (use "git add" and/or "git commit -a")' : 'nothing added to commit but untracked files present (use "git add" to track)');
-        hint('Perubahan harus masuk staging dulu. Pakai git add <file>, atau git commit -am "pesan" buat file yang sudah dilacak.');
+        hint(tr('Perubahan harus masuk staging dulu. Pakai git add <file>, atau git commit -am "pesan" buat file yang sudah dilacak.', 'Changes have to be staged first. Use git add <file>, or git commit -am "message" for files already tracked.'));
       } else err('nothing to commit, working tree clean');
       return false;
     }
@@ -1035,13 +1036,13 @@
     if (d) {
       html(d, 'gt-diff');
       if (!revs.length) W.saw[staged ? 'staged' : 'diff'] = true;
-    } else if (!revs.length && !staged && changes().untracked.length) hint('(kosong) git diff cuma membandingkan file yang sudah dilacak. File baru harus di-git add dulu, lalu cek pakai git diff --staged.');
-    else if (!revs.length && !staged && changes().staged.length) hint('(kosong) Semua perubahan sudah di staging. Lihat pakai git diff --staged.');
+    } else if (!revs.length && !staged && changes().untracked.length) hint(tr('(kosong) git diff cuma membandingkan file yang sudah dilacak. File baru harus di-git add dulu, lalu cek pakai git diff --staged.', '(empty) git diff only compares tracked files. A new file needs git add first, then check it with git diff --staged.'));
+    else if (!revs.length && !staged && changes().staged.length) hint(tr('(kosong) Semua perubahan sudah di staging. Lihat pakai git diff --staged.', '(empty) All changes are already staged. See them with git diff --staged.'));
     return true;
   }
   function gReflog(a) {
     var r = W.repo, P = parse(a, ['-n']), n = +(val(P, '-n') || 30);
-    if (P.rest[0] === 'expire' || P.rest[0] === 'delete') { err('error: simulasi ini ga mendukung menghapus reflog'); return false; }
+    if (P.rest[0] === 'expire' || P.rest[0] === 'delete') { err(tr('error: simulasi ini ga mendukung menghapus reflog', 'error: this simulation does not support deleting the reflog')); return false; }
     if (!r.reflog.length) return true;
     W.saw.reflog = true;
     var h = [];
@@ -1083,7 +1084,7 @@
         var upId = r.upstream[n] && r.rtrack[r.upstream[n]];
         if (!P.f['-D'] && !isAnc(id, h) && !(upId && isAnc(id, upId))) {
           err('error: the branch \'' + n + '\' is not fully merged.\nhint: If you are sure you want to delete it, run \'git branch -D ' + n + '\'');
-          hint('Commit di branch itu belum masuk ke ' + (cur || 'HEAD') + '. Kalau dihapus paksa, commit-nya cuma bisa dicari lewat reflog.');
+          hint(tr('Commit di branch itu belum masuk ke ', 'The commits on that branch are not in ') + (cur || 'HEAD') + tr('. Kalau dihapus paksa, commit-nya cuma bisa dicari lewat reflog.', ' yet. If you force-delete it, those commits can only be found through the reflog.'));
           okAll = false;
           return;
         }
@@ -1111,7 +1112,7 @@
       if (!validName(name)) { err('fatal: \'' + name + '\' is not a valid branch name'); return false; }
       if (r.branches[name] && !P.f['-f']) { err('fatal: a branch named \'' + name + '\' already exists'); return false; }
       var sid = resolve(start);
-      if (!sid) { err('fatal: not a valid object name: \'' + (start === 'HEAD' ? cur : start) + '\''); if (!h) hint('Branch baru butuh minimal satu commit. Commit dulu, baru bikin branch.'); return false; }
+      if (!sid) { err('fatal: not a valid object name: \'' + (start === 'HEAD' ? cur : start) + '\''); if (!h) hint(tr('Branch baru butuh minimal satu commit. Commit dulu, baru bikin branch.', 'A new branch needs at least one commit. Commit first, then create the branch.')); return false; }
       var lost = isLost(sid);
       r.branches[name] = sid;
       markHave(sid);
@@ -1223,8 +1224,8 @@
     }
     err('fatal: invalid reference: ' + x);
     var near = keys(r.branches).filter(function (b) { return K.edit(b, x) <= 2; })[0];
-    if (near) hint('Maksudnya ' + near + '? Bikin branch baru pakai git switch -c ' + x + '.');
-    else hint('Branch ' + x + ' belum ada. Bikin baru pakai git switch -c ' + x + '.');
+    if (near) hint('Maksudnya ' + near + tr('? Bikin branch baru pakai git switch -c ', '? Create a new branch with git switch -c ') + x + '.');
+    else hint('Branch ' + x + tr(' belum ada. Bikin baru pakai git switch -c ', ' does not exist yet. Create it with git switch -c ') + x + '.');
     return false;
   }
   function gSwitch(a) {
@@ -1255,10 +1256,10 @@
     if (x === '-' || r.branches[x] || (r.rtrack['origin/' + x] && !resolve(x)) || resolve(x)) return switchByName(x, true);
     if (W.files[x] !== undefined || r.index[x] !== undefined) return gRestore([x]);
     err('error: pathspec \'' + x + '\' did not match any file(s) known to git');
-    hint('Ga ada branch atau file bernama ' + x + '. Bikin branch baru pakai git checkout -b ' + x + ' (atau git switch -c ' + x + ').');
+    hint(tr('Ga ada branch atau file bernama ', 'There is no branch or file named ') + x + tr('. Bikin branch baru pakai git checkout -b ', '. Create a new branch with git checkout -b ') + x + tr(' (atau git switch -c ', ' (or git switch -c ') + x + ').');
     return false;
   }
-  function rescued() { M.hit('undo'); toast('🛟 Commit yang tadinya hilang balik lagi'); }
+  function rescued() { M.hit('undo'); toast(tr('🛟 Commit yang tadinya hilang balik lagi', '🛟 The lost commit is back')); }
 
   // ---------- git: merge / rebase / pick ----------
   function opBusy() {
@@ -1290,7 +1291,7 @@
       K.flash(app, 'repo');
       return { ff: true };
     }
-    if (o.ffOnly) { err('fatal: Not possible to fast-forward, aborting.'); hint('Lokal dan ' + label + ' sudah bercabang. Pilih merge (git pull --no-rebase) atau rebase (git pull --rebase).'); return false; }
+    if (o.ffOnly) { err('fatal: Not possible to fast-forward, aborting.'); hint(tr('Lokal dan ', 'Local and ') + label + tr(' sudah bercabang. Pilih merge (git pull --no-rebase) atau rebase (git pull --rebase).', ' have diverged. Pick merge (git pull --no-rebase) or rebase (git pull --rebase).')); return false; }
     var me = ident();
     if (!me) { noIdent(); return false; }
     var base = mergeBase(h, id), res = mergeTrees(treeOf(base), headTree(), C[id].tree, 'HEAD', label);
@@ -1307,7 +1308,7 @@
       markHave(id);
       cl.forEach(function (l) { html(/^CONFLICT/.test(l) ? red(l) : esc(l)); });
       err('Automatic merge failed; fix conflicts and then commit the result.');
-      hint('Buka tab file buat merapikan konfliknya (atau pakai git checkout --ours/--theirs <file>), lalu git add <file> dan git commit.');
+      hint(tr('Buka tab file buat merapikan konfliknya (atau pakai git checkout --ours/--theirs <file>), lalu git add <file> dan git commit.', 'Open the file tab to clean up the conflict (or use git checkout --ours/--theirs <file>), then git add <file> and git commit.'));
       W.tab = 'file';
       W.sel = res.conflicts[0].p;
       K.flash(app, 'work', 'warn');
@@ -1384,7 +1385,7 @@
       return rebaseStep();
     }
     if (opBusy()) return false;
-    if (!r.head.ref) { err('fatal: simulasi ini cuma bisa rebase dari sebuah branch, bukan detached HEAD'); return false; }
+    if (!r.head.ref) { err(tr('fatal: simulasi ini cuma bisa rebase dari sebuah branch, bukan detached HEAD', 'fatal: this simulation can only rebase from a branch, not a detached HEAD')); return false; }
     var ch = changes();
     if (ch.unstaged.length || ch.staged.length) {
       err('error: cannot rebase: ' + (ch.unstaged.length ? 'You have unstaged changes.' : 'Your index contains uncommitted changes.') + '\nerror: Please commit or stash them.');
@@ -1426,7 +1427,7 @@
         op.conflict = true;
         conflictLines(res, short(c) + ' (' + subject(c) + ')').forEach(function (l) { html(/^CONFLICT/.test(l) ? red(l) : esc(l)); });
         err('error: could not apply ' + short(c) + '... ' + subject(c) + '\nhint: Resolve all conflicts manually, mark them as resolved with\nhint: "git add/rm <conflicted_files>", then run "git rebase --continue".\nhint: You can instead skip this commit: run "git rebase --skip".\nhint: To abort and get back to the state before "git rebase", run "git rebase --abort".\nCould not apply ' + short(c) + '... ' + subject(c));
-        hint('Saat rebase, "HEAD" (ours) adalah ' + op.label + ' dan yang masuk (theirs) adalah commit kamu yang sedang diputar ulang.');
+        hint(tr('Saat rebase, "HEAD" (ours) adalah ', 'During a rebase, "HEAD" (ours) is ') + op.label + tr(' dan yang masuk (theirs) adalah commit kamu yang sedang diputar ulang.', ' and the incoming side (theirs) is your commit being replayed.'));
         W.tab = 'file';
         W.sel = res.conflicts[0].p;
         return false;
@@ -1463,7 +1464,7 @@
     var id = resolve(P.rest[0]);
     if (!id) { err('fatal: bad revision \'' + P.rest[0] + '\''); return false; }
     if (C[id].parents.length > 1) { err('error: commit ' + id + ' is a merge but no -m option was given.\nfatal: ' + nm + ' failed'); return false; }
-    if (!C[id].parents.length && kind === 'revert') { err('error: simulasi ini belum bisa revert commit pertama'); return false; }
+    if (!C[id].parents.length && kind === 'revert') { err(tr('error: simulasi ini belum bisa revert commit pertama', 'error: this simulation cannot revert the first commit yet')); return false; }
     if (isDirty()) { err('error: your local changes would be overwritten by ' + nm + '.\nhint: commit your changes or stash them to proceed.\nfatal: ' + nm + ' failed'); return false; }
     var res = pickTrees(id, kind);
     var msg = kind === 'pick' ? C[id].msg : 'Revert "' + subject(id) + '"\n\nThis reverts commit ' + id + '.';
@@ -1505,7 +1506,7 @@
     if (!h) { if (mode !== 'hard') { r.index = {}; return true; } err('fatal: ambiguous argument \'HEAD\': unknown revision or path not in the working tree.'); return false; }
     var id = resolve(rev || 'HEAD');
     if (!id) { err('fatal: ambiguous argument \'' + rev + '\': unknown revision or path not in the working tree.'); return false; }
-    if (r.op && r.op.kind === 'rebase') { err('fatal: di tengah rebase. Selesaikan dulu pakai git rebase --continue atau --abort.'); return false; }
+    if (r.op && r.op.kind === 'rebase') { err(tr('fatal: di tengah rebase. Selesaikan dulu pakai git rebase --continue atau --abort.', 'fatal: in the middle of a rebase. Finish it first with git rebase --continue or --abort.')); return false; }
     var lost = id !== h && isLost(id);
     var dropped = range(id, h).length;
     if (r.op && mode !== 'soft') r.op = null;
@@ -1520,7 +1521,7 @@
       hardResetFrom(C[id].tree);
       out('HEAD is now at ' + short(id) + ' ' + subject(id));
     }
-    if (dropped && mode === 'hard') dim('# ' + plural(dropped, 'commit').replace('commits', 'commit') + ' ga lagi ditunjuk branch mana pun. Masih bisa dicari lewat git reflog.');
+    if (dropped && mode === 'hard') dim('# ' + plural(dropped, 'commit').replace('commits', 'commit') + tr(' ga lagi ditunjuk branch mana pun. Masih bisa dicari lewat git reflog.', ' is no longer pointed to by any branch. You can still find it with git reflog.'));
     if (lost) rescued();
     K.flash(app, 'repo');
     return true;
@@ -1545,7 +1546,7 @@
       var ch = changes(), withU = P.f['-u'] || P.f['--include-untracked'];
       if (!ch.staged.length && !ch.unstaged.length && !(withU && ch.untracked.length)) {
         out('No local changes to save');
-        if (ch.untracked.length) hint('File yang belum dilacak (untracked) ga ikut di-stash. Pakai git stash -u kalau mau ikut.');
+        if (ch.untracked.length) hint(tr('File yang belum dilacak (untracked) ga ikut di-stash. Pakai git stash -u kalau mau ikut.', 'Untracked files are not stashed. Use git stash -u if you want them included.'));
         return true;
       }
       var msg = val(P, '-m') || val(P, '--message') || (sub === 'save' ? P.rest.join(' ') : '');
@@ -1605,13 +1606,13 @@
         conflictLines(res, 'Stashed changes').forEach(function (l) { html(/^CONFLICT/.test(l) ? red(l) : esc(l)); });
         out('On branch ' + (r.head.ref || 'HEAD'));
         err('The stash entry is kept in case you need it again.');
-        hint('Rapikan konfliknya, lalu git add. Stash-nya ga otomatis dihapus, buang manual pakai git stash drop kalau sudah beres.');
+        hint(tr('Rapikan konfliknya, lalu git add. Stash-nya ga otomatis dihapus, buang manual pakai git stash drop kalau sudah beres.', 'Clean up the conflict, then git add. The stash is not removed automatically, drop it with git stash drop once you are done.'));
         return false;
       }
       gStatus([]);
       if (sub === 'pop') { r.stash.splice(n, 1); out('Dropped refs/stash@{' + n + '} (' + st.id + ')'); }
       if (W.flags.stashSwitch) M.hit('stash');
-      else dim('# Tip misi: setelah git stash, coba pindah ke branch lain dulu, lalu balik dan pop.');
+      else dim(tr('# Tip misi: setelah git stash, coba pindah ke branch lain dulu, lalu balik dan pop.', '# Mission tip: after git stash, switch to another branch first, then come back and pop.'));
       W.flags.stashSwitch = undefined;
       K.flash(app, 'work');
       return true;
@@ -1634,7 +1635,7 @@
     if (!validName(name)) { err('fatal: \'' + name + '\' is not a valid tag name.'); return false; }
     if (r.tags[name] && !P.f['-f']) { err('fatal: tag \'' + name + '\' already exists'); return false; }
     if (!id) { err('fatal: Failed to resolve \'' + (P.rest[1] || 'HEAD') + '\' as a valid ref.'); return false; }
-    if ((P.f['-a'] || P.f['-s']) && !val(P, '-m')) { err('fatal: no tag message?'); hint('Tag beranotasi butuh pesan: git tag -a ' + name + ' -m "pesan"'); return false; }
+    if ((P.f['-a'] || P.f['-s']) && !val(P, '-m')) { err('fatal: no tag message?'); hint(tr('Tag beranotasi butuh pesan: git tag -a ', 'An annotated tag needs a message: git tag -a ') + name + tr(' -m "pesan"', ' -m "message"')); return false; }
     r.tags[name] = { id: id, msg: val(P, '-m') || null };
     return true;
   }
@@ -1650,7 +1651,7 @@
       if (r.remotes[name]) { err('error: remote ' + name + ' already exists.'); return false; }
       r.remotes[name] = { url: url };
       K.flash(app, 'origin');
-      if (!srvFor(url)) hint('Catatan: di simulasi ini repo GitHub-nya ada di ' + URL_OK + '. Alamat lain bakal "not found" waktu di-push.');
+      if (!srvFor(url)) hint(tr('Catatan: di simulasi ini repo GitHub-nya ada di ', 'Note: in this simulation the GitHub repo lives at ') + URL_OK + tr('. Alamat lain bakal "not found" waktu di-push.', '. Any other address will be "not found" when you push.'));
       return true;
     }
     if (sub === 'remove' || sub === 'rm') {
@@ -1680,11 +1681,11 @@
     var r = W.repo;
     if (!r.remotes[name]) {
       err('fatal: \'' + name + '\' does not appear to be a git repository\nfatal: Could not read from remote repository.\n\nPlease make sure you have the correct access rights\nand the repository exists.');
-      if (!keys(r.remotes).length) hint('Belum ada remote. Tambahkan dulu: git remote add origin ' + URL_OK);
+      if (!keys(r.remotes).length) hint(tr('Belum ada remote. Tambahkan dulu: git remote add origin ', 'No remote yet. Add one first: git remote add origin ') + URL_OK);
       return null;
     }
     var s = srvFor(r.remotes[name].url);
-    if (!s) { err('remote: Repository not found.\nfatal: repository \'' + r.remotes[name].url + '\' not found'); hint('Alamat remote-nya salah. Betulkan pakai git remote set-url ' + name + ' ' + URL_OK); return null; }
+    if (!s) { err('remote: Repository not found.\nfatal: repository \'' + r.remotes[name].url + '\' not found'); hint(tr('Alamat remote-nya salah. Betulkan pakai git remote set-url ', 'The remote address is wrong. Fix it with git remote set-url ') + name + ' ' + URL_OK); return null; }
     return s;
   }
   function gPush(a) {
@@ -1692,7 +1693,7 @@
     var names = keys(r.remotes);
     if (!names.length) {
       err('fatal: No configured push destination.\nEither specify the URL from the command-line or configure a remote repository using\n\n    git remote add <name> <url>\n\nand then push using the remote name\n\n    git push <name>');
-      hint('Sambungkan dulu ke GitHub: git remote add origin ' + URL_OK);
+      hint(tr('Sambungkan dulu ke GitHub: git remote add origin ', 'Connect to GitHub first: git remote add origin ') + URL_OK);
       return false;
     }
     var cur = r.head.ref, upn = cur && r.upstream[cur];
@@ -1702,11 +1703,11 @@
     var del = P.f['-d'] || P.f['--delete'];
     if (!specs.length && !P.f['--tags'] && !P.f['--all']) {
       if (!cur) { err('fatal: You are not currently on a branch.\nTo push the history leading to the current (detached HEAD)\nstate now, use\n\n    git push ' + rname + ' HEAD:<name-of-remote-branch>'); return false; }
-      if (!headId()) { err('error: src refspec ' + cur + ' does not match any\nerror: failed to push some refs to \'' + (r.remotes[rname] ? r.remotes[rname].url : rname) + '\''); hint('Belum ada commit buat dikirim. Commit dulu.'); return false; }
+      if (!headId()) { err('error: src refspec ' + cur + ' does not match any\nerror: failed to push some refs to \'' + (r.remotes[rname] ? r.remotes[rname].url : rname) + '\''); hint(tr('Belum ada commit buat dikirim. Commit dulu.', 'No commits to send yet. Commit first.')); return false; }
       if (!upn && !(P.f['-u'] || P.f['--set-upstream'])) {
         if (!r.remotes[rname]) { remoteOf(rname); return false; }
         err('fatal: The current branch ' + cur + ' has no upstream branch.\nTo push the current branch and set the remote as upstream, use\n\n    git push --set-upstream ' + rname + ' ' + cur + '\n\nTo have this happen automatically for branches without a tracking\nupstream, see \'push.autoSetupRemote\' in \'git help config\'.');
-        hint('Push pertama kali butuh tujuan: git push -u ' + rname + ' ' + cur + ' (setelah itu cukup git push).');
+        hint(tr('Push pertama kali butuh tujuan: git push -u ', 'The first push needs a destination: git push -u ') + rname + ' ' + cur + tr(' (setelah itu cukup git push).', ' (after that, plain git push is enough).'));
         return false;
       }
       specs = [cur + ':' + (upn ? upn.split('/').slice(1).join('/') : cur)];
@@ -1779,7 +1780,7 @@
       err('error: failed to push some refs to \'' + url + '\'');
       if (rejected.fetch) err('hint: Updates were rejected because the remote contains work that you do not\nhint: have locally. This is usually caused by another repository pushing to\nhint: the same ref. If you want to integrate the remote changes, use\nhint: \'git pull\' before pushing again.\nhint: See the \'Note about fast-forwards\' in \'git push --help\' for details.');
       else err('hint: Updates were rejected because the tip of your current branch is behind\nhint: its remote counterpart. If you want to integrate the remote changes,\nhint: use \'git pull\' before pushing again.\nhint: See the \'Note about fast-forwards\' in \'git push --help\' for details.');
-      hint('Di origin ada commit yang belum kamu punya. Tarik dulu pakai git pull (atau git pull --rebase), lalu push lagi. Jangan langsung --force: commit teman bisa hilang.');
+      hint(tr('Di origin ada commit yang belum kamu punya. Tarik dulu pakai git pull (atau git pull --rebase), lalu push lagi. Jangan langsung --force: commit teman bisa hilang.', 'origin has commits you do not have yet. Pull first with git pull (or git pull --rebase), then push again. Do not jump to --force: your teammate\'s commits could be lost.'));
       W.flags.rejected = true;
       K.flash(app, 'origin', 'warn');
     }
@@ -1795,7 +1796,7 @@
         if (W.flags.rejected && range(null, mainUp.id).some(function (c) { return C[c].author.name === DINA.name; })) M.hit('pull');
         if (W.dinaN < 4 && !W.dinaTimer && !M.done.pull) W.dinaTimer = setTimeout(function () { W.dinaTimer = null; dinaPush(); }, 2600);
       }
-      if (dinaGone) { hint('Waduh, force push barusan menimpa commit Dina di origin/main. Di tim beneran, ini bikin kerjaan teman hilang.'); toast('⚠️ Commit Dina tertimpa force push'); }
+      if (dinaGone) { hint(tr('Waduh, force push barusan menimpa commit Dina di origin/main. Di tim beneran, ini bikin kerjaan teman hilang.', 'Oops, that force push overwrote Dina\'s commit on origin/main. On a real team, your teammate\'s work would be gone.')); toast(tr('⚠️ Commit Dina tertimpa force push', '⚠️ Dina\'s commit got overwritten by a force push')); }
     }
     return !rejected.length;
   }
@@ -1821,7 +1822,7 @@
   }
   function gFetch(a) {
     var r = W.repo, P = parse(a, []);
-    if (!keys(r.remotes).length) { err('fatal: No remote repository specified.  Please, specify either a URL or a\nremote name from which new revisions should be fetched.'); hint('Belum ada remote. Tambahkan dulu: git remote add origin ' + URL_OK); return false; }
+    if (!keys(r.remotes).length) { err('fatal: No remote repository specified.  Please, specify either a URL or a\nremote name from which new revisions should be fetched.'); hint(tr('Belum ada remote. Tambahkan dulu: git remote add origin ', 'No remote yet. Add one first: git remote add origin ') + URL_OK); return false; }
     var ok = doFetch(P.rest[0] || 'origin');
     if (ok && (P.f['-p'] || P.f['--prune'])) {
       var s = W.server;
@@ -1832,7 +1833,7 @@
   function gPull(a) {
     var r = W.repo, P = parse(a, []);
     if (opBusy()) return false;
-    if (!keys(r.remotes).length) { err('fatal: No remote repository specified.'); hint('Belum ada remote. Tambahkan dulu: git remote add origin ' + URL_OK); return false; }
+    if (!keys(r.remotes).length) { err('fatal: No remote repository specified.'); hint(tr('Belum ada remote. Tambahkan dulu: git remote add origin ', 'No remote yet. Add one first: git remote add origin ') + URL_OK); return false; }
     var cur = r.head.ref;
     if (!cur) { err('You are not currently on a branch.\nPlease specify which branch you want to merge with.'); return false; }
     var rname = P.rest[0] || (r.upstream[cur] ? r.upstream[cur].split('/')[0] : 'origin');
@@ -1852,7 +1853,7 @@
     if (!h || isAnc(h, tid)) return !!doMerge(tid, label, { pull: true });
     if (!mode) {
       err('hint: You have divergent branches and need to specify how to reconcile them.\nhint: You can do so by running one of the following commands sometime before\nhint: your next pull:\nhint:\nhint:   git config pull.rebase false  # merge\nhint:   git config pull.rebase true   # rebase\nhint:   git config pull.ff only       # fast-forward only\nhint:\nhint: You can replace "git config" with "git config --global" to set a default\nhint: preference for all repositories. You can also pass --rebase, --no-rebase,\nhint: or --ff-only on the command line to override the configured default per\nhint: invocation.\nfatal: Need to specify how to reconcile divergent branches.');
-      hint('Lokal dan ' + up + ' sama-sama punya commit baru. Pilih salah satu: git pull --no-rebase (bikin merge commit) atau git pull --rebase (riwayat tetap lurus).');
+      hint(tr('Lokal dan ', 'Local and ') + up + tr(' sama-sama punya commit baru. Pilih salah satu: git pull --no-rebase (bikin merge commit) atau git pull --rebase (riwayat tetap lurus).', ' both have new commits. Pick one: git pull --no-rebase (makes a merge commit) or git pull --rebase (keeps the history straight).'));
       return false;
     }
     if (mode === 'ff') { err('fatal: Not possible to fast-forward, aborting.'); return false; }
@@ -1869,15 +1870,15 @@
     if (!tip) return;
     W.dinaN++;
     var T = copy(C[tip].tree), msg;
-    if (T['tentang.html'] === undefined) { T['tentang.html'] = TENTANG; msg = 'Tambah halaman tentang'; }
+    if (T['tentang.html'] === undefined) { T['tentang.html'] = TENTANG; msg = tr('Tambah halaman tentang', 'Add about page'); }
     else {
       var t = T['tentang.html'];
-      T['tentang.html'] = t.indexOf('</body>') >= 0 ? t.replace('</body>', '  <p>Catatan ke-' + W.dinaN + ' dari Dina.</p>\n</body>') : t + '<!-- catatan ke-' + W.dinaN + ' dari Dina -->\n';
-      msg = 'Perbarui halaman tentang';
+      T['tentang.html'] = t.indexOf('</body>') >= 0 ? t.replace('</body>', tr('  <p>Catatan ke-', '  <p>Note #') + W.dinaN + tr(' dari Dina.</p>\n</body>', ' from Dina.</p>\n</body>')) : t + tr('<!-- catatan ke-', '<!-- note #') + W.dinaN + tr(' dari Dina -->\n', ' from Dina -->\n');
+      msg = tr('Perbarui halaman tentang', 'Update about page');
     }
     s.branches.main = mkCommit(T, [tip], msg, DINA);
-    term.line('<span class="sx-warn"># 🔔 Dina (teman satu tim) baru saja push 1 commit ke origin/main: "' + esc(msg) + '"</span>');
-    toast('🔔 Dina push commit baru ke origin/main');
+    term.line(tr('<span class="sx-warn"># 🔔 Dina (teman satu tim) baru saja push 1 commit ke origin/main: "', '<span class="sx-warn"># 🔔 Dina (your teammate) just pushed 1 commit to origin/main: "') + esc(msg) + '"</span>');
+    toast(tr('🔔 Dina push commit baru ke origin/main', '🔔 Dina pushed a new commit to origin/main'));
     K.flash(app, 'origin', 'warn');
     render();
   }
@@ -1897,7 +1898,7 @@
   }
   function gClean(a) {
     var P = parse(a, []), ch = changes();
-    if (!P.f['-f'] && !P.f['-n'] && !P.f['--dry-run']) { err('fatal: clean.requireForce is true and -f not given: refusing to clean'); hint('Ini sengaja: git clean menghapus file untracked tanpa bisa dibatalkan. Cek dulu pakai git clean -n.'); return false; }
+    if (!P.f['-f'] && !P.f['-n'] && !P.f['--dry-run']) { err('fatal: clean.requireForce is true and -f not given: refusing to clean'); hint(tr('Ini sengaja: git clean menghapus file untracked tanpa bisa dibatalkan. Cek dulu pakai git clean -n.', 'This is on purpose: git clean deletes untracked files with no undo. Check first with git clean -n.')); return false; }
     ch.untracked.forEach(function (p) {
       if (P.f['-n'] || P.f['--dry-run']) out('Would remove ' + p);
       else { out('Removing ' + p); delete W.files[p]; }
@@ -1924,7 +1925,7 @@
     if (sub === 'config') return gConfig(rest);
     if (sub === 'clone') {
       err('fatal: destination path \'proyek-web\' already exists and is not an empty directory.');
-      hint('Di simulasi ini proyeknya sudah ada di laptop. Mulai dengan git init, lalu sambungkan ke GitHub pakai git remote add.');
+      hint(tr('Di simulasi ini proyeknya sudah ada di laptop. Mulai dengan git init, lalu sambungkan ke GitHub pakai git remote add.', 'In this simulation the project is already on the laptop. Start with git init, then connect to GitHub with git remote add.'));
       return false;
     }
     if (GIT_CMDS.indexOf(sub) < 0) {
@@ -1969,15 +1970,15 @@
     html([
       '<b>usage: git &lt;command&gt; [&lt;args&gt;]</b>',
       '',
-      '<span class="sx-dim">mulai dan simpan perubahan</span>',
+      tr('<span class="sx-dim">mulai dan simpan perubahan</span>', '<span class="sx-dim">start and save changes</span>'),
       '   init, config, status, add, rm, mv, restore, commit',
-      '<span class="sx-dim">lihat riwayat</span>',
+      tr('<span class="sx-dim">lihat riwayat</span>', '<span class="sx-dim">look at history</span>'),
       '   log [--oneline --graph --all], show, diff [--staged], reflog',
-      '<span class="sx-dim">branch dan gabung</span>',
+      tr('<span class="sx-dim">branch dan gabung</span>', '<span class="sx-dim">branch and merge</span>'),
       '   branch, switch, checkout, merge, rebase, cherry-pick, revert, tag',
-      '<span class="sx-dim">batalkan dan simpan sementara</span>',
+      tr('<span class="sx-dim">batalkan dan simpan sementara</span>', '<span class="sx-dim">undo and stash</span>'),
       '   reset [--soft|--mixed|--hard], stash [push|list|pop|apply|drop], clean',
-      '<span class="sx-dim">kerja bareng</span>',
+      tr('<span class="sx-dim">kerja bareng</span>', '<span class="sx-dim">work together</span>'),
       '   remote, push, fetch, pull [--rebase]'
     ].join('\n'));
   }
@@ -2009,7 +2010,7 @@
     term.echo(prompt(), line);
     if (!line) return;
     var toks = lex(line);
-    if (!toks) { err('bash: tanda kutip ' + (line.split('"').length % 2 ? '\'' : '"') + ' belum ditutup'); return; }
+    if (!toks) { err(tr('bash: tanda kutip ', 'bash: unclosed quote ') + (line.split('"').length % 2 ? '\'' : '"') + tr(' belum ditutup', '')); return; }
     var chain = [], cur = [], lastOk = true, prevOp = null;
     toks.forEach(function (t) {
       if (t.op === '&&' || t.op === '||' || t.op === ';') { chain.push({ toks: cur, op: prevOp }); prevOp = t.op; cur = []; }
@@ -2051,8 +2052,8 @@
       text = r;
     }
     if (redir) {
-      if (/^\.git(\/|$)/.test(redir.file)) { err('bash: ' + redir.file + ': jangan diubah manual ya, biar Git yang urus'); return false; }
-      if (!validFile(redir.file)) { err('bash: ' + redir.file + ': nama file ga valid di simulasi ini'); return false; }
+      if (/^\.git(\/|$)/.test(redir.file)) { err('bash: ' + redir.file + tr(': jangan diubah manual ya, biar Git yang urus', ': do not edit this by hand, let Git handle it')); return false; }
+      if (!validFile(redir.file)) { err('bash: ' + redir.file + tr(': nama file ga valid di simulasi ini', ': invalid file name in this simulation')); return false; }
       var body = text + (text && !NONL ? '\n' : '');
       W.files[redir.file] = redir.mode === '>>' ? (W.files[redir.file] || '') + body : body;
       return ok;
@@ -2073,7 +2074,7 @@
     if (cmd === 'wc') return String(P.f['-l'] ? L.length : text.split(/\s+/).filter(Boolean).length);
     if (cmd === 'cat' || cmd === 'less' || cmd === 'more') return text;
     if (cmd === 'sort') return L.slice().sort().join('\n');
-    err('bash: ' + cmd + ': simulasi ini cuma mendukung pipe ke head, tail, grep, wc, sort, dan less');
+    err('bash: ' + cmd + tr(': simulasi ini cuma mendukung pipe ke head, tail, grep, wc, sort, dan less', ': this simulation only supports piping into head, tail, grep, wc, sort and less'));
     return null;
   }
   function exec(a) {
@@ -2083,12 +2084,12 @@
       case 'help': return shHelp();
       case 'clear': term.clear(); return true;
       case 'pwd': out(DIR); return true;
-      case 'whoami': out('kamu'); return true;
+      case 'whoami': out(tr('kamu', 'you')); return true;
       case 'date': out(new Date().toString().replace(/ \(.*\)$/, '')); return true;
       case 'cd': {
         var d = args[0];
         if (!d || d === '.' || d === '~/proyek-web' || d === DIR || d === 'proyek-web' && false) return true;
-        err('bash: cd: di simulasi ini kamu tetap di ~/proyek-web');
+        err(tr('bash: cd: di simulasi ini kamu tetap di ~/proyek-web', 'bash: cd: in this simulation you stay in ~/proyek-web'));
         return false;
       }
       case 'ls': return shLs(args);
@@ -2102,15 +2103,15 @@
       case 'nano': case 'vim': case 'vi': case 'nvim': case 'code': case 'micro': case 'emacs': return shEdit(cmd, args);
       case 'head': case 'tail': case 'grep': case 'wc': case 'sort': {
         var file = args[args.length - 1];
-        if (W.files[file] === undefined || args.length < (cmd === 'grep' ? 2 : 1)) { err(cmd + ': butuh nama file (atau pakai pipe, misal git log --oneline | ' + cmd + ')'); return false; }
+        if (W.files[file] === undefined || args.length < (cmd === 'grep' ? 2 : 1)) { err(cmd + tr(': butuh nama file (atau pakai pipe, misal git log --oneline | ', ': needs a file name (or use a pipe, e.g. git log --oneline | ') + cmd + ')'); return false; }
         var r = filter(a.slice(0, -1), W.files[file].replace(/\n$/, ''));
         if (r === null) return false;
         if (r) out(r);
         return true;
       }
-      case 'mkdir': err('mkdir: simulasi ini belum mendukung folder. Pakai nama file biasa ya.'); return false;
-      case 'sudo': err('kamu is not in the sudoers file. This incident will be reported. 😄'); return false;
-      case 'exit': dim('# ga bisa keluar dari simulasi. Klik "reset simulasi" kalau mau mulai ulang.'); return true;
+      case 'mkdir': err(tr('mkdir: simulasi ini belum mendukung folder. Pakai nama file biasa ya.', 'mkdir: this simulation does not support folders yet. Use plain file names.')); return false;
+      case 'sudo': err(tr('kamu is not in the sudoers file. This incident will be reported. 😄', 'you is not in the sudoers file. This incident will be reported. 😄')); return false;
+      case 'exit': dim(tr('# ga bisa keluar dari simulasi. Klik "reset simulasi" kalau mau mulai ulang.', '# you cannot exit the simulation. Click "reset simulation" to start over.')); return true;
     }
     err('bash: ' + cmd + ': command not found');
     var near = ['git', 'ls', 'cat', 'echo', 'touch', 'rm', 'mv', 'sed', 'nano', 'clear', 'help', 'pwd'].filter(function (c) { return K.edit(c, cmd) <= 1; })[0];
@@ -2119,13 +2120,13 @@
   }
   function shHelp() {
     html([
-      '<b>Perintah di simulasi ini</b>',
-      '<span class="sx-dim">git</span>      git help buat daftar lengkap, misal git status, git add ., git commit -m "pesan"',
+      tr('<b>Perintah di simulasi ini</b>', '<b>Commands in this simulation</b>'),
+      tr('<span class="sx-dim">git</span>      git help buat daftar lengkap, misal git status, git add ., git commit -m "pesan"', '<span class="sx-dim">git</span>      git help for the full list, e.g. git status, git add ., git commit -m "message"'),
       '<span class="sx-dim">file</span>     ls, cat, echo "teks" &gt; file, echo "teks" &gt;&gt; file, touch, rm, mv, nano &lt;file&gt;',
-      '<span class="sx-dim">edit</span>     sed -i \'s/lama/baru/\' file, atau buka tab <b>file</b> dan edit langsung',
-      '<span class="sx-dim">shell</span>    &amp;&amp; dan ; buat merangkai, | head / grep / wc, clear, pwd',
+      tr('<span class="sx-dim">edit</span>     sed -i \'s/lama/baru/\' file, atau buka tab <b>file</b> dan edit langsung', '<span class="sx-dim">edit</span>     sed -i \'s/old/new/\' file, or open the <b>file</b> tab and edit directly'),
+      tr('<span class="sx-dim">shell</span>    &amp;&amp; dan ; buat merangkai, | head / grep / wc, clear, pwd', '<span class="sx-dim">shell</span>    &amp;&amp; and ; to chain, | head / grep / wc, clear, pwd'),
       '',
-      '<span class="sx-dim">Tombol di bawah terminal selalu menyarankan langkah berikutnya. Panah atas/bawah buat riwayat perintah.</span>'
+      tr('<span class="sx-dim">Tombol di bawah terminal selalu menyarankan langkah berikutnya. Panah atas/bawah buat riwayat perintah.</span>', '<span class="sx-dim">The buttons under the terminal always suggest the next step. Up/down arrows for command history.</span>')
     ].join('\n'));
     return true;
   }
@@ -2137,8 +2138,8 @@
     if (!all) f = f.filter(function (x) { return x[0] !== '.'; });
     if (P.f['-l']) {
       var rows = [];
-      if (all && W.repo) rows.push('drwxr-xr-x 7 kamu kamu 4096 ' + lsDate() + ' .git');
-      f.forEach(function (x) { rows.push('-rw-r--r-- 1 kamu kamu ' + pad(String(W.files[x].length), 4) + ' ' + lsDate() + ' ' + x); });
+      if (all && W.repo) rows.push(tr('drwxr-xr-x 7 kamu kamu 4096 ', 'drwxr-xr-x 7 you you 4096 ') + lsDate() + ' .git');
+      f.forEach(function (x) { rows.push(tr('-rw-r--r-- 1 kamu kamu ', '-rw-r--r-- 1 you you ') + pad(String(W.files[x].length), 4) + ' ' + lsDate() + ' ' + x); });
       out('total ' + rows.length * 4 + '\n' + rows.join('\n'));
       return true;
     }
@@ -2148,7 +2149,7 @@
   }
   function lsDate() { var d = new Date(); return MONS[d.getMonth()] + ' ' + pad(String(d.getDate()), 2) + ' ' + two(d.getHours()) + ':' + two(d.getMinutes()); }
   function shCat(a) {
-    if (!a.length) { err('cat: butuh nama file'); return false; }
+    if (!a.length) { err(tr('cat: butuh nama file', 'cat: needs a file name')); return false; }
     var ok = true;
     a.forEach(function (f) {
       f = f.replace(/^\.\//, '');
@@ -2162,7 +2163,7 @@
         Object.keys(r.remotes).forEach(function (n) { v += '\n[remote "' + n + '"]\n\turl = ' + r.remotes[n].url + '\n\tfetch = +refs/heads/*:refs/remotes/' + n + '/*'; });
         Object.keys(r.upstream).forEach(function (b) { var u = r.upstream[b].split('/'); v += '\n[branch "' + b + '"]\n\tremote = ' + u[0] + '\n\tmerge = refs/heads/' + u.slice(1).join('/'); });
       } else if (f === '.git/MERGE_HEAD' && r && r.op && r.op.kind === 'merge') v = r.op.theirs;
-      else if (f === '.git' || /^\.git\//.test(f)) { err('cat: ' + f + ': ' + (r ? 'simulasi ini cuma bisa membaca .git/HEAD, .git/config, dan .git/refs/...' : 'No such file or directory')); ok = false; return; }
+      else if (f === '.git' || /^\.git\//.test(f)) { err('cat: ' + f + ': ' + (r ? tr('simulasi ini cuma bisa membaca .git/HEAD, .git/config, dan .git/refs/...', 'this simulation can only read .git/HEAD, .git/config and .git/refs/...') : 'No such file or directory')); ok = false; return; }
       else v = W.files[f];
       if (v === undefined) { err('cat: ' + f + ': No such file or directory'); ok = false; return; }
       if (v === '') return;
@@ -2186,7 +2187,7 @@
     if (!P.rest.length) { err('rm: missing operand'); return false; }
     P.rest.forEach(function (f) {
       f = f.replace(/^\.\//, '');
-      if (f === '.git' || /^\.git\//.test(f)) { err('rm: ' + f + ': ga boleh, nanti repo-nya rusak 🙂'); ok = false; return; }
+      if (f === '.git' || /^\.git\//.test(f)) { err('rm: ' + f + tr(': ga boleh, nanti repo-nya rusak 🙂', ': not allowed, it would break the repo 🙂')); ok = false; return; }
       var hit = keys(W.files).filter(function (x) { return x === f || (P.f['-r'] && x.indexOf(f.replace(/\/$/, '') + '/') === 0) || (f === '*' && x[0] !== '.'); });
       if (!hit.length) { if (!P.f['-f']) { err('rm: cannot remove \'' + f + '\': No such file or directory'); ok = false; } return; }
       hit.forEach(function (x) { delete W.files[x]; });
@@ -2194,9 +2195,9 @@
     return ok;
   }
   function shMv(a) {
-    if (a.length !== 2) { err('mv: butuh dua argumen: mv lama baru'); return false; }
+    if (a.length !== 2) { err(tr('mv: butuh dua argumen: mv lama baru', 'mv: needs two arguments: mv old new')); return false; }
     if (W.files[a[0]] === undefined) { err('mv: cannot stat \'' + a[0] + '\': No such file or directory'); return false; }
-    if (!validFile(a[1])) { err('mv: nama file ga valid'); return false; }
+    if (!validFile(a[1])) { err(tr('mv: nama file ga valid', 'mv: invalid file name')); return false; }
     W.files[a[1]] = W.files[a[0]];
     delete W.files[a[0]];
     if (W.sel === a[0]) W.sel = a[1];
@@ -2207,7 +2208,7 @@
     a.forEach(function (x) { if (x === '-i') inPlace = true; else rest.push(x); });
     var expr = rest[0], files = rest.slice(1);
     var m = expr && /^s(.)(.*)$/.exec(expr);
-    if (!m) { err('sed: simulasi ini cuma mendukung bentuk s/lama/baru/'); return false; }
+    if (!m) { err(tr('sed: simulasi ini cuma mendukung bentuk s/lama/baru/', 'sed: this simulation only supports the s/old/new/ form')); return false; }
     var d = m[1], parts = [], cur = '', s = m[2];
     for (var i = 0; i < s.length; i++) {
       if (s[i] === '\\' && s[i + 1] === d) { cur += d; i++; continue; }
@@ -2217,8 +2218,8 @@
     parts.push(cur);
     if (parts.length < 3) { err('sed: -e expression #1, char ' + expr.length + ': unterminated `s\' command'); return false; }
     var re;
-    try { re = new RegExp(parts[0].replace(/\\([()|{}+?])/g, '$1'), parts[2].indexOf('g') >= 0 ? 'g' : ''); } catch (e) { err('sed: pola ga valid'); return false; }
-    if (!files.length) { err('sed: butuh nama file'); return false; }
+    try { re = new RegExp(parts[0].replace(/\\([()|{}+?])/g, '$1'), parts[2].indexOf('g') >= 0 ? 'g' : ''); } catch (e) { err(tr('sed: pola ga valid', 'sed: invalid pattern')); return false; }
+    if (!files.length) { err(tr('sed: butuh nama file', 'sed: needs a file name')); return false; }
     var ok = true;
     files.forEach(function (f) {
       if (W.files[f] === undefined) { err('sed: can\'t read ' + f + ': No such file or directory'); ok = false; return; }
@@ -2230,12 +2231,12 @@
   }
   function shEdit(cmd, a) {
     var f = a[0];
-    if (!f) { err(cmd + ': butuh nama file'); return false; }
-    if (!validFile(f)) { err(cmd + ': nama file ga valid'); return false; }
+    if (!f) { err(cmd + tr(': butuh nama file', ': needs a file name')); return false; }
+    if (!validFile(f)) { err(cmd + tr(': nama file ga valid', ': invalid file name')); return false; }
     if (W.files[f] === undefined) W.files[f] = '';
     W.sel = f;
     W.tab = 'file';
-    dim('# ' + f + ' dibuka di tab file. Ketik di sana, perubahannya langsung tersimpan.');
+    dim('# ' + f + tr(' dibuka di tab file. Ketik di sana, perubahannya langsung tersimpan.', ' is open in the file tab. Type there, changes are saved right away.'));
     setTimeout(function () { if (ed) ed.ta.focus(); }, 30);
     return true;
   }
@@ -2246,13 +2247,13 @@
   function suggestMsg() {
     var ch = changes(), p = (ch.staged[0] || {}).p || '';
     var x = ch.staged[0] || {};
-    if (p === 'kontak.html' && x.k === 'new file') return 'Tambah halaman kontak';
-    if (p === 'style.css') return 'Ubah gaya halaman';
-    if (p === 'README.md') return 'Perbarui README';
-    if (p === 'index.html') return 'Ubah judul halaman';
-    if (x.k === 'new file') return 'Tambah ' + p;
-    if (x.k === 'deleted') return 'Hapus ' + p;
-    return 'Simpan perubahan';
+    if (p === 'kontak.html' && x.k === 'new file') return tr('Tambah halaman kontak', 'Add contact page');
+    if (p === 'style.css') return tr('Ubah gaya halaman', 'Change page style');
+    if (p === 'README.md') return tr('Perbarui README', 'Update README');
+    if (p === 'index.html') return tr('Ubah judul halaman', 'Change page title');
+    if (x.k === 'new file') return tr('Tambah ', 'Add ') + p;
+    if (x.k === 'deleted') return tr('Hapus ', 'Delete ') + p;
+    return tr('Simpan perubahan', 'Save changes');
   }
   function ahead(b, of) { var r = W.repo; return r.branches[b] && r.branches[of] ? range(r.branches[of], r.branches[b]).length : 0; }
   function conflictBranch() {
@@ -2267,8 +2268,8 @@
     var q = [];
     if (!W.repo) return ['git init', 'git status', 'ls'];
     var r = W.repo, d = M.done, ch = changes(), h = headId(), cur = r.head.ref;
-    if (!cfg('user.name')) q.push('git config --global user.name "Kamu"');
-    if (!cfg('user.email')) q.push('git config --global user.email kamu@contoh.id');
+    if (!cfg('user.name')) q.push(tr('git config --global user.name "Kamu"', 'git config --global user.name "Your Name"'));
+    if (!cfg('user.email')) q.push(tr('git config --global user.email kamu@contoh.id', 'git config --global user.email you@example.com'));
     if (r.op) {
       var abort = r.op.kind === 'rebase' ? 'git rebase --abort' : r.op.kind === 'merge' ? 'git merge --abort' : r.op.kind === 'pick' ? 'git cherry-pick --abort' : 'git revert --abort';
       if (ch.unmerged.length) {
@@ -2285,7 +2286,7 @@
     if (q.length) { q.push('git status'); return q; }
     if (!h) {
       if (!keys(r.index).length) return ['git add .', 'git status', 'git add index.html'];
-      return ['git commit -m "Commit pertama"', 'git status', 'git diff --staged'];
+      return [tr('git commit -m "Commit pertama"', 'git commit -m "First commit"'), 'git status', 'git diff --staged'];
     }
     if (ch.unmerged.length) { q.push('git add ' + ch.unmerged[0], 'git status'); return q; }
     var cm = (MISSIONS.filter(function (m) { return !d[m.id]; })[0] || {}).id;
@@ -2295,7 +2296,7 @@
       if (ch.unstaged.length || ch.untracked.length) q.push(ch.untracked.length === 1 && !ch.unstaged.length ? 'git add ' + ch.untracked[0] : 'git add .');
       if (ch.staged.length && !W.saw.staged) q.push('git diff --staged');
       if (ch.staged.length) q.push('git commit -m "' + suggestMsg() + '"');
-      else if (ch.unstaged.length && !ch.untracked.length) q.push('git commit -am "' + (function () { var x = ch.unstaged[0].p; return x === 'README.md' ? 'Perbarui README' : x === 'style.css' ? 'Ubah gaya halaman' : x === 'index.html' ? 'Ubah judul halaman' : 'Simpan perubahan'; })() + '"');
+      else if (ch.unstaged.length && !ch.untracked.length) q.push('git commit -am "' + (function () { var x = ch.unstaged[0].p; return x === 'README.md' ? tr('Perbarui README', 'Update README') : x === 'style.css' ? tr('Ubah gaya halaman', 'Change page style') : x === 'index.html' ? tr('Ubah judul halaman', 'Change page title') : tr('Simpan perubahan', 'Save changes'); })() + '"');
       if (ch.unstaged.length) q.push('git restore ' + ch.unstaged[0].p);
       q.push('git status');
       return q;
@@ -2303,7 +2304,7 @@
     var main = r.branches.main;
     if (cm === 'stage') {
       if (/color: teal;/.test(W.files['style.css'] || '')) q.push('sed -i \'s/color: teal;/color: tomato;/\' style.css');
-      q.push('echo "- catatan baru" >> README.md');
+      q.push(tr('echo "- catatan baru" >> README.md', 'echo "- new note" >> README.md'));
     } else if (cm === 'branch' || cm === 'merge') {
       var fb = keys(r.branches).filter(function (b) { return b !== 'main' && ahead(b, 'main'); })[0];
       if (cur === 'main') {
@@ -2311,7 +2312,7 @@
         else if (!r.branches['fitur/kontak']) q.push('git switch -c fitur/kontak');
         else q.push('git switch fitur/kontak');
       } else if (!ahead(cur, 'main')) {
-        if (W.files['kontak.html'] === undefined) q.push('echo "<p>Kontak: halo@contoh.id</p>" > kontak.html');
+        if (W.files['kontak.html'] === undefined) q.push(tr('echo "<p>Kontak: halo@contoh.id</p>" > kontak.html', 'echo "<p>Contact: hello@example.com</p>" > kontak.html'));
         else q.push('echo "<p>Instagram: @proyekweb</p>" >> kontak.html');
       } else q.push('git switch main');
     } else if (cm === 'conflict') {
@@ -2319,15 +2320,15 @@
       var t = h1(W.files['index.html']);
       if (cur === cb) {
         if (!ahead(cb, 'main')) {
-          if (t !== null) q.push('sed -i \'s/<h1>' + sedEsc(t) + '<\\/h1>/<h1>Judul dari branch fitur<\\/h1>/\' index.html');
-          else q.push('echo "<h1>Judul dari branch fitur</h1>" > index.html');
+          if (t !== null) q.push('sed -i \'s/<h1>' + sedEsc(t) + tr('<\\/h1>/<h1>Judul dari branch fitur<\\/h1>/\' index.html', '<\\/h1>/<h1>Title from the feature branch<\\/h1>/\' index.html'));
+          else q.push(tr('echo "<h1>Judul dari branch fitur</h1>" > index.html', 'echo "<h1>Title from the feature branch</h1>" > index.html'));
         } else q.push('git switch main');
       } else if (cur === 'main') {
         if (!r.branches[cb]) q.push('git switch -c ' + cb);
         else if (!ahead(cb, 'main')) q.push('git switch ' + cb);
         else if (base === main) {
-          if (t !== null) q.push('sed -i \'s/<h1>' + sedEsc(t) + '<\\/h1>/<h1>Judul dari main<\\/h1>/\' index.html');
-          else q.push('echo "<h1>Judul dari main</h1>" > index.html');
+          if (t !== null) q.push('sed -i \'s/<h1>' + sedEsc(t) + tr('<\\/h1>/<h1>Judul dari main<\\/h1>/\' index.html', '<\\/h1>/<h1>Title from main<\\/h1>/\' index.html'));
+          else q.push(tr('echo "<h1>Judul dari main</h1>" > index.html', 'echo "<h1>Title from main</h1>" > index.html'));
         } else q.push('git merge ' + cb);
       } else q.push('git switch main');
     } else if (cm === 'push') {
@@ -2341,12 +2342,12 @@
         if (!W.dinaN && srv && !W.dinaTimer) q.push('git push');
         var mineAhead = srv ? range(srv, h).length : 0;
         if (srv && isAnc(srv, h) && mineAhead) q.push('git push');
-        else if (srv && !isAnc(srv, h) && !mineAhead) q.push('echo "- catatan dari kamu" >> README.md', 'git pull');
+        else if (srv && !isAnc(srv, h) && !mineAhead) q.push(tr('echo "- catatan dari kamu" >> README.md', 'echo "- a note from you" >> README.md'), 'git pull');
         else if (srv && !isAnc(srv, h)) {
           if (!W.flags.rejected) q.push('git push');
           if (known !== srv) q.push('git fetch');
           q.push('git pull --no-rebase', 'git pull --rebase');
-        } else q.push('echo "- catatan dari kamu" >> README.md');
+        } else q.push(tr('echo "- catatan dari kamu" >> README.md', 'echo "- a note from you" >> README.md'));
       }
     } else if (cm === 'stash') {
       if (r.stash.length) {
@@ -2357,14 +2358,14 @@
         } else if (cur !== sb && r.branches[sb]) q.push('git switch ' + sb);
         else q.push('git stash pop');
         q.push('git stash list');
-      } else q.push('echo "- ide setengah jadi" >> README.md');
+      } else q.push(tr('echo "- ide setengah jadi" >> README.md', 'echo "- half-baked idea" >> README.md'));
     } else if (cm === 'undo') {
       var last = r.reflog[r.reflog.length - 1], prevE = r.reflog[r.reflog.length - 2];
       if (last && /^reset: /.test(last.msg) && prevE && isLost(prevE.id)) {
         if (!W.saw.reflog) q.push('git reflog');
         q.push('git reset --hard HEAD@{1}', 'git reset --hard ' + short(prevE.id));
       } else if (C[h].parents.length) q.push('git reset --hard HEAD~1', 'git log --oneline');
-      else q.push('echo "- catatan" >> README.md');
+      else q.push(tr('echo "- catatan" >> README.md', 'echo "- note" >> README.md'));
     } else if (cm === 'rebase') {
       var rb = 'fitur/footer';
       if (!r.branches[rb]) { if (cur === 'main') q.push('git switch -c ' + rb); else q.push('git switch main'); }
@@ -2373,7 +2374,7 @@
         else if (isAnc(main, r.branches[rb])) q.push('git switch main');
         else q.push('git rebase main');
       } else if (cur === 'main') {
-        if (ahead(rb, 'main') && isAnc(main, r.branches[rb])) q.push('echo "- catatan rilis" >> README.md');
+        if (ahead(rb, 'main') && isAnc(main, r.branches[rb])) q.push(tr('echo "- catatan rilis" >> README.md', 'echo "- release note" >> README.md'));
         else q.push('git switch ' + rb);
       } else q.push('git switch ' + rb);
     }
@@ -2386,9 +2387,9 @@
   function cmdBtn(c, label, cls) { return '<button type="button"' + (cls ? ' class="' + cls + '"' : '') + ' data-act="cmd" data-cmd="' + esc(c) + '">' + esc(label || c) + '</button>'; }
   function agoId(t) {
     var s = Math.max(1, Math.round((Date.now() - t) / 1000));
-    if (s < 60) return s + ' dtk lalu';
-    if (s < 3600) return Math.floor(s / 60) + ' mnt lalu';
-    return Math.floor(s / 3600) + ' jam lalu';
+    if (s < 60) return s + tr(' dtk lalu', 's ago');
+    if (s < 3600) return Math.floor(s / 60) + tr(' mnt lalu', 'm ago');
+    return Math.floor(s / 3600) + tr(' jam lalu', 'h ago');
   }
   function graphSVG(ids, parentsOf, rowHTML) {
     var rows = layout(ids, parentsOf), at = {}, w = 1;
@@ -2424,12 +2425,12 @@
   }
   function renderGraf() {
     var el = $('gt-v-graf');
-    if (!W.repo) { setHTML(el, gate('Folder <b>proyek-web</b> berisi tiga file, tapi belum jadi repo Git. Belum ada riwayat apa pun.', 'git init')); return; }
+    if (!W.repo) { setHTML(el, gate(tr('Folder <b>proyek-web</b> berisi tiga file, tapi belum jadi repo Git. Belum ada riwayat apa pun.', 'The <b>proyek-web</b> folder holds three files but is not a Git repo yet. No history at all.'), 'git init')); return; }
     var r = W.repo, h = headId(), ch = changes(), nChg = ch.staged.length + ch.unstaged.length + ch.untracked.length + ch.unmerged.length;
     var head = '';
     if (r.op) {
-      var opTxt = r.op.kind === 'merge' ? 'Lagi merge <b>' + esc(r.op.label) + '</b>' : r.op.kind === 'rebase' ? 'Lagi rebase <b>' + esc(r.op.branch) + '</b> ke ' + esc(r.op.label) + ' (' + Math.min(r.op.done, r.op.total) + '/' + r.op.total + ')' : r.op.kind === 'pick' ? 'Lagi cherry-pick ' + short(r.op.src) : 'Lagi revert ' + short(r.op.src);
-      head += '<div class="gt-banner' + (ch.unmerged.length ? ' is-bad' : '') + '">' + opTxt + '. ' + (ch.unmerged.length ? plural(ch.unmerged.length, 'file').replace('files', 'file') + ' masih konflik: ' + ch.unmerged.map(function (p) { return '<button type="button" class="gt-link" data-act="file" data-f="' + esc(p) + '">' + esc(p) + '</button>'; }).join(', ') + '.' : 'Konflik sudah beres, tinggal lanjutkan.') + '</div>';
+      var opTxt = r.op.kind === 'merge' ? tr('Lagi merge <b>', 'Merging <b>') + esc(r.op.label) + '</b>' : r.op.kind === 'rebase' ? tr('Lagi rebase <b>', 'Rebasing <b>') + esc(r.op.branch) + '</b>' + tr(' ke ', ' onto ') + esc(r.op.label) + ' (' + Math.min(r.op.done, r.op.total) + '/' + r.op.total + ')' : r.op.kind === 'pick' ? tr('Lagi cherry-pick ', 'Cherry-picking ') + short(r.op.src) : tr('Lagi revert ', 'Reverting ') + short(r.op.src);
+      head += '<div class="gt-banner' + (ch.unmerged.length ? ' is-bad' : '') + '">' + opTxt + '. ' + (ch.unmerged.length ? plural(ch.unmerged.length, 'file').replace('files', 'file') + tr(' masih konflik: ', ' still conflicted: ') + ch.unmerged.map(function (p) { return '<button type="button" class="gt-link" data-act="file" data-f="' + esc(p) + '">' + esc(p) + '</button>'; }).join(', ') + '.' : tr('Konflik sudah beres, tinggal lanjutkan.', 'Conflicts resolved, just continue.')) + '</div>';
     }
     var bs = keys(r.branches);
     head += '<div class="gt-brs">' + bs.map(function (b) {
@@ -2439,7 +2440,7 @@
     var set = {};
     localTips().forEach(function (t) { Object.keys(ancestors(t)).forEach(function (c) { set[c] = true; }); });
     var ids = sortIds(set);
-    if (!ids.length && !nChg) { setHTML(el, head + gate('Repo-nya sudah ada, tapi belum ada commit. Masukkan file ke staging dulu, lalu commit.', keys(r.index).length ? 'git commit -m "Commit pertama"' : 'git add .')); return; }
+    if (!ids.length && !nChg) { setHTML(el, head + gate(tr('Repo-nya sudah ada, tapi belum ada commit. Masukkan file ke staging dulu, lalu commit.', 'The repo exists but has no commits. Stage some files first, then commit.'), keys(r.index).length ? tr('git commit -m "Commit pertama"', 'git commit -m "First commit"') : 'git add .')); return; }
     var LIM = 60;
     if (ids.length > LIM) ids = ids.slice(0, LIM);
     var inSet = {};
@@ -2449,26 +2450,26 @@
     var lastE = r.reflog[r.reflog.length - 2];
     if (lastE && isLost(lastE.id) && C[lastE.id]) lostTip = lastE.id;
     var rowFn = function (id) {
-      if (id === 'WIP') return '<button type="button" class="gt-rb is-wip" data-act="tab" data-tab="file"><span class="gt-msg">' + (ch.unmerged.length ? 'konflik di ' + ch.unmerged.length + ' file' : nChg + ' perubahan belum di-commit') + '</span><small>' + (ch.staged.length ? ch.staged.length + ' di staging' : 'belum di-add') + '</small></button>';
+      if (id === 'WIP') return '<button type="button" class="gt-rb is-wip" data-act="tab" data-tab="file"><span class="gt-msg">' + (ch.unmerged.length ? tr('konflik di ', 'conflict in ') + ch.unmerged.length + ' file' : nChg + tr(' perubahan belum di-commit', ' uncommitted changes')) + '</span><small>' + (ch.staged.length ? ch.staged.length + tr(' di staging', ' staged') : tr('belum di-add', 'not added')) + '</small></button>';
       var c = C[id];
       return '<button type="button" class="gt-rb" data-act="cmd" data-cmd="git show ' + short(id) + '" title="' + esc(c.msg) + '"><code>' + short(id) + '</code>' + refChips(decor(id)) + '<span class="gt-msg">' + esc(subject(id)) + '</span><small>' + esc(c.author.name) + ' · ' + agoId(c.time) + '</small></button>';
     };
     rowFn.head = h;
     var g = graphSVG(ids, function (id) { if (id === 'WIP') return h && inSet[h] ? [h] : []; return parentsIn(id, inSet); }, rowFn);
     var foot = '';
-    if (lostTip && !r.op) foot = '<p class="gt-note is-warn">Commit <code>' + short(lostTip) + '</code> (' + esc(subject(lostTip)) + ') baru saja lepas dari branch dan ga kelihatan di graf. Dia belum hilang: ' + cmdBtn('git reflog', 'git reflog') + '</p>';
+    if (lostTip && !r.op) foot = '<p class="gt-note is-warn">Commit <code>' + short(lostTip) + '</code> (' + esc(subject(lostTip)) + tr(') baru saja lepas dari branch dan ga kelihatan di graf. Dia belum hilang: ', ') just fell off its branch and is no longer visible in the graph. It is not gone yet: ') + cmdBtn('git reflog', 'git reflog') + '</p>';
     setHTML(el, head + g + foot);
   }
   function gate(txt, cmd) { return '<div class="gt-gate"><p>' + txt + '</p>' + (cmd ? cmdBtn(cmd, cmd, 'gx-primary') : '') + '</div>'; }
   function fileState(p) {
     if (!W.repo) return { xy: '', cls: '' };
     var r = W.repo, H = headTree(), I = r.index, F = W.files;
-    if (r.unmerged[p]) return { xy: 'UU', cls: 'is-bad', t: 'konflik' };
-    if (I[p] === undefined && F[p] !== undefined) return ignored(p) ? { xy: '!!', cls: 'is-ign', t: 'diabaikan' } : { xy: '??', cls: 'is-new', t: 'untracked' };
+    if (r.unmerged[p]) return { xy: 'UU', cls: 'is-bad', t: tr('konflik', 'conflict') };
+    if (I[p] === undefined && F[p] !== undefined) return ignored(p) ? { xy: '!!', cls: 'is-ign', t: tr('diabaikan', 'ignored') } : { xy: '??', cls: 'is-new', t: 'untracked' };
     var x = I[p] === H[p] ? ' ' : H[p] === undefined ? 'A' : I[p] === undefined ? 'D' : 'M';
     var y = I[p] === undefined ? ' ' : F[p] === undefined ? 'D' : F[p] !== I[p] ? 'M' : ' ';
-    if (x === ' ' && y === ' ') return { xy: '', cls: '', t: 'bersih' };
-    return { xy: x + y, cls: y !== ' ' ? 'is-mod' : 'is-staged', t: y !== ' ' ? (x !== ' ' ? 'sebagian di staging' : 'berubah') : 'di staging' };
+    if (x === ' ' && y === ' ') return { xy: '', cls: '', t: tr('bersih', 'clean') };
+    return { xy: x + y, cls: y !== ' ' ? 'is-mod' : 'is-staged', t: y !== ' ' ? (x !== ' ' ? tr('sebagian di staging', 'partly staged') : tr('berubah', 'modified')) : tr('di staging', 'staged') };
   }
   function renderFile() {
     var r = W.repo, all = union(W.files, r ? r.index : {}, r ? r.unmerged : {});
@@ -2479,19 +2480,19 @@
     }).join('') + '</div>');
     var p = W.sel, s = fileState(p), bar = '';
     if (p) {
-      bar = '<div class="gt-fh"><b>' + esc(p) + '</b><em>' + esc(s.t || (r ? '' : 'belum ada repo')) + '</em></div>';
+      bar = '<div class="gt-fh"><b>' + esc(p) + '</b><em>' + esc(s.t || (r ? '' : tr('belum ada repo', 'no repo yet'))) + '</em></div>';
       var acts = [];
       if (r) {
         if (r.unmerged[p]) {
-          bar += '<p class="gt-note is-bad">File ini <b>konflik</b>. Pilih isi yang benar di antara <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code> dan <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>, hapus penandanya, lalu <code>git add</code>.</p>';
-          acts.push(cmdBtn('git checkout --ours ' + p, 'pakai versi HEAD'), cmdBtn('git checkout --theirs ' + p, 'pakai versi yang masuk'));
-          acts.push('<button type="button" data-act="both">gabung keduanya</button>');
+          bar += tr('<p class="gt-note is-bad">File ini <b>konflik</b>. Pilih isi yang benar di antara <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code> dan <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>, hapus penandanya, lalu <code>git add</code>.</p>', '<p class="gt-note is-bad">This file has a <b>conflict</b>. Pick the right content between <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code> and <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>, remove the markers, then <code>git add</code>.</p>');
+          acts.push(cmdBtn('git checkout --ours ' + p, tr('pakai versi HEAD', 'use HEAD version')), cmdBtn('git checkout --theirs ' + p, tr('pakai versi yang masuk', 'use incoming version')));
+          acts.push(tr('<button type="button" data-act="both">gabung keduanya</button>', '<button type="button" data-act="both">keep both</button>'));
           acts.push(cmdBtn('git add ' + p, 'git add ' + p, 'gx-primary'));
         } else {
           if (s.xy && s.xy[1] !== ' ' || s.xy === '??') acts.push(cmdBtn('git add ' + p, 'git add', 'gx-primary'));
           if (s.xy && s.xy[1] === 'M') acts.push(cmdBtn('git diff ' + p, 'git diff'), cmdBtn('git restore ' + p, 'restore', 'gt-del'));
           if (s.xy && s.xy[0] !== ' ' && s.xy !== '??') acts.push(cmdBtn('git diff --staged ' + p, 'diff --staged'), cmdBtn('git restore --staged ' + p, 'unstage'));
-          if (headId() && headTree()[p] !== undefined && !s.xy) acts.push(cmdBtn('git log --oneline ' + p, 'riwayat'));
+          if (headId() && headTree()[p] !== undefined && !s.xy) acts.push(cmdBtn('git log --oneline ' + p, tr('riwayat', 'history')));
         }
       }
       if (acts.length) bar += '<div class="gt-facts">' + acts.join('') + '</div>';
@@ -2500,25 +2501,25 @@
     var edEl = $('gt-ed'), gone = !p || W.files[p] === undefined;
     edEl.hidden = gone;
     if (!gone && ed.get() !== W.files[p]) { painting = true; ed.set(W.files[p]); painting = false; }
-    if (gone && p) setHTML($('gt-fbar'), $('gt-fbar').innerHTML + '<p class="gt-note">File ini sudah dihapus dari working dir. ' + (r && r.index[p] !== undefined ? cmdBtn('git restore ' + p, 'kembalikan') + ' atau ' + cmdBtn('git rm ' + p, 'git rm') : '') + '</p>');
+    if (gone && p) setHTML($('gt-fbar'), $('gt-fbar').innerHTML + tr('<p class="gt-note">File ini sudah dihapus dari working dir. ', '<p class="gt-note">This file was deleted from the working dir. ') + (r && r.index[p] !== undefined ? cmdBtn('git restore ' + p, tr('kembalikan', 'restore')) + tr(' atau ', ' or ') + cmdBtn('git rm ' + p, 'git rm') : '') + '</p>');
   }
   function renderRemote() {
     var el = $('gt-v-remote');
     if (!W.repo || !W.repo.remotes.origin) {
-      setHTML(el, gate('Di GitHub sudah ada repo kosong <b>kamu/proyek-web</b>. Sambungkan repo lokal ke sana sebagai <b>origin</b>.', W.repo ? 'git remote add origin ' + URL_OK : 'git init'));
+      setHTML(el, gate(tr('Di GitHub sudah ada repo kosong <b>kamu/proyek-web</b>. Sambungkan repo lokal ke sana sebagai <b>origin</b>.', 'There is an empty repo <b>kamu/proyek-web</b> on GitHub. Connect your local repo to it as <b>origin</b>.'), W.repo ? 'git remote add origin ' + URL_OK : 'git init'));
       return;
     }
     var r = W.repo, s = W.server, url = r.remotes.origin.url;
-    var hdr = '<div class="gt-gh"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18.5h10a4 4 0 0 0 .6-7.95A6 6 0 0 0 6.1 9.6 4.5 4.5 0 0 0 7 18.5z"/></svg><div><b>github.com/kamu/proyek-web</b><small>' + esc(url) + (srvFor(url) ? '' : ' · alamat ini salah') + '</small></div></div>';
+    var hdr = '<div class="gt-gh"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18.5h10a4 4 0 0 0 .6-7.95A6 6 0 0 0 6.1 9.6 4.5 4.5 0 0 0 7 18.5z"/></svg><div><b>github.com/kamu/proyek-web</b><small>' + esc(url) + (srvFor(url) ? '' : tr(' · alamat ini salah', ' · this address is wrong')) + '</small></div></div>';
     var bs = keys(s.branches);
-    if (!bs.length) { setHTML(el, hdr + gate('Repo di GitHub masih kosong. Kirim branch main ke sana.', 'git push -u origin ' + (r.head.ref || 'main'))); return; }
+    if (!bs.length) { setHTML(el, hdr + gate(tr('Repo di GitHub masih kosong. Kirim branch main ke sana.', 'The GitHub repo is still empty. Push the main branch there.'), 'git push -u origin ' + (r.head.ref || 'main'))); return; }
     var rows = bs.map(function (b) {
       var id = s.branches[b], loc = r.branches[b], known = r.rtrack['origin/' + b], st;
-      if (!loc) st = 'belum ada di lokal';
-      else if (loc === id) st = 'sama dengan lokal';
+      if (!loc) st = tr('belum ada di lokal', 'not local yet');
+      else if (loc === id) st = tr('sama dengan lokal', 'same as local');
       else {
         var a1 = r.have[id] ? range(id, loc).length : range(id, loc).length, b1 = range(loc, id).length;
-        st = (a1 ? 'lokal +' + a1 : '') + (a1 && b1 ? ' · ' : '') + (b1 ? 'origin +' + b1 + (known !== id ? ' (belum di-fetch)' : '') : '');
+        st = (a1 ? tr('lokal +', 'local +') + a1 : '') + (a1 && b1 ? ' · ' : '') + (b1 ? 'origin +' + b1 + (known !== id ? tr(' (belum di-fetch)', ' (not fetched)') : '') : '');
       }
       return '<div class="gt-rbr"><b>' + esc(b) + '</b><code>' + short(id) + '</code><span>' + esc(st) + '</span></div>';
     }).join('');
@@ -2529,35 +2530,35 @@
     ids.forEach(function (i) { inSet[i] = true; });
     var rowFn = function (id) {
       var c = C[id], fresh = !r.have[id];
-      return '<div class="gt-rb' + (fresh ? ' is-fresh' : '') + '"><code>' + short(id) + '</code>' + refChips(decor(id, true)) + '<span class="gt-msg">' + esc(subject(id)) + '</span><small>' + esc(c.author.name) + (fresh ? ' · baru' : '') + '</small></div>';
+      return '<div class="gt-rb' + (fresh ? ' is-fresh' : '') + '"><code>' + short(id) + '</code>' + refChips(decor(id, true)) + '<span class="gt-msg">' + esc(subject(id)) + '</span><small>' + esc(c.author.name) + (fresh ? tr(' · baru', ' · new') : '') + '</small></div>';
     };
     var g = graphSVG(ids, function (id) { return parentsIn(id, inSet); }, rowFn);
-    var acts = '<div class="gt-facts">' + cmdBtn('git fetch') + cmdBtn('git pull') + cmdBtn('git push') + (s.branches.main ? '<button type="button" data-act="dina">Dina push commit baru</button>' : '') + '</div>';
-    setHTML(el, hdr + '<div class="gt-rbrs">' + rows + '</div>' + acts + '<p class="gt-sub">commit di GitHub</p>' + g + '<p class="gt-note">Commit bertanda <b>baru</b> belum ada di laptop kamu. <code>git fetch</code> mengambilnya ke <code>origin/main</code> tanpa mengubah branch kamu.</p>');
+    var acts = '<div class="gt-facts">' + cmdBtn('git fetch') + cmdBtn('git pull') + cmdBtn('git push') + (s.branches.main ? tr('<button type="button" data-act="dina">Dina push commit baru</button>', '<button type="button" data-act="dina">Dina pushes a new commit</button>') : '') + '</div>';
+    setHTML(el, hdr + '<div class="gt-rbrs">' + rows + '</div>' + acts + tr('<p class="gt-sub">commit di GitHub</p>', '<p class="gt-sub">commits on GitHub</p>') + g + tr('<p class="gt-note">Commit bertanda <b>baru</b> belum ada di laptop kamu. <code>git fetch</code> mengambilnya ke <code>origin/main</code> tanpa mengubah branch kamu.</p>', '<p class="gt-note">Commits marked <b>new</b> are not on your laptop yet. <code>git fetch</code> brings them into <code>origin/main</code> without touching your branch.</p>'));
   }
   function renderFlow() {
     var r = W.repo, w = $('gt-f-work'), st = $('gt-f-stage'), rp = $('gt-f-repo'), o = $('gt-f-origin');
     if (!r) {
       setText(w, keys(W.files).length + ' file'); w.dataset.s = '';
-      setText(st, 'belum ada'); st.dataset.s = '';
-      setText(rp, 'belum git init'); rp.dataset.s = 'warn';
-      setText(o, 'belum ada'); o.dataset.s = '';
+      setText(st, tr('belum ada', 'none yet')); st.dataset.s = '';
+      setText(rp, tr('belum git init', 'no git init yet')); rp.dataset.s = 'warn';
+      setText(o, tr('belum ada', 'none yet')); o.dataset.s = '';
       return;
     }
     var ch = changes(), nw = ch.unstaged.length + ch.untracked.length;
-    setText(w, ch.unmerged.length ? ch.unmerged.length + ' konflik' : nw ? nw + ' berubah' : 'bersih');
+    setText(w, ch.unmerged.length ? ch.unmerged.length + tr(' konflik', ' conflicted') : nw ? nw + tr(' berubah', ' modified') : tr('bersih', 'clean'));
     w.dataset.s = ch.unmerged.length ? 'bad' : nw ? 'warn' : 'ok';
-    setText(st, ch.staged.length ? ch.staged.length + ' file siap' : 'kosong');
+    setText(st, ch.staged.length ? ch.staged.length + tr(' file siap', ' file(s) ready') : tr('kosong', 'empty'));
     st.dataset.s = ch.staged.length ? 'info' : '';
     var h = headId();
     setText(rp, (r.head.ref || 'HEAD') + (h ? ' · ' + short(h) : ' · 0 commit'));
     rp.dataset.s = h ? 'ok' : '';
-    if (!r.remotes.origin) { setText(o, 'belum disambung'); o.dataset.s = ''; return; }
+    if (!r.remotes.origin) { setText(o, tr('belum disambung', 'not connected')); o.dataset.s = ''; return; }
     var srv = W.server.branches[r.head.ref || 'main'];
-    if (!srv) { setText(o, 'kosong'); o.dataset.s = 'warn'; return; }
-    if (!h) { setText(o, 'ada ' + short(srv)); o.dataset.s = 'info'; return; }
+    if (!srv) { setText(o, tr('kosong', 'empty')); o.dataset.s = 'warn'; return; }
+    if (!h) { setText(o, tr('ada ', 'has ') + short(srv)); o.dataset.s = 'info'; return; }
     var a1 = range(srv, h).length, b1 = range(h, srv).length;
-    setText(o, !a1 && !b1 ? 'sinkron' : (a1 ? 'kamu +' + a1 : '') + (a1 && b1 ? ' · ' : '') + (b1 ? 'origin +' + b1 : ''));
+    setText(o, !a1 && !b1 ? tr('sinkron', 'in sync') : (a1 ? tr('kamu +', 'you +') + a1 : '') + (a1 && b1 ? ' · ' : '') + (b1 ? 'origin +' + b1 : ''));
     o.dataset.s = !a1 && !b1 ? 'ok' : b1 ? 'warn' : 'info';
   }
   function renderQuick() {
@@ -2567,12 +2568,12 @@
   var painting = false;
   function render() {
     var r = W.repo;
-    setText($('gt-ps'), window.matchMedia('(max-width: 640px)').matches ? prompt().replace('kamu@laptop:', '') : prompt());
+    setText($('gt-ps'), window.matchMedia('(max-width: 640px)').matches ? prompt().replace(/^\w+@laptop:/, '') : prompt());
     var bc = $('gt-br');
-    setText(bc, r ? (r.head.ref ? r.head.ref : 'HEAD ' + short(headId())) : 'bukan repo');
+    setText(bc, r ? (r.head.ref ? r.head.ref : 'HEAD ' + short(headId())) : tr('bukan repo', 'not a repo'));
     bc.classList.toggle('is-on', !!r);
     var oc = $('gt-op');
-    setText(oc, r && r.op ? branchLabel().split('|')[1] : r ? (headId() ? Object.keys(ancestors(headId())).length + ' commit' : 'belum ada commit') : 'belum git init');
+    setText(oc, r && r.op ? branchLabel().split('|')[1] : r ? (headId() ? Object.keys(ancestors(headId())).length + ' commit' : tr('belum ada commit', 'no commits yet')) : tr('belum git init', 'no git init yet'));
     oc.dataset.s = r && r.op ? (Object.keys(r.unmerged).length ? 'bad' : 'warn') : '';
     app.querySelectorAll('.gt-tabs [role="tab"]').forEach(function (b) {
       var on = b.dataset.tab === W.tab;
@@ -2596,7 +2597,7 @@
   // ---------- wiring ----------
   initWorld();
   ed = new K.Editor($('gt-ed'), {
-    label: 'Editor file',
+    label: tr('Editor file', 'File editor'),
     value: '',
     highlight: function (l) {
       if (/^(<{7}|={7}|>{7})( |$)/.test(l)) return '<span class="gt-mk">' + esc(l) + '</span>';
@@ -2631,7 +2632,7 @@
       var p = W.sel, v = W.files[p];
       if (v === undefined) return;
       W.files[p] = join(lines(v).filter(function (l) { return !/^(<{7}|={7}|>{7})( |$)/.test(l); }));
-      toast('Penanda konflik dihapus, dua versi disimpan. Cek isinya, lalu git add.');
+      toast(tr('Penanda konflik dihapus, dua versi disimpan. Cek isinya, lalu git add.', 'Conflict markers removed, both versions kept. Check the content, then git add.'));
       render();
     }
     else if (act === 'reset') reset();
@@ -2650,8 +2651,8 @@
     term.clear();
     M.reset();
     term.lines([
-      '<span class="sx-dim"># Ini terminal laptop kamu, di folder ~/proyek-web yang berisi tiga file: index.html, style.css, dan README.md. Belum ada Git di sini.</span>',
-      '<span class="sx-dim"># Mulai dengan </span><b>git init</b><span class="sx-dim">. Ketik </span><b>help</b><span class="sx-dim"> buat daftar perintah, atau klik tombol di bawah.</span>'
+      tr('<span class="sx-dim"># Ini terminal laptop kamu, di folder ~/proyek-web yang berisi tiga file: index.html, style.css, dan README.md. Belum ada Git di sini.</span>', '<span class="sx-dim"># This is your laptop terminal, in the ~/proyek-web folder with three files: index.html, style.css and README.md. No Git here yet.</span>'),
+      tr('<span class="sx-dim"># Mulai dengan </span><b>git init</b><span class="sx-dim">. Ketik </span><b>help</b><span class="sx-dim"> buat daftar perintah, atau klik tombol di bawah.</span>', '<span class="sx-dim"># Start with </span><b>git init</b><span class="sx-dim">. Type </span><b>help</b><span class="sx-dim"> for the command list, or click the buttons below.</span>')
     ]);
     render();
   }

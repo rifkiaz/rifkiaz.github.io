@@ -11,7 +11,7 @@
     <div class="gx-flow" aria-label="{{ cond $en `Request flow to Vault` `Alur permintaan ke Vault` }}">
         <div class="gx-node" data-node="cli">
             <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3M12 15h5"/></svg>
-            <b>kamu (CLI)</b><span id="vt-f-cli"></span>
+            <b>{{ cond $en `you (CLI)` `kamu (CLI)` }}</b><span id="vt-f-cli"></span>
         </div>
         <div class="gx-link" data-link="api"><span>token</span></div>
         <div class="gx-node" data-node="vault">
