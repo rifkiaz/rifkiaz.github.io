@@ -2,7 +2,7 @@
 title: "The Current Beyblade X Meta"
 description: "The combos, blades, ratchets, and bits winning Beyblade X tournaments right now, updated regularly from tournament data."
 date: 2026-10-12
-lastmod: 2026-11-01
+lastmod: 2026-11-15
 url: "/en/hobi/beyblade-x-meta/"
 categories: ["hobby"]
 tags: ["beyblade x"]
@@ -11,18 +11,18 @@ TocOpen: false
 ShowPostNavLinks: false
 ---
 
-> **Last updated: November 1, 2026.** Data comes from tournament results up to October 27, 2026. The Beyblade X meta moves fast with every new release, so treat this page as a snapshot of right now, not a fixed rulebook.
+> **Last updated: November 15, 2026.** Data comes from tournament results up to November 10, 2026. The Beyblade X meta moves fast with every new release, so treat this page as a snapshot of right now, not a fixed rulebook.
 
 ## The short version
 
 If you just want the gist:
 
-- **Wizard Rod** and **Shark Scale** are still sharing the top spot. In BBXHub's weekly ranking, Shark Scale is now just ahead (19 to 18), but Wizard Rod is in 9 of the 12 latest winning decks on BEYWATCH.GG. Their go-to combos are still **Wizard Rod 1-60 Hexa** and **Shark Scale 1-70 Low Rush**.
-- Attack types are still strong, so bringing an all-stamina deck is still risky.
+- **Shark Scale** and **Wizard Rod** are still sharing the top spot. In the winning decks from November 4 to 10, Shark Scale showed up 25 times and Wizard Rod 17 times. The single combo that wins most is still **Wizard Rod 1-60 Hexa**.
+- Shark Scale is changing its style: this week its most frequent winning combo is **3-60 Narrow**, not 1-70 Low Rush. On BEYWATCH.GG, **7-60 Rush** and 3-60 Narrow have the highest win rates in tier X.
+- **Aero Pegasus** is getting stronger in third place. BEYWATCH.GG's tier X now holds only Shark Scale and Aero Pegasus, so attack types are still king.
 - The most popular ratchet is **1-60**, followed by **9-60** and **3-60**.
-- The bits that show up most on the podium: **Hexa**, then **Kick**, which is on the rise, **Free Ball**, **Low Rush**, and **Rush**.
-- On the rise: **Hells Nether** (up 14 places), **Meteor Dragoon** (up 6), and newcomer **Glory Valkyrie**.
-- From the Custom Line, **Blast** (Emperor Blast Heavy 9-60 Kick) is holding on in BEYWATCH.GG's top tier.
+- The bits that show up most in winning decks: **Narrow** (on the rise), **Free Ball**, **Hexa**, **Low Rush**, and **Rush**.
+- On the rise: **Knight Shield** (up 8 places, mostly with 9-60 Free Ball) and newcomer **Dran Sword**.
 
 ## How to read a combo name
 
@@ -54,13 +54,13 @@ Each combo is shown part by part: blade, ratchet, then bit. When there are two r
 
 {{< beyblade-combo "blade-wizard-rod" "ratchet-1-60" "bit-hexa" >}}
 
-The combo with the most volume: over 2,600 top cuts and about 26% of all wins in the BEYWATCH.GG data. Burst-resistant and spins for ages.
+The combo with the most volume: over 3,000 top cuts and about 27% of all wins in the BEYWATCH.GG data. Burst-resistant and spins for ages.
 
 ### Shark Scale 1-70 Low Rush
 
 {{< beyblade-combo "blade-shark-scale" "ratchet-1-70" "bit-low-rush" >}}
 
-The most feared pick against stamina types. The 3-60 or 7-60 Rush variants also win a lot.
+The most feared pick against stamina types. Lately the **3-60 Narrow** variant actually wins more often, and together with **7-60 Rush** it has the highest win rate in BEYWATCH.GG's tier X.
 
 ### Aero Pegasus 1-60 / 3-60 Rush
 
@@ -92,28 +92,30 @@ It attacks with grinding contact. Some older data uses 9-60 Kick, while 2026 dat
 
 A taller Wizard Rod variant that still wins often.
 
-Rising fast: **Meteor Dragoon 9-60 Elevate** is still in BEYWATCH.GG's top 10 combos (rank 5), and **Glory Valkyrie Kick** is now S tier and showed up twice in winning decks in late October.
+Rising fast: **Knight Shield 9-60 Free Ball** was in 6 winning decks from November 4 to 10 (two of them at the Ai no Athlete Cup in Japan), **Glory Valkyrie** keeps winning with Kick or Rush, and **Scorpio Spear 9-60 Free Ball** made BEYWATCH.GG's tier S.
 
 Tournament results from late August to early September 2026 show the same pattern: Shark Scale 7-60 Rush, Shark Scale 1-50 Low Rush, Wizard Rod 7-60 Narrow, Aero Pegasus 1-60 Rush, and Phoenix Wing 3-60 Rush all won at different events.
 
 ## Trends from the past week
 
-The blades that showed up most in this week's winning combos, with how their rank moved compared to the week before. The bar shows how many times the blade was in a winning combo, and under each blade name is the combo that won most often with it (if there's no data this week, it's taken from that blade's best combo on BEYWATCH.GG). The list goes all the way to the last place, 10 blades per page. Blades ranked 11 and below weren't in the source's top 10, so their movement isn't recorded (marked –). Hells Nether and Glory Valkyrie don't use a separate ratchet, which is why their combos are just a bit name.
+The blades that showed up most in first-place decks during the latest week with complete data (November 4 to 10), with how their rank moved compared to the week before (October 28 to November 3). The bar shows how many times the blade was in a winning deck, and under each blade name is the combo that won most often with it. The list goes all the way to the last place, 10 blades per page, and blades with the same count are sorted alphabetically. Glory Valkyrie, Bullet Griffon, Hells Nether, and Valor Bison don't use a separate ratchet, which is why their combos are just a bit name.
+
+Starting with this update, I count the data myself from the winning decks on BEYWATCH.GG. The BBXHub weekly ranking I used before now has wrong dates (January tournaments listed as November), so it can't be trusted for now.
 
 {{< beyblade-tren >}}
 
-The sample is small, so moving up or down a place or two doesn't necessarily mean much. What stays consistent week to week is the Wizard Rod and Shark Scale duo.
+The sample is small, so moving up or down a few places doesn't necessarily mean much, especially for blades that only showed up once. What stays consistent week to week is Shark Scale, Wizard Rod, and Aero Pegasus.
 
 ## Winning decks from the last 6 months
 
-Every first-place deck from tournaments recorded on BEYWATCH.GG since May 1, 2026. The monthly boxes show the combo that appeared most in that month's winning decks. Below them are the combos and blades that won most over the 6 months, then the full list of winning decks. You can pick a month, and the list shows 10 tournaments per page, newest first.
+Every first-place deck from tournaments recorded on BEYWATCH.GG from May 15 to November 14, 2026. The monthly boxes show the combo that appeared most in that month's winning decks. Below them are the combos and blades that won most over the 6 months, then the full list of winning decks. You can pick a month, and the list shows 10 tournaments per page, newest first.
 
 {{< beyblade-juara >}}
 
 A few notes so you don't misread it:
 
 - Some tournaments use special formats (teams, Limited, CX only, or just-for-fun themes), so the number of combos per deck can be more or less than three.
-- September and October have less data because results usually reach BEYWATCH.GG a few weeks after the event.
+- May only covers half a month (from May 15), and November still has little data because results usually reach BEYWATCH.GG a few weeks after the event.
 - Tournaments that didn't list their winning deck aren't included.
 
 ## Favorite combos for each blade
@@ -126,15 +128,15 @@ Blades with an integrated ratchet, like Glory Valkyrie and Bullet Griffon, have 
 
 ## Most used parts
 
-**Blades**: Shark Scale, Wizard Rod, Hover Wyvern, Meteor Dragoon, Silver Wolf, Cobalt Dragoon, Aero Pegasus, plus the rising Hells Nether and Glory Valkyrie.
+**Blades**: Shark Scale, Wizard Rod, Aero Pegasus, Glory Valkyrie, Cobalt Dragoon, plus the rising Knight Shield and Sieg Superion. Meteor Dragoon and Hover Wyvern are still strong over 6 months, but each only won once this week.
 
 **Ratchets**: 1-60 far ahead, then 9-60, 3-60, 7-60, 1-70, and 9-70.
 
-**Bits**: Hexa, Kick, Free Ball, Low Rush, and Rush. Below those are Narrow, Elevate, Level, Ball, and Low Orb.
+**Bits**: Narrow, Free Ball, Hexa, Low Rush, and Rush. Below those are Kick, Elevate, Level, Jolt, and Ball.
 
 ## Custom Line (CX)
 
-Custom Line parts like the **Emperor** and **Cerberus** Lock Chips, the **Blast** and **Flame** Over Blades, and the **Heavy** and **Wheel** Assist Blades are starting to show up among the winners. The standout right now is **Blast**: from mid to late October, BEYWATCH.GG's tier list put it in tier X (the very top) with the Emperor Blast Heavy 9-60 Kick combo, alongside Shark Scale, Aero Pegasus, and Wizard Rod. **Delta** (Emperor Delta 9-60 Kick) is in tier S, and the October 8 to 15 podiums also featured Emperor Delta Flow Heavy, Pegasus Blast Heavy, and Phoenix Flare Heavy. Other CX parts only show up once or twice a week, so there isn't enough data yet to say which ones are truly strong. If you want to start collecting CX, Blast is the safest pick for now.
+Custom Line parts like the **Emperor** and **Cerberus** Lock Chips, the **Blast** and **Flame** Over Blades, and the **Heavy** and **Wheel** Assist Blades are starting to show up among the winners. In late October, **Blast** (Emperor Blast Heavy 9-60 Kick) briefly sat in BEYWATCH.GG's tier X, but as of November 10 none of its top 15 combos are CX. In the winning decks from November 4 to 10, CX still shows up one at a time: Emperor Delta Peak Heavy 9-60 Free Ball, Emperor Tread Flow Heavy 1-70 Kick, Bahamut Blitz Break Heavy 1-50 Low Rush, and Brachio Blast Wheel 9-60 Taper. So CX is still a supporting pick and hasn't pushed out BX and UX blades. If you want to start collecting CX, Emperor with Heavy is still the one that shows up most.
 
 ## Building a deck
 
@@ -154,10 +156,9 @@ This is just a starting point. Stadium condition, your launch style, and your lo
 
 ## Sources
 
-- [BEYWATCH.GG: Best Beyblade X Combos](https://beywatch.gg/combos), tournament top cut stats up to October 26, 2026
-- [BBXHub: Meta Tier List & Best Combos](https://bbxhub.net/), weekly ranking for October 8 to 15, 2026 (the latest data available as of October 30)
-- [BBXHub: Tournament Winners](https://bbxhub.net/tournaments), tournament podiums for October 8 to 15, 2026, for ranks 11 and below
-- [BEYWATCH.GG: Tournaments](https://beywatch.gg/tournaments), tournament winning decks from May 1 to October 27, 2026
+- [BEYWATCH.GG: Best Beyblade X Combos](https://beywatch.gg/combos), tournament top cut stats up to November 10, 2026
+- [BEYWATCH.GG: Tournaments](https://beywatch.gg/tournaments), tournament winning decks from May 15 to November 14, 2026, including the November 4 to 10 weekly trend
+- [BBXHub: Meta Tier List & Best Combos](https://bbxhub.net/), used up to the November 1, 2026 update
 - [BeyX Hub: Best Beyblade X Combos 2026](https://beyxhub.org/en/guide/best-beyblade-x-combos-2026), June 2026 meta guide
 - [beybladewiki.com: Tournament Results](https://beybladewiki.com/competitive/results), latest tournament podiums
 - [monkeemods.com: BX Basic Line guide](https://monkeemods.com/blog/beyblade-x-bx-line-guide) and [Expand Blade](https://monkeemods.com/beyblade/blog/beyblade-x-expand-blade-guide), plus [Beyblade Wiki: Custom Line](https://beyblade.fandom.com/wiki/Custom_Line), for the line explanations
