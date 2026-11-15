@@ -2,68 +2,67 @@
 # Diperbarui tiap update meta 2 mingguan. `blade` berisi SEMUA blade minggu itu
 # (halaman menampilkan 10 per halaman). `naik`: perubahan peringkat dari minggu
 # sebelumnya (positif = naik, negatif = turun, 0 = tetap); `baru: true` kalau baru masuk.
-# `combo`: ratchet + bit yang paling sering menang bareng blade itu minggu ini; kalau
-# minggu ini tidak ada datanya, pakai combo terbaik blade itu di BEYWATCH.GG.
-# `combo_juara`: combo yang paling sering ada di deck juara minggu ini (BEYWATCH.GG).
-periode: "8–15 Oktober 2026"
-event: 11
-combo: 93
+# `combo`: ratchet + bit yang paling sering menang bareng blade itu minggu ini.
+# Sejak 15 November 2026 dihitung dari deck juara 1 BEYWATCH.GG (bukan peringkat
+# BBXHub): daftar turnamen BBXHub sempat salah tanggal (event Januari tercatat
+# November), jadi peringkat mingguannya tidak bisa dipakai. Minggu pembanding:
+# 28 Oktober–3 November. Urutan yang jumlahnya sama: alfabetis.
+# `combo_juara`: combo yang paling sering ada di deck juara minggu ini.
+periode: "4–10 November 2026"
+event: 34
+combo: 108
 sumber:
-  nama: BBXHub
-  url: https://bbxhub.net/
+  nama: BEYWATCH.GG
+  url: https://beywatch.gg/tournaments
 blade:
-  - { nama: Shark Scale, combo: "1-70 Low Rush", pakai: 19, naik: 0 }
-  - { nama: Wizard Rod, combo: "1-60 Hexa", pakai: 18, naik: 0 }
-  - { nama: Hover Wyvern, combo: "9-60 Kick", pakai: 7, naik: 1 }
-  - { nama: Meteor Dragoon, combo: "9-60 Elevate", pakai: 6, naik: 6 }
-  - { nama: Silver Wolf, combo: "9-60 Free Ball", pakai: 5, naik: 0 }
-  - { nama: Hells Nether, combo: "Dot", pakai: 5, naik: 14 }
-  - { nama: Cobalt Dragoon, combo: "5-60 Elevate", pakai: 4, naik: 0 }
-  - { nama: Phoenix Wing, combo: "3-60 Rush", pakai: 3, naik: -2 }
-  - { nama: Glory Valkyrie, combo: "Kick", pakai: 3, baru: true }
-  - { nama: Clock Mirage, combo: "7-55 Low Orb", pakai: 2, naik: -1 }
-  # Peringkat 11 ke bawah: BBXHub cuma menampilkan 10 besar, jadi sisanya dihitung
-  # sendiri dari daftar podium bbxhub.net/tournaments (periode sama). Tanpa `naik`
-  # karena perubahan peringkatnya tidak tercatat; urutan yang sama-sama 1× alfabetis.
-  # Satu combo 1-60 Hexa di podium tidak tercantum nama blade-nya di sumber.
-  - { nama: Aero Pegasus, combo: "1-50 Rush", pakai: 2 }
-  - { nama: Cerberus Flame Wheel, combo: "3-60 Ball", pakai: 1 }
-  - { nama: Croc Crunch, combo: "3-70 Kick", pakai: 1 }
-  - { nama: Dran Buster, combo: "1-60 Flat", pakai: 1 }
-  - { nama: Dran Strike, combo: "3-60 Rush", pakai: 1 }
-  - { nama: Emperor Delta Flow Heavy, combo: "9-60 Narrow", pakai: 1 }
-  - { nama: Emperor Might Wheel, combo: "7-60 Level", pakai: 1 }
-  - { nama: Ghost Circle, combo: "3-60 Orb", pakai: 1 }
-  - { nama: Hells Scythe, combo: "9-70 Narrow", pakai: 1 }
-  - { nama: Knight Mail, combo: "7-60 Rush", pakai: 1 }
-  - { nama: Leon Might Wheel, combo: "5-70 Ball", pakai: 1 }
-  - { nama: Orochi Cluster, combo: "3-60 Kick", pakai: 1 }
-  - { nama: Pegasus Blast A, combo: "5-50 Unite", pakai: 1 }
-  - { nama: Pegasus Blast Heavy, combo: "9-60 Rush", pakai: 1 }
-  - { nama: Phoenix Flare Heavy, combo: "9-60 Hexa", pakai: 1 }
-  - { nama: Ring Aether, combo: "1-60 Hexa", pakai: 1 }
-  - { nama: Shark Edge, combo: "4-60 Free Ball", pakai: 1 }
-  - { nama: Tricera Press, combo: "3-60 Unite", pakai: 1 }
-  - { nama: Tyranno Roar, combo: "7-70 Zap", pakai: 1 }
-  - { nama: (blade tidak tercantum), combo: "1-60 Hexa", pakai: 1 }
+  - { nama: Shark Scale, combo: "3-60 Narrow", pakai: 25, naik: 0 }
+  - { nama: Wizard Rod, combo: "1-60 Hexa", pakai: 17, naik: 0 }
+  - { nama: Aero Pegasus, combo: "1-50 Rush", pakai: 14, naik: 0 }
+  - { nama: Glory Valkyrie, combo: "Kick", pakai: 8, naik: 0 }
+  - { nama: Cobalt Dragoon, combo: "9-60 Elevate", pakai: 7, naik: 1 }
+  - { nama: Knight Shield, combo: "9-60 Free Ball", pakai: 6, naik: 8 }
+  - { nama: Sieg Superion, combo: "1-60 Hexa", pakai: 4, naik: -2 }
+  - { nama: Bullet Griffon, combo: "Jolt", pakai: 2, naik: 3 }
+  - { nama: Dran Sword, combo: "7-60 Low Rush", pakai: 2, baru: true }
+  - { nama: Hells Nether, combo: "Wedge", pakai: 2, naik: -2 }
+  - { nama: Silver Wolf, combo: "9-60 Free Ball", pakai: 2, naik: 9 }
+  - { nama: Bahamut Blitz Break Heavy, combo: "1-50 Low Rush", pakai: 1, baru: true }
+  - { nama: Brachio Blast Wheel, combo: "9-60 Taper", pakai: 1, baru: true }
+  - { nama: Brachio Whip Break Quell, combo: "3-80 Low Rush", pakai: 1, baru: true }
+  - { nama: Clock Mirage, combo: "4-55 Free Ball", pakai: 1, naik: 0 }
+  - { nama: Croco Tread Tough Bumper, combo: "1-60 Hexa", pakai: 1, baru: true }
+  - { nama: Dran Strike, combo: "9-60 Rush", pakai: 1, baru: true }
+  - { nama: Emperor Delta Peak Heavy, combo: "9-60 Free Ball", pakai: 1, naik: -6 }
+  - { nama: Emperor Tread Flow Heavy, combo: "1-70 Kick", pakai: 1, baru: true }
+  - { nama: Hells Scythe, combo: "5-60 Hexa", pakai: 1, naik: -3 }
+  - { nama: Hover Wyvern, combo: "9-60 Kick", pakai: 1, naik: -14 }
+  - { nama: Leon Crest, combo: "7-80 Rush", pakai: 1, baru: true }
+  - { nama: Luster Dragoon, combo: "8-80 Low Rush", pakai: 1, baru: true }
+  - { nama: Meteor Dragoon, combo: "7-60 Level", pakai: 1, naik: -15 }
+  - { nama: Phoenix Wing, combo: "1-60 Low Rush", pakai: 1, naik: -15 }
+  - { nama: Shelter Drake, combo: "4-50 Vortex", pakai: 1, baru: true }
+  - { nama: Unicorn Sting, combo: "5-60 Needle", pakai: 1, baru: true }
+  - { nama: Valor Bison, combo: "Free Ball", pakai: 1, baru: true }
+  - { nama: Weiss Tiger, combo: "9-70 Low Orb", pakai: 1, naik: -8 }
+  - { nama: Wolf Hunt Turn, combo: "9-80 Low Flat", pakai: 1, baru: true }
 ratchet:
-  - { nama: "1-60", pakai: 24 }
-  - { nama: "9-60", pakai: 18 }
-  - { nama: "3-60", pakai: 12 }
+  - { nama: "1-60", pakai: 27 }
+  - { nama: "9-60", pakai: 22 }
+  - { nama: "3-60", pakai: 15 }
 bit:
+  - { nama: Narrow, pakai: 16 }
+  - { nama: Free Ball, pakai: 15 }
   - { nama: Hexa, pakai: 15 }
-  - { nama: Kick, pakai: 12 }
-  - { nama: Free Ball, pakai: 11 }
-  - { nama: Low Rush, pakai: 11 }
-  - { nama: Rush, pakai: 9 }
+  - { nama: Low Rush, pakai: 14 }
+  - { nama: Rush, pakai: 14 }
 combo_juara:
   sumber:
     nama: BEYWATCH.GG
     url: https://beywatch.gg/tournaments
-  event: 12
+  event: 34
   daftar:
-    - { nama: Wizard Rod, combo: "1-60 Hexa", pakai: 4 }
-    - { nama: Glory Valkyrie, combo: "Kick", pakai: 2 }
-    - { nama: Shark Scale, combo: "1-70 Low Rush", pakai: 1 }
-    - { nama: Cobalt Dragoon, combo: "5-60 Elevate", pakai: 1 }
-    - { nama: Aero Pegasus, combo: "1-50 Rush", pakai: 1 }
+    - { nama: Wizard Rod, combo: "1-60 Hexa", pakai: 11 }
+    - { nama: Shark Scale, combo: "3-60 Narrow", pakai: 7 }
+    - { nama: Aero Pegasus, combo: "1-50 Rush", pakai: 4 }
+    - { nama: Cobalt Dragoon, combo: "9-60 Elevate", pakai: 4 }
+    - { nama: Glory Valkyrie, combo: "Kick", pakai: 4 }

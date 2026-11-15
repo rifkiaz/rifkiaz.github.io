@@ -1,250 +1,370 @@
 # Deck juara 6 bulan terakhir di /hobi/beyblade-x-meta/ (shortcode beyblade-juara).
 # Dibuat oleh gen-juara.py dari daftar turnamen BEYWATCH.GG; jangan edit manual.
-periode: "1 Mei 2026 – 27 Oktober 2026"
-turnamen: 1076
-dengan_deck: 1029
+periode: "15 Mei 2026 – 14 November 2026"
+turnamen: 1096
+dengan_deck: 1052
 sumber: { nama: BEYWATCH.GG, url: https://beywatch.gg/tournaments }
 combo_teratas:
-  - { nama: "Wizard Rod", combo: "1-60 Hexa", pakai: 343 }
-  - { nama: "Shark Scale", combo: "1-70 Low Rush", pakai: 133 }
-  - { nama: "Wizard Rod", combo: "1-60 Free Ball", pakai: 86 }
-  - { nama: "Cobalt Dragoon", combo: "9-60 Elevate", pakai: 80 }
-  - { nama: "Aero Pegasus", combo: "1-60 Rush", pakai: 73 }
-  - { nama: "Cobalt Dragoon", combo: "5-60 Elevate", pakai: 64 }
-  - { nama: "Aero Pegasus", combo: "1-50 Rush", pakai: 62 }
-  - { nama: "Silver Wolf", combo: "9-60 Free Ball", pakai: 61 }
-  - { nama: "Shark Scale", combo: "9-60 Free Ball", pakai: 56 }
-  - { nama: "Meteor Dragoon", combo: "7-60 Level", pakai: 56 }
+  - { nama: "Wizard Rod", combo: "1-60 Hexa", pakai: 355 }
+  - { nama: "Shark Scale", combo: "1-70 Low Rush", pakai: 126 }
+  - { nama: "Wizard Rod", combo: "1-60 Free Ball", pakai: 89 }
+  - { nama: "Cobalt Dragoon", combo: "9-60 Elevate", pakai: 88 }
+  - { nama: "Aero Pegasus", combo: "1-50 Rush", pakai: 71 }
+  - { nama: "Aero Pegasus", combo: "1-60 Rush", pakai: 70 }
+  - { nama: "Cobalt Dragoon", combo: "5-60 Elevate", pakai: 65 }
+  - { nama: "Meteor Dragoon", combo: "7-60 Level", pakai: 61 }
+  - { nama: "Silver Wolf", combo: "9-60 Free Ball", pakai: 58 }
+  - { nama: "Shark Scale", combo: "9-60 Free Ball", pakai: 57 }
 blade_teratas:
-  - { nama: "Shark Scale", pakai: 686 }
-  - { nama: "Wizard Rod", pakai: 637 }
-  - { nama: "Aero Pegasus", pakai: 333 }
-  - { nama: "Cobalt Dragoon", pakai: 171 }
-  - { nama: "Meteor Dragoon", pakai: 147 }
-  - { nama: "Silver Wolf", pakai: 140 }
+  - { nama: "Shark Scale", pakai: 707 }
+  - { nama: "Wizard Rod", pakai: 645 }
+  - { nama: "Aero Pegasus", pakai: 336 }
+  - { nama: "Cobalt Dragoon", pakai: 180 }
+  - { nama: "Meteor Dragoon", pakai: 146 }
   - { nama: "Hover Wyvern", pakai: 129 }
-  - { nama: "Dran Strike", pakai: 106 }
-  - { nama: "Phoenix Wing", pakai: 101 }
-  - { nama: "Glory Valkyrie", pakai: 78 }
+  - { nama: "Silver Wolf", pakai: 128 }
+  - { nama: "Dran Strike", pakai: 110 }
+  - { nama: "Glory Valkyrie", pakai: 104 }
+  - { nama: "Phoenix Wing", pakai: 94 }
 bulan:
-  - { id: "2026-10", nama: "Oktober 2026", event: 50, top: { nama: "Wizard Rod", combo: "1-60 Hexa", pakai: 15 } }
+  - { id: "2026-11", nama: "November 2026", event: 47, top: { nama: "Wizard Rod", combo: "1-60 Hexa", pakai: 16 } }
+  - { id: "2026-10", nama: "Oktober 2026", event: 122, top: { nama: "Wizard Rod", combo: "1-60 Hexa", pakai: 43 } }
   - { id: "2026-09", nama: "September 2026", event: 114, top: { nama: "Wizard Rod", combo: "1-60 Hexa", pakai: 34 } }
   - { id: "2026-08", nama: "Agustus 2026", event: 210, top: { nama: "Wizard Rod", combo: "1-60 Hexa", pakai: 72 } }
-  - { id: "2026-07", nama: "Juli 2026", event: 172, top: { nama: "Wizard Rod", combo: "1-60 Hexa", pakai: 55 } }
+  - { id: "2026-07", nama: "Juli 2026", event: 171, top: { nama: "Wizard Rod", combo: "1-60 Hexa", pakai: 54 } }
   - { id: "2026-06", nama: "Juni 2026", event: 231, top: { nama: "Wizard Rod", combo: "1-60 Hexa", pakai: 85 } }
-  - { id: "2026-05", nama: "Mei 2026", event: 252, top: { nama: "Wizard Rod", combo: "1-60 Hexa", pakai: 82 } }
+  - { id: "2026-05", nama: "Mei 2026", event: 157, top: { nama: "Wizard Rod", combo: "1-60 Hexa", pakai: 51 } }
 per_blade:
   - nama: "Shark Scale"
-    deck: 686
-    combo_total: 708
-    variasi: 103
+    deck: 707
+    combo_total: 729
+    variasi: 104
     combo:
-      - { combo: "1-70 Low Rush", pakai: 133 }
-      - { combo: "9-60 Free Ball", pakai: 56 }
-      - { combo: "1-60 Low Rush", pakai: 37 }
-      - { combo: "3-60 Low Rush", pakai: 32 }
-      - { combo: "1-60 Rush", pakai: 30 }
-      - { combo: "3-60 Free Ball", pakai: 28 }
-      - { combo: "3-60 Rush", pakai: 26 }
-      - { combo: "7-60 Rush", pakai: 22 }
+      - { combo: "1-70 Low Rush", pakai: 126 }
+      - { combo: "9-60 Free Ball", pakai: 57 }
+      - { combo: "1-60 Low Rush", pakai: 39 }
+      - { combo: "3-60 Low Rush", pakai: 35 }
+      - { combo: "3-60 Free Ball", pakai: 32 }
+      - { combo: "3-60 Narrow", pakai: 29 }
+      - { combo: "1-60 Rush", pakai: 27 }
+      - { combo: "1-50 Low Rush", pakai: 24 }
   - nama: "Wizard Rod"
-    deck: 637
-    combo_total: 652
-    variasi: 56
+    deck: 645
+    combo_total: 661
+    variasi: 54
     combo:
-      - { combo: "1-60 Hexa", pakai: 343 }
-      - { combo: "1-60 Free Ball", pakai: 86 }
-      - { combo: "6-60 Hexa", pakai: 37 }
-      - { combo: "9-60 Free Ball", pakai: 30 }
-      - { combo: "1-60 Narrow", pakai: 15 }
-      - { combo: "9-60 Ball", pakai: 12 }
-      - { combo: "9-60 Hexa", pakai: 10 }
-      - { combo: "1-60 Ball", pakai: 9 }
+      - { combo: "1-60 Hexa", pakai: 355 }
+      - { combo: "1-60 Free Ball", pakai: 89 }
+      - { combo: "6-60 Hexa", pakai: 33 }
+      - { combo: "9-60 Free Ball", pakai: 31 }
+      - { combo: "1-60 Narrow", pakai: 22 }
+      - { combo: "9-60 Ball", pakai: 11 }
+      - { combo: "9-60 Hexa", pakai: 9 }
+      - { combo: "9-60 Narrow", pakai: 8 }
   - nama: "Aero Pegasus"
-    deck: 333
-    combo_total: 346
-    variasi: 63
+    deck: 336
+    combo_total: 348
+    variasi: 65
     combo:
-      - { combo: "1-60 Rush", pakai: 73 }
-      - { combo: "1-50 Rush", pakai: 62 }
-      - { combo: "7-60 Rush", pakai: 26 }
-      - { combo: "1-50 Kick", pakai: 17 }
-      - { combo: "1-70 Rush", pakai: 16 }
-      - { combo: "1-50 Low Rush", pakai: 13 }
-      - { combo: "1-60 Kick", pakai: 13 }
-      - { combo: "3-60 Rush", pakai: 12 }
+      - { combo: "1-50 Rush", pakai: 71 }
+      - { combo: "1-60 Rush", pakai: 70 }
+      - { combo: "7-60 Rush", pakai: 24 }
+      - { combo: "1-50 Kick", pakai: 16 }
+      - { combo: "1-50 Low Rush", pakai: 15 }
+      - { combo: "1-60 Kick", pakai: 14 }
+      - { combo: "1-70 Rush", pakai: 14 }
+      - { combo: "3-60 Rush", pakai: 11 }
   - nama: "Cobalt Dragoon"
-    deck: 171
-    combo_total: 173
-    variasi: 22
+    deck: 180
+    combo_total: 182
+    variasi: 21
     combo:
-      - { combo: "9-60 Elevate", pakai: 80 }
-      - { combo: "5-60 Elevate", pakai: 64 }
+      - { combo: "9-60 Elevate", pakai: 88 }
+      - { combo: "5-60 Elevate", pakai: 65 }
+      - { combo: "1-50 Elevate", pakai: 5 }
       - { combo: "5-50 Elevate", pakai: 4 }
-      - { combo: "1-50 Elevate", pakai: 3 }
       - { combo: "6-70 Elevate", pakai: 3 }
       - { combo: "9-70 Elevate", pakai: 2 }
-      - { combo: "6-60 Elevate", pakai: 2 }
       - { combo: "5-60 Level", pakai: 1 }
+      - { combo: "1-60 Elevate", pakai: 1 }
   - nama: "Meteor Dragoon"
-    deck: 147
-    combo_total: 150
-    variasi: 25
+    deck: 146
+    combo_total: 148
+    variasi: 23
     combo:
-      - { combo: "7-60 Level", pakai: 56 }
-      - { combo: "9-60 Elevate", pakai: 32 }
-      - { combo: "7-70 Level", pakai: 31 }
+      - { combo: "7-60 Level", pakai: 61 }
+      - { combo: "9-60 Elevate", pakai: 30 }
+      - { combo: "7-70 Level", pakai: 29 }
       - { combo: "7-70 Elevate", pakai: 3 }
-      - { combo: "1-50 Level", pakai: 3 }
+      - { combo: "9-70 Elevate", pakai: 2 }
       - { combo: "0-60 Level", pakai: 2 }
       - { combo: "9-65 Elevate", pakai: 2 }
       - { combo: "5-60 Elevate", pakai: 2 }
-  - nama: "Silver Wolf"
-    deck: 140
-    combo_total: 142
-    variasi: 28
-    combo:
-      - { combo: "9-60 Free Ball", pakai: 61 }
-      - { combo: "9-70 Free Ball", pakai: 15 }
-      - { combo: "9-60 Low Orb", pakai: 7 }
-      - { combo: "9-60 Ball", pakai: 7 }
-      - { combo: "9-60 Wedge", pakai: 5 }
-      - { combo: "9-60 Orb", pakai: 4 }
-      - { combo: "9-60 Narrow", pakai: 4 }
-      - { combo: "9-60 Hexa", pakai: 4 }
   - nama: "Hover Wyvern"
     deck: 129
-    combo_total: 130
-    variasi: 39
+    combo_total: 131
+    variasi: 37
     combo:
-      - { combo: "9-60 Kick", pakai: 39 }
-      - { combo: "9-60 Rush", pakai: 14 }
-      - { combo: "9-60 Jolt", pakai: 9 }
+      - { combo: "9-60 Kick", pakai: 42 }
+      - { combo: "9-60 Rush", pakai: 15 }
+      - { combo: "9-60 Jolt", pakai: 10 }
       - { combo: "1-60 Kick", pakai: 9 }
       - { combo: "1-60 Rush", pakai: 7 }
-      - { combo: "1-50 Kick", pakai: 6 }
-      - { combo: "3-60 Low Rush", pakai: 4 }
+      - { combo: "1-50 Kick", pakai: 4 }
+      - { combo: "3-60 Kick", pakai: 3 }
       - { combo: "9-60 Low Rush", pakai: 3 }
+  - nama: "Silver Wolf"
+    deck: 128
+    combo_total: 130
+    variasi: 26
+    combo:
+      - { combo: "9-60 Free Ball", pakai: 58 }
+      - { combo: "9-70 Free Ball", pakai: 13 }
+      - { combo: "9-60 Low Orb", pakai: 6 }
+      - { combo: "9-60 Ball", pakai: 6 }
+      - { combo: "9-60 Narrow", pakai: 5 }
+      - { combo: "9-60 Wedge", pakai: 4 }
+      - { combo: "9-60 Hexa", pakai: 4 }
+      - { combo: "9-70 Low Orb", pakai: 4 }
   - nama: "Dran Strike"
-    deck: 106
-    combo_total: 107
-    variasi: 54
+    deck: 110
+    combo_total: 111
+    variasi: 55
     combo:
       - { combo: "9-60 Kick", pakai: 16 }
       - { combo: "3-60 Kick", pakai: 7 }
       - { combo: "7-60 Kick", pakai: 5 }
+      - { combo: "9-60 Rush", pakai: 4 }
       - { combo: "3-60 Rush", pakai: 4 }
       - { combo: "3-60 Low Rush", pakai: 4 }
       - { combo: "3-70 Jolt", pakai: 3 }
       - { combo: "5-50 Kick", pakai: 3 }
-      - { combo: "3-70 Rush", pakai: 3 }
-  - nama: "Phoenix Wing"
-    deck: 101
-    combo_total: 102
-    variasi: 36
-    combo:
-      - { combo: "3-60 Rush", pakai: 20 }
-      - { combo: "3-60 Low Rush", pakai: 8 }
-      - { combo: "1-60 Rush", pakai: 8 }
-      - { combo: "1-50 Rush", pakai: 7 }
-      - { combo: "7-60 Rush", pakai: 6 }
-      - { combo: "1-60 Low Rush", pakai: 5 }
-      - { combo: "7-60 Level", pakai: 5 }
-      - { combo: "9-60 Rush", pakai: 4 }
   - nama: "Glory Valkyrie"
-    deck: 78
-    combo_total: 85
+    deck: 104
+    combo_total: 111
     variasi: 20
     combo:
-      - { combo: "Kick", pakai: 24 }
-      - { combo: "Rush", pakai: 17 }
-      - { combo: "Low Rush", pakai: 8 }
-      - { combo: "Level", pakai: 7 }
+      - { combo: "Kick", pakai: 34 }
+      - { combo: "Rush", pakai: 24 }
+      - { combo: "Low Rush", pakai: 13 }
+      - { combo: "Level", pakai: 8 }
       - { combo: "Taper", pakai: 5 }
-      - { combo: "Point", pakai: 3 }
-      - { combo: "Free Flat", pakai: 2 }
-      - { combo: "Jolt", pakai: 2 }
+      - { combo: "Elevate", pakai: 3 }
+      - { combo: "Narrow", pakai: 3 }
+      - { combo: "Free Flat", pakai: 3 }
+  - nama: "Phoenix Wing"
+    deck: 94
+    combo_total: 95
+    variasi: 32
+    combo:
+      - { combo: "3-60 Rush", pakai: 17 }
+      - { combo: "7-60 Rush", pakai: 9 }
+      - { combo: "1-60 Low Rush", pakai: 8 }
+      - { combo: "1-50 Rush", pakai: 8 }
+      - { combo: "3-60 Low Rush", pakai: 7 }
+      - { combo: "1-60 Rush", pakai: 6 }
+      - { combo: "9-60 Rush", pakai: 4 }
+      - { combo: "7-60 Level", pakai: 4 }
   - nama: "Bullet Griffon"
-    deck: 78
-    combo_total: 81
+    deck: 82
+    combo_total: 85
     variasi: 15
     combo:
-      - { combo: "Hexa", pakai: 28 }
-      - { combo: "Jolt", pakai: 12 }
-      - { combo: "Unite", pakai: 9 }
+      - { combo: "Hexa", pakai: 29 }
+      - { combo: "Jolt", pakai: 15 }
+      - { combo: "Unite", pakai: 10 }
       - { combo: "Level", pakai: 9 }
-      - { combo: "Merge", pakai: 9 }
+      - { combo: "Merge", pakai: 8 }
       - { combo: "Kick", pakai: 3 }
       - { combo: "Taper", pakai: 2 }
       - { combo: "Rubber Accel", pakai: 2 }
   - nama: "Golem Rock"
-    deck: 49
-    combo_total: 49
+    deck: 51
+    combo_total: 51
     variasi: 32
     combo:
-      - { combo: "9-60 Free Ball", pakai: 7 }
+      - { combo: "9-60 Free Ball", pakai: 8 }
       - { combo: "1-60 Under Needle", pakai: 5 }
       - { combo: "9-60 Low Orb", pakai: 3 }
+      - { combo: "9-70 Ball", pakai: 2 }
       - { combo: "3-60 Narrow", pakai: 2 }
       - { combo: "1-60 Free Ball", pakai: 2 }
       - { combo: "7-60 Hexa", pakai: 2 }
       - { combo: "3-60 Free Ball", pakai: 2 }
-      - { combo: "9-60 Wedge", pakai: 2 }
-  - nama: "Emperor Blast Heavy"
-    deck: 36
+  - nama: "Hells Nether"
+    deck: 34
     combo_total: 36
-    variasi: 27
+    variasi: 10
+    combo:
+      - { combo: "Narrow", pakai: 8 }
+      - { combo: "Free Ball", pakai: 7 }
+      - { combo: "Level", pakai: 4 }
+      - { combo: "Kick", pakai: 4 }
+      - { combo: "Hexa", pakai: 3 }
+      - { combo: "Rush", pakai: 3 }
+      - { combo: "Ball", pakai: 2 }
+      - { combo: "Taper", pakai: 2 }
+  - nama: "Emperor Blast Heavy"
+    deck: 33
+    combo_total: 33
+    variasi: 25
     combo:
       - { combo: "9-60 Kick", pakai: 4 }
       - { combo: "1-60 Kick", pakai: 3 }
+      - { combo: "1-60 Rush", pakai: 2 }
       - { combo: "3-60 Rush", pakai: 2 }
-      - { combo: "3-60 Kick", pakai: 2 }
       - { combo: "7-60 Kick", pakai: 2 }
-      - { combo: "9-60 Low Rush", pakai: 2 }
       - { combo: "9-60 Jolt", pakai: 1 }
       - { combo: "3-70 Low Rush", pakai: 1 }
+      - { combo: "7-70 Low Rush", pakai: 1 }
   - nama: "Tyranno Beat"
-    deck: 35
-    combo_total: 38
-    variasi: 29
+    deck: 29
+    combo_total: 32
+    variasi: 24
     combo:
       - { combo: "1-70 Kick", pakai: 4 }
-      - { combo: "1-50 Rush", pakai: 3 }
       - { combo: "5-70 Point", pakai: 2 }
       - { combo: "7-70 Point", pakai: 2 }
+      - { combo: "1-50 Rush", pakai: 2 }
       - { combo: "7-60 Point", pakai: 2 }
       - { combo: "3-60 Low Rush", pakai: 2 }
       - { combo: "1-50 Zap", pakai: 1 }
       - { combo: "9-70 Kick", pakai: 1 }
-  - nama: "Mummy Curse"
-    deck: 25
-    combo_total: 29
-    variasi: 22
-    combo:
-      - { combo: "9-60 Wedge", pakai: 3 }
-      - { combo: "3-60 Hexa", pakai: 2 }
-      - { combo: "9-60 Hexa", pakai: 2 }
-      - { combo: "9-60 Free Ball", pakai: 2 }
-      - { combo: "1-60 Wedge", pakai: 2 }
-      - { combo: "7-60 Low Orb", pakai: 2 }
-      - { combo: "1-60 Rubber Accel", pakai: 1 }
-      - { combo: "1-60 Rush", pakai: 1 }
 event:
+  - { t: "2026-11-10", e: "Lappland's Curio Cavern Clash 3!", l: "Mountlake Terrace, Washington, United States", d: [{ b: "Aero Pegasus", c: "1-50 Rush" }, { b: "Shark Scale", c: "1-70 Low Rush" }, { b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Shark Scale", c: "9-60 Narrow" }] }
+  - { t: "2026-11-09", e: "Money Monday #14", l: "brooklyn, New York, United States", d: [{ b: "Shark Scale", c: "7-60 Taper" }, { b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Aero Pegasus", c: "1-50 Low Rush" }] }
+  - { t: "2026-11-09", e: "InBEYsion Weekly November 9th (Beyblade X)", l: "Thornhill, Ontario, Canada", d: [{ b: "Glory Valkyrie", c: "Kick" }, { b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Shark Scale", c: "7-60 Rush" }] }
+  - { t: "2026-11-09", e: "Teardown - X Limited 9/11/26", l: "Brisbane, Queensland, Australia", d: [{ b: "Dran Sword", c: "7-60 Low Rush" }, { b: "Knight Shield", c: "9-60 Narrow" }, { b: "Hells Scythe", c: "5-60 Hexa" }, { b: "Dran Sword", c: "1-60 Low Rush" }] }
+  - { t: "2026-11-08", e: "PDX Ranked League S6E5", l: "Portland, Oregon, United States", d: [{ b: "Aero Pegasus", c: "9-60 Rush" }, { b: "Knight Shield", c: "1-60 Free Ball" }, { b: "Shark Scale", c: "3-60 Narrow" }] }
+  - { t: "2026-11-08", e: "EXL Presents: The Blind Box Bonanza", l: "Pittsburgh, Pennsylvania, United States", d: [{ b: "Hells Nether", c: "Wedge" }, { b: "Emperor Tread Flow Heavy", c: "1-70 Kick" }, { b: "Dran Strike", c: "9-60 Rush" }] }
+  - { t: "2026-11-08", e: "Boba & Beys Ranked 11/08/26", l: "Winter Garden, Florida, United States", d: [{ b: "Cobalt Dragoon", c: "5-60 Elevate" }, { b: "Bullet Griffon", c: "Jolt" }, { b: "Shark Scale", c: "3-60 Free Ball" }] }
+  - { t: "2026-11-08", e: "Mummy Knows Best", l: "Calgary, Alberta, Canada", d: [{ b: "Cobalt Dragoon", c: "9-60 Elevate" }, { b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Shark Scale", c: "3-60 Narrow" }] }
+  - { t: "2026-11-08", e: "Beyblade X @ Bad Machines #11 - The Superion Spider-Man (and Hulk)", l: "Cary, North Carolina, United States", d: [{ b: "Bahamut Blitz Break Heavy", c: "1-50 Low Rush" }, { b: "Silver Wolf", c: "9-60 Free Ball" }, { b: "Shark Scale", c: "1-60 Narrow" }] }
+  - { t: "2026-11-08", e: "TTV Seattle (#5) Scrimmage: BLUE(C)LOCK", l: "Seattle, Washington, United States", d: [{ b: "Knight Shield", c: "9-60 Free Ball" }, { b: "Shark Scale", c: "3-60 Narrow" }, { b: "Aero Pegasus", c: "1-50 Rush" }] }
+  - { t: "2026-11-08", e: "NXT LEGACI (2nd Chance)", l: "manhattan, New York, United States", d: [{ b: "Aero Pegasus", c: "3-60 Kick" }, { b: "Sieg Superion", c: "1-60 Hexa" }, { b: "Brachio Blast Wheel", c: "9-60 Taper" }] }
+  - { t: "2026-11-08", e: "Beyblade X Sweaty Sundays @ 901 Games #10", l: "Memphis, Tennessee, United States", d: [{ b: "Aero Pegasus", c: "1-50 Rush" }, { b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Emperor Delta Peak Heavy", c: "9-60 Free Ball" }] }
+  - { t: "2026-11-07", e: "Ai no Athlete Cup 53-1", l: "Japan", d: [{ b: "Knight Shield", c: "9-60 Free Ball" }, { b: "Shark Scale", c: "1-60 Low Rush" }, { b: "Wizard Rod", c: "3-60 Ball" }] }
+  - { t: "2026-11-07", e: "Ai no Athlete Cup 53-2", l: "Japan", d: [{ b: "Knight Shield", c: "9-60 Free Ball" }, { b: "Shark Scale", c: "1-60 Low Rush" }, { b: "Glory Valkyrie", c: "Rush" }] }
+  - { t: "2026-11-07", e: "No Limit Blading #25", l: "Kettering, Ohio, United States", d: [{ b: "Glory Valkyrie", c: "Rush" }, { b: "Aero Pegasus", c: "9-60 Ball" }, { b: "Wizard Rod", c: "1-60 Hexa" }] }
+  - { t: "2026-11-07", e: "Puddletown Adventures & WCBO present The Beysgiving Battle Royale!", l: "New Hartford, Connecticut, United States", d: [{ b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Silver Wolf", c: "9-60 Free Ball" }, { b: "Shark Scale", c: "3-60 Low Rush" }] }
+  - { t: "2026-11-07", e: "Jurassic Games #4", l: "Newton, North Carolina, United States", d: [{ b: "Wizard Rod", c: "1-60 Narrow" }, { b: "Shark Scale", c: "3-60 Free Ball" }, { b: "Cobalt Dragoon", c: "1-50 Elevate" }] }
+  - { t: "2026-11-07", e: "Next Spin! Vol. 7", l: "Maplewood, Minnesota, United States", d: [{ b: "Shark Scale", c: "9-60 Narrow" }, { b: "Glory Valkyrie", c: "Low Rush" }, { b: "Aero Pegasus", c: "1-60 Rush" }] }
+  - { t: "2026-11-07", e: "Vortex Grand Prix (Anifair 2026)", l: "Tsawwassen, British Columbia, Canada", d: [{ b: "Clock Mirage", c: "4-55 Free Ball" }, { b: "Sieg Superion", c: "7-60 Hexa" }, { b: "Sieg Superion", c: "7-60 Level" }, { b: "Shark Scale", c: "9-60 Narrow" }, { b: "Cobalt Dragoon", c: "9-60 Elevate" }] }
+  - { t: "2026-11-07", e: "Nook Arena 53", l: "Watertown, New York, United States", d: [{ b: "Shark Scale", c: "3-60 Free Ball" }, { b: "Bullet Griffon", c: "Jolt" }, { b: "Meteor Dragoon", c: "7-60 Level" }] }
+  - { t: "2026-11-07", e: "Ranked Beyblade X @ The Round Table #1", l: "Lethbridge, Alberta, Canada", d: [{ b: "Shark Scale", c: "3-60 Narrow" }, { b: "Aero Pegasus", c: "9-60 Jolt" }, { b: "Sieg Superion", c: "7-70 Low Rush" }] }
+  - { t: "2026-11-06", e: "Liga Vale do Itajaí - Encontro Semanal #1 [DELAYED]", l: "Blumenau, Santa Catarina, Brazil", d: [{ b: "Shelter Drake", c: "4-50 Vortex" }, { b: "Unicorn Sting", c: "5-60 Needle" }, { b: "Wolf Hunt Turn", c: "9-80 Low Flat" }] }
+  - { t: "2026-11-06", e: "Into the zone WBO ranked weekly #8", l: "Fort myers, Florida, United States", d: [{ b: "Glory Valkyrie", c: "Low Rush" }, { b: "Cobalt Dragoon", c: "9-60 Elevate" }, { b: "Aero Pegasus", c: "1-60 Rubber Accel" }] }
+  - { t: "2026-11-05", e: "Bricks & Heroes Weekly Beyblade X November 5th", l: "Huntsville, Texas, United States", d: [{ b: "Croco Tread Tough Bumper", c: "1-60 Hexa" }, { b: "Hover Wyvern", c: "9-60 Kick" }, { b: "Brachio Whip Break Quell", c: "3-80 Low Rush" }] }
+  - { t: "2026-11-05", e: "Gambits Arena #6", l: "Portland, Oregon, United States", d: [{ b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Hells Nether", c: "Narrow" }, { b: "Shark Scale", c: "3-60 Level" }] }
+  - { t: "2026-11-05", e: "Pyrolume’s BBX #13", l: "Tel Aviv, Center District, Israel", d: [{ b: "Knight Shield", c: "1-60 Narrow" }, { b: "Valor Bison", c: "Free Ball" }, { b: "Aero Pegasus", c: "9-60 Low Orb" }] }
+  - { t: "2026-11-05", e: "Rocket City Bladers Weekly Beyjam (11/5/2026)", l: "Madison, Alabama, United States", d: [{ b: "Glory Valkyrie", c: "Kick" }, { b: "Shark Scale", c: "9-60 Narrow" }, { b: "Wizard Rod", c: "1-60 Hexa" }] }
+  - { t: "2026-11-05", e: "Dave and Busters Bi-Weekly #4", l: "Winston Salem, North Carolina, United States", d: [{ b: "Wizard Rod", c: "1-60 Free Ball" }, { b: "Cobalt Dragoon", c: "9-60 Elevate" }, { b: "Shark Scale", c: "3-60 Narrow" }] }
+  - { t: "2026-11-04", e: "Humble Melee #4", l: "New Port Richey, Florida, United States", d: [{ b: "Shark Scale", c: "3-60 Narrow" }, { b: "Wizard Rod", c: "1-60 Free Ball" }, { b: "Cobalt Dragoon", c: "5-60 Elevate" }] }
+  - { t: "2026-11-04", e: "Bursting Blades at The Conclave #47 BCS Edition", l: "Lakeland, Florida, United States", d: [{ b: "Wizard Rod", c: "1-60 Orb" }, { b: "Weiss Tiger", c: "9-70 Low Orb" }, { b: "Leon Crest", c: "7-80 Rush" }] }
+  - { t: "2026-11-04", e: "Waynesboro Fight Club 7", l: "Waynesboro, Virginia, United States", d: [{ b: "Aero Pegasus", c: "1-50 Rush" }, { b: "Phoenix Wing", c: "1-60 Low Rush" }, { b: "Shark Scale", c: "3-60 Narrow" }] }
+  - { t: "2026-11-04", e: "Dave and busters weekly #29", l: "brooklyn, New York, United States", d: [{ b: "Aero Pegasus", c: "7-60 Rush" }, { b: "Shark Scale", c: "5-50 Kick" }, { b: "Wizard Rod", c: "1-60 Free Ball" }] }
+  - { t: "2026-11-04", e: "Wyborg's Wild Wednesday", l: "Richmond, British Columbia, Canada", d: [{ b: "Glory Valkyrie", c: "Kick" }, { b: "Shark Scale", c: "3-60 Rush" }, { b: "Wizard Rod", c: "1-60 Hexa" }] }
+  - { t: "2026-11-04", e: "Robust X ‘PoCo Breakpoint #01’", l: "Port Coquitlam, British Columbia, Canada", d: [{ b: "Shark Scale", c: "1-70 Rush" }, { b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Glory Valkyrie", c: "Kick" }, { b: "Aero Pegasus", c: "7-60 Low Point" }, { b: "Luster Dragoon", c: "8-80 Low Rush" }] }
+  - { t: "2026-11-03", e: "Benbale x brawl#10", l: "tel aviv, Israel", d: [{ b: "Shark Scale", c: "3-60 Low Rush" }, { b: "Cobalt Dragoon", c: "9-60 Elevate" }, { b: "Wizard Rod", c: "1-60 Narrow" }] }
+  - { t: "2026-11-03", e: "Sundown Showdown", l: "Virginia Beach, Virginia, United States", d: [{ b: "Shark Scale", c: "7-60 Rush" }, { b: "Wizard Rod", c: "1-60 Free Ball" }, { b: "Glory Valkyrie", c: "Kick" }] }
+  - { t: "2026-11-03", e: "Lappland's Curio Cavern Clash 2!", l: "Mountlake Terrace, Washington, United States", d: [{ b: "Shark Scale", c: "3-60 Narrow" }, { b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Glory Valkyrie", c: "Rush" }] }
+  - { t: "2026-11-02", e: "Money Monday #13", l: "brooklyn, New York, United States", d: [{ b: "Aero Pegasus", c: "7-70 Low Rush" }, { b: "Shark Scale", c: "9-60 Free Ball" }, { b: "Wizard Rod", c: "1-60 Hexa" }] }
+  - { t: "2026-11-02", e: "InBEYsion Weekly November 2nd (Beyblade X)", l: "Thornhill, Ontario, Canada", d: [{ b: "Sieg Superion", c: "1-60 Kick" }, { b: "Shark Scale", c: "9-60 Free Ball" }, { b: "Aero Pegasus", c: "1-50 Rush" }] }
+  - { t: "2026-11-01", e: "Beyblade Dojo Series#9", l: "Flushing, New York, United States", d: [{ b: "Phoenix Wing", c: "7-60 Rush" }, { b: "Wizard Rod", c: "1-60 Free Ball" }, { b: "Shark Scale", c: "5-50 Kick" }, { b: "Shark Scale", c: "1-70 Low Rush" }] }
+  - { t: "2026-11-01", e: "Luster? I barely know her", l: "Calgary, Alberta, Canada", d: [{ b: "Hells Nether", c: "Level" }, { b: "Shark Scale", c: "5-50 Rush" }, { b: "Samurai Saber", c: "1-60 Hexa" }, { b: "Aero Pegasus", c: "7-60 Kick" }] }
+  - { t: "2026-11-01", e: "Ky's Birthday Blades", l: "Winston Salem, North Carolina, United States", d: [{ b: "Wizard Rod", c: "1-60 Narrow" }, { b: "Sieg Superion", c: "7-60 Hexa" }, { b: "Shark Scale", c: "5-60 Free Ball" }] }
+  - { t: "2026-11-01", e: "PLUMPY NORTH WEST 0.01 ~SPECIAL~ LATER, BUDDY", l: "Edmonds, Washington, USA", d: [{ b: "Aero Pegasus", c: "1-70 Low Rush" }, { b: "Glory Valkyrie", c: "Elevate" }, { b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Shark Scale", c: "3-60 Narrow" }] }
+  - { t: "2026-11-01", e: "Shell Shock Rumble 2", l: "Portland, Oregon, United States", d: [{ b: "Knight Shield", c: "1-60 Free Ball" }, { b: "Wizard Rod", c: "9-60 Narrow" }, { b: "Hover Wyvern", c: "9-70 Low Orb" }] }
+  - { t: "2026-11-01", e: "RCB & MCB BBX S3 RANKED EVENT #3", l: "Huntsville, Alabama, United States", d: [{ b: "Phoenix Wing", c: "7-60 Rush" }, { b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Shark Scale", c: "9-60 Narrow" }] }
+  - { t: "2026-11-01", e: "EXL I: Solstice - Week 3", l: "Pittsburgh, Pennsylvania, United States", d: [{ b: "Wizard Rod", c: "9-60 Free Ball" }, { b: "Aero Pegasus", c: "1-60 Kick" }, { b: "Shark Scale", c: "1-70 Low Rush" }] }
+  - { t: "2026-11-01", e: "Beyblade X Sweaty Sundays @ 901 Games #9", l: "Memphis, Tennessee, United States", d: [{ b: "Emperor Delta Peak Heavy", c: "9-60 Free Ball" }, { b: "Aero Pegasus", c: "1-50 Rush" }, { b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Golem Rock", c: "9-70 Ball" }, { b: "Clock Mirage", c: "3-85 Under Needle" }] }
+  - { t: "2026-10-31", e: "TRICK OR TREAT", l: "Iloilo City, Philippines", d: [{ b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Hells Nether", c: "Ball" }, { b: "Shark Scale", c: "9-60 Free Ball" }] }
+  - { t: "2026-10-31", e: "Del Rio Beyblade League at Pla-Mor Bowling Halloween Special", l: "Del Rio, Texas, United States", d: [{ b: "Mummy Curse", c: "1-60 Under Needle" }, { b: "Bullet Griffon", c: "Hexa" }, { b: "Meteor Dragoon", c: "7-60 Level" }] }
+  - { t: "2026-10-31", e: "Costumed Clash 4: Rogueish Potluck", l: "Sumner, Washington, United States", d: [{ b: "Hover Wyvern", c: "9-60 Kick" }, { b: "Aero Pegasus", c: "1-50 Rush" }, { b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Golem Rock", c: "7-60 Taper" }, { b: "Hells Nether", c: "Taper" }, { b: "Hover Wyvern", c: "9-60 Ball" }, { b: "Aero Pegasus", c: "1-50 Taper" }, { b: "Wizard Rod", c: "1-60 Free Ball" }] }
+  - { t: "2026-10-31", e: "BeyKnights Fall 2026 #4", l: "Orlando, Florida, United States", d: [{ b: "Aero Pegasus", c: "1-60 Rush" }, { b: "Shark Scale", c: "1-70 Low Point" }, { b: "Cobalt Dragoon", c: "5-60 Elevate" }] }
+  - { t: "2026-10-31", e: "Shark Adventures #8", l: "Rahway, New Jersey, United States", d: [{ b: "Hells Nether", c: "Ball" }, { b: "Shark Scale", c: "3-60 Low Rush" }, { b: "Sieg Superion", c: "1-60 Kick" }] }
+  - { t: "2026-10-31", e: "Beyblade X Monster Mash Bash!", l: "Kenosha, Wisconsin, United States", d: [{ b: "Shark Scale", c: "3-60 Low Orb" }, { b: "Knight Shield", c: "9-60 Narrow" }, { b: "Wizard Rod", c: "1-60 Free Ball" }] }
+  - { t: "2026-10-31", e: "Spooky Metrotown Special Beyblade X Limited", l: "Vancouver", d: [{ b: "Hells Scythe", c: "9-60 Ball" }, { b: "Weiss Tiger", c: "5-60 Point" }, { b: "Crimson Garuda", c: "1-60 Hexa" }] }
+  - { t: "2026-10-30", e: "Lions Park BBX #12 (Bring 5, Ban 2 Format)", l: "Cumberland, Indiana, United States", d: [{ b: "Aero Pegasus", c: "1-50 Rush" }, { b: "Wizard Rod", c: "1-60 Rubber Accel" }, { b: "Sieg Superion", c: "7-60 Low Rush" }, { b: "Hover Wyvern", c: "3-60 Kick" }, { b: "Shark Scale", c: "9-60 Narrow" }] }
+  - { t: "2026-10-30", e: "Beyblade X Fall Championships @ Final Rift", l: "Franklinton, North Carolina, United States", d: [{ b: "Wizard Rod", c: "1-60 Free Ball" }, { b: "Sieg Superion", c: "7-60 Kick" }, { b: "Cobalt Dragoon", c: "9-60 Elevate" }] }
+  - { t: "2026-10-30", e: "Into The Zone WBO ranked weekly #7", l: "Fort Myers, Florida, United States", d: [{ b: "Emperor Delta Peak Heavy", c: "9-60 Narrow" }, { b: "Aero Pegasus", c: "1-70 Rush" }, { b: "Wizard Rod", c: "3-60 Free Ball" }] }
+  - { t: "2026-10-29", e: "Bricks & Heroes Ranked October 2026", l: "Huntsville, Texas, United States", d: [{ b: "Sieg Superion", c: "3-60 Rush" }, { b: "Shark Scale", c: "9-60 Narrow" }, { b: "Glory Valkyrie", c: "Level" }] }
+  - { t: "2026-10-29", e: "Gambits Arena #5", l: "Portland, Oregon, United States", d: [{ b: "Shark Scale", c: "1-70 Low Rush" }, { b: "Aero Pegasus", c: "1-50 Rush" }, { b: "Wizard Rod", c: "1-60 Hexa" }] }
+  - { t: "2026-10-29", e: "BOBA AND BEYS AT UNDERGROUND #1", l: "Winston Salem, North Carolina, United States", d: [{ b: "Silver Wolf", c: "9-60 Narrow" }, { b: "Sieg Superion", c: "1-60 Free Ball" }, { b: "Phoenix Wing", c: "1-50 Rush" }] }
+  - { t: "2026-10-29", e: "The Bey Warrior", l: "Corpus Christi, Texas, United States", d: [{ b: "Shark Scale", c: "1-60 Low Rush" }, { b: "Cobalt Dragoon", c: "1-50 Elevate" }, { b: "Meteor Dragoon", c: "7-60 Level" }] }
+  - { t: "2026-10-29", e: "Rocket City Bladers Weekly Beyjam (Halloween 2026 Edition)", l: "Madison, Alabama, United States", d: [{ b: "Cobalt Dragoon", c: "5-60 Elevate" }, { b: "Glory Valkyrie", c: "Narrow" }, { b: "Shark Scale", c: "1-50 Rush" }, { b: "Wizard Rod", c: "1-60 Hexa" }] }
+  - { t: "2026-10-29", e: "SpellSpin #12", l: "west Nyack, New York, United States", d: [{ b: "Glory Valkyrie", c: "Kick" }, { b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Shark Scale", c: "3-60 Low Rush" }] }
+  - { t: "2026-10-28", e: "Horrors from Beyond the Shroud | Humble Halloween", l: "New Port Richey, Florida, United States", d: [{ b: "Sieg Superion", c: "1-50 Kick" }, { b: "Glory Valkyrie", c: "Low Rush" }, { b: "Bullet Griffon", c: "Jolt" }] }
+  - { t: "2026-10-28", e: "Bursting Blades at The Conclave #46 RANKED", l: "Lakeland, Florida, United States", d: [{ b: "Glory Valkyrie", c: "Rush" }, { b: "Shark Scale", c: "3-60 Narrow" }, { b: "Hover Wyvern", c: "9-60 Kick" }] }
+  - { t: "2026-10-28", e: "SWCBL Hop & Vine Cup #3 Monthly Tournament", l: "Stamford, Connecticut, United States", d: [{ b: "Meteor Dragoon", c: "7-60 Level" }, { b: "Cobalt Dragoon", c: "9-60 Elevate" }, { b: "Shark Scale", c: "1-60 Narrow" }] }
   - { t: "2026-10-27", e: "Ai no Athlete Cup 2-1", l: "Japan", d: [{ b: "Shark Scale", c: "9-60 Free Ball" }, { b: "Wizard Rod", c: "1-70 Wedge" }, { b: "Phoenix Wing", c: "1-60 Low Rush" }] }
   - { t: "2026-10-27", e: "Ai no Athlete Cup 2-2", l: "Japan", d: [{ b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Shark Scale", c: "4-50 Jolt" }] }
+  - { t: "2026-10-27", e: "Pyrolume's BBX #12", l: "Tel Aviv, Central District, Israel", d: [{ b: "Cobalt Dragoon", c: "9-60 Elevate" }, { b: "Glory Valkyrie", c: "Kick" }, { b: "Wizard Rod", c: "1-60 Narrow" }] }
+  - { t: "2026-10-27", e: "Lappland's Curio Cavern Clash!", l: "Mountlake Terrace, Washington, United States", d: [{ b: "Shark Scale", c: "1-50 Low Rush" }, { b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Glory Valkyrie", c: "Rush" }] }
+  - { t: "2026-10-27", e: "Portland Trail-Bladers Tournament #42", l: "Beaverton, OR, United States", d: [{ b: "Shark Scale", c: "3-60 Free Ball" }, { b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Hells Nether", c: "Narrow" }] }
+  - { t: "2026-10-27", e: "Cosmic Hearth Games - BiWeekly #1", l: "Belmont, North Carolina, United States", d: [{ b: "Shark Scale", c: "5-50 Low Rush" }, { b: "Aero Pegasus", c: "1-60 Free Ball" }, { b: "Wizard Rod", c: "9-60 Narrow" }] }
   - { t: "2026-10-26", e: "InBEYsion Weekly October 26th", l: "Toronto, Ontario, Canada", d: [{ b: "Cobalt Dragoon", c: "5-60 Elevate" }, { b: "Glory Valkyrie", c: "Kick" }, { b: "Wizard Rod", c: "9-60 Narrow" }] }
+  - { t: "2026-10-26", e: "Teardown - X Limited 26/10/26", l: "Brisbane, Queensland, Australia", d: [{ b: "Wizard Arrow", c: "1-60 Narrow" }, { b: "Shark Edge", c: "1-70 Free Ball" }, { b: "Knight Shield", c: "1-50 Point" }] }
+  - { t: "2026-10-26", e: "Okanagan Monthly #2", l: "Kelowna, British Columbia, Canada", d: [{ b: "Heavens Ring", c: "9-60 Hexa" }, { b: "Shark Scale", c: "1-60 Narrow" }, { b: "Sieg Superion", c: "7-60 Free Ball" }, { b: "Sieg Superion", c: "3-60 Free Ball" }, { b: "Valor Bison", c: "Free Ball" }] }
+  - { t: "2026-10-26", e: "Beys and cream 3", l: "Palmyra, Virginia, United States", d: [{ b: "Aero Pegasus", c: "1-50 Rush" }, { b: "Shark Scale", c: "3-60 Narrow" }, { b: "Phoenix Wing", c: "1-60 Low Rush" }] }
   - { t: "2026-10-25", e: "Ai no Athlete Cup 52-1", l: "Japan", d: [{ b: "Wizard Rod", c: "1-70 Narrow" }, { b: "Shark Scale", c: "7-70 Rush" }] }
   - { t: "2026-10-25", e: "Ai no Athlete Cup 52-2", l: "Japan", d: [{ b: "Glory Valkyrie", c: "Rush" }, { b: "Shark Scale", c: "1-60 Low Rush" }, { b: "Wizard Rod", c: "9-60 Ball" }] }
   - { t: "2026-10-25", e: "Waffles and enthusiasm Beyblade X LGS", l: "", d: [{ b: "Glory Valkyrie", c: "Kick" }, { b: "Wizard Rod", c: "1-60 Free Ball" }, { b: "Dran Strike", c: "3-70 Jolt" }] }
   - { t: "2026-10-25", e: "RMBA X Treme 18 S3 The Xtreme FrightNight Vol 2 Nightmare on X Street", l: "", d: [{ b: "Hells Nether", c: "Free Ball" }, { b: "Aero Pegasus", c: "1-50 Low Rush" }, { b: "Wizard Rod", c: "9-60 Wall Ball" }] }
   - { t: "2026-10-25", e: "The BeyIsland Tour 2", l: "", d: [{ b: "Hells Nether", c: "Wall Ball" }, { b: "Shark Scale", c: "9-60 Low Orb" }, { b: "Wizard Rod", c: "1-60 Hexa" }] }
+  - { t: "2026-10-25", e: "Voxel X Beyblade Tournament #15", l: "Brooklyn, New York, United States", d: [{ b: "Emperor Tread Tough Heavy", c: "9-60 Narrow" }, { b: "Shark Scale", c: "5-50 Free Ball" }, { b: "Wizard Rod", c: "1-60 Hexa" }] }
+  - { t: "2026-10-25", e: "Spooktacular Spins", l: "Calgary, Alberta, Canada", d: [{ b: "Hells Nether", c: "Free Ball" }, { b: "Shark Scale", c: "3-60 Jolt" }, { b: "Wizard Rod", c: "1-60 Hexa" }] }
+  - { t: "2026-10-25", e: "Impulse Events - KC Saga", l: "Richmond, British Columbia, Canada", d: [{ b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Shark Scale", c: "3-60 Free Ball" }, { b: "Glory Valkyrie", c: "Rush" }, { b: "Wizard Rod", c: "1-60 Free Ball" }, { b: "Shark Scale", c: "3-60 Narrow" }] }
+  - { t: "2026-10-25", e: "Pensacola Riptide @ Emerald Fortress #5: Halloween Havoc", l: "Pensacola, Florida, United States", d: [{ b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Shark Scale", c: "5-50 Free Ball" }, { b: "Sieg Superion", c: "9-80 Narrow" }] }
+  - { t: "2026-10-25", e: "Glory to God Valkyrie", l: "Coquitlam, British Columbia, Canada", d: [{ b: "Shark Scale", c: "1-50 Kick" }, { b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Clock Mirage", c: "7-55 Low Orb" }, { b: "Glory Valkyrie", c: "Low Rush" }, { b: "Meteor Dragoon", c: "7-70 Level" }, { b: "Hover Wyvern", c: "9-60 Jolt" }] }
+  - { t: "2026-10-25", e: "Portland Trail-Bladers Tournament #41", l: "Portland, Oregon, United States", d: [{ b: "Wizard Rod", c: "1-60 Narrow" }, { b: "Shark Scale", c: "1-50 Kick" }, { b: "Aero Pegasus", c: "1-80 Low Rush" }] }
+  - { t: "2026-10-25", e: "EXL I: Solstice - Week 2", l: "Pittsburgh, Pennsylvania, United States", d: [{ b: "Shark Scale", c: "3-60 Free Ball" }, { b: "Meteor Dragoon", c: "7-60 Level" }, { b: "Hover Wyvern", c: "1-60 Rush" }] }
+  - { t: "2026-10-25", e: "Beyblade X Sweaty Sundays @ 901 Games #8", l: "Memphis, Tennessee, United States", d: [{ b: "Aero Pegasus", c: "1-60 Rush" }, { b: "Hells Nether", c: "Level" }, { b: "Golem Rock", c: "9-60 Free Ball" }] }
   - { t: "2026-10-24", e: "Wishes Impromptu special Team up and save the world", l: "", d: [{ b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Aero Pegasus", c: "7-60 Rush" }, { b: "Shark Scale", c: "1-70 Low Rush" }, { b: "Hells Nether", c: "Level" }] }
   - { t: "2026-10-24", e: "AUTO X15", l: "", d: [{ b: "Aero Pegasus", c: "1-50 Rush" }, { b: "Unicorn Delta Flow Slash", c: "5-60 Hexa" }, { b: "Pegasus Blast Heavy", c: "3-60 Kick" }] }
   - { t: "2026-10-24", e: "Beyblade İzmir Ranked 3 İzmirCon SHOWDOWN", l: "", d: [{ b: "Phoenix Wing", c: "9-60 Rush" }, { b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Shark Scale", c: "3-60 Wedge" }] }
+  - { t: "2026-10-24", e: "Battle of the Sage's #11", l: "West Lafayette, Indiana, United States", d: [{ b: "Shark Scale", c: "4-50 Narrow" }, { b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Dran Strike", c: "7-60 Point" }] }
+  - { t: "2026-10-24", e: "Rolltide cup", l: "Appleton, Wisconsin, United States", d: [{ b: "Sieg Superion", c: "7-60 Kick" }, { b: "Shark Scale", c: "1-60 Level" }, { b: "Shark Scale", c: "9-60 Narrow" }, { b: "Hells Nether", c: "Narrow" }] }
+  - { t: "2026-10-24", e: "Geeks United X 10-24-26", l: "ORLANDO, Florida, United States", d: [{ b: "Shark Scale", c: "3-60 Rush" }, { b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Hover Wyvern", c: "9-60 Kick" }] }
+  - { t: "2026-10-24", e: "East Coast Cup X #24: Beyond Strength!", l: "Raleigh, North Carolina, United States", d: [{ b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Luster Dragoon", c: "1-60 Rubber Accel" }, { b: "Hells Nether", c: "Free Ball" }, { b: "Shark Scale", c: "1-50 Low Point" }] }
+  - { t: "2026-10-24", e: "West Cary Bar Brawl #4", l: "Richmond, Virginia, United States", d: [{ b: "Cobalt Dragoon", c: "9-60 Elevate" }, { b: "Luster Dragoon", c: "5-50 Jolt" }, { b: "Meteor Dragoon", c: "7-60 Level" }] }
+  - { t: "2026-10-24", e: "Four Horsemen Halloween", l: "Pittsburgh, Pennsylvania, United States", d: [{ b: "Shark Scale", c: "1-70 Low Rush" }, { b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Silver Wolf", c: "9-70 Free Ball" }] }
+  - { t: "2026-10-24", e: "Next Spin! Vol. 6", l: "St Paul, Minnesota, United States", d: [{ b: "Sieg Superion", c: "1-70 Hexa" }, { b: "Shark Scale", c: "1-60 Free Ball" }, { b: "Emperor Delta Peak Heavy", c: "9-60 Narrow" }] }
+  - { t: "2026-10-24", e: "ICT's Monthly Ranked Tournament: October", l: "Wichita, Kansas, United States", d: [{ b: "Wizard Rod", c: "1-60 Free Ball" }, { b: "Hells Nether", c: "Kick" }, { b: "Shark Scale", c: "3-60 Low Rush" }] }
+  - { t: "2026-10-24", e: "Shark Adventures #7", l: "Harrison, New Jersey, United States", d: [{ b: "Meteor Dragoon", c: "7-60 Level" }, { b: "Shark Scale", c: "9-60 Free Ball" }, { b: "Wizard Rod", c: "1-60 Hexa" }] }
+  - { t: "2026-10-24", e: "MCB HALLOWEEN RANKED BEYBLADE BASH", l: "CALERA, Alabama, United States", d: [{ b: "Luster Dragoon", c: "1-60 Low Point" }, { b: "Shark Scale", c: "9-60 Free Ball" }, { b: "Aero Pegasus", c: "1-50 Rush" }] }
+  - { t: "2026-10-24", e: "Crashout Games: Brake Up", l: "Tacoma, Washington, United States", d: [{ b: "Shark Scale", c: "1-70 Low Rush" }, { b: "Cobalt Dragoon", c: "5-60 Elevate" }, { b: "Shark Scale", c: "1-60 Low Orb" }, { b: "Wizard Rod", c: "9-60 Free Ball" }, { b: "Meteor Dragoon", c: "7-70 Level" }] }
+  - { t: "2026-10-23", e: "Into the zone WBO ranked weekly #6", l: "Fort Myers, Florida, United States", d: [{ b: "Knight Shield", c: "9-60 Free Ball" }, { b: "Wizard Rod", c: "1-60 Low Orb" }, { b: "Glory Valkyrie", c: "Low Rush" }] }
+  - { t: "2026-10-22", e: "BEYHAVEN 10/22/26!!!!", l: "Casselberry, Florida, United States", d: [{ b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Shark Scale", c: "3-60 Narrow" }, { b: "Hover Wyvern", c: "9-60 Rush" }] }
+  - { t: "2026-10-22", e: "Pyrolume's BBX #11", l: "Tel Aviv, Merkaz, Israel", d: [{ b: "Cobalt Dragoon", c: "9-60 Elevate" }, { b: "Wizard Rod", c: "1-60 Narrow" }, { b: "Shark Scale", c: "3-60 Rush" }] }
+  - { t: "2026-10-22", e: "Rocket City Bladers Weekly Beyjam (10/22/2026)", l: "Madison, Alabama, United States", d: [{ b: "Glory Valkyrie", c: "Free Flat" }, { b: "Shark Scale", c: "7-60 Rush" }, { b: "Wizard Rod", c: "1-60 Hexa" }] }
+  - { t: "2026-10-22", e: "Clashing Waves [Ranked Event] #10", l: "ORLANDO, Florida, United States", d: [{ b: "Aero Pegasus", c: "7-70 Level" }, { b: "Shark Scale", c: "1-70 Narrow" }, { b: "Wizard Rod", c: "1-60 Free Ball" }] }
+  - { t: "2026-10-21", e: "Humble Melee #3", l: "New Port Richey, Florida, United States", d: [{ b: "Dran Strike", c: "1-50 Low Rush" }, { b: "Emperor Blast Heavy", c: "1-60 Rush" }, { b: "Glory Valkyrie", c: "Kick" }] }
+  - { t: "2026-10-21", e: "Bursting Blades at The Conclave #45", l: "Lakeland, Florida, United States", d: [{ b: "Aero Pegasus", c: "1-60 Rush" }, { b: "Shark Scale", c: "1-50 Low Rush" }, { b: "Cobalt Dragoon", c: "9-60 Elevate" }] }
+  - { t: "2026-10-21", e: "SQB Tournament #1 \"Halloween Special\"", l: "Port Coquitlam, British Columbia, Canada", d: [{ b: "Glory Valkyrie", c: "Kick" }, { b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Emperor Tread Tough Heavy", c: "5-50 Low Point" }, { b: "Shark Scale", c: "1-70 Rush" }, { b: "Sieg Superion", c: "7-60 Narrow" }] }
+  - { t: "2026-10-21", e: "Dave and buster monthly #15", l: "Brooklyn, New York, United States", d: [{ b: "Dran Strike", c: "5-60 Jolt" }, { b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Shark Scale", c: "3-60 Low Rush" }] }
+  - { t: "2026-10-21", e: "Dave and Busters Bi-Weekly #3", l: "Winston-Salem, North Carolina, United States", d: [{ b: "Emperor Rage Flow Heavy", c: "7-70 Taper" }, { b: "Shark Scale", c: "3-60 Hexa" }, { b: "Sieg Superion", c: "7-60 Kick" }] }
+  - { t: "2026-10-21", e: "Waynesboro Fight Club 6", l: "Waynesboro, Virginia, United States", d: [{ b: "Aero Pegasus", c: "1-50 Rush" }, { b: "Phoenix Wing", c: "1-60 Low Rush" }, { b: "Shark Scale", c: "3-60 Narrow" }] }
   - { t: "2026-10-20", e: "Beys N Books", l: "", d: [{ b: "Shark Scale", c: "3-60 Narrow" }, { b: "Sieg Superion", c: "1-60 Level" }, { b: "Valor Bison", c: "Kick" }] }
+  - { t: "2026-10-20", e: "Grimy Tuesday @ HP TCG #2", l: "Fresno, California, United States", d: [{ b: "Aero Pegasus", c: "1-50 Kick" }, { b: "Wizard Rod", c: "1-60 Narrow" }, { b: "Knight Shield", c: "9-60 Free Ball" }] }
+  - { t: "2026-10-20", e: "Charlottesville Fight Club 8", l: "Charlottesville, Virginia, United States", d: [{ b: "Knight Tread Flow Heavy", c: "5-50 Wedge" }, { b: "Aero Pegasus", c: "1-50 Low Point" }, { b: "Sieg Superion", c: "1-60 Level" }] }
+  - { t: "2026-10-20", e: "ICT's Prelude Tournament: October", l: "Wichita, Kansas, United States", d: [{ b: "Sieg Superion", c: "1-60 Hexa" }, { b: "Bullet Griffon", c: "Unite" }, { b: "Emperor Delta Peak Heavy", c: "9-60 Low Rush" }] }
   - { t: "2026-10-19", e: "Dallas Beyblade Association Xtreme Gear Sports Team 7", l: "Dallas", d: [{ b: "Heavens Ring", c: "5-60 Unite" }, { b: "Gust Bat", c: "9-70 Taper" }, { b: "Knight Lance", c: "0-60 Low Point" }, { b: "Tricera Press", c: "5-50 High Taper" }, { b: "Phoenix Flare Wheel", c: "7-60 Kick" }, { b: "Valor Bison", c: "Narrow" }] }
   - { t: "2026-10-19", e: "InBEYsion Weekly October 19th (Beyblade X)", l: "Ontario, Canada", d: [{ b: "Cobalt Dragoon", c: "9-60 Elevate" }, { b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Shark Scale", c: "3-60 Low Rush" }] }
+  - { t: "2026-10-19", e: "Money Monday #12", l: "Brooklyn, New York, United States", d: [{ b: "Aero Pegasus", c: "1-70 Kick" }, { b: "Shark Scale", c: "1-60 Free Ball" }, { b: "Phoenix Wing", c: "7-60 Rush" }] }
   - { t: "2026-10-18", e: "BBX Up North", l: "", d: [{ b: "Cobalt Dragoon", c: "9-60 Elevate" }, { b: "Wizard Rod", c: "1-60 Free Ball" }, { b: "Glory Valkyrie", c: "Low Rush" }] }
+  - { t: "2026-10-18", e: "Vegas Bladerz Weekly Ranked Tournament - 10/18/2026", l: "Henderson, Nevada, United States", d: [{ b: "Shark Scale", c: "9-60 Narrow" }, { b: "Sieg Superion", c: "7-70 Low Point" }, { b: "Heavens Ring", c: "6-70 Hexa" }] }
+  - { t: "2026-10-18", e: "Dave and Dran-Busters", l: "Winston Salem, North Carolina, United States", d: [{ b: "Shark Scale", c: "1-50 Low Point" }, { b: "Hells Nether", c: "Free Ball" }, { b: "Wizard Rod", c: "1-60 Hexa" }] }
+  - { t: "2026-10-18", e: "Beezy Beez Beyblade Brawl #1 Tournament", l: "Staten Island, New York, United States", d: [{ b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Emperor Blast Wheel", c: "9-60 Free Ball" }, { b: "Shark Scale", c: "3-60 Jolt" }] }
+  - { t: "2026-10-18", e: "PTL BEYBLADE X VOL. 12", l: "Carmel, Indiana, United States", d: [{ b: "Wizard Rod", c: "1-60 Rubber Accel" }, { b: "Shark Scale", c: "9-60 Narrow" }, { b: "Sieg Superion", c: "1-50 Kick" }] }
+  - { t: "2026-10-18", e: "The Trailside Tumble: October Edition", l: "Matthews, North Carolina, United States", d: [{ b: "Aero Pegasus", c: "1-50 Low Rush" }, { b: "Shark Scale", c: "1-60 Free Ball" }, { b: "Mummy Curse", c: "7-60 Narrow" }] }
+  - { t: "2026-10-18", e: "Treasure Trove Bladers", l: "Keizer, Oregon, United States", d: [{ b: "Meteor Dragoon", c: "9-70 Elevate" }, { b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Hover Wyvern", c: "9-60 Jolt" }] }
+  - { t: "2026-10-18", e: "TTV Seattle (#4) PvP: Hells Nether (wow omg it's just like minecraft)", l: "Seattle, Washington, United States", d: [{ b: "Shark Scale", c: "1-70 Low Rush" }, { b: "Aero Pegasus", c: "1-50 Rush" }, { b: "Wizard Rod", c: "1-60 Hexa" }] }
+  - { t: "2026-10-18", e: "Vortex Locals #5 (10/18/26)", l: "Tsawwassen, British Columbia, Canada", d: [{ b: "Glory Valkyrie", c: "Kick" }, { b: "Shark Scale", c: "3-70 Jolt" }, { b: "Wizard Rod", c: "1-60 Hexa" }] }
+  - { t: "2026-10-18", e: "Rippers Riot I", l: "Milwaukee, Wisconsin, United States", d: [{ b: "Glory Valkyrie", c: "Rush" }, { b: "Wizard Rod", c: "1-60 Free Ball" }, { b: "Bullet Griffon", c: "Jolt" }] }
+  - { t: "2026-10-18", e: "Portland Trail-Bladers Tournament #39", l: "Portland, Oregon, United States", d: [{ b: "Aero Pegasus", c: "1-50 Rush" }, { b: "Shark Scale", c: "1-70 Low Rush" }, { b: "Wizard Rod", c: "1-60 Hexa" }] }
+  - { t: "2026-10-18", e: "EXL I: Solstice - Week 1", l: "Pittsburgh, Pennsylvania, United States", d: [{ b: "Shark Scale", c: "3-60 Free Ball" }, { b: "Meteor Dragoon", c: "7-60 Level" }, { b: "Hover Wyvern", c: "1-60 Rush" }] }
+  - { t: "2026-10-18", e: "Beyblade X Sweaty Sundays @ 901 Games #7", l: "Memphis, Tennessee, United States", d: [{ b: "Hells Nether", c: "Narrow" }, { b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Shark Scale", c: "4-50 Low Rush" }] }
   - { t: "2026-10-17", e: "HUSTLERS CUP 8", l: "Pavia, Philippines", d: [{ b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Meteor Dragoon", c: "7-60 Level" }, { b: "Cobalt Dragoon", c: "9-60 Elevate" }] }
   - { t: "2026-10-17", e: "X Masters 59", l: "", d: [{ b: "Shark Scale", c: "1-60 Kick" }, { b: "Hells Nether", c: "Hexa" }, { b: "Glory Valkyrie", c: "Low Rush" }] }
   - { t: "2026-10-17", e: "Evento 4 rios", l: "", d: [{ b: "Tyranno Beat", c: "5-70 Point" }, { b: "Dran Buster", c: "1-60 Hexa" }, { b: "Wizard Rod", c: "3-60 Ball" }] }
@@ -636,7 +756,6 @@ event:
   - { t: "2026-07-26", e: "Requiem of Fire Blading in heat", l: "", d: [{ b: "Shark Scale", c: "3-60 Low Rush" }, { b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Aero Pegasus", c: "1-80 Rush" }] }
   - { t: "2026-07-26", e: "West Cary Bar Brawl Location time change", l: "", d: [{ b: "Phoenix Wing", c: "3-60 Rush" }, { b: "Whale Wave", c: "1-60 Low Rush" }, { b: "Tyranno Beat", c: "1-70 Kick" }] }
   - { t: "2026-07-25", e: "極限盃 G1 高雄站（高雄夢時代） — 通常組", l: "Kaohsiung, Taiwan", d: [{ b: "Shark Scale", c: "6-60 Narrow" }, { b: "Wizard Rod", c: "1-60 Free Ball" }, { b: "Cobalt Dragoon", c: "9-60 Elevate" }] }
-  - { t: "2026-07-25", e: "極限盃 G1 高雄站（高雄夢時代） — 成人組", l: "Kaohsiung, Taiwan", d: [{ b: "Shark Scale", c: "7-60 Rush" }, { b: "Wizard Rod", c: "1-60 Hexa" }] }
   - { t: "2026-07-25", e: "Curio Cavern Baltimore Local Saturday Tournament 07 25 26", l: "Baltimore", d: [{ b: "Dran Strike", c: "9-60 Kick" }, { b: "Shark Scale", c: "1-70 Low Rush" }] }
   - { t: "2026-07-25", e: "AUTO X14", l: "", d: [{ b: "Silver Wolf", c: "9-60 Free Ball" }, { b: "Tyranno Beat", c: "1-50 Level" }, { b: "Hover Wyvern", c: "1-60 Rush" }] }
   - { t: "2026-07-25", e: "Anderson County Library Beyblade X Tournament 4", l: "", d: [{ b: "Phoenix Wing", c: "1-60 Low Rush" }, { b: "Wizard Rod", c: "9-60 Ball" }, { b: "Dran Arc Turn", c: "3-60 Level" }] }
@@ -1041,7 +1160,6 @@ event:
   - { t: "2026-05-30", e: "Nook Arena 35", l: "", d: [{ b: "Bullet Griffon", c: "Merge" }, { b: "Shark Edge", c: "1-50 Hexa" }, { b: "Meteor Dragoon", c: "9-60 Elevate" }] }
   - { t: "2026-05-30", e: "Waltz Party I", l: "Waterford, MI, United States", d: [{ b: "Dran Strike", c: "3-60 Level" }, { b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Shark Scale", c: "1-70 Low Rush" }] }
   - { t: "2026-05-29", e: "無限魂", l: "Taiwan", d: [{ b: "Golem Rock", c: "9-60 Kick" }, { b: "Dran Strike", c: "9-70 Low Rush" }, { b: "Emperor Delta Peak Heavy", c: "7-60 Hexa" }] }
-  - { t: "2026-05-29", e: "漢謚玩具社（高雄苓雅） — 交流賽", l: "Kaohsiung, Taiwan", d: [{ b: "Meteor Dragoon", c: "7-70 Level" }, { b: "Aero Pegasus", c: "7-60 Rush" }, { b: "Cobalt Dragoon", c: "9-60 Elevate" }] }
   - { t: "2026-05-29", e: "DFW Beyblades Community Game Night 39", l: "", d: [{ b: "Pegasus Blast Heavy", c: "9-60 Level" }, { b: "Shark Scale", c: "1-70 Free Ball" }, { b: "Meteor Dragoon", c: "1-50 Low Rush" }] }
   - { t: "2026-05-28", e: "Bricks Heroes Ranked May 2026", l: "", d: [{ b: "Cobalt Dragoon", c: "9-60 Elevate" }, { b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Shark Scale", c: "3-60 Free Ball" }] }
   - { t: "2026-05-28", e: "Force Spin Frenzy", l: "", d: [{ b: "Aero Pegasus", c: "9-60 Low Orb" }, { b: "Pegasus Blast Slash", c: "3-60 Low Rush" }, { b: "Wizard Rod", c: "1-60 Hexa" }] }
@@ -1165,97 +1283,3 @@ event:
   - { t: "2026-05-15", e: "TCGDUCKHUNTER RANKED WEEKLY 3", l: "", d: [{ b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Meteor Dragoon", c: "7-60 Level" }, { b: "Shark Scale", c: "9-60 Kick" }] }
   - { t: "2026-05-15", e: "Lions Park Beyblade X 2", l: "", d: [{ b: "Wizard Rod", c: "9-60 Ball" }, { b: "Aero Pegasus", c: "1-60 Hexa" }, { b: "Silver Wolf", c: "9-70 Wedge" }] }
   - { t: "2026-05-15", e: "Gotta Gacha Locals 5/15", l: "Warren, MI, United States", d: [{ b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Meteor Dragoon", c: "7-70 Level" }, { b: "Hover Wyvern", c: "9-60 Kick" }] }
-  - { t: "2026-05-14", e: "NCBBX gg Test 6 Dragons Hoard", l: "", d: [{ b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Phoenix Wing", c: "9-60 Free Ball" }, { b: "Tyranno Beat", c: "9-70 Rush" }] }
-  - { t: "2026-05-14", e: "BEYHAVEN 05 14 26", l: "", d: [{ b: "Shark Scale", c: "1-70 Low Rush" }, { b: "Wizard Rod", c: "1-60 Free Ball" }, { b: "Emperor Blast Wheel", c: "9-60 Hexa" }] }
-  - { t: "2026-05-14", e: "The Gamer Lodge Weekly May 14th", l: "", d: [{ b: "Silver Wolf", c: "9-60 Free Ball" }, { b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Tricera Press", c: "3-60 Rush" }] }
-  - { t: "2026-05-14", e: "Dallas Beyblade Association Hasbro's Animal Planet CX 4", l: "Dallas", d: [{ b: "Rhino Fortress Guard Wheel", c: "7-60 Rush" }, { b: "Stag Antler Charge", c: "9-60 Low Orb" }, { b: "Leon Fang Slash", c: "5-60 Low Flat" }, { b: "Stag Antler Vertical", c: "9-60 Low Orb" }] }
-  - { t: "2026-05-13", e: "Dave and Busters weekly 13", l: "", d: [{ b: "Shark Scale", c: "1-70 Kick" }, { b: "Aero Pegasus", c: "7-60 Rush" }, { b: "Wizard Rod", c: "1-60 Hexa" }] }
-  - { t: "2026-05-13", e: "Bursting Blades at The Conclave 12", l: "", d: [{ b: "Shark Scale", c: "7-70 Low Rush" }, { b: "Aero Pegasus", c: "1-70 Rush" }, { b: "Wizard Rod", c: "1-60 Low Orb" }] }
-  - { t: "2026-05-13", e: "Bursting Blades at The Conclave 11 5", l: "", d: [{ b: "Silver Wolf", c: "9-60 Orb" }, { b: "Shark Scale", c: "1-70 Jolt" }, { b: "Cobalt Dragoon", c: "5-60 Elevate" }] }
-  - { t: "2026-05-13", e: "Weekly Humble Rumble BBX 2", l: "", d: [{ b: "Shark Scale", c: "3-60 Rush" }, { b: "Wizard Rod", c: "1-60 Free Ball" }, { b: "Emperor Blast Heavy", c: "9-60 Low Rush" }] }
-  - { t: "2026-05-12", e: "DFW Beyblades Weekly Tournament 121", l: "", d: [{ b: "Shark Scale", c: "3-60 Unite" }, { b: "Phoenix Wing", c: "1-60 Rush" }, { b: "Pegasus Blast Heavy", c: "1-50 Low Rush" }] }
-  - { t: "2026-05-12", e: "The Joyful Toad Weekly Standard 37", l: "", d: [{ b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Shark Scale", c: "1-70 Low Rush" }, { b: "Tyranno Beat", c: "9-60 Rush" }] }
-  - { t: "2026-05-12", e: "Champion's Path 8", l: "", d: [{ b: "Wizard Rod", c: "1-60 Free Ball" }, { b: "Bullet Griffon", c: "Jolt" }, { b: "Shark Scale", c: "1-70 Low Rush" }] }
-  - { t: "2026-05-11", e: "Teardown X Limited 11 5 26", l: "", d: [{ b: "Crimson Garuda", c: "7-60 Kick" }, { b: "Phoenix Rudder", c: "1-50 Rush" }, { b: "Phoenix Feather", c: "9-60 Low Rush" }] }
-  - { t: "2026-05-10", e: "DFW Beyblades Weekly Tournament 120 BeyCon 2026 Qualifier", l: "", d: [{ b: "Aero Pegasus", c: "1-50 Kick" }, { b: "Wizard Rod", c: "1-60 Unite" }, { b: "Unicorn Rage Flow Heavy", c: "6-60 Low Rush" }] }
-  - { t: "2026-05-10", e: "XBL 3 Pre Season Week 8", l: "", d: [{ b: "Aero Pegasus", c: "1-80 Jolt" }, { b: "Silver Wolf", c: "9-60 Free Ball" }, { b: "Wizard Rod", c: "1-60 Ball" }] }
-  - { t: "2026-05-10", e: "Rocky Mountain X Treme 6 S2", l: "", d: [{ b: "Shark Scale", c: "1-60 Point" }, { b: "Meteor Dragoon", c: "7-60 Level" }, { b: "Aero Pegasus", c: "1-50 Taper" }] }
-  - { t: "2026-05-10", e: "Beyblade XS XBL 3 Pre Season Week 7", l: "", d: [{ b: "Knight Lance", c: "1-60 Rush" }, { b: "Golem Rock", c: "9-60 Hexa" }, { b: "Hells Scythe", c: "1-50 Unite" }] }
-  - { t: "2026-05-10", e: "The Bladerverse at NXT Legaci Gaming Weekly", l: "", d: [{ b: "Orochi Cluster", c: "1-60 Low Rush" }, { b: "Aero Pegasus", c: "1-70 Kick" }, { b: "Hover Wyvern", c: "1-50 Jolt" }] }
-  - { t: "2026-05-10", e: "Temecula Valley Blading in T Town 15 Happy Mother's Day", l: "", d: [{ b: "Shark Scale", c: "3-60 Orb" }, { b: "Wizard Rod", c: "1-60 Wedge" }, { b: "Silver Wolf", c: "9-60 Low Orb" }] }
-  - { t: "2026-05-10", e: "Vegas Bladerz Weekly Ranked Tournament 05 10 2026", l: "", d: [{ b: "Shark Scale", c: "3-60 Wedge" }, { b: "Wizard Rod", c: "1-60 Free Ball" }, { b: "Pegasus Blast Wheel", c: "7-60 Level" }] }
-  - { t: "2026-05-10", e: "Boba and Beys 5 10 26", l: "", d: [{ b: "Aero Pegasus", c: "1-50 Rush" }, { b: "Wizard Rod", c: "1-60 Unite" }, { b: "Shark Scale", c: "9-60 Low Orb" }] }
-  - { t: "2026-05-09", e: "第三屆麥萌盃（MYMENGTOYS）", l: "Taiwan", d: [{ b: "Aero Pegasus", c: "1-70 Rush" }, { b: "Shark Scale", c: "9-60 Orb" }, { b: "Wizard Rod", c: "1-60 Free Ball" }] }
-  - { t: "2026-05-09", e: "RiRiCO（台中北屯） — 全攻擊軸心限定賽", l: "Taichung, Taiwan", d: [{ b: "Wizard Rod", c: "1-60 Jolt" }, { b: "Aero Pegasus", c: "1-50 Rush" }, { b: "Shark Scale", c: "1-70 Low Rush" }] }
-  - { t: "2026-05-09", e: "SATURBEY HATAK!!", l: "Pavia, Philippines", d: [{ b: "Shark Scale", c: "9-60 Low Orb" }, { b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Dran Buster", c: "3-60 Low Rush" }] }
-  - { t: "2026-05-09", e: "Curio Cavern Baltimore Local Saturday Tournament 05 09 26", l: "Baltimore", d: [{ b: "Aero Pegasus", c: "1-60 Rush" }, { b: "Wizard Rod", c: "6-60 Hexa" }, { b: "Shark Scale", c: "1-70 Low Rush" }] }
-  - { t: "2026-05-09", e: "Scott Louisiana Unranked BXL 05 09 2026", l: "Louisiana", d: [{ b: "Leon Crest", c: "7-60 Disk Ball" }, { b: "Hells Hells Hammer", c: "3-60 Rush" }, { b: "Hells Hells Hammer", c: "9-60 Rush" }, { b: "Knight Shield", c: "1-60 Hexa" }, { b: "Shark Edge", c: "3-60 Taper" }, { b: "Crimson Garuda", c: "5-60 Kick" }] }
-  - { t: "2026-05-09", e: "Terry Bogard VS Captain Falcon", l: "", d: [{ b: "Bahamut Blast Heavy", c: "1-50 Kick" }, { b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Shark Scale", c: "1-70 Low Rush" }] }
-  - { t: "2026-05-09", e: "Rip’s warehouse 5 9 2026", l: "", d: [{ b: "Silver Wolf", c: "9-70 Free Ball" }, { b: "Aero Pegasus", c: "1-60 Rush" }, { b: "Emperor Rage Flow Heavy", c: "9-60 Kick" }] }
-  - { t: "2026-05-09", e: "No Limit Blading 14", l: "", d: [{ b: "Hover Wyvern", c: "9-60 Jolt" }, { b: "Shark Scale", c: "7-60 Rush" }, { b: "Phoenix Wing", c: "1-70 Low Rush" }] }
-  - { t: "2026-05-09", e: "SuperStar Card Gaming Local Tournament 05 09 26", l: "Baltimore", d: [{ b: "Cobalt Dragoon", c: "9-60 Elevate" }, { b: "Shark Scale", c: "1-60 Rush" }, { b: "Wizard Rod", c: "6-60 Hexa" }, { b: "Shark Scale", c: "3-60 Free Ball" }, { b: "Aero Pegasus", c: "1-60 Rush" }] }
-  - { t: "2026-05-09", e: "Trove Beyblade Event 05 09", l: "", d: [{ b: "Bahamut Rage Flow Heavy", c: "1-60 Rush" }, { b: "Meteor Dragoon", c: "9-60 Elevate" }, { b: "Shark Scale", c: "3-60 Kick" }] }
-  - { t: "2026-05-09", e: "The Bladerverse at Victory Point BO3 1", l: "", d: [{ b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Aero Pegasus", c: "1-50 Rush" }, { b: "Shark Scale", c: "3-60 Low Rush" }] }
-  - { t: "2026-05-09", e: "Its gonna be MAY Erie PA 2026", l: "", d: [{ b: "Phoenix Wing", c: "7-60 Level" }, { b: "Shark Scale", c: "3-60 Low Rush" }, { b: "Wizard Rod", c: "1-60 Hexa" }] }
-  - { t: "2026-05-09", e: "Buster Cup", l: "", d: [{ b: "Silver Wolf", c: "9-60 Free Ball" }, { b: "Aero Pegasus", c: "1-80 Rush" }, { b: "Shark Scale", c: "1-60 Kick" }] }
-  - { t: "2026-05-09", e: "Peak X 4 To Face an Unprecedented Foe Super BeybladeX Clash", l: "", d: [{ b: "Meteor Dragoon", c: "1-50 Level" }, { b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Shark Scale", c: "3-60 Rush" }] }
-  - { t: "2026-05-09", e: "CVB Summer Dash 1", l: "", d: [{ b: "Shark Edge", c: "1-70 Low Orb" }, { b: "Cobalt Dragoon", c: "5-60 Elevate" }, { b: "Wizard Rod", c: "1-60 Free Ball" }] }
-  - { t: "2026-05-09", e: "Bey May!", l: "", d: [{ b: "Shark Scale", c: "1-70 Low Rush" }, { b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Emperor Blitz Break Heavy", c: "1-50 Level" }] }
-  - { t: "2026-05-09", e: "Papi's Big Banana Anime North 2026 Qualifier Sat May 9th 1PM", l: "", d: [{ b: "Phoenix Wing", c: "2-80 Rush" }, { b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Shark Scale", c: "9-60 Free Ball" }] }
-  - { t: "2026-05-09", e: "Nook Arena 32", l: "", d: [{ b: "Wizard Rod", c: "1-60 Kick" }, { b: "Phoenix Wing", c: "9-60 Jolt" }, { b: "Shark Scale", c: "1-50 Rush" }] }
-  - { t: "2026-05-09", e: "4o4Esports Beyblade Weekly 1", l: "", d: [{ b: "Phoenix Wing", c: "3-60 Rush" }, { b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Emperor Brave Heavy", c: "9-60 Low Rush" }] }
-  - { t: "2026-05-09", e: "TungstenRat’s Birthday Bash", l: "", d: [{ b: "Savage Bear", c: "3-70 Kick" }, { b: "Cobalt Dragoon", c: "5-60 Elevate" }, { b: "Ghost Circle", c: "9-60 Free Ball" }] }
-  - { t: "2026-05-09", e: "X Masters 47", l: "", d: [{ b: "Bullet Griffon", c: "Merge" }, { b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Shark Scale", c: "4-50 Low Rush" }] }
-  - { t: "2026-05-08", e: "PTL BEYBLADE X VOL 6", l: "", d: [{ b: "Wizard Rod", c: "1-60 Kick" }, { b: "Shark Scale", c: "3-60 Hexa" }, { b: "Tyranno Beat", c: "9-60 Jolt" }] }
-  - { t: "2026-05-08", e: "The Red Bey District 13 Card Again Games", l: "", d: [{ b: "Ragna Rage Flow Heavy", c: "3-60 Kick" }, { b: "Silver Wolf", c: "9-70 Free Ball" }, { b: "Wizard Rod", c: "1-60 Hexa" }] }
-  - { t: "2026-05-08", e: "DFW Beyblades Community Game Night 36", l: "", d: [{ b: "Hover Wyvern", c: "1-50 Ignition" }, { b: "Shark Scale", c: "7-60 Low Rush" }, { b: "Dran Buster", c: "1-60 Rush" }] }
-  - { t: "2026-05-08", e: "Curio Cavern Baltimore Friday Night Smackdown", l: "Baltimore", d: [{ b: "Aero Pegasus", c: "1-70 Rush" }, { b: "Aero Pegasus", c: "3-60 Rush" }, { b: "Aero Pegasus", c: "7-60 Rush" }, { b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Shark Scale", c: "9-60 Free Ball" }] }
-  - { t: "2026-05-08", e: "Raftel Bonus Stage SBOX League 8 05 26", l: "", d: [{ b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Phoenix Wing", c: "7-60 Kick" }, { b: "Shark Scale", c: "9-60 Low Rush" }] }
-  - { t: "2026-05-08", e: "Dave and busters SI 4", l: "", d: [{ b: "Shark Scale", c: "1-70 Low Rush" }, { b: "Emperor Blitz Break Heavy", c: "1-50 Hexa" }, { b: "Wizard Rod", c: "1-60 Free Ball" }] }
-  - { t: "2026-05-08", e: "TCGDUCKHUNTER RANKED WEEKLY 2", l: "", d: [{ b: "Shark Scale", c: "1-50 Level" }, { b: "Silver Wolf", c: "7-60 Free Ball" }, { b: "Phoenix Wing", c: "1-60 Rush" }] }
-  - { t: "2026-05-07", e: "NCBBX gg Test 5 Dragons Hoard", l: "", d: [{ b: "Aero Pegasus", c: "1-80 Rush" }, { b: "Shark Scale", c: "1-60 Kick" }, { b: "Silver Wolf", c: "9-60 Free Ball" }] }
-  - { t: "2026-05-07", e: "Dallas Beyblade Association Lucius Dark Revival Limited 6", l: "Dallas", d: [{ b: "Bahamut Blitz Break Knuckle", c: "1-50 Low Rush" }, { b: "Phoenix Rudder", c: "9-60 Y" }, { b: "Phoenix Feather", c: "3-70 Jolt" }, { b: "Emperor Blitz Break Knuckle", c: "1-50 Rush" }] }
-  - { t: "2026-05-06", e: "Laban's Learning Club 6 Learn Then Compete", l: "", d: [{ b: "Wizard Rod", c: "1-60 Free Ball" }, { b: "Shark Scale", c: "1-70 Low Flat" }, { b: "Aero Pegasus", c: "7-60 Kick" }] }
-  - { t: "2026-05-06", e: "Dave and Busters weekly 12", l: "", d: [{ b: "Shark Scale", c: "3-70 Low Rush" }, { b: "Aero Pegasus", c: "1-70 Kick" }, { b: "Wizard Rod", c: "1-60 Free Ball" }] }
-  - { t: "2026-05-06", e: "Bursting Blades at The Conclave 11", l: "", d: [{ b: "Silver Wolf", c: "9-70 Free Ball" }, { b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Shark Scale", c: "1-70 Low Rush" }] }
-  - { t: "2026-05-06", e: "Weekly Humble Rumble BBX 1", l: "", d: [{ b: "Tyranno Beat", c: "1-70 Low Rush" }, { b: "Hover Wyvern", c: "1-60 Rush" }, { b: "Silver Wolf", c: "7-60 Hexa" }] }
-  - { t: "2026-05-05", e: "Hamaoz beyblade x 1", l: "", d: [{ b: "Aero Pegasus", c: "1-60 Rush" }, { b: "Wizard Rod", c: "9-60 Hexa" }, { b: "Shark Scale", c: "1-70 Low Rush" }] }
-  - { t: "2026-05-05", e: "DFW Beyblades Weekly Tournament 119 – Cinco De Mayo Celebration", l: "", d: [{ b: "Shark Scale", c: "3-60 Free Ball" }, { b: "Phoenix Wing", c: "1-50 Jolt" }, { b: "Wizard Rod", c: "1-60 Hexa" }] }
-  - { t: "2026-05-05", e: "The Joyful Toad Weekly Standard 36", l: "", d: [{ b: "Shark Scale", c: "9-60 Free Ball" }, { b: "Aero Pegasus", c: "3-60 Low Rush" }, { b: "Wizard Rod", c: "1-60 Kick" }] }
-  - { t: "2026-05-05", e: "InBEYsion Weekly #1 (05/05/2026)", l: "Richmond Hill, Ontario, Canada", d: [{ b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Phoenix Wing", c: "9-60 Kick" }, { b: "Shark Scale", c: "3-60 Rush" }] }
-  - { t: "2026-05-04", e: "Dave and Busters weekly 11", l: "", d: [{ b: "Shark Scale", c: "1-50 Free Ball" }, { b: "Aero Pegasus", c: "1-70 Kick" }, { b: "Hover Wyvern", c: "1-60 Rush" }] }
-  - { t: "2026-05-04", e: "Koopa Cup Lite 17", l: "", d: [{ b: "Aero Pegasus", c: "1-50 Kick" }, { b: "Shark Scale", c: "5-60 Low Rush" }, { b: "Wizard Rod", c: "1-60 Hexa" }] }
-  - { t: "2026-05-04", e: "Calgary Meta Shakeup Vol 1", l: "Calgary", d: [{ b: "Dran Dagger", c: "1-50 Kick" }, { b: "Dran Sword", c: "9-60 Free Ball" }, { b: "Hells Hammer", c: "7-60 Level" }] }
-  - { t: "2026-05-03", e: "台南新天地（台南中西區） — 通常組", l: "Tainan, Taiwan", d: [{ b: "Meteor Dragoon", c: "7-70 Level" }, { b: "Wizard Rod", c: "9-60 Free Ball" }, { b: "Cobalt Dragoon", c: "6-60 Elevate" }] }
-  - { t: "2026-05-03", e: "Mayday Mayday Something is going wrong", l: "", d: [{ b: "Knight Shield", c: "2-70 Orb" }, { b: "Dran Reaper Bumper", c: "3-85 Under Needle" }, { b: "Hells Antler Slash", c: "4-55 Disk Ball" }] }
-  - { t: "2026-05-03", e: "KBC Rising Stars 3 0", l: "", d: [{ b: "Wizard Rod", c: "3-60 Ball" }, { b: "Shark Scale", c: "1-60 Low Rush" }, { b: "Cobalt Dragoon", c: "5-70 Elevate" }] }
-  - { t: "2026-05-03", e: "Raftel Spin to Burst Over Xtreme Summer Chapter 1 03 05 26", l: "", d: [{ b: "Emperor Blast Heavy", c: "7-60 Rush" }, { b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Aero Pegasus", c: "7-70 Low Rush" }] }
-  - { t: "2026-05-03", e: "Vegas Bladerz Weekly Ranked Tournament 05 03 2026", l: "", d: [{ b: "Aero Pegasus", c: "3-70 Point" }, { b: "Shark Scale", c: "1-70 Low Rush" }, { b: "Wizard Rod", c: "1-60 Hexa" }] }
-  - { t: "2026-05-03", e: "TTTs BBX Tournament TT XStadiums 03MAY26", l: "", d: [{ b: "Emperor Rage Flow Heavy", c: "7-70 Low Rush" }, { b: "Cobalt Dragoon", c: "9-60 Elevate" }, { b: "Shark Scale", c: "1-60 Rush" }] }
-  - { t: "2026-05-03", e: "XBL 3 Pre Season Week 6", l: "", d: [{ b: "Emperor Blast Heavy", c: "3-60 Kick" }, { b: "Wizard Rod", c: "9-60 Wedge" }, { b: "Shark Scale", c: "3-70 Low Rush" }, { b: "Cobalt Dragoon", c: "5-60 Elevate" }, { b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Shark Scale", c: "9-60 Kick" }] }
-  - { t: "2026-05-03", e: "DFW Beyblades Weekly Tournament 118", l: "", d: [{ b: "Shark Scale", c: "4-50 Rush" }, { b: "Silver Wolf", c: "9-60 Wedge" }, { b: "Wizard Rod", c: "1-60 Hexa" }] }
-  - { t: "2026-05-03", e: "May Casual BeyBlade x Game Theory Wake Forest", l: "", d: [{ b: "Hover Wyvern", c: "1-60 Level" }, { b: "Phoenix Wing", c: "3-60 Rush" }, { b: "Shark Scale", c: "9-60 Low Rush" }] }
-  - { t: "2026-05-03", e: "Waffles and Enthusiasm Monthly Beyblade X Tournament 4", l: "", d: [{ b: "Hover Wyvern", c: "3-60 Low Rush" }, { b: "Shark Scale", c: "1-60 Rush" }, { b: "Meteor Dragoon", c: "1-50 Level" }] }
-  - { t: "2026-05-03", e: "Beyblade Dojo Series 2", l: "", d: [{ b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Meteor Dragoon", c: "7-70 Level" }, { b: "Silver Wolf", c: "9-80 Free Ball" }] }
-  - { t: "2026-05-03", e: "Beyblade X Seniors Monthly", l: "", d: [{ b: "Shark Scale", c: "1-50 Free Ball" }, { b: "Wizard Rod", c: "9-60 Ball" }, { b: "Bahamut Blitz Break Jaggy", c: "4-50 Low Rush" }] }
-  - { t: "2026-05-03", e: "The Snake Pit 3 5 26", l: "", d: [{ b: "Shark Scale", c: "1-50 Free Ball" }, { b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Aero Pegasus", c: "1-70 Low Rush" }] }
-  - { t: "2026-05-03", e: "Momentum 6 5 Beysenberg bottom half", l: "Canada", d: [{ b: "Meteor Dragoon", c: "7-70 Level" }, { b: "Shark Scale", c: "9-60 Low Rush" }, { b: "Wizard Rod", c: "1-70 Kick" }, { b: "Aero Pegasus", c: "1-60 Gear Rush" }, { b: "Impact Drake", c: "6-60 Low Flat" }, { b: "Knight Mail", c: "2-60 Rush" }, { b: "Meteor Dragoon", c: "4-70 Level" }, { b: "Tyranno Beat", c: "7-60 Jolt" }] }
-  - { t: "2026-05-03", e: "Dallas Beyblade Association Katira's Feline Frenzy Limited 5", l: "Dallas", d: [{ b: "Roar Tyranno", c: "3-60 Taper" }, { b: "Hells Scythe", c: "9-60 Ball" }, { b: "Black Shell", c: "7-60 Hexa" }, { b: "Hells Arc Free", c: "9-70 Orb" }, { b: "Wizard Arrow", c: "9-60 Low Orb" }, { b: "Wizard Arrow", c: "9-60 Hexa" }] }
-  - { t: "2026-05-03", e: "Portland Trail Bladers Tournament 21", l: "Portland", d: [{ b: "Aero Pegasus", c: "1-50 Rush" }, { b: "Shark Scale", c: "1-70 Low Rush" }, { b: "Silver Wolf", c: "1-60 Hexa" }] }
-  - { t: "2026-05-02", e: "Aero Clash: New Grounds", l: "Pavia, Philippines", d: [{ b: "Shark Scale", c: "3-60 Rush" }, { b: "Unicorn Sting", c: "5-60 Orb" }, { b: "Lightning L-Drago (Rapid-Hit Type)", c: "9-60 Elevate" }] }
-  - { t: "2026-05-02", e: "RC games Bi Weekly Tournament 5 2 2026", l: "", d: [{ b: "Shark Scale", c: "1-70 Low Rush" }, { b: "Aero Pegasus", c: "1-60 Rush" }, { b: "Hover Wyvern", c: "1-50 Kick" }, { b: "Wizard Rod", c: "1-60 Hexa" }] }
-  - { t: "2026-05-02", e: "The CURSE Has Lifted", l: "", d: [{ b: "Meteor Dragoon", c: "7-70 Zap" }, { b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Aero Pegasus", c: "9-60 Kick" }] }
-  - { t: "2026-05-02", e: "Anime North Qualifier Untouchables Vol 2", l: "", d: [{ b: "Emperor Blast Heavy", c: "9-60 Low Rush" }, { b: "Shark Scale", c: "3-60 Rush" }, { b: "Wizard Rod", c: "1-60 Ball" }] }
-  - { t: "2026-05-02", e: "Mad House BeybladeX Battle Zone 8 Mass MAYhem", l: "", d: [{ b: "Wizard Rod", c: "6-60 Hexa" }, { b: "Phoenix Wing", c: "3-60 Low Rush" }, { b: "Shark Scale", c: "1-60 Kick" }] }
-  - { t: "2026-05-02", e: "Trove Beyblade Event 05 02", l: "", d: [{ b: "Meteor Dragoon", c: "9-60 Elevate" }, { b: "Shark Scale", c: "3-60 Kick" }, { b: "Aero Pegasus", c: "7-60 Low Rush" }] }
-  - { t: "2026-05-02", e: "X ∞ 5 2 26", l: "", d: [{ b: "Aero Pegasus", c: "1-70 Low Rush" }, { b: "Wizard Rod", c: "1-60 Orb" }, { b: "Hover Wyvern", c: "9-60 Hexa" }] }
-  - { t: "2026-05-02", e: "River Valley Showdown 2 4", l: "", d: [{ b: "Tyranno Beat", c: "1-50 Rush" }, { b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Shark Scale", c: "1-70 Low Rush" }] }
-  - { t: "2026-05-02", e: "Nook Arena 31", l: "", d: [{ b: "Silver Wolf", c: "9-60 Free Ball" }, { b: "Shark Edge", c: "1-60 Low Orb" }, { b: "Meteor Dragoon", c: "7-60 Level" }] }
-  - { t: "2026-05-02", e: "X Masters 46", l: "", d: [{ b: "Aero Pegasus", c: "1-80 Rush" }, { b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Shark Scale", c: "1-70 Kick" }] }
-  - { t: "2026-05-02", e: "AN Qualifier - Untouch Vol 2 (May 2nd)", l: "Mississauga, Ontario, Canada", d: [{ b: "Emperor Blast", c: "9-60 Low Rush" }, { b: "Shark Scale", c: "3-60 Rush" }, { b: "Wizard Rod", c: "1-60 Ball" }] }
-  - { t: "2026-05-01", e: "Curio Cavern Baltimore Friday Night Smackdown 2", l: "Baltimore", d: [{ b: "Aero Pegasus", c: "1-60 Rush" }, { b: "Wizard Rod", c: "6-60 Hexa" }, { b: "Shark Scale", c: "9-60 Free Ball" }, { b: "Silver Wolf", c: "9-60 Ball" }, { b: "Shark Scale", c: "3-60 Free Ball" }] }
-  - { t: "2026-05-01", e: "Reagavre's 1on1 Blading Bash", l: "Calgary", d: [{ b: "Pegasus Blast Heavy", c: "9-60 Low Rush" }, { b: "Wizard Rod", c: "7-60 Low Rush" }] }
-  - { t: "2026-05-01", e: "SEASON 1 EXTREME FINISH", l: "", d: [{ b: "Shark Scale", c: "1-70 Low Rush" }, { b: "Aero Pegasus", c: "1-60 Rush" }, { b: "Hover Wyvern", c: "1-50 Kick" }] }
-  - { t: "2026-05-01", e: "DFW Beyblades Community Game Night 35", l: "", d: [{ b: "Shark Scale", c: "1-60 Free Ball" }, { b: "Shark Scale", c: "3-60 Low Rush" }, { b: "Shark Scale", c: "9-60 Jolt" }] }
-  - { t: "2026-05-01", e: "TCGDUCKHUNTER RANKED WEEKLY 1", l: "", d: [{ b: "Shark Scale", c: "9-60 Low Rush" }, { b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Phoenix Wing", c: "3-60 Rush" }] }
-  - { t: "2026-05-01", e: "Lions Park Beyblade X 1", l: "", d: [{ b: "Aero Pegasus", c: "1-50 Rush" }, { b: "Hover Wyvern", c: "9-60 Kick" }, { b: "Meteor Dragoon", c: "7-60 Level" }] }
