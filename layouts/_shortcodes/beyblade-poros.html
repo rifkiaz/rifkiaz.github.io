@@ -1,0 +1,56 @@
+{{- /* Thick vs thin bit shafts (poros tebal / tipis) on /hobi/beyblade-x-part/.
+       {{< beyblade-poros "diagram" >}} draws a simple top-down sketch of the shaft inside a ratchet;
+       {{< beyblade-poros "daftar" >}} lists every bit from data/beyblade/poros.yaml in two panels.
+       Thumbnails reuse the catalogue images at img/<s>.webp in the page bundle. */ -}}
+{{- $en := eq site.Language.Lang "en" -}}
+{{- $arg := .Get 0 -}}
+{{- if eq $arg "diagram" }}
+<figure class="bp-diagram">
+  <div class="bp-pair">
+    {{- range slice "tebal" "tipis" }}
+    {{- $tebal := eq . "tebal" }}
+    <div class="bp-cell">
+      <svg viewBox="0 0 160 160" role="img" aria-label="{{ if $tebal }}{{ cond $en "Thick shaft fills the ratchet and pushes its lock outward" "Poros tebal mengisi ratchet dan menekan kuncinya ke luar" }}{{ else }}{{ cond $en "Thin shaft leaves a gap so the lock can flex inward" "Poros tipis menyisakan celah sehingga kuncinya bisa melentur ke dalam" }}{{ end }}">
+        <circle class="bp-ring" cx="80" cy="80" r="66"/>
+        <circle class="bp-hole" cx="80" cy="80" r="44"/>
+        {{- if $tebal }}
+        <circle class="bp-shaft" cx="80" cy="80" r="33"/>
+        <path class="bp-tab bp-tab--tight" d="M80 36 l-9 0 l3 11 l12 0 l3 -11 z"/>
+        <path class="bp-tab bp-tab--tight" d="M80 124 l-9 0 l3 -11 l12 0 l3 11 z"/>
+        <path class="bp-arrow" d="M80 52 v-9 m-4 4 l4 -5 l4 5"/>
+        <path class="bp-arrow" d="M80 108 v9 m-4 -4 l4 5 l4 -5"/>
+        {{- else }}
+        <circle class="bp-shaft" cx="80" cy="80" r="20"/>
+        <path class="bp-tab bp-tab--loose" d="M80 36 l-9 0 l3 21 l12 0 l3 -21 z"/>
+        <path class="bp-tab bp-tab--loose" d="M80 124 l-9 0 l3 -21 l12 0 l3 21 z"/>
+        <path class="bp-arrow bp-arrow--warn" d="M98 46 q12 10 0 20 m0 0 l1 -6 m-1 6 l-6 -2"/>
+        {{- end }}
+        <text x="80" y="84" class="bp-lbl">{{ cond $en "shaft" "poros" }}</text>
+      </svg>
+      <figcaption><strong>{{ if $tebal }}{{ cond $en "Thick shaft" "Poros tebal" }}{{ else }}{{ cond $en "Thin shaft" "Poros tipis" }}{{ end }}</strong> · Burst Resistance {{ cond $tebal "80" "30" }}</figcaption>
+    </div>
+    {{- end }}
+  </div>
+  <figcaption class="bp-note">{{ cond $en "Simplified top-down sketch, not a technical drawing. Grey ring = ratchet, green tabs = its lock, centre circle = the bit's shaft." "Ilustrasi sederhana dari atas, bukan gambar teknis. Cincin abu-abu = ratchet, tonjolan hijau = kuncinya, lingkaran tengah = poros bit." }}</figcaption>
+</figure>
+{{- else if eq $arg "daftar" }}
+{{- $d := site.Data.beyblade.poros -}}
+<div class="bp-lists">
+  {{- range slice "tebal" "tipis" }}
+  {{- $list := index $d . -}}
+  {{- $tebal := eq . "tebal" }}
+  <section class="bp-panel bp-panel--{{ . }}">
+    <h4 class="bp-head">{{ if $tebal }}{{ cond $en "Thick shaft" "Poros tebal" }}{{ else }}{{ cond $en "Thin shaft" "Poros tipis" }}{{ end }} <span>Burst Resistance {{ cond $tebal "80" "30" }} · {{ len $list }} bit</span></h4>
+    <ul class="bp-chips">
+      {{- range $list }}
+      {{- $img := $.Page.Resources.Get (printf "img/%s.webp" .s) }}
+      <li class="bp-chip"><span class="bp-dot kt-t--{{ lower .t }}" title="{{ .t }}"></span>{{ with $img }}<img src="{{ .RelPermalink }}" width="24" height="24" alt="" loading="lazy" decoding="async">{{ end }}{{ .nama }}</li>
+      {{- end }}
+    </ul>
+  </section>
+  {{- end }}
+</div>
+<p class="bp-legend"><span class="bp-dot kt-t--attack"></span>Attack <span class="bp-dot kt-t--balance"></span>Balance <span class="bp-dot kt-t--defense"></span>Defense <span class="bp-dot kt-t--stamina"></span>Stamina</p>
+{{- else }}
+{{- errorf "beyblade-poros: argumen %q tidak dikenal (pakai \"diagram\" atau \"daftar\")" $arg -}}
+{{- end -}}

@@ -146,7 +146,7 @@ Saran saya buat format 3on3, berdasarkan data di atas:
 - **Satu stamina**: Wizard Rod 1-60 Hexa, atau Silver Wolf 9-60 Free Ball kalau kamu sudah nyaman dengan orbitnya.
 - **Satu counter**: Cobalt Dragoon 5-60 Elevate buat jaga-jaga ketemu deck yang isinya putar kanan semua.
 
-Ini cuma titik awal. Kondisi stadium, gaya launch kamu, dan meta di komunitas lokal bisa bikin hasilnya beda.
+Ini cuma titik awal. Kondisi stadium, gaya launch kamu, dan meta di komunitas lokal bisa bikin hasilnya beda. Satu hal lagi: bit stamina seperti Ball dan Free Ball porosnya tipis, jadi lebih rawan burst. Penjelasannya ada di [Bit tebal vs bit tipis](/hobi/beyblade-x-part/#bit-tebal-vs-bit-tipis).
 
 ## Catatan
 

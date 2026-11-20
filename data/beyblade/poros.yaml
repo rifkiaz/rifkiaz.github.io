@@ -1,0 +1,57 @@
+# Bit Beyblade X dikelompokkan menurut tebal porosnya (bagian yang masuk ke ratchet).
+# Patokannya stat Burst Resistance resmi di Beyblade Wiki: 80 = poros tebal, 30 = poros tipis.
+# Diambil 20 November 2026. Ratchet-integrated bit (Operate, Turbo) dan bit yang belum rilis tidak ikut.
+# Dipakai shortcode beyblade-poros di /hobi/beyblade-x-part/.
+tebal:
+  - {s: bit-accel, nama: "Accel", t: Attack}
+  - {s: bit-cyclone, nama: "Cyclone", t: Attack}
+  - {s: bit-flat, nama: "Flat", t: Attack}
+  - {s: bit-free-flat, nama: "Free Flat", t: Attack}
+  - {s: bit-gear-flat, nama: "Gear Flat", t: Attack}
+  - {s: bit-gear-rush, nama: "Gear Rush", t: Attack}
+  - {s: bit-ignition, nama: "Ignition", t: Attack}
+  - {s: bit-jolt, nama: "Jolt", t: Attack}
+  - {s: bit-level, nama: "Level", t: Attack}
+  - {s: bit-low-flat, nama: "Low Flat", t: Attack}
+  - {s: bit-low-rush, nama: "Low Rush", t: Attack}
+  - {s: bit-quake, nama: "Quake", t: Attack}
+  - {s: bit-rubber-accel, nama: "Rubber Accel", t: Attack}
+  - {s: bit-rush, nama: "Rush", t: Attack}
+  - {s: bit-under-flat, nama: "Under Flat", t: Attack}
+  - {s: bit-vortex, nama: "Vortex", t: Attack}
+  - {s: bit-gear-point, nama: "Gear Point", t: Balance}
+  - {s: bit-gear-unite, nama: "Gear Unite", t: Balance}
+  - {s: bit-hexa, nama: "Hexa", t: Balance}
+  - {s: bit-high-taper, nama: "High Taper", t: Balance}
+  - {s: bit-kick, nama: "Kick", t: Balance}
+  - {s: bit-low-point, nama: "Low Point", t: Balance}
+  - {s: bit-merge, nama: "Merge", t: Balance}
+  - {s: bit-metal-taper, nama: "Metal Taper", t: Balance}
+  - {s: bit-point, nama: "Point", t: Balance}
+  - {s: bit-taper, nama: "Taper", t: Balance}
+  - {s: bit-trans-kick, nama: "Trans Kick", t: Balance}
+  - {s: bit-trans-point, nama: "Trans Point", t: Balance}
+  - {s: bit-unite, nama: "Unite", t: Balance}
+  - {s: bit-zap, nama: "Zap", t: Balance}
+tipis:
+  - {s: bit-elevate, nama: "Elevate", t: Balance}
+  - {s: bit-bound-spike, nama: "Bound Spike", t: Defense}
+  - {s: bit-dot, nama: "Dot", t: Defense}
+  - {s: bit-gear-needle, nama: "Gear Needle", t: Defense}
+  - {s: bit-high-needle, nama: "High Needle", t: Defense}
+  - {s: bit-metal-needle, nama: "Metal Needle", t: Defense}
+  - {s: bit-needle, nama: "Needle", t: Defense}
+  - {s: bit-spike, nama: "Spike", t: Defense}
+  - {s: bit-under-needle, nama: "Under Needle", t: Defense}
+  - {s: bit-wall-wedge, nama: "Wall Wedge", t: Defense}
+  - {s: bit-wedge, nama: "Wedge", t: Defense}
+  - {s: bit-ball, nama: "Ball", t: Stamina}
+  - {s: bit-disk-ball, nama: "Disk Ball", t: Stamina}
+  - {s: bit-free-ball, nama: "Free Ball", t: Stamina}
+  - {s: bit-gear-ball, nama: "Gear Ball", t: Stamina}
+  - {s: bit-glide, nama: "Glide", t: Stamina}
+  - {s: bit-low-orb, nama: "Low Orb", t: Stamina}
+  - {s: bit-narrow, nama: "Narrow", t: Stamina}
+  - {s: bit-orb, nama: "Orb", t: Stamina}
+  - {s: bit-wall-ball, nama: "Wall Ball", t: Stamina}
+  - {s: bit-yielding, nama: "Yielding", t: Stamina}
