@@ -146,7 +146,7 @@ My suggestion for the 3on3 format, based on the data above:
 - **One stamina**: Wizard Rod 1-60 Hexa, or Silver Wolf 9-60 Free Ball if you're comfortable with its orbit.
 - **One counter**: Cobalt Dragoon 5-60 Elevate, just in case you meet an all right-spin deck.
 
-This is just a starting point. Stadium condition, your launch style, and your local community's meta can all change the results.
+This is just a starting point. Stadium condition, your launch style, and your local community's meta can all change the results. One more thing: stamina bits like Ball and Free Ball have thin shafts, so they burst more easily. More on that in [Thick bits vs thin bits](/en/hobi/beyblade-x-part/#thick-bits-vs-thin-bits).
 
 ## Notes
 
