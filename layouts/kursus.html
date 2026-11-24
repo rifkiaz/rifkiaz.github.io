@@ -1,0 +1,148 @@
+{{- define "main" }}
+{{- $en := eq site.Language.Lang "en" }}
+{{- $simURL := (printf "/%s/" .Params.sim) | relLangURL }}
+{{- $lessons := .Params.lessons }}
+<header class="page-header ks-head">
+    {{- with .Parent }}<p class="ks-crumb"><a href="{{ .RelPermalink }}">{{ cond $en `courses` `kursus` }}</a> / {{ $.Params.sim }}</p>{{ end }}
+    <h1>{{ .Title }}</h1>
+    {{- with .Description }}
+    <div class="post-description">{{ . }}</div>
+    {{- end }}
+    <p class="ks-meta">
+        <span>{{ len $lessons }} {{ cond $en `lessons` `pelajaran` }}</span>
+        {{- with .Params.minutes }}<span>± {{ . }} {{ cond $en `minutes` `menit` }}</span>{{ end }}
+        {{- with .Params.level }}<span>{{ . }}</span>{{ end }}
+    </p>
+</header>
+
+<div class="ks" id="ks" data-sim="{{ .Params.sim }}" data-view="learn">
+    <div class="ks-intro">
+        {{ .Content }}
+        <p class="ks-how">{{ cond $en `How it works: read the lesson, then try it in the lab, a real simulator running in your browser. Each step has a <b>type</b> button (fills the terminal, you press Enter) and a <b>▶ run</b> button. The lesson goal ticks itself off once you pull it off in the lab, and you're free to type your own commands too.` `Cara pakainya: baca materinya, lalu praktik di lab, simulator yang jalan langsung di browser. Tiap langkah punya tombol <b>ketik</b> (mengisi terminal, kamu yang tekan Enter) dan <b>▶ jalankan</b>. Target pelajaran tercentang sendiri begitu kamu berhasil di lab, dan kamu bebas mengetik perintah sendiri.` | safeHTML }}</p>
+    </div>
+
+    <p class="ks-resume" id="ks-resume" hidden>
+        {{ cond $en `Your progress from last time is still here, but the lab always starts from zero. If you continue from a later lesson, redo the steps of the earlier ones first, or` `Progres kamu dari kemarin masih tersimpan, tapi lab-nya selalu mulai dari nol. Kalau lanjut dari pelajaran tengah, ulangi dulu langkah pelajaran sebelumnya, atau` }}
+        <button type="button" data-act="forget">{{ cond $en `start over` `mulai ulang` }}</button>
+    </p>
+
+    <div class="ks-top">
+        <nav class="ks-nav" aria-label="{{ cond $en `Lessons` `Daftar pelajaran` }}">
+            {{- range $i, $l := $lessons }}
+            <button type="button" data-go="{{ $i }}" title="{{ $l.title }}"><b>{{ add $i 1 }}</b><span>{{ $l.title }}</span></button>
+            {{- end }}
+        </nav>
+        <div class="ks-prog">
+            <div class="ks-bar" id="ks-bar" aria-hidden="true"><i></i></div>
+            <span id="ks-bar-txt" aria-live="polite"></span>
+        </div>
+    </div>
+
+    <div class="ks-switch" role="group" aria-label="{{ cond $en `Show` `Tampilkan` }}">
+        <button type="button" data-view="learn" aria-pressed="true">📖 {{ cond $en `Lesson` `Materi` }}</button>
+        <button type="button" data-view="lab" aria-pressed="false">🧪 Lab</button>
+    </div>
+
+    <div class="ks-grid">
+        <div class="ks-pane">
+            {{- range $i, $l := $lessons }}
+            <article class="ks-lesson" data-missions="{{ delimit ($l.missions | default slice) "," }}" {{- if $i }} hidden{{ end }} aria-labelledby="ks-l{{ $i }}">
+                <p class="ks-kicker">{{ cond $en `Lesson` `Pelajaran` }} {{ add $i 1 }} {{ cond $en `of` `dari` }} {{ len $lessons }}</p>
+                <h2 id="ks-l{{ $i }}">{{ $l.title }}</h2>
+                <div class="ks-body">{{ $l.body | $.RenderString }}</div>
+
+                {{- with $l.steps }}
+                <h3 class="ks-h">{{ cond $en `Try it in the lab` `Coba di lab` }}</h3>
+                <ol class="ks-steps">
+                    {{- range . }}
+                    {{- $kind := cond (isset . "cmd") "cmd" (cond (isset . "pick") "pick" (cond (isset . "click") "click" (cond (isset . "edit") "edit" (cond (isset . "select") "select" "text")))) }}
+                    <li class="ks-step" data-kind="{{ $kind }}"{{ with .wait }} data-wait="{{ . }}"{{ end }}
+                        {{- if eq $kind "cmd" }} data-cmd="{{ .cmd }}"{{ end }}
+                        {{- if eq $kind "pick" }} data-cmd="{{ .pick }}"{{ end }}
+                        {{- if eq $kind "select" }} data-sel="{{ .select }}" data-value="{{ .value }}"{{ end }}
+                        {{- if eq $kind "click" }} data-sel="{{ .click }}"{{ with .state }} data-state="{{ . }}"{{ end }}{{ end }}
+                        {{- if eq $kind "edit" }} data-find="{{ .edit.find }}" data-replace="{{ .edit.replace }}"{{ with .edit.tab }} data-tab="{{ . }}"{{ end }}{{ end }}>
+                        {{- with .text }}<div class="ks-st-text">{{ . | $.RenderString }}</div>{{ end }}
+                        {{- if eq $kind "cmd" }}
+                        <div class="ks-cmd"><code>{{ .cmd }}</code><span class="ks-btns"><button type="button" data-run="type">{{ cond $en `type` `ketik` }}</button><button type="button" class="ks-go" data-run="go">▶ {{ cond $en `run` `jalankan` }}</button></span></div>
+                        {{- else if eq $kind "pick" }}
+                        <div class="ks-cmd"><code>{{ .pick }}<em>…</em></code><span class="ks-btns"><button type="button" class="ks-go" data-run="go">▶ {{ cond $en `run` `jalankan` }}</button></span></div>
+                        {{- else if eq $kind "click" }}
+                        <div class="ks-cmd ks-act"><span class="ks-label">{{ .label }}</span><span class="ks-btns"><button type="button" class="ks-go" data-run="go">{{ cond $en `do it` `lakukan` }}</button></span></div>
+                        {{- else if eq $kind "select" }}
+                        <div class="ks-cmd ks-act"><span class="ks-label">{{ .label }}</span><span class="ks-btns"><button type="button" class="ks-go" data-run="go">{{ cond $en `do it` `lakukan` }}</button></span></div>
+                        {{- else if eq $kind "edit" }}
+                        <div class="ks-cmd ks-diff">
+                            <span class="ks-file">{{ .edit.file }}</span>
+                            <pre class="ks-del">{{ .edit.find }}</pre>
+                            <pre class="ks-add">{{ .edit.replace }}</pre>
+                            <span class="ks-btns"><button type="button" class="ks-go" data-run="go">{{ cond $en `apply the change` `terapkan perubahan` }}</button></span>
+                        </div>
+                        {{- end }}
+                    </li>
+                    {{- end }}
+                </ol>
+                {{- end }}
+
+                {{- with $l.missions }}
+                <div class="ks-goal">
+                    <p>{{ cond $en `Lesson goal (ticks itself off when you do it in the lab)` `Target pelajaran (tercentang sendiri waktu kamu berhasil di lab)` }}</p>
+                    <ul>
+                        {{- range . }}
+                        <li class="ks-mi" data-m="{{ . }}"><span class="ks-ck" aria-hidden="true"></span><span class="ks-mt">{{ cond $en `Mission` `Misi` }} {{ . }}</span></li>
+                        {{- end }}
+                    </ul>
+                </div>
+                {{- end }}
+
+                {{- with $l.quiz }}
+                <div class="ks-quiz" data-q="{{ $i }}" data-answer="{{ .answer }}">
+                    <p class="ks-qq"><b>{{ cond $en `Quick check` `Kuis kilat` }}</b> {{ .q | $.RenderString (dict "display" "inline") }}</p>
+                    <div class="ks-opts">
+                        {{- range $k, $o := .options }}
+                        <button type="button" data-opt="{{ $k }}" aria-pressed="false">{{ $o | $.RenderString (dict "display" "inline") }}</button>
+                        {{- end }}
+                    </div>
+                    <p class="ks-why" hidden><b class="ks-verdict"></b>{{ .why | $.RenderString (dict "display" "inline") }}</p>
+                </div>
+                {{- end }}
+
+                <div class="ks-pager">
+                    {{- if $i }}<button type="button" data-go="{{ sub $i 1 }}">← {{ cond $en `previous` `sebelumnya` }}</button>{{ else }}<span></span>{{ end }}
+                    {{- if lt (add $i 1) (len $lessons) }}
+                    <button type="button" class="ks-next" data-go="{{ add $i 1 }}">{{ cond $en `next lesson` `pelajaran berikutnya` }} →</button>
+                    {{- end }}
+                </div>
+
+                {{- if eq (add $i 1) (len $lessons) }}
+                <div class="ks-finish">
+                    <p class="ks-fin-t">🎓 {{ cond $en `Course complete!` `Kursus selesai!` }}</p>
+                    {{- with $.Params.recap }}<div class="ks-recap">{{ . | $.RenderString }}</div>{{ end }}
+                    <p class="ks-fin-l">
+                        {{- with $.Parent }}<a href="{{ .RelPermalink }}">{{ cond $en `other courses` `kursus lainnya` }} →</a>{{ end }}
+                        <a href="{{ $simURL }}">{{ cond $en `play freely in the full lab` `main bebas di lab penuh` }} →</a>
+                        {{- with $.Params.next }}{{ with site.GetPage . }}<a href="{{ .RelPermalink }}">{{ .LinkTitle }} →</a>{{ end }}{{ end }}
+                    </p>
+                </div>
+                {{- end }}
+            </article>
+            {{- end }}
+            <p class="ks-fine">{{ cond $en `Progress is kept in this browser only.` `Progres cuma disimpan di browser ini.` }} <button type="button" data-act="forget">{{ cond $en `clear progress` `hapus progres` }}</button></p>
+        </div>
+
+        <section class="ks-lab" aria-label="Lab">
+            <div class="ks-lab-h">
+                <span>🧪 lab: {{ .Params.sim }}</span>
+                <a href="{{ $simURL }}" target="_blank" rel="noopener">{{ cond $en `open full page` `buka halaman penuh` }} ↗</a>
+            </div>
+            <iframe id="ks-frame" src="{{ $simURL }}?embed=1" title="{{ cond $en `Simulator` `Simulasi` }} {{ .Params.sim }}"></iframe>
+        </section>
+    </div>
+
+    <div class="ks-toast" id="ks-toast" role="status" aria-live="polite"></div>
+</div>
+<noscript><p class="term-noscript">{{ cond $en `This course needs JavaScript.` `Kursus ini butuh JavaScript.` }}</p></noscript>
+
+{{- $js := resources.Get "js/kursus.js" | minify | fingerprint }}
+<script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
+{{- end }}

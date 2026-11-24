@@ -8,6 +8,16 @@
 
 <div class="lab-hub">
     {{- $en := eq site.Language.Lang "en" }}
+    {{- with site.GetPage "/kursus" }}
+    <a class="lab-course" href="{{ .RelPermalink }}">
+        <span class="lab-course-ico" aria-hidden="true">🎓</span>
+        <span class="lab-course-b">
+            <b>{{ .Title }}</b>
+            <span>{{ cond $en `Not sure where to start? Each simulator has a short course: a bit of explanation, then you practice right away, step by step.` `Bingung mulai dari mana? Tiap simulator punya kursus singkat: sedikit penjelasan, lalu langsung praktik langkah demi langkah.` }}</span>
+        </span>
+        <span class="lab-course-go" aria-hidden="true">→</span>
+    </a>
+    {{- end }}
     {{- range site.Data.lab.groups }}
     {{- $items := partial "lab-items.html" . }}
     {{- if $items }}

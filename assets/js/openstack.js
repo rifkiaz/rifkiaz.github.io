@@ -1576,6 +1576,11 @@
       if (!mine(W.vols).length) q.push('openstack volume create --size 10 data1');
       else if (v && !a.vols.length) q.push('openstack server add volume ' + ref(a, W.servers) + ' ' + v.name);
     }
+    if (!srv.length) {
+      // cleanup: a floating IP left over after its server is gone still counts against quota
+      var left = mine(W.fips).filter(function (x) { return !x.port; })[0];
+      if (left) q.push('openstack floating ip delete ' + left.ip);
+    }
     if (p === 'demo' && W.sawQuota && W.quota.demo.cores <= QUOTA0.demo.cores) q.push('source admin-openrc');
     if (p === 'admin' && W.sawQuota && W.quota.demo.cores <= QUOTA0.demo.cores) q.push('openstack quota set --cores 16 demo');
     if (p === 'admin' && W.quota.demo.cores > QUOTA0.demo.cores) q.push('source demo-openrc');

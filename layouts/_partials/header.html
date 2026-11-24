@@ -90,7 +90,7 @@
             {{- if eq .Identifier "lab" }}
             {{- /* Lab dropdown is built from data/lab.yaml, grouped one level deeper. */}}
             {{- $hub := .URL | absLangURL }}
-            {{- $active := eq $hub $page_url }}
+            {{- $active := or (eq $hub $page_url) (eq $currentPage.Section "kursus") }}
             {{- $groups := slice }}
             {{- range site.Data.lab.groups }}
             {{- $items := slice }}
@@ -105,6 +105,9 @@
                 </button>
                 <ul class="submenu" id="sub-lab" hidden>
                     <li><a href="{{ $hub }}" {{- if eq $hub $page_url }} aria-current="page"{{ end }}>{{ i18n "all_labs" }}</a></li>
+                    {{- with site.GetPage "/kursus" }}
+                    <li><a href="{{ .Permalink }}" {{- if eq .Permalink $page_url }} aria-current="page"{{ end }}>{{ i18n "short_courses" }}</a></li>
+                    {{- end }}
                     {{- range $groups }}
                     <li class="sub-group">
                         <button type="button" class="group-toggle" aria-expanded="{{ .open }}" aria-controls="sub-lab-{{ .id }}">{{ .name }}<span class="sub-caret" aria-hidden="true">▸</span></button>

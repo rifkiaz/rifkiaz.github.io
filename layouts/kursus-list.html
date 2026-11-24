@@ -1,0 +1,46 @@
+{{- define "main" }}
+{{- $en := eq site.Language.Lang "en" }}
+<header class="page-header">
+    <h1>{{ .Title }}</h1>
+    {{- with .Description }}
+    <div class="post-description">{{ . }}</div>
+    {{- end }}
+</header>
+
+<div class="ks-hub">
+    <div class="ks-intro">{{ .Content }}</div>
+    <ul class="ks-cards">
+        {{- range .Pages.ByWeight }}
+        {{- $n := len .Params.lessons }}
+        {{- $m := 0 }}{{ range .Params.lessons }}{{ $m = add $m (len (.missions | default slice)) }}{{ end }}
+        <li>
+            <a class="ks-card" href="{{ .RelPermalink }}" data-sim="{{ .Params.sim }}" data-total="{{ $m }}">
+                <span class="lab-tile lab-c-{{ .Params.sim }}">{{ partial "lab-icon.html" .Params.sim }}</span>
+                <span class="ks-card-b">
+                    <span class="ks-card-t">{{ .LinkTitle }}</span>
+                    <span class="ks-card-d">{{ .Params.summary | default .Description }}</span>
+                    <span class="ks-card-m">{{ $n }} {{ cond $en `lessons` `pelajaran` }}{{ with .Params.minutes }} · ± {{ . }} {{ cond $en `min` `menit` }}{{ end }}{{ with .Params.level }} · {{ . }}{{ end }}</span>
+                    <span class="ks-card-p" hidden><i><b></b></i><em></em></span>
+                </span>
+            </a>
+        </li>
+        {{- end }}
+    </ul>
+</div>
+<script>
+(function () {
+  var en = {{ $en }};
+  document.querySelectorAll('.ks-card').forEach(function (a) {
+    var s = null;
+    try { s = JSON.parse(localStorage.getItem('kursus:' + a.dataset.sim) || 'null'); } catch (e) { return; }
+    if (!s || !Array.isArray(s.m) || !s.m.length) return;
+    var tot = +a.dataset.total, got = Math.min(tot, s.m.length);
+    var p = a.querySelector('.ks-card-p');
+    p.hidden = false;
+    p.querySelector('b').style.width = Math.round(got / tot * 100) + '%';
+    p.querySelector('em').textContent = got === tot ? (en ? 'done ✓' : 'selesai ✓') : got + '/' + tot + (en ? ' missions' : ' misi');
+    if (got === tot) a.classList.add('is-done');
+  });
+})();
+</script>
+{{- end }}

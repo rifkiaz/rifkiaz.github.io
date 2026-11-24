@@ -2,3 +2,8 @@
 <link rel="manifest" href="{{ "site.webmanifest" | absURL }}">
 <meta name="theme-color" content="#0d1117">
 <link rel="preload" href="{{ "fonts/jetbrains-mono-latin.woff2" | absURL }}" as="font" type="font/woff2" crossorigin>
+{{- /* Lab simulators load inside the course pages (/kursus/) with ?embed=1:
+     drop the site chrome there before first paint. */}}
+{{- if .Params.layout | in (slice "git" "docker" "swarm" "ceph" "openstack" "vault" "terraform" "ansible" "gitops") }}
+<script>if(/[?&]embed=1/.test(location.search))document.documentElement.classList.add('is-embed')</script>
+{{- end }}
