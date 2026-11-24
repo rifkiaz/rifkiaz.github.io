@@ -1,4 +1,6 @@
 # Site strings on top of PaperMod's own i18n/en.yaml.
+- id: short_courses
+  translation: "short courses"
 - id: all_labs
   translation: "all labs"
 - id: shortcuts

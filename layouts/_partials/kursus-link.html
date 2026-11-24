@@ -1,0 +1,5 @@
+{{- /* On a lab simulator page: link to its short course, if there is one. */ -}}
+{{- $en := eq site.Language.Lang "en" }}
+{{- with site.GetPage (printf "/kursus/%s" .Layout) }}
+<p class="ks-simlink">🎓 <a href="{{ .RelPermalink }}">{{ cond $en `New to this? Take the short course: lessons + practice right here, step by step` `Baru pertama kali? Ikuti kursus singkatnya: materi + praktik di sini, langkah demi langkah` }} →</a></p>
+{{- end }}
