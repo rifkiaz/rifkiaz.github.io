@@ -1067,6 +1067,11 @@ transition: opacity 0.15s ease; pointer-events: none;
 @media (max-width: 900px) {
   .gx-grid { grid-template-columns: minmax(0, 1fr); }
 }
+/* mid widths (and the course iframe): link labels no longer fit between the nodes */
+@media (max-width: 1000px) {
+  .gx-link { min-width: 16px; }
+  .gx-link span { display: none; }
+}
 @media (max-width: 640px) {
   .gx-flow { gap: 2px; padding: 6px; }
   .gx-node { grid-template-columns: 1fr; justify-items: center; padding: 5px 4px; flex: 1 1 0; text-align: center; }
@@ -2228,7 +2233,7 @@ transition: opacity 0.15s ease; pointer-events: none;
 /* ---------- kursus (/kursus/) ---------- */
 /* simulator pages inside a course iframe (?embed=1) */
 .is-embed .header, .is-embed .footer, .is-embed .top-link, .is-embed .page-header,
-.is-embed .gx-missions, .is-embed .ks-simlink { display: none !important; }
+.is-embed .gx-missions, .is-embed .ks-simlink, .is-embed .gx-toast { display: none !important; }
 .is-embed body { min-height: 0; }
 .is-embed .main { min-height: 0; padding: 10px 10px 24px; }
 .is-embed .gx { --gx-w: calc(100vw - 20px); }
@@ -2285,11 +2290,10 @@ transition: opacity 0.15s ease; pointer-events: none;
 
 .ks-grid { display: grid; grid-template-columns: minmax(340px, 0.85fr) minmax(0, 1.15fr); gap: 16px; align-items: start; }
 .ks-pane {
-  position: sticky; top: 12px; max-height: calc(100vh - 24px); overflow-y: auto; overscroll-behavior: contain;
-  padding: 18px 20px 14px; background: var(--entry); border: 1px solid var(--border); border-radius: var(--radius);
+  min-width: 0; padding: 18px 20px 14px; background: var(--entry); border: 1px solid var(--border); border-radius: var(--radius);
 }
 .ks-lab {
-  position: sticky; top: 12px; display: flex; flex-direction: column; height: calc(100vh - 24px); min-height: 560px;
+  position: sticky; top: 12px; display: flex; flex-direction: column; height: calc(100vh - 24px); height: calc(100dvh - 24px); min-height: 520px;
   background: var(--theme); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden;
 }
 .ks-lab-h {
@@ -2393,9 +2397,10 @@ transition: opacity 0.15s ease; pointer-events: none;
 
 @media (max-width: 900px) {
   .ks-grid { grid-template-columns: minmax(0, 1fr); }
-  .ks-pane, .ks-lab { position: static; max-height: none; }
   .ks-pane { padding: 14px 14px 10px; }
-  .ks-lab { height: calc(100svh - 70px); min-height: 480px; }
+  /* phones: the iframe is sized to the simulator by kursus.js, so only the page scrolls */
+  .ks-lab { position: static; height: auto; min-height: 0; overflow: visible; }
+  #ks-frame { flex: none; height: 80vh; height: 80svh; border-radius: 0 0 var(--radius) var(--radius); }
   .ks-switch {
     position: sticky; top: 0; z-index: 20; display: grid; grid-template-columns: 1fr 1fr; gap: 6px;
     margin: 0 0 10px; padding: 6px 0; background: var(--theme);
