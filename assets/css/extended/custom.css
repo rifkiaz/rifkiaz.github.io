@@ -2212,3 +2212,15 @@ transition: opacity 0.15s ease; pointer-events: none;
 .post-content p.bp-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; font-family: var(--mono); font-size: 12px; color: var(--secondary); }
 .bp-legend .bp-dot { margin-left: 4px; }
 @media (max-width: 600px) { .bp-lists { grid-template-columns: 1fr; } }
+/* Blade search on the combo-per-blade list (js/combo-blade.js) */
+.cb-filter { display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center; margin: 12px 0 4px; }
+.post-content p.cb-info { margin: 0; font-family: var(--mono); font-size: 12.5px; color: var(--secondary); }
+.post-content p.cb-info:empty { display: none; }
+.post-content p.cb-none { margin: 12px 0 0; font-size: 14px; color: var(--secondary); }
+.cb-item[hidden] { display: none; }
+.cb-all { display: block; margin: 12px auto 0; padding: 7px 16px; border: 1px solid var(--border); border-radius: 6px; background: var(--entry); color: var(--primary); font: inherit; font-family: var(--mono); font-size: 13.5px; cursor: pointer; }
+.cb-all:hover { background: var(--accent-soft); }
+.cb-all[hidden] { display: none; }
+.cb-pos { white-space: nowrap; }
+.cb-item summary { grid-template-columns: 2em 40px 1fr auto; }
+@media (max-width: 600px) { .cb-item summary { grid-template-columns: 1.9em 34px 1fr auto; } .cb-pos { font-size: 12px; } }

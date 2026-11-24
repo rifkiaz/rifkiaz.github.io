@@ -1,12 +1,20 @@
 {{- /* Most-used combos per blade in the last 6 months of winning decks, from
        data/beyblade/juara.yaml `per_blade` (built by gen-juara.py). One <details>
-       per blade, ranked; blade thumbnails come from the part catalog bundle. */ -}}
+       per blade, ranked; blade thumbnails come from the part catalog bundle.
+       per_blade holds EVERY blade that appeared in a winning deck: the first $top are shown,
+       the rest are reachable through the search box / "show all" (js/combo-blade.js). */ -}}
 {{- $en := eq site.Language.Lang "en" -}}
 {{- $d := site.Data.beyblade.juara -}}
 {{- $katalog := site.GetPage "/hobi/beyblade-x-part" -}}
 {{- $override := dict "Emperor Blast Heavy" "main-blade-blast" -}}
-<div class="bt cb">
-  <p class="bt-meta">{{ partial "en-month.html" $d.periode }} · {{ len $d.per_blade }} {{ cond $en "most frequent winning blades" "blade paling sering juara" }} · data <a href="{{ $d.sumber.url }}">{{ $d.sumber.nama }}</a></p>
+{{- $show := 15 }}
+{{- $total := len $d.per_blade }}
+<div class="bt cb" data-show="{{ $show }}" data-lang="{{ site.Language.Lang }}">
+  <p class="bt-meta">{{ partial "en-month.html" $d.periode }} · {{ $total }} {{ cond $en "blades in winning decks" "blade di deck juara" }} · data <a href="{{ $d.sumber.url }}">{{ $d.sumber.nama }}</a></p>
+  <div class="cb-filter" role="search">
+    <input type="search" class="kt-q cb-q" placeholder="{{ cond $en "Search a blade, e.g. Dran, Phoenix, Emperor" "Cari blade, misalnya Dran, Phoenix, Emperor" }}" aria-label="{{ cond $en "Search blade" "Cari blade" }}" autocomplete="off">
+    <p class="cb-info" aria-live="polite"></p>
+  </div>
   {{- range $i, $b := $d.per_blade }}
   {{- $slug := lower (replace $b.nama " " "") }}
   {{- $img := false }}
@@ -16,11 +24,11 @@
     {{- end }}
   {{- end }}
   {{- $top := index $b.combo 0 }}
-  <details class="cb-item"{{ if eq $i 0 }} open{{ end }}>
+  <details class="cb-item{{ if ge $i $show }} cb-more{{ end }}" data-n="{{ lower $b.nama }}"{{ if eq $i 0 }} open{{ end }}>
     <summary>
       <span class="cb-pos">{{ add $i 1 }}</span>
       {{- with $img }}<img class="cb-img" src="{{ .RelPermalink }}" alt="" width="40" height="40" loading="lazy">{{ else }}<span class="cb-img" aria-hidden="true"></span>{{ end }}
-      <span class="cb-head"><span class="cb-name">{{ $b.nama }}</span><span class="cb-sub">{{ if $en }}in {{ $b.deck }} winning decks · {{ $b.variasi }} combo variations{{ else }}ada di {{ $b.deck }} deck juara · {{ $b.variasi }} variasi combo{{ end }}</span></span>
+      <span class="cb-head"><span class="cb-name">{{ $b.nama }}</span><span class="cb-sub">{{ if $en }}in {{ $b.deck }} winning deck{{ if ne $b.deck 1 }}s{{ end }} · {{ $b.variasi }} combo variation{{ if ne $b.variasi 1 }}s{{ end }}{{ else }}ada di {{ $b.deck }} deck juara · {{ $b.variasi }} variasi combo{{ end }}</span></span>
       <span class="cb-top">{{ $top.combo }}</span>
     </summary>
     <ol class="cb-list">
@@ -31,4 +39,8 @@
     </ol>
   </details>
   {{- end }}
+  <p class="cb-none" hidden>{{ cond $en "No blade by that name in the winning decks of the last 6 months. Check the spelling, or try part of the name." "Blade itu belum ada di deck juara 6 bulan terakhir. Coba cek ejaannya, atau ketik sebagian namanya saja." }}</p>
+  <button type="button" class="cb-all" hidden data-more="{{ cond $en (printf "Show all %d blades" $total) (printf "Tampilkan semua %d blade" $total) }}" data-less="{{ cond $en (printf "Show top %d only" $show) (printf "Tampilkan %d teratas saja" $show) }}"></button>
 </div>
+{{- $js := resources.Get "js/combo-blade.js" | minify | fingerprint }}
+<script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>

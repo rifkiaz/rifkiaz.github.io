@@ -120,7 +120,7 @@ A few notes so you don't misread it:
 
 ## Favorite combos for each blade
 
-One blade can be paired with lots of ratchets and bits. Here you can see, for each blade that wins often, which combos were used most in winning decks over the last 6 months, sorted from most to least common. Click a blade name to open its list. The percentage is that combo's share of all combos for that blade.
+One blade can be paired with lots of ratchets and bits. Here you can see, for each blade, which combos were used most in winning decks over the last 6 months, sorted from most to least common. The 15 blades that win most often are shown first. Every other blade is in there too: type its name in the search box (part of the name works, like "dran" or "wyvern"), or open the full list with the button below it. Click a blade name to open its combos. The percentage is that combo's share of all combos for that blade.
 
 {{< beyblade-combo-blade >}}
 

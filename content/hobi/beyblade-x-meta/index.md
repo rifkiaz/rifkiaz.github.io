@@ -120,7 +120,7 @@ Beberapa catatan biar kamu nggak salah baca:
 
 ## Combo favorit tiap blade
 
-Satu blade bisa dipasang dengan banyak ratchet dan bit. Di sini kamu bisa lihat, untuk tiap blade yang sering juara, combo mana yang paling banyak dipakai di deck juara 6 bulan terakhir, diurutkan dari yang paling sering. Klik nama blade buat membuka daftarnya. Angka persen artinya porsi combo itu dari semua combo blade tersebut.
+Satu blade bisa dipasang dengan banyak ratchet dan bit. Di sini kamu bisa lihat, untuk tiap blade, combo mana yang paling banyak dipakai di deck juara 6 bulan terakhir, diurutkan dari yang paling sering. Yang tampil duluan 15 blade yang paling sering juara. Blade lain juga ada kok: ketik namanya di kotak pencarian (sebagian nama juga bisa, misalnya "dran" atau "wyvern"), atau buka semuanya lewat tombol di bawah daftar. Klik nama blade buat membuka daftar combo-nya. Angka persen artinya porsi combo itu dari semua combo blade tersebut.
 
 {{< beyblade-combo-blade >}}
 

@@ -48,6 +48,8 @@ per_blade:
       - { combo: "3-60 Narrow", pakai: 29 }
       - { combo: "1-60 Rush", pakai: 27 }
       - { combo: "1-50 Low Rush", pakai: 24 }
+      - { combo: "7-60 Rush", pakai: 23 }
+      - { combo: "3-60 Rush", pakai: 23 }
   - nama: "Wizard Rod"
     deck: 645
     combo_total: 661
@@ -61,6 +63,8 @@ per_blade:
       - { combo: "9-60 Ball", pakai: 11 }
       - { combo: "9-60 Hexa", pakai: 9 }
       - { combo: "9-60 Narrow", pakai: 8 }
+      - { combo: "3-60 Ball", pakai: 7 }
+      - { combo: "1-60 Low Orb", pakai: 7 }
   - nama: "Aero Pegasus"
     deck: 336
     combo_total: 348
@@ -74,6 +78,8 @@ per_blade:
       - { combo: "1-60 Kick", pakai: 14 }
       - { combo: "1-70 Rush", pakai: 14 }
       - { combo: "3-60 Rush", pakai: 11 }
+      - { combo: "1-70 Low Rush", pakai: 8 }
+      - { combo: "1-80 Rush", pakai: 7 }
   - nama: "Cobalt Dragoon"
     deck: 180
     combo_total: 182
@@ -87,6 +93,8 @@ per_blade:
       - { combo: "9-70 Elevate", pakai: 2 }
       - { combo: "5-60 Level", pakai: 1 }
       - { combo: "1-60 Elevate", pakai: 1 }
+      - { combo: "7-60 Low Rush", pakai: 1 }
+      - { combo: "3-60 Elevate", pakai: 1 }
   - nama: "Meteor Dragoon"
     deck: 146
     combo_total: 148
@@ -100,6 +108,8 @@ per_blade:
       - { combo: "0-60 Level", pakai: 2 }
       - { combo: "9-65 Elevate", pakai: 2 }
       - { combo: "5-60 Elevate", pakai: 2 }
+      - { combo: "7-60 Elevate", pakai: 2 }
+      - { combo: "1-70 Level", pakai: 2 }
   - nama: "Hover Wyvern"
     deck: 129
     combo_total: 131
@@ -113,6 +123,8 @@ per_blade:
       - { combo: "1-50 Kick", pakai: 4 }
       - { combo: "3-60 Kick", pakai: 3 }
       - { combo: "9-60 Low Rush", pakai: 3 }
+      - { combo: "3-60 Low Rush", pakai: 3 }
+      - { combo: "9-70 Kick", pakai: 2 }
   - nama: "Silver Wolf"
     deck: 128
     combo_total: 130
@@ -126,6 +138,8 @@ per_blade:
       - { combo: "9-60 Wedge", pakai: 4 }
       - { combo: "9-60 Hexa", pakai: 4 }
       - { combo: "9-70 Low Orb", pakai: 4 }
+      - { combo: "7-70 Hexa", pakai: 3 }
+      - { combo: "9-60 Orb", pakai: 3 }
   - nama: "Dran Strike"
     deck: 110
     combo_total: 111
@@ -139,6 +153,8 @@ per_blade:
       - { combo: "3-60 Low Rush", pakai: 4 }
       - { combo: "3-70 Jolt", pakai: 3 }
       - { combo: "5-50 Kick", pakai: 3 }
+      - { combo: "3-70 Rush", pakai: 3 }
+      - { combo: "3-60 Level", pakai: 3 }
   - nama: "Glory Valkyrie"
     deck: 104
     combo_total: 111
@@ -152,6 +168,8 @@ per_blade:
       - { combo: "Elevate", pakai: 3 }
       - { combo: "Narrow", pakai: 3 }
       - { combo: "Free Flat", pakai: 3 }
+      - { combo: "Point", pakai: 3 }
+      - { combo: "Jolt", pakai: 2 }
   - nama: "Phoenix Wing"
     deck: 94
     combo_total: 95
@@ -165,6 +183,8 @@ per_blade:
       - { combo: "1-60 Rush", pakai: 6 }
       - { combo: "9-60 Rush", pakai: 4 }
       - { combo: "7-60 Level", pakai: 4 }
+      - { combo: "1-50 Low Rush", pakai: 2 }
+      - { combo: "3-60 Level", pakai: 2 }
   - nama: "Bullet Griffon"
     deck: 82
     combo_total: 85
@@ -178,6 +198,8 @@ per_blade:
       - { combo: "Kick", pakai: 3 }
       - { combo: "Taper", pakai: 2 }
       - { combo: "Rubber Accel", pakai: 2 }
+      - { combo: "Rush", pakai: 1 }
+      - { combo: "Zap", pakai: 1 }
   - nama: "Golem Rock"
     deck: 51
     combo_total: 51
@@ -191,6 +213,8 @@ per_blade:
       - { combo: "1-60 Free Ball", pakai: 2 }
       - { combo: "7-60 Hexa", pakai: 2 }
       - { combo: "3-60 Free Ball", pakai: 2 }
+      - { combo: "9-60 Wedge", pakai: 2 }
+      - { combo: "7-60 Taper", pakai: 1 }
   - nama: "Hells Nether"
     deck: 34
     combo_total: 36
@@ -204,6 +228,8 @@ per_blade:
       - { combo: "Rush", pakai: 3 }
       - { combo: "Ball", pakai: 2 }
       - { combo: "Taper", pakai: 2 }
+      - { combo: "Wall Ball", pakai: 2 }
+      - { combo: "Wedge", pakai: 1 }
   - nama: "Emperor Blast Heavy"
     deck: 33
     combo_total: 33
@@ -217,6 +243,8 @@ per_blade:
       - { combo: "9-60 Jolt", pakai: 1 }
       - { combo: "3-70 Low Rush", pakai: 1 }
       - { combo: "7-70 Low Rush", pakai: 1 }
+      - { combo: "1-60 Point", pakai: 1 }
+      - { combo: "5-50 Free Ball", pakai: 1 }
   - nama: "Tyranno Beat"
     deck: 29
     combo_total: 32
@@ -230,6 +258,1325 @@ per_blade:
       - { combo: "3-60 Low Rush", pakai: 2 }
       - { combo: "1-50 Zap", pakai: 1 }
       - { combo: "9-70 Kick", pakai: 1 }
+      - { combo: "7-60 Unite", pakai: 1 }
+      - { combo: "6-70 Hexa", pakai: 1 }
+  - nama: "Sieg Superion"
+    deck: 27
+    combo_total: 29
+    variasi: 20
+    combo:
+      - { combo: "1-60 Hexa", pakai: 3 }
+      - { combo: "7-60 Kick", pakai: 3 }
+      - { combo: "7-60 Hexa", pakai: 2 }
+      - { combo: "1-60 Kick", pakai: 2 }
+      - { combo: "1-50 Kick", pakai: 2 }
+      - { combo: "1-60 Level", pakai: 2 }
+      - { combo: "9-60 Taper", pakai: 2 }
+      - { combo: "7-60 Level", pakai: 1 }
+      - { combo: "7-70 Low Rush", pakai: 1 }
+      - { combo: "7-60 Low Rush", pakai: 1 }
+  - nama: "Mummy Curse"
+    deck: 27
+    combo_total: 31
+    variasi: 23
+    combo:
+      - { combo: "9-60 Wedge", pakai: 3 }
+      - { combo: "1-60 Under Needle", pakai: 2 }
+      - { combo: "3-60 Hexa", pakai: 2 }
+      - { combo: "9-60 Hexa", pakai: 2 }
+      - { combo: "9-60 Free Ball", pakai: 2 }
+      - { combo: "1-60 Wedge", pakai: 2 }
+      - { combo: "7-60 Low Orb", pakai: 2 }
+      - { combo: "7-60 Narrow", pakai: 1 }
+      - { combo: "1-60 Rubber Accel", pakai: 1 }
+      - { combo: "1-60 Rush", pakai: 1 }
+  - nama: "Clock Mirage"
+    deck: 26
+    combo_total: 26
+    variasi: 10
+    combo:
+      - { combo: "7-55 Low Orb", pakai: 9 }
+      - { combo: "4-55 Under Needle", pakai: 5 }
+      - { combo: "4-55 Free Ball", pakai: 2 }
+      - { combo: "7-55 Free Ball", pakai: 2 }
+      - { combo: "7-55 Under Needle", pakai: 2 }
+      - { combo: "4-55 Low Orb", pakai: 2 }
+      - { combo: "3-85 Under Needle", pakai: 1 }
+      - { combo: "9-65 Ball", pakai: 1 }
+      - { combo: "7-55 Elevate", pakai: 1 }
+      - { combo: "3-85 Disk Ball", pakai: 1 }
+  - nama: "Knight Shield"
+    deck: 17
+    combo_total: 19
+    variasi: 12
+    combo:
+      - { combo: "9-60 Free Ball", pakai: 5 }
+      - { combo: "9-60 Narrow", pakai: 3 }
+      - { combo: "1-60 Free Ball", pakai: 2 }
+      - { combo: "1-60 Narrow", pakai: 1 }
+      - { combo: "1-50 Point", pakai: 1 }
+      - { combo: "7-60 Under Needle", pakai: 1 }
+      - { combo: "9-60 Wedge", pakai: 1 }
+      - { combo: "1-80 Wedge", pakai: 1 }
+      - { combo: "7-70 Hexa", pakai: 1 }
+      - { combo: "1-60 Under Needle", pakai: 1 }
+  - nama: "Heavens Ring"
+    deck: 16
+    combo_total: 17
+    variasi: 15
+    combo:
+      - { combo: "1-60 Hexa", pakai: 2 }
+      - { combo: "7-60 Hexa", pakai: 2 }
+      - { combo: "9-60 Hexa", pakai: 1 }
+      - { combo: "5-60 Unite", pakai: 1 }
+      - { combo: "6-70 Hexa", pakai: 1 }
+      - { combo: "1-50 Low Orb", pakai: 1 }
+      - { combo: "8-70 Low Orb", pakai: 1 }
+      - { combo: "7-60 Level", pakai: 1 }
+      - { combo: "9-60 Free Ball", pakai: 1 }
+      - { combo: "3-60 Hexa", pakai: 1 }
+  - nama: "Scorpio Spear"
+    deck: 16
+    combo_total: 17
+    variasi: 10
+    combo:
+      - { combo: "9-60 Free Ball", pakai: 5 }
+      - { combo: "9-60 Kick", pakai: 3 }
+      - { combo: "9-70 Kick", pakai: 2 }
+      - { combo: "7-60 Wall Wedge", pakai: 1 }
+      - { combo: "3-60 Hexa", pakai: 1 }
+      - { combo: "3-60 Level", pakai: 1 }
+      - { combo: "7-60 Free Ball", pakai: 1 }
+      - { combo: "7-60 Elevate", pakai: 1 }
+      - { combo: "5-60 Point", pakai: 1 }
+      - { combo: "3-60 Low Orb", pakai: 1 }
+  - nama: "Unicorn Delta Peak Heavy"
+    deck: 16
+    combo_total: 16
+    variasi: 7
+    combo:
+      - { combo: "3-60 Kick", pakai: 5 }
+      - { combo: "1-50 Kick", pakai: 4 }
+      - { combo: "9-60 Kick", pakai: 2 }
+      - { combo: "3-60 Low Rush", pakai: 2 }
+      - { combo: "6-60 Kick", pakai: 1 }
+      - { combo: "3-60 Rush", pakai: 1 }
+      - { combo: "7-60 Low Rush", pakai: 1 }
+  - nama: "Emperor Delta Peak Heavy"
+    deck: 15
+    combo_total: 15
+    variasi: 7
+    combo:
+      - { combo: "9-60 Kick", pakai: 6 }
+      - { combo: "9-60 Free Ball", pakai: 2 }
+      - { combo: "9-60 Narrow", pakai: 2 }
+      - { combo: "3-60 Low Rush", pakai: 2 }
+      - { combo: "9-60 Low Rush", pakai: 1 }
+      - { combo: "3-60 Kick", pakai: 1 }
+      - { combo: "7-60 Hexa", pakai: 1 }
+  - nama: "Samurai Calibur"
+    deck: 15
+    combo_total: 15
+    variasi: 15
+    combo:
+      - { combo: "9-60 Ball", pakai: 1 }
+      - { combo: "6-60 Unite", pakai: 1 }
+      - { combo: "9-60 Free Ball", pakai: 1 }
+      - { combo: "7-60 Rush", pakai: 1 }
+      - { combo: "3-60 Jolt", pakai: 1 }
+      - { combo: "9-60 Jolt", pakai: 1 }
+      - { combo: "9-60 Low Orb", pakai: 1 }
+      - { combo: "1-70 Level", pakai: 1 }
+      - { combo: "1-60 Narrow", pakai: 1 }
+      - { combo: "1-70 Taper", pakai: 1 }
+  - nama: "Knight Mail"
+    deck: 14
+    combo_total: 14
+    variasi: 11
+    combo:
+      - { combo: "7-60 Rush", pakai: 2 }
+      - { combo: "1-60 Rush", pakai: 2 }
+      - { combo: "3-60 Point", pakai: 2 }
+      - { combo: "1-60 Rubber Accel", pakai: 1 }
+      - { combo: "7-70 Kick", pakai: 1 }
+      - { combo: "4-70 Rush", pakai: 1 }
+      - { combo: "1-60 Low Rush", pakai: 1 }
+      - { combo: "7-70 Wedge", pakai: 1 }
+      - { combo: "7-60 Low Rush", pakai: 1 }
+      - { combo: "9-60 Low Rush", pakai: 1 }
+  - nama: "Valor Bison"
+    deck: 13
+    combo_total: 13
+    variasi: 9
+    combo:
+      - { combo: "Free Ball", pakai: 4 }
+      - { combo: "Kick", pakai: 2 }
+      - { combo: "Narrow", pakai: 1 }
+      - { combo: "Orb", pakai: 1 }
+      - { combo: "Low Rush", pakai: 1 }
+      - { combo: "Ball", pakai: 1 }
+      - { combo: "Hexa", pakai: 1 }
+      - { combo: "Glide", pakai: 1 }
+      - { combo: "Rubber Accel", pakai: 1 }
+  - nama: "Pegasus Blast Heavy"
+    deck: 11
+    combo_total: 11
+    variasi: 8
+    combo:
+      - { combo: "3-60 Kick", pakai: 2 }
+      - { combo: "9-60 Rush", pakai: 2 }
+      - { combo: "1-60 Kick", pakai: 2 }
+      - { combo: "1-50 Level", pakai: 1 }
+      - { combo: "5-80 Kick", pakai: 1 }
+      - { combo: "9-60 Kick", pakai: 1 }
+      - { combo: "3-60 Level", pakai: 1 }
+      - { combo: "9-60 Level", pakai: 1 }
+  - nama: "Shark Edge"
+    deck: 10
+    combo_total: 10
+    variasi: 10
+    combo:
+      - { combo: "1-70 Free Ball", pakai: 1 }
+      - { combo: "9-60 Low Rush", pakai: 1 }
+      - { combo: "7-60 Low Rush", pakai: 1 }
+      - { combo: "9-60 Free Ball", pakai: 1 }
+      - { combo: "1-60 Low Rush", pakai: 1 }
+      - { combo: "1-50 Low Rush", pakai: 1 }
+      - { combo: "3-60 Low Flat", pakai: 1 }
+      - { combo: "1-50 Hexa", pakai: 1 }
+      - { combo: "9-60 Kick", pakai: 1 }
+      - { combo: "3-60 Hexa", pakai: 1 }
+  - nama: "Hells Scythe"
+    deck: 9
+    combo_total: 9
+    variasi: 8
+    combo:
+      - { combo: "9-60 Free Ball", pakai: 2 }
+      - { combo: "5-60 Hexa", pakai: 1 }
+      - { combo: "9-60 Ball", pakai: 1 }
+      - { combo: "1-60 Hexa", pakai: 1 }
+      - { combo: "9-70 Low Orb", pakai: 1 }
+      - { combo: "9-60 Point", pakai: 1 }
+      - { combo: "1-60 Taper", pakai: 1 }
+      - { combo: "7-80 Hexa", pakai: 1 }
+  - nama: "Phoenix Rudder"
+    deck: 9
+    combo_total: 9
+    variasi: 9
+    combo:
+      - { combo: "5-60 Ball", pakai: 1 }
+      - { combo: "3-60 Ball", pakai: 1 }
+      - { combo: "9-60 Low Orb", pakai: 1 }
+      - { combo: "3-60 Wedge", pakai: 1 }
+      - { combo: "3-60 Jolt", pakai: 1 }
+      - { combo: "1-60 Rubber Accel", pakai: 1 }
+      - { combo: "1-50 Rush", pakai: 1 }
+      - { combo: "9-70 Low Rush", pakai: 1 }
+      - { combo: "9-70 Free Ball", pakai: 1 }
+  - nama: "Dran Sword"
+    deck: 8
+    combo_total: 9
+    variasi: 7
+    combo:
+      - { combo: "9-60 Rush", pakai: 2 }
+      - { combo: "3-60 Free Flat", pakai: 2 }
+      - { combo: "7-60 Low Rush", pakai: 1 }
+      - { combo: "1-60 Low Rush", pakai: 1 }
+      - { combo: "3-60 Jolt", pakai: 1 }
+      - { combo: "1-50 Kick", pakai: 1 }
+      - { combo: "3-60 Flat", pakai: 1 }
+  - nama: "Dran Buster"
+    deck: 8
+    combo_total: 8
+    variasi: 7
+    combo:
+      - { combo: "1-50 Low Rush", pakai: 2 }
+      - { combo: "1-60 Hexa", pakai: 1 }
+      - { combo: "5-60 Point", pakai: 1 }
+      - { combo: "1-60 Accel", pakai: 1 }
+      - { combo: "1-60 Rush", pakai: 1 }
+      - { combo: "1-80 Kick", pakai: 1 }
+      - { combo: "3-60 Low Rush", pakai: 1 }
+  - nama: "Samurai Saber"
+    deck: 7
+    combo_total: 9
+    variasi: 5
+    combo:
+      - { combo: "1-60 Hexa", pakai: 5 }
+      - { combo: "9-60 Jolt", pakai: 1 }
+      - { combo: "1-70 Hexa", pakai: 1 }
+      - { combo: "9-60 Elevate", pakai: 1 }
+      - { combo: "3-60 Elevate", pakai: 1 }
+  - nama: "Hells Hammer"
+    deck: 7
+    combo_total: 8
+    variasi: 7
+    combo:
+      - { combo: "9-60 Kick", pakai: 2 }
+      - { combo: "1-50 Ignition", pakai: 1 }
+      - { combo: "1-50 Level", pakai: 1 }
+      - { combo: "3-60 Kick", pakai: 1 }
+      - { combo: "9-70 Kick", pakai: 1 }
+      - { combo: "3-60 Low Rush", pakai: 1 }
+      - { combo: "7-60 Taper", pakai: 1 }
+  - nama: "Wizard Arrow"
+    deck: 6
+    combo_total: 7
+    variasi: 6
+    combo:
+      - { combo: "1-60 Narrow", pakai: 2 }
+      - { combo: "1-70 Narrow", pakai: 1 }
+      - { combo: "9-60 Narrow", pakai: 1 }
+      - { combo: "1-60 Glide", pakai: 1 }
+      - { combo: "9-60 Vortex", pakai: 1 }
+      - { combo: "3-60 Wall Ball", pakai: 1 }
+  - nama: "Emperor Blast Wheel"
+    deck: 6
+    combo_total: 6
+    variasi: 4
+    combo:
+      - { combo: "9-60 Level", pakai: 2 }
+      - { combo: "9-60 Hexa", pakai: 2 }
+      - { combo: "9-60 Free Ball", pakai: 1 }
+      - { combo: "7-70 Kick", pakai: 1 }
+  - nama: "Valkyrie Blast Heavy"
+    deck: 6
+    combo_total: 6
+    variasi: 3
+    combo:
+      - { combo: "9-60 Rush", pakai: 4 }
+      - { combo: "3-60 Low Rush", pakai: 1 }
+      - { combo: "7-60 Rush", pakai: 1 }
+  - nama: "Dran Dagger"
+    deck: 6
+    combo_total: 6
+    variasi: 6
+    combo:
+      - { combo: "5-60 Level", pakai: 1 }
+      - { combo: "5-70 Taper", pakai: 1 }
+      - { combo: "3-60 Rush", pakai: 1 }
+      - { combo: "6-60 Taper", pakai: 1 }
+      - { combo: "7-60 Unite", pakai: 1 }
+      - { combo: "4-60 Rush", pakai: 1 }
+  - nama: "Impact Drake"
+    deck: 6
+    combo_total: 6
+    variasi: 6
+    combo:
+      - { combo: "9-70 Kick", pakai: 1 }
+      - { combo: "7-80 Hexa", pakai: 1 }
+      - { combo: "9-60 Low Rush", pakai: 1 }
+      - { combo: "7-80 Kick", pakai: 1 }
+      - { combo: "3-60 Low Rush", pakai: 1 }
+      - { combo: "1-60 Level", pakai: 1 }
+  - nama: "Unicorn Sting"
+    deck: 5
+    combo_total: 5
+    variasi: 5
+    combo:
+      - { combo: "5-60 Needle", pakai: 1 }
+      - { combo: "1-50 Rush", pakai: 1 }
+      - { combo: "3-60 Point", pakai: 1 }
+      - { combo: "9-60 Low Orb", pakai: 1 }
+      - { combo: "5-60 High Needle", pakai: 1 }
+  - nama: "Knight Lance"
+    deck: 5
+    combo_total: 6
+    variasi: 5
+    combo:
+      - { combo: "9-60 Low Orb", pakai: 2 }
+      - { combo: "0-60 Low Point", pakai: 1 }
+      - { combo: "1-60 Under Needle", pakai: 1 }
+      - { combo: "6-60 Low Flat", pakai: 1 }
+      - { combo: "3-60 Flat", pakai: 1 }
+  - nama: "Whale Wave"
+    deck: 5
+    combo_total: 5
+    variasi: 4
+    combo:
+      - { combo: "7-60 Kick", pakai: 2 }
+      - { combo: "7-70 Level", pakai: 1 }
+      - { combo: "1-60 Low Rush", pakai: 1 }
+      - { combo: "3-60 Taper", pakai: 1 }
+  - nama: "Lightning L-Drago (Rapid-Hit Type)"
+    deck: 5
+    combo_total: 5
+    variasi: 3
+    combo:
+      - { combo: "9-60 Elevate", pakai: 2 }
+      - { combo: "7-60 Level", pakai: 2 }
+      - { combo: "3-85 Disk Ball", pakai: 1 }
+  - nama: "Leon Crest"
+    deck: 4
+    combo_total: 4
+    variasi: 4
+    combo:
+      - { combo: "7-80 Rush", pakai: 1 }
+      - { combo: "9-70 Gear Point", pakai: 1 }
+      - { combo: "7-80 Gear Needle", pakai: 1 }
+      - { combo: "6-60 Kick", pakai: 1 }
+  - nama: "Luster Dragoon"
+    deck: 4
+    combo_total: 4
+    variasi: 4
+    combo:
+      - { combo: "8-80 Low Rush", pakai: 1 }
+      - { combo: "1-60 Rubber Accel", pakai: 1 }
+      - { combo: "5-50 Jolt", pakai: 1 }
+      - { combo: "1-60 Low Point", pakai: 1 }
+  - nama: "Crimson Garuda"
+    deck: 4
+    combo_total: 4
+    variasi: 3
+    combo:
+      - { combo: "1-60 Hexa", pakai: 2 }
+      - { combo: "7-60 Rush", pakai: 1 }
+      - { combo: "9-70 Kick", pakai: 1 }
+  - nama: "Tricera Press"
+    deck: 4
+    combo_total: 4
+    variasi: 4
+    combo:
+      - { combo: "5-50 High Taper", pakai: 1 }
+      - { combo: "7-60 Low Rush", pakai: 1 }
+      - { combo: "M-85 Bound Spike", pakai: 1 }
+      - { combo: "9-60 Ball", pakai: 1 }
+  - nama: "Bite Croc"
+    deck: 4
+    combo_total: 4
+    variasi: 4
+    combo:
+      - { combo: "3-70 Kick", pakai: 1 }
+      - { combo: "6-60 Kick", pakai: 1 }
+      - { combo: "3-60 Low Rush", pakai: 1 }
+      - { combo: "5-60 Low Rush", pakai: 1 }
+  - nama: "Emperor Rage Flow Heavy"
+    deck: 3
+    combo_total: 3
+    variasi: 3
+    combo:
+      - { combo: "7-70 Taper", pakai: 1 }
+      - { combo: "9-60 Level", pakai: 1 }
+      - { combo: "9-60 Low Rush", pakai: 1 }
+  - nama: "Rhino Horn"
+    deck: 3
+    combo_total: 4
+    variasi: 3
+    combo:
+      - { combo: "1-80 Low Rush", pakai: 2 }
+      - { combo: "5-60 Rush", pakai: 1 }
+      - { combo: "7-70 Flat", pakai: 1 }
+  - nama: "Valkyrie Blast Wheel"
+    deck: 3
+    combo_total: 3
+    variasi: 3
+    combo:
+      - { combo: "7-60 Hexa", pakai: 1 }
+      - { combo: "9-70 Hexa", pakai: 1 }
+      - { combo: "9-60 Hexa", pakai: 1 }
+  - nama: "Pegasus Blast Wheel"
+    deck: 3
+    combo_total: 3
+    variasi: 3
+    combo:
+      - { combo: "9-70 Rush", pakai: 1 }
+      - { combo: "9-60 Taper", pakai: 1 }
+      - { combo: "3-60 Hexa", pakai: 1 }
+  - nama: "Optimus Primal"
+    deck: 3
+    combo_total: 3
+    variasi: 3
+    combo:
+      - { combo: "1-60 Jolt", pakai: 1 }
+      - { combo: "7-60 Kick", pakai: 1 }
+      - { combo: "9-60 Low Rush", pakai: 1 }
+  - nama: "Dran Brave Heavy"
+    deck: 3
+    combo_total: 3
+    variasi: 3
+    combo:
+      - { combo: "4-50 Jolt", pakai: 1 }
+      - { combo: "1-50 Low Rush", pakai: 1 }
+      - { combo: "1-60 Rush", pakai: 1 }
+  - nama: "Wolf Blast Heavy"
+    deck: 3
+    combo_total: 3
+    variasi: 2
+    combo:
+      - { combo: "3-60 Low Rush", pakai: 2 }
+      - { combo: "9-60 Kick", pakai: 1 }
+  - nama: "Red Hulk"
+    deck: 3
+    combo_total: 3
+    variasi: 3
+    combo:
+      - { combo: "7-60 Point", pakai: 1 }
+      - { combo: "9-70 Rush", pakai: 1 }
+      - { combo: "4-50 Unite", pakai: 1 }
+  - nama: "Valkyrie Delta Flow Heavy"
+    deck: 3
+    combo_total: 3
+    variasi: 3
+    combo:
+      - { combo: "9-60 Kick", pakai: 1 }
+      - { combo: "1-50 Low Rush", pakai: 1 }
+      - { combo: "1-60 Point", pakai: 1 }
+  - nama: "Pegasus Blast Slash"
+    deck: 3
+    combo_total: 3
+    variasi: 3
+    combo:
+      - { combo: "3-60 Point", pakai: 1 }
+      - { combo: "3-60 Low Rush", pakai: 1 }
+      - { combo: "9-60 Point", pakai: 1 }
+  - nama: "Bahamut Blitz Break Heavy"
+    deck: 2
+    combo_total: 2
+    variasi: 2
+    combo:
+      - { combo: "1-50 Low Rush", pakai: 1 }
+      - { combo: "1-60 Low Rush", pakai: 1 }
+  - nama: "Brachio Blast Wheel"
+    deck: 2
+    combo_total: 2
+    variasi: 2
+    combo:
+      - { combo: "9-60 Taper", pakai: 1 }
+      - { combo: "1-50 Low Rush", pakai: 1 }
+  - nama: "Weiss Tiger"
+    deck: 2
+    combo_total: 2
+    variasi: 2
+    combo:
+      - { combo: "9-70 Low Orb", pakai: 1 }
+      - { combo: "5-60 Point", pakai: 1 }
+  - nama: "Emperor Tread Tough Heavy"
+    deck: 2
+    combo_total: 2
+    variasi: 2
+    combo:
+      - { combo: "9-60 Narrow", pakai: 1 }
+      - { combo: "5-50 Low Point", pakai: 1 }
+  - nama: "Gust Bat"
+    deck: 2
+    combo_total: 2
+    variasi: 2
+    combo:
+      - { combo: "9-70 Taper", pakai: 1 }
+      - { combo: "9-60 Unite", pakai: 1 }
+  - nama: "Emperor Delta Flow Heavy"
+    deck: 2
+    combo_total: 2
+    variasi: 2
+    combo:
+      - { combo: "9-60 Narrow", pakai: 1 }
+      - { combo: "9-60 Kick", pakai: 1 }
+  - nama: "Cerberus Flame Wheel"
+    deck: 2
+    combo_total: 2
+    variasi: 2
+    combo:
+      - { combo: "3-60 Ball", pakai: 1 }
+      - { combo: "7-60 Hexa", pakai: 1 }
+  - nama: "Yell Kong"
+    deck: 2
+    combo_total: 2
+    variasi: 2
+    combo:
+      - { combo: "3-80 Under Needle", pakai: 1 }
+      - { combo: "5-60 Low Rush", pakai: 1 }
+  - nama: "Black Shell"
+    deck: 2
+    combo_total: 2
+    variasi: 2
+    combo:
+      - { combo: "6-70 Hexa", pakai: 1 }
+      - { combo: "4-50 Under Flat", pakai: 1 }
+  - nama: "Cerberus Blast Wheel"
+    deck: 2
+    combo_total: 2
+    variasi: 2
+    combo:
+      - { combo: "7-70 Kick", pakai: 1 }
+      - { combo: "9-60 Hexa", pakai: 1 }
+  - nama: "Victory Valkyrie"
+    deck: 2
+    combo_total: 2
+    variasi: 2
+    combo:
+      - { combo: "3-60 Unite", pakai: 1 }
+      - { combo: "7-60 Rush", pakai: 1 }
+  - nama: "Viper Tail"
+    deck: 2
+    combo_total: 2
+    variasi: 2
+    combo:
+      - { combo: "3-60 Level", pakai: 1 }
+      - { combo: "7-60 Low Rush", pakai: 1 }
+  - nama: "Valkyrie Delta Peak Heavy"
+    deck: 2
+    combo_total: 2
+    variasi: 2
+    combo:
+      - { combo: "9-60 Unite", pakai: 1 }
+      - { combo: "9-60 Kick", pakai: 1 }
+  - nama: "Dragoon Storm"
+    deck: 2
+    combo_total: 2
+    variasi: 2
+    combo:
+      - { combo: "4-50 Elevate", pakai: 1 }
+      - { combo: "9-65 Merge", pakai: 1 }
+  - nama: "Tusk Mammoth"
+    deck: 2
+    combo_total: 2
+    variasi: 2
+    combo:
+      - { combo: "9-70 Narrow", pakai: 1 }
+      - { combo: "9-65 Wall Ball", pakai: 1 }
+  - nama: "Ghost Circle"
+    deck: 2
+    combo_total: 2
+    variasi: 2
+    combo:
+      - { combo: "0-60 Cyclone", pakai: 1 }
+      - { combo: "M-85 Ignition", pakai: 1 }
+  - nama: "Bahamut Blast Heavy"
+    deck: 2
+    combo_total: 2
+    variasi: 2
+    combo:
+      - { combo: "9-60 Hexa", pakai: 1 }
+      - { combo: "9-60 Kick", pakai: 1 }
+  - nama: "Emperor Blitz Break Heavy"
+    deck: 2
+    combo_total: 2
+    variasi: 2
+    combo:
+      - { combo: "4-60 Hexa", pakai: 1 }
+      - { combo: "1-50 Flat", pakai: 1 }
+  - nama: "Rhino Blast Heavy"
+    deck: 2
+    combo_total: 2
+    variasi: 1
+    combo:
+      - { combo: "3-60 Low Rush", pakai: 2 }
+  - nama: "Valkyrie Rage Flow Heavy"
+    deck: 2
+    combo_total: 2
+    variasi: 1
+    combo:
+      - { combo: "9-60 Low Rush", pakai: 2 }
+  - nama: "Emperor Blitz Break Massive"
+    deck: 2
+    combo_total: 2
+    variasi: 2
+    combo:
+      - { combo: "1-50 Low Rush", pakai: 1 }
+      - { combo: "1-50 Rush", pakai: 1 }
+  - nama: "Rhino Blast Wheel"
+    deck: 2
+    combo_total: 2
+    variasi: 2
+    combo:
+      - { combo: "3-70 Rush", pakai: 1 }
+      - { combo: "9-60 Y", pakai: 1 }
+  - nama: "Orochi Cluster"
+    deck: 2
+    combo_total: 2
+    variasi: 2
+    combo:
+      - { combo: "7-60 Rush", pakai: 1 }
+      - { combo: "7-60 Level", pakai: 1 }
+  - nama: "Fox Blast Heavy"
+    deck: 2
+    combo_total: 2
+    variasi: 2
+    combo:
+      - { combo: "5-60 Kick", pakai: 1 }
+      - { combo: "1-50 Kick", pakai: 1 }
+  - nama: "Unicorn Delta Peak Jaggy"
+    deck: 2
+    combo_total: 2
+    variasi: 2
+    combo:
+      - { combo: "9-60 Orb", pakai: 1 }
+      - { combo: "1-60 Kick", pakai: 1 }
+  - nama: "Unicorn Blast Heavy"
+    deck: 2
+    combo_total: 2
+    variasi: 2
+    combo:
+      - { combo: "3-60 Kick", pakai: 1 }
+      - { combo: "1-50 Kick", pakai: 1 }
+  - nama: "Wolf Blast Free"
+    deck: 2
+    combo_total: 2
+    variasi: 2
+    combo:
+      - { combo: "9-60 Free Ball", pakai: 1 }
+      - { combo: "6-60 Free Ball", pakai: 1 }
+  - nama: "Wolf Delta Peak Heavy"
+    deck: 2
+    combo_total: 2
+    variasi: 1
+    combo:
+      - { combo: "3-60 Low Rush", pakai: 2 }
+  - nama: "Emperor Tread Flow Heavy"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "1-70 Kick", pakai: 1 }
+  - nama: "Shelter Drake"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "4-50 Vortex", pakai: 1 }
+  - nama: "Wolf Hunt Turn"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "9-80 Low Flat", pakai: 1 }
+  - nama: "Brachio Whip Break Quell"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "3-80 Low Rush", pakai: 1 }
+  - nama: "Croco Tread Tough Bumper"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "1-60 Hexa", pakai: 1 }
+  - nama: "Unicorn Delta Flow Slash"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "5-60 Hexa", pakai: 1 }
+  - nama: "Knight Tread Flow Heavy"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "5-50 Wedge", pakai: 1 }
+  - nama: "Phoenix Flare Wheel"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "7-60 Kick", pakai: 1 }
+  - nama: "Valkyrie Fortress Tough Jaggy"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "9-60 Elevate", pakai: 1 }
+  - nama: "Croc Tread Heavy"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "5-50 Hexa", pakai: 1 }
+  - nama: "Shinobi Shadow"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "9-60 Point", pakai: 1 }
+  - nama: "Brachio Whip Outer Wheel"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "9-60 Rush", pakai: 1 }
+  - nama: "Phoenix Blast Wheel"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "1-60 Kick", pakai: 1 }
+  - nama: "Bahamut Blitz Break Knuckle"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "1-50 Low Rush", pakai: 1 }
+  - nama: "Ragna Flare Zillion"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "3-60 Free Flat", pakai: 1 }
+  - nama: "Brachio Rage Flow Erase"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "9-60 Narrow", pakai: 1 }
+  - nama: "Bahamut Eclipse Slash"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "1-70 Level", pakai: 1 }
+  - nama: "Hells Chain"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "1-60 Hexa", pakai: 1 }
+  - nama: "Emperor Delta Outer Gravity"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "9-60 Hexa", pakai: 1 }
+  - nama: "Cerberus Flame Dual"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "5-70 Kick", pakai: 1 }
+  - nama: "Pegasus Blast Turn"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "3-60 Kick", pakai: 1 }
+  - nama: "Cerberus Fortress Guard Wheel"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "9-60 Hexa", pakai: 1 }
+  - nama: "Leon Fang Jaggy"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "1-60 Rush", pakai: 1 }
+  - nama: "Pegasus Blitz Break Heavy"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "1-50 Rush", pakai: 1 }
+  - nama: "Bahamut Blast Wheel"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "3-60 Hexa", pakai: 1 }
+  - nama: "Emperor Whip Flow Heavy"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "1-60 Narrow", pakai: 1 }
+  - nama: "Emperor Whip Tough Heavy"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "4-50 Wall Wedge", pakai: 1 }
+  - nama: "Perseus Delta Outer Heavy"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "9-60 Jolt", pakai: 1 }
+  - nama: "Ragna Blitz Flow Heavy"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "5-50 Rush", pakai: 1 }
+  - nama: "Cerberus Blast Heavy"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "5-50 Narrow", pakai: 1 }
+  - nama: "Enlil Hurricane I Heavy"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "4-50 Kick", pakai: 1 }
+  - nama: "Knight Delta Peak Heavy"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "3-60 Low Rush", pakai: 1 }
+  - nama: "Emperor Blitz Flow Heavy"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "9-60 Kick", pakai: 1 }
+  - nama: "Emperor Whip Outer Wheel"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "5-60 Unite", pakai: 1 }
+  - nama: "Knight Blast Wheel"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "9-60 Free Ball", pakai: 1 }
+  - nama: "Sol Blast Heavy"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "3-60 Kick", pakai: 1 }
+  - nama: "Hornet Fortress Outer Wheel"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "9-60 Low Orb", pakai: 1 }
+  - nama: "Valkyrie Flare Heavy"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "3-60 Kick", pakai: 1 }
+  - nama: "Emperor Arc Erase"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "1-60 Hexa", pakai: 1 }
+  - nama: "Emperor Fortress Outer Wheel"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "6-60 Hexa", pakai: 1 }
+  - nama: "Glory Valkyrie Y"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "(tanpa ratchet/bit tercatat)", pakai: 1 }
+  - nama: "Steel Samurai"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "1-60 Dot", pakai: 1 }
+  - nama: "Dran Arc Turn"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "3-60 Level", pakai: 1 }
+  - nama: "Knight Fortress Guard Wheel"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "9-60 Hexa", pakai: 1 }
+  - nama: "Cerberus Whip Outer Wheel"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "7-80 Hexa", pakai: 1 }
+  - nama: "Emperor Delta Jaggy"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "9-70 Orb", pakai: 1 }
+  - nama: "Kraken Fortress Wheel"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "7-60 Hexa", pakai: 1 }
+  - nama: "Emperor Might Heavy"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "9-60 Low Rush", pakai: 1 }
+  - nama: "Pegasus Blast Round"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "9-60 Low Rush", pakai: 1 }
+  - nama: "Dran Delta Peak Heavy"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "3-60 Kick", pakai: 1 }
+  - nama: "Emperor Blast Free"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "9-60 Hexa", pakai: 1 }
+  - nama: "Pegasus Blast Vertical"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "1-70 Low Orb", pakai: 1 }
+  - nama: "Emperor Dark Heavy"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "1-50 Hexa", pakai: 1 }
+  - nama: "Talon Ptera"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "9-60 Narrow", pakai: 1 }
+  - nama: "Wizard Arc Bumper"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "1-60 Level", pakai: 1 }
+  - nama: "Wyvern Gale"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "1-60 Rush", pakai: 1 }
+  - nama: "Perseus Dark Slash"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "1-60 Level", pakai: 1 }
+  - nama: "Pegasus Rage Peak Heavy"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "9-60 Low Rush", pakai: 1 }
+  - nama: "Unicorn Delta Peak Wheel"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "3-60 Low Rush", pakai: 1 }
+  - nama: "Brachio Whip Outer Heavy"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "1-50 Low Rush", pakai: 1 }
+  - nama: "Dran Blast Slash"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "9-60 Point", pakai: 1 }
+  - nama: "Unicorn Blitz Flow Heavy"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "1-70 Rush", pakai: 1 }
+  - nama: "Valkyrie Whip Break Heavy"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "3-60 Jolt", pakai: 1 }
+  - nama: "Leon Claw"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "3-60 Narrow", pakai: 1 }
+  - nama: "Brachio Whip Break Heavy"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "3-60 Low Rush", pakai: 1 }
+  - nama: "Wolf Blast Wheel"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "3-60 Kick", pakai: 1 }
+  - nama: "Leon Fang Heavy"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "9-70 Taper", pakai: 1 }
+  - nama: "Emperor Blast"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "3-60 Kick", pakai: 1 }
+  - nama: "Emperor Blitz Break Jaggy"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "9-60 Jolt", pakai: 1 }
+  - nama: "Stag Might Free"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "1-60 Hexa", pakai: 1 }
+  - nama: "Kraken Flare Heavy"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "9-60 Dot", pakai: 1 }
+  - nama: "Pegasus Blitz Flow Heavy"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "1-50 Kick", pakai: 1 }
+  - nama: "Phoenix Blast Heavy"
+    deck: 1
+    combo_total: 2
+    variasi: 2
+    combo:
+      - { combo: "1-50 Kick", pakai: 1 }
+      - { combo: "9-60 Kick", pakai: 1 }
+  - nama: "Ragna Rage Flow Heavy"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "9-60 Kick", pakai: 1 }
+  - nama: "Emperor Hunt Free"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "9-60 Wedge", pakai: 1 }
+  - nama: "Pegasus Brush Jaggy"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "7-70 Low Rush", pakai: 1 }
+  - nama: "Pegasus Brush Slash"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "1-60 Low Flat", pakai: 1 }
+  - nama: "Emperor Brave Heavy"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "1-80 High Taper", pakai: 1 }
+  - nama: "Wizard Might Wheel"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "0-80 Unite", pakai: 1 }
+  - nama: "Darth Vader"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "3-60 Low Rush", pakai: 1 }
+  - nama: "Unicorn Rage Flow Heavy"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "6-60 Low Rush", pakai: 1 }
+  - nama: "Leon Blitz Peak Heavy"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "1-50 Level", pakai: 1 }
+  - nama: "Venom"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "1-80 Flat", pakai: 1 }
+  - nama: "Pegasus Blast Jaggy"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "1-50 Rush", pakai: 1 }
+  - nama: "Hells Flame Wheel"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "1-60 Hexa", pakai: 1 }
+  - nama: "Wizard Antler Vertical"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "9-60 Low Orb", pakai: 1 }
+  - nama: "Bahamut Brave Jaggy"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "3-60 Rush", pakai: 1 }
+  - nama: "Emperor Delta Break Heavy"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "3-60 Low Rush", pakai: 1 }
+  - nama: "Obi-Wan Kenobi"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "6-60 Free Ball", pakai: 1 }
+  - nama: "Rhino Blast Odd"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "1-60 Kick", pakai: 1 }
+  - nama: "Rhino Fortress Guard Wheel"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "9-60 Hexa", pakai: 1 }
+  - nama: "Hells Delta Peak Heavy"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "9-60 Jolt", pakai: 1 }
+  - nama: "Hells Reaper"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "5-70 Trans Kick", pakai: 1 }
+  - nama: "Roar Tyranno"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "1-70 Level", pakai: 1 }
+  - nama: "Cobalt Drake"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "5-60 Low Flat", pakai: 1 }
+  - nama: "Hells Eclipse Dual"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "5-70 Level", pakai: 1 }
+  - nama: "Rock Leone"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "7-60 Unite", pakai: 1 }
+  - nama: "Wizard Blast Heavy"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "9-60 Low Rush", pakai: 1 }
+  - nama: "Rhino Fortress Wheel"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "8-70 Hexa", pakai: 1 }
+  - nama: "Bahamut Delta Peak Jaggy"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "9-70 Low Orb", pakai: 1 }
+  - nama: "Unicorn Delta Peak Knuckle"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "1-60 Rush", pakai: 1 }
+  - nama: "Emperor Reaper Free"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "9-60 Free Ball", pakai: 1 }
+  - nama: "Valkyrie Blast Slash"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "8-70 Low Rush", pakai: 1 }
+  - nama: "Sol Eclipse Knuckle"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "1-60 Low Rush", pakai: 1 }
+  - nama: "Emperor Blitz Heavy"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "1-50 Jolt", pakai: 1 }
+  - nama: "Wizard Might Heavy"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "8-70 Low Orb", pakai: 1 }
+  - nama: "Pegasus Rage Flow Knuckle"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "9-60 Low Rush", pakai: 1 }
+  - nama: "Unicorn Delta Flow Heavy"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "3-60 Kick", pakai: 1 }
+  - nama: "Knight Blitz Peak Odd"
+    deck: 1
+    combo_total: 1
+    variasi: 1
+    combo:
+      - { combo: "1-50 Low Rush", pakai: 1 }
 event:
   - { t: "2026-11-10", e: "Lappland's Curio Cavern Clash 3!", l: "Mountlake Terrace, Washington, United States", d: [{ b: "Aero Pegasus", c: "1-50 Rush" }, { b: "Shark Scale", c: "1-70 Low Rush" }, { b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Shark Scale", c: "9-60 Narrow" }] }
   - { t: "2026-11-09", e: "Money Monday #14", l: "brooklyn, New York, United States", d: [{ b: "Shark Scale", c: "7-60 Taper" }, { b: "Wizard Rod", c: "1-60 Hexa" }, { b: "Aero Pegasus", c: "1-50 Low Rush" }] }
